@@ -23,20 +23,18 @@ namespace Shocker.Controllers
         {
             if (ModelState.IsValid)
             {
-                cqavm.Status = "未回覆";
-                cqavm.UserAccount = "User1";
                 ClientCases clientCases = new ClientCases()
                 {
-                     Status = cqavm.Status,
-                     UserAccount = cqavm.UserAccount,
+                     Status = "cc0",
+                     UserAccount = "User1",
                      Description = cqavm.Description,
                      QuestionCategoryId = cqavm.QuestionCategoryId,
                 };
                 _context.ClientCases.Add(clientCases);
                 await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
             }
-            return View();
+            return RedirectToAction(nameof(Index));
+
         }
 
         public async Task<IActionResult> QA() 
