@@ -1,5 +1,5 @@
-﻿<!--
-=========================================================
+﻿
+<!--=========================================================
 * Argon Dashboard 2 - v2.0.4
 =========================================================
 
@@ -62,19 +62,20 @@
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link " href="./pages/tables.html">
+                    <a class="nav-link " asp-area="Admin" asp-controller="Coupon" asp-action="index">
                         <div class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
                             <i class="ni ni-calendar-grid-58 text-warning text-sm opacity-10"></i>
                         </div>
-                        <span class="nav-link-text ms-1">優惠卷</span>
+                        <span class="nav-link-text ms-1">折價券</span>
                     </a>
+                    
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link " href="./pages/billing.html">
+                    <a class="nav-link " asp-area="Admin" asp-Controller="Coupon" asp-Action="index">
                         <div class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
                             <i class="ni ni-credit-card text-success text-sm opacity-10"></i>
                         </div>
-                        <span class="nav-link-text ms-1">暫無</span>
+                        <span class="nav-link-text ms-1" >暫無</span>
                     </a>
                 </li>
                 <li class="nav-item">
@@ -554,6 +555,7 @@
     style: 'normal',
     lineHeight: 2
     },
+
     }
     },
     },

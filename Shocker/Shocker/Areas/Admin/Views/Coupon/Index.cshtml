@@ -2,6 +2,14 @@
     ViewData["Title"] = "折價券";
     Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
 }
+@section Styles
+{
+    <style>
+    .buttonWidth{
+        width:30%;
+    }
+    </style>
+}
 <div class="container-fluid py-4" id="app">
     <h1 class="text-black">折價券</h1>
     <div class="container-fluid py-4">
@@ -37,36 +45,36 @@
                                     <tr v-for="item in displayCp">
                                         @*持有者資訊*@
                                         <td class="text-center">
-                                            <p class="text-xs font-weight-bold mb-0">{{item.HolderAccount}}</p>
+                                            <p class="text-xs font-weight-bold mb-0">{{item.holderAccount}}</p>
                                         </td>
                                         @*發行人*@
                                         <td class="text-center">
-                                            <p class="text-xs font-weight-bold mb-0">{{item.PublisherAccount}}</p>
+                                            <p class="text-xs font-weight-bold mb-0">{{item.publisherAccount}}</p>
                                         </td>
                                         @*類別*@
                                         <td class="text-center">
-                                            <p class="text-xs font-weight-bold mb-0">{{item.CaregotyName}}</p>
-                                            <p v-if="item.ProductCategoryId==1" class="text-xs font-weight-bold mb-0 ">衣服</p>
-                                            <p v-if="item.ProductCategoryId==2" class="text-xs font-weight-bold mb-0">文具</p>
-                                            <p v-if="item.ProductCategoryId==3" class="text-xs font-weight-bold mb-0">生鮮食材</p>
-                                            <p v-if="item.ProductCategoryId==4" class="text-xs font-weight-bold mb-0">電玩</p>
-                                            <p v-if="item.ProductCategoryId==5" class="text-xs font-weight-bold mb-0">美妝</p>
-                                            <p v-if="item.ProductCategoryId==6" class="text-xs font-weight-bold mb-0">家電</p>
-                                            <p v-if="item.ProductCategoryId==7" class="text-xs font-weight-bold mb-0">漫畫</p>
-                                            <p v-if="item.ProductCategoryId==8" class="text-xs font-weight-bold mb-0">家具</p>
+                                            <p class="text-xs font-weight-bold mb-0">{{item.caregotyName}}</p>
+                                            <p v-if="item.productCategoryId==1" class="text-xs font-weight-bold mb-0 ">衣服</p>
+                                            <p v-if="item.productCategoryId==2" class="text-xs font-weight-bold mb-0">文具</p>
+                                            <p v-if="item.productCategoryId==3" class="text-xs font-weight-bold mb-0">生鮮食材</p>
+                                            <p v-if="item.productCategoryId==4" class="text-xs font-weight-bold mb-0">電玩</p>
+                                            <p v-if="item.productCategoryId==5" class="text-xs font-weight-bold mb-0">美妝</p>
+                                            <p v-if="item.productCategoryId==6" class="text-xs font-weight-bold mb-0">家電</p>
+                                            <p v-if="item.productCategoryId==7" class="text-xs font-weight-bold mb-0">漫畫</p>
+                                            <p v-if="item.productCategoryId==8" class="text-xs font-weight-bold mb-0">家具</p>
                                         </td>
                                         @*折扣*@
                                         <td class="text-center">
-                                            <p class="text-xs font-weight-bold mb-0">{{item.Discount}}</p>
+                                            <p class="text-xs font-weight-bold mb-0">{{item.discount}}</p>
                                         </td>
                                         @*結束時間*@
                                         <td class="text-center">
-                                            <p class="text-xs font-weight-bold mb-0">{{item.ExpirationDate}}</p>
+                                            <p class="text-xs font-weight-bold mb-0">{{item.expirationDate}}</p>
                                         </td>
                                         @*狀態*@
                                         <td class="align-middle text-center text-sm">
-                                            <span v-if="item.Status=='c0'" class="badge badge-sm bg-gradient-danger">未使用</span>
-                                            <span v-if="item.Status=='c1'" class="badge badge-sm bg-gradient-success">已使用</span>
+                                            <span v-if="item.status=='c0'" class="badge badge-sm bg-gradient-danger">未使用</span>
+                                            <span v-if="item.status=='c1'" class="badge badge-sm bg-gradient-success">已使用</span>
                                         </td>
 
                                     </tr>
@@ -83,8 +91,12 @@
                 <div class="card">
                     <div class="card-header pb-0">
                         <div class="d-flex align-items-center">
-                            <h2 class="mb-0">折價券</h2>
-                            <button class="btn btn-primary btn-sm ms-auto" v-on:click="createCoupon">Settings</button>
+                            <h3 class="mb-0">建立折扣卷</h3>
+                            <button class="btn btn-primary btn-sm ms-auto buttonWidth" v-on:click="createCoupon">Create</button>
+                            
+                        </div>
+                        <div class="d-flex align-items-center">
+                            <button class="btn btn-secondary btn-sm ms-auto buttonWidth" v-on:click="backToTable">back</button>
                         </div>
                     </div>
                     <div class="card-body">
@@ -221,11 +233,11 @@
                     input.PublisherAccount = _this.cPublisherAccount;
                     axios.post(`${window.location.origin}/Admin/Coupon/CreateCoupon`, input)
                         .then(res => {
-                            alert(res.data.Message)
-                            alert("折價券建立成功");
-                        }).catch(error => {
-                            console.log(error.res.data)
-                        })
+                            alert(res.data);
+                            alert("折價券建立成功");})
+                        //}).catch(error => {
+                        //    console.log(error.res.data)
+                        //})
 
                     //window.location.replace(location.href);
                 },
@@ -242,7 +254,12 @@
                     _this.tableControl = false;
                     _this.couponControl = true;
                 }
-            },
+                },
+                backToTable:function(){
+                    var _this = this;
+                    _this.tableControl = true;
+                    _this.couponControl = false;
+                },
         }
         var app = Vue.createApp(VueApp).mount("#app");
 

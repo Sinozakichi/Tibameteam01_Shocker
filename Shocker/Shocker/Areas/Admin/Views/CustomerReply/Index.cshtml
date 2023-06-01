@@ -129,7 +129,7 @@
                                     </td>
                                     <td class="align-middle text-center">
                                         <span class="text-secondary text-xs font-weight-bold">
-                                            <a class="btn btn-info btn-sm" asp-route-id="id" v-on:click="updateReply()">Update</a>
+                                            <a class="btn btn-info btn-sm" asp-route-id="id" v-on:click="updateReply">Update</a>
                                             <a class="btn btn-info btn-sm" asp-route-id="id" v-on:click="backindex()">back</a>
                                         </span>
                                     </td>
@@ -176,7 +176,7 @@
                                         <p class="text-xs font-weight-bold mb-0">{{isedit.description}}</p>
                                     </td>
                                     <td class="align-middle text-center">
-                                        <p class="text-xs font-weight-bold mb-0">{{isedit.Reply}}</p>  @*//檢視回復*@
+                                        <p class="text-xs font-weight-bold mb-0">{{isedit.reply}}</p>  @*//檢視回復*@
                                     </td>
                                     <td class="align-middle text-center">
                                         <span class="text-secondary text-xs font-weight-bold">
@@ -231,14 +231,15 @@
                 updateReply: function () {
                     var _this = this;
                     var ccvm = {};
-                    ccvm.CaseId = _this._edit.caseId
+                    ccvm.CaseId = _this.isedit.caseId
                     ccvm.AdminAccount = _this.account;
                     ccvm.Reply = _this.reply;
 
-                    axios.post(`${window.location.origin}/Admin/CustomerReply/ReplyQA/`, ccvm)
+                    axios.post(`${window.location.origin}/Admin/CustomerReply/ReplyQA`, ccvm)
                         .then(response => { alert(response.data.Message) })
+                        alert("回復成功");
                     //.catch(Error err)
-                    /*window.location.replace(location.href);*/  //更新本畫面
+                    window.location.replace(location.href);  /*更新本畫面*/
 
 
                 },

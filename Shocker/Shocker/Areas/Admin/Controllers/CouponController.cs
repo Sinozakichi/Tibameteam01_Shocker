@@ -37,9 +37,8 @@ namespace Shocker.Areas.Admin.Controllers
         {
             if (ModelState.IsValid)
             {
-                for (var i = 1; i < cvm.Amount; i++)
+                for (var i = 1; i <= cvm.Amount; i++)
                 {
-                    //cvm.PublisherAccount = "Admin1";
                     Coupons coupons = new Coupons()
                     {
                         //CouponId = 0,
@@ -47,7 +46,7 @@ namespace Shocker.Areas.Admin.Controllers
                         HolderAccount = cvm.HolderAccount,
                         ProductCategoryId = cvm.ProductCategoryId,
                         Discount = cvm.Discount,
-                        Status = cvm.Status,
+                        Status = "c0",
                         PublisherAccount = cvm.PublisherAccount,
 
                     };
