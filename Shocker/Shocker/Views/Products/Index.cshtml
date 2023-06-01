@@ -1,0 +1,1620 @@
+﻿<!--
+=========================================================
+* Argon Dashboard 2 - v2.0.4
+=========================================================
+
+* Product Page: https://www.creative-tim.com/product/argon-dashboard
+* Copyright 2022 Creative Tim (https://www.creative-tim.com)
+* Licensed under MIT (https://www.creative-tim.com/license)
+* Coded by Creative Tim
+
+=========================================================
+
+* The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
+-->
+@{
+	Layout = null;
+}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="utf-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+	<link rel="apple-touch-icon" sizes="76x76" href="~/assets/img/apple-icon.png">
+	<link rel="icon" type="image/png" href="~/assets/img/favicon.png">
+	<title>
+		賣家中心
+	</title>
+	<!--     Fonts and icons     -->
+	<link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700" rel="stylesheet" />
+	<!-- Nucleo Icons -->
+	<link href="~/assets/css/nucleo-icons.css" rel="stylesheet" />
+	<link href="~/assets/css/nucleo-svg.css" rel="stylesheet" />
+	<!-- Font Awesome Icons -->
+	<script src="https://kit.fontawesome.com/42d5adcbca.js" crossorigin="anonymous"></script>
+	<link href="~/assets/css/nucleo-svg.css" rel="stylesheet" />
+	<!-- CSS Files -->
+	<link id="pagestyle" href="~/assets/css/argon-dashboard.min.css?v=2.0.4" rel="stylesheet" />
+</head>
+
+<body class="g-sidenav-show bg-gray-100">
+<div id="app">
+	<div class="min-height-300 bg-primary position-absolute w-100"></div>
+	<aside class="sidenav bg-white navbar navbar-vertical navbar-expand-xs border-0 border-radius-xl my-3 fixed-start ms-4 " id="sidenav-main">
+		<div class="sidenav-header">
+			<i class="fas fa-times p-3 cursor-pointer text-secondary opacity-5 position-absolute end-0 top-0 d-none d-xl-none" aria-hidden="true" id="iconSidenav"></i>
+			<a asp-controller="Home" asp-action="Index" class="navbar-brand m-0">
+				<img src="~/assets/img/logo-ct-dark.png" class="navbar-brand-img h-100" alt="main_logo">
+				<span class="ms-1 font-weight-bold">蝦殼 Shocker</span>
+			</a>
+		</div>
+		<hr class="horizontal dark mt-0">
+		@*賣家中心選單*@
+		<div class="collapse navbar-collapse w-auto" id="sidenav-collapse-main">
+			<ul class="navbar-nav">
+				<li class="nav-item">
+					<a id="nav0" class="nav-link " href="#0" @@click="navbar(0)">
+						<div class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
+							<i class="ni ni-tv-2 text-primary text-sm opacity-10"></i>
+						</div>
+						<span class="nav-link-text ms-1">賣場資訊</span>
+					</a>
+				</li>
+				<li class="nav-item">
+					<a id="nav1" class="nav-link" href="#1" @@click="navbar(1)">
+						<div class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
+							<i class="ni ni-calendar-grid-58 text-warning text-sm opacity-10"></i>
+						</div>
+						<span class="nav-link-text ms-1">商品管理</span>
+					</a>
+				</li>
+				<li class="nav-item">
+					<a id="nav2" class="nav-link " href="#2" @@click="navbar(2)">
+						<div class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
+							<i class="ni ni-credit-card text-success text-sm opacity-10"></i>
+						</div>
+						<span class="nav-link-text ms-1">訂單管理</span>
+					</a>
+				</li>
+				<li class="nav-item">
+					<a id="nav3" class="nav-link " href="#3" @@click="navbar(3)">
+						<div class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
+							<i class="ni ni-app text-info text-sm opacity-10"></i>
+						</div>
+						<span class="nav-link-text ms-1">買家評價管理</span>
+					</a>
+				</li>
+			</ul>
+		</div>
+		@*footer*@
+		@*<div class="sidenav-footer mx-3 ">
+		<div class="card card-plain shadow-none" id="sidenavCard">
+		<img class="w-50 mx-auto" src="~/assets/img/illustrations/icon-documentation.svg" alt="sidebar_illustration">
+		<div class="card-body text-center p-3 w-100 pt-0">
+		<div class="docs-info">
+		<h6 class="mb-0">Need help?</h6>
+		<p class="text-xs font-weight-bold mb-0">Please check our docs</p>
+		</div>
+		</div>
+		</div>
+		</div>*@
+	</aside>
+	<main class="main-content position-relative border-radius-lg ">
+		<!-- Navbar -->
+		<nav class="navbar navbar-main navbar-expand-lg px-0 mx-4 shadow-none border-radius-xl" id="navbarBlur" data-scroll="false">
+			<div class="container-fluid py-1 px-3">
+				<nav aria-label="breadcrumb">
+					<ol class="breadcrumb bg-transparent mb-0 pb-0 pt-1 px-0 me-sm-6 me-5">
+						<li class="breadcrumb-item text-sm">
+							<a asp-controller="Home" asp-action="Index" class="opacity-5 text-white">首頁</a>
+						</li>
+						<li class="breadcrumb-item text-sm text-white active" aria-current="page">賣家中心</li>
+					</ol>
+					<h6 class="font-weight-bolder text-white mb-0">賣家中心</h6>
+				</nav>
+				<div class="collapse navbar-collapse mt-sm-0 mt-2 me-md-0 me-sm-4" id="navbar">
+					<div class="ms-md-auto pe-md-3 d-flex align-items-center">
+					</div>
+					<ul class="navbar-nav  justify-content-end">
+						@*必須先登入填入用戶帳號*@
+						<li class="nav-item d-flex align-items-center">
+							<a href="javascript:;" class="nav-link text-white font-weight-bold px-0">
+								<i class="fa fa-user me-sm-1"></i>
+								<span class="d-sm-inline d-none">{{loginAccount}}</span>
+							</a>
+						</li>
+						@*左側選單*@
+						<li class="nav-item d-xl-none ps-3 d-flex align-items-center">
+							<a href="javascript:;" class="nav-link text-white p-0" id="iconNavbarSidenav">
+								<div class="sidenav-toggler-inner">
+									<i class="sidenav-toggler-line bg-white"></i>
+									<i class="sidenav-toggler-line bg-white"></i>
+									<i class="sidenav-toggler-line bg-white"></i>
+								</div>
+							</a>
+						</li>
+						@*右側設定*@
+						<li class="nav-item px-3 d-flex align-items-center">
+							<a href="javascript:;" class="nav-link text-white p-0">
+								<i class="fa fa-cog fixed-plugin-button-nav cursor-pointer"></i>
+							</a>
+						</li>
+						@*賣家通知*@
+						<li class="nav-item dropdown pe-2 d-flex align-items-center">
+							<a href="javascript:;" class="nav-link text-white p-0" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
+								<i class="fa fa-bell cursor-pointer"></i>
+							</a>
+						</li>
+					</ul>
+				</div>
+			</div>
+		</nav>
+		<!-- End Navbar -->
+		<div class="container-fluid py-4">
+			<div v-if="this._info" class="row">
+				<div class="col-xl-3 col-sm-6 mb-xl-0 mb-4">
+						<div class="card mb-4">
+						<div class="card-body p-3">
+							<div class="row">
+								<div class="col-8">
+									<h5 class="font-weight-bolder">商品</h5>
+									<div v-for="item in Info" class="numbers">
+										<p class="text-sm mb-0 text-uppercase font-weight-bold">未上架</p>
+										<h5 class="font-weight-bolder">{{item.p0}}</h5>
+										<p class="text-sm mb-0 text-uppercase font-weight-bold">已上架</p>
+										<h5 class="font-weight-bolder">{{item.p1}}</h5>
+									</div>
+								</div>
+								<div class="col-4 text-end">
+									<div class="icon icon-shape bg-gradient-primary shadow-primary text-center rounded-circle">
+										<i class="ni ni-money-coins text-lg opacity-10" aria-hidden="true"></i>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="col-xl-3 col-sm-6 mb-xl-0 mb-4">
+					<div class="card">
+						<div class="card-body p-3">
+							<div class="row">
+								<div class="col-8">
+										<h5 class="font-weight-bolder">訂單商品</h5>
+									<div class="row">
+										<div v-for="item in Info" class="numbers col-6">										
+											<p class="text-sm mb-0 text-uppercase font-weight-bold">未出貨</p>
+											<h5 class="font-weight-bolder">{{item.od1}}</h5>
+											<p class="text-sm mb-0 text-uppercase font-weight-bold">未收貨</p>
+											<h5 class="font-weight-bolder">{{item.od2}}</h5>
+											</div>
+											<div v-for="item in Info" class="numbers col-6">
+											<p class="text-sm mb-0 text-uppercase font-weight-bold">已收貨</p>
+											<h5 class="font-weight-bolder">{{item.od3}}</h5>
+											<p class="text-sm mb-0 text-uppercase font-weight-bold">退貨</p>
+											<h5 class="font-weight-bolder">{{item.od4}}</h5>
+										</div>
+									</div>
+								</div>
+								<div class="col-4 text-end">
+									<div class="icon icon-shape bg-gradient-danger shadow-danger text-center rounded-circle">
+										<i class="ni ni-world text-lg opacity-10" aria-hidden="true"></i>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="col-xl-3 col-sm-6 mb-xl-0 mb-4">
+					<div class="card">
+						<div class="card-body p-3">
+							<div class="row">
+								<div class="col-8">
+									<h5 class="font-weight-bolder">買家評價</h5>
+									<div v-for="item in Info" class="numbers">
+										<p class="text-sm mb-0 text-uppercase font-weight-bold">未回應</p>
+										<h5 class="font-weight-bolder">{{item.r0}}</h5>
+										<p class="text-sm mb-0 text-uppercase font-weight-bold">已回應</p>
+										<h5 class="font-weight-bolder">{{item.r1}}</h5>
+									</div>
+								</div>
+								<div class="col-4 text-end">
+									<div class="icon icon-shape bg-gradient-success shadow-success text-center rounded-circle">
+										<i class="ni ni-paper-diploma text-lg opacity-10" aria-hidden="true"></i>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+				@*<div class="col-xl-3 col-sm-6">
+					<div class="card">
+						<div class="card-body p-3">
+							<div class="row">
+								<div class="col-8">
+									<div v-for="item in Info" class="numbers">
+										<p class="text-sm mb-0 text-uppercase font-weight-bold">優惠券</p>
+										<h5 class="font-weight-bolder">
+											$103,430
+										</h5>
+										<p class="mb-0">
+											<span class="text-success text-sm font-weight-bolder">+5%</span> than last month
+										</p>
+									</div>
+								</div>
+								<div class="col-4 text-end">
+									<div class="icon icon-shape bg-gradient-warning shadow-warning text-center rounded-circle">
+										<i class="ni ni-cart text-lg opacity-10" aria-hidden="true"></i>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>*@
+			</div>
+			<div v-if="this._info" class="row">
+				<div class="col-md-12">
+					<div class="card mb-4">
+						<div class="card-header pb-0">
+							<div class="d-flex align-items-center">
+								<p class="col-4 mb-0">編輯賣場資訊</p>
+							</div>
+						</div>
+						<div class="card-body">
+							<div class="row">
+								<div class="col-md-12">
+									<div class="form-group">
+										<textarea class="form-control" rows="5" cols="20" v-model="infoText" value=""></textarea>
+									</div>
+									<div class="form-group">
+										<div class="d-flex align-items-center">
+											<div class="col-md-8 col-5"></div>
+											<div class="col-md-4 col-7 d-flex justify-content-between">
+												<button class="btn btn-primary btn-sm ms-auto" @@click="updateInfo(this.infoText)">新增</button>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div v-if="this._products" class="row">
+				<div class="col-12">
+					<div class="card mb-4">
+						<div class="card-header pb-0">
+							<div class="d-flex align-items-center">
+								<h6 class="mb-0">商品管理</h6>
+								<div class="ms-md-auto pe-md-3 d-flex align-items-center">
+									<div class="input-group">
+										<input v-model="filter" type="text" class="form-control" placeholder="#商品關鍵字" @@keyup.enter="filterProducts">
+										<button class="input-group-text text-body" @@click="filterProducts">
+											<i class="fas fa-search" aria-hidden="true">&nbsp;搜尋</i>
+										</button>
+									</div>
+								</div>
+								<button class="btn btn-primary btn-sm ms-auto" @@click="create">新增商品</button>
+							</div>
+						</div>
+						<div class="card-body px-0 pt-0 pb-2">
+							<div class="table-responsive p-0">
+								<table class="table align-items-center mb-0">
+									<thead>
+										<tr>
+											<th class="text-secondary opacity-7"></th>
+											<th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">編號</th>
+											<th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">名稱</th>
+											<th class="text-end text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">單價</th>
+											<th class="text-end text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">庫存</th>
+											<th class="text-end text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">銷量</th>
+											<th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">上架狀態</th>
+											<th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">上架時間</th>
+										</tr>
+									</thead>
+									<tbody>
+										<tr v-for="item in Products">
+											<td class="align-middle text-center">
+												<a href="javascript:;" class="text-secondary font-weight-bold text-xs" data-toggle="tooltip" @@click="edit(item.ProductId)">
+													<i class="fas fa-pencil-alt text-dark me-2" aria-hidden="true"></i>編輯
+												</a>
+											</td>
+											<td class="align-middle text-center">
+												<span class="text-secondary text-xs font-weight-bold">{{item.ProductId}}</span>
+											</td>
+											<td>
+												<div class="d-flex px-2 py-1">
+													<div class="d-flex flex-column justify-content-center">
+														<h6 class="mb-0 text-sm">{{item.ProductName}}</h6>
+													</div>
+												</div>
+											</td>
+											<td class="align-middle text-end">
+												<div class="row">
+													<div class="col-3"><p class="text-xs font-weight-bold mb-0">{{item.Currency}}</p></div>
+													<div class="col-9"><p class="text-xs font-weight-bold mb-0">{{item.UnitPrice}}</p></div>
+												</div>
+											</td>
+											<td class="align-middle text-end">
+												<p class="text-xs font-weight-bold mb-0">{{item.UnitsInStock}}</p>
+											</td>
+											<td class="align-middle text-end">
+												<p class="text-xs font-weight-bold mb-0">{{item.Sales}}</p>
+											</td>
+											<td class="align-middle text-center text-sm">
+												<span v-if="item.Status=='p0'" class="badge badge-sm bg-gradient-secondary">未上架</span>
+												<span v-if="item.Status=='p1'" class="badge badge-sm bg-gradient-success">已上架</span>
+													<span v-if="item.Status=='p2'" class="badge badge-sm bg-gradient-success">已刪除</span>
+											</td>
+											<td class="align-middle text-center">
+												<span class="text-secondary text-xs font-weight-bold">{{item.LaunchDate}}</span>
+											</td>
+										</tr>
+									</tbody>
+								</table>
+								@*<paginate :page-count="pageCount"
+										  :clickHandler="changePage"
+										  :prevText="'Prev'"
+										  :nextText="'Next'"
+										  :containerClass="'className'">
+								</paginate>*@
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div v-if="this._details" class="row">
+				<div class="col-12">
+					<div class="card mb-4">
+						<div class="card-header pb-0">
+							<h6>商品管理</h6>
+						</div>
+						<div class="card-body px-0 pt-0 pb-2">
+							<div class="table-responsive p-0">
+								<table class="table align-items-center mb-0">
+									<thead>
+										<tr>
+											<th class="text-secondary opacity-7"></th>
+											<th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">編號</th>
+											<th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">名稱</th>
+											<th class="text-end text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2"></th>
+											<th class="text-end text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">單價</th>
+											<th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">庫存</th>
+											<th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">銷量</th>
+											<th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">上架狀態</th>
+											<th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">上架時間</th>
+										</tr>
+									</thead>
+									<tbody>
+										<tr>
+											<td class="align-middle text-center">
+												<a href="javascript:;" class="text-secondary font-weight-bold text-xs" @@click="cancel">
+													<i class="fas fa-arrow-circle-up text-dark me-2" aria-hidden="true"></i>取消
+												</a>
+											</td>
+											<td class="align-middle text-center">
+												<span class="text-secondary text-xs font-weight-bold">{{details.ProductId}}</span>
+											</td>
+											<td>
+												<div class="d-flex px-2 py-1">
+													<div class="d-flex flex-column justify-content-center">
+														<h6 class="mb-0 text-sm">{{details.ProductName}}</h6>
+													</div>
+												</div>
+											</td>
+											<td class="align-middle text-end">
+												<p class="text-xs font-weight-bold mb-0">{{details.Currency}}</p>
+											</td>
+											<td class="align-middle text-end">
+												<p class="text-xs font-weight-bold mb-0">{{details.UnitPrice}}</p>
+											</td>
+											<td class="align-middle text-center">
+												<p class="text-xs font-weight-bold mb-0">{{details.UnitsInStock}}</p>
+											</td>
+											<td class="align-middle text-center">
+												<p class="text-xs font-weight-bold mb-0">{{details.Sales}}</p>
+											</td>
+											<td class="align-middle text-center text-sm">
+												<div class="form-check form-switch ps-0 ms-auto my-auto">
+													<input v-model="this._checked" class="form-check-input mt-1 ms-auto" type="checkbox" @@change="shelf">
+													<span v-if="this.details.Status=='p0'" class="badge badge-sm bg-gradient-secondary">未上架</span>
+													<span v-if="this.details.Status=='p1'" class="badge badge-sm bg-gradient-success">已上架</span>
+												</div>
+											</td>
+											<td class="align-middle text-center">
+												<span class="text-secondary text-xs font-weight-bold">{{details.LaunchDate}}</span>
+											</td>
+										</tr>
+									</tbody>
+								</table>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div v-if="this._details" class="row">
+				<div class="col-md-12">
+					<div class="card mb-4">
+						<div class="card-header pb-0">
+							<div class="d-flex align-items-center">
+								<p class="col-4 mb-0">編輯商品資訊</p>
+								<div class="col-md-4 col-1"></div>
+								<div v-if="this._create" class="col-md-4 col-7 d-flex justify-content-between">
+									<button class="btn btn-primary btn-sm ms-auto" @@click="createSave(details)">儲存新增</button>
+								</div>
+								<div v-if="!this._create" class="col-md-4 col-7 d-flex justify-content-between">
+									<button class="btn btn-primary btn-sm ms-auto" @@click="update(details)">儲存</button>
+									<button class="btn btn-danger btn-sm ms-auto" @@click="deleteProduct(details.ProductId)">刪除商品</button>
+								</div>
+							</div>
+						</div>
+						<div class="card-body">
+							<p class="text-uppercase text-sm">商品編號：{{details.ProductId}}</p>
+							<div class="row">
+								<div class="col-md-6">
+									<div class="form-group">
+										<label for="example-text-input" class="form-control-label">名稱</label>
+										<input v-model="details.ProductName" class="form-control text-center" type="text" value="牛仔褲">
+									</div>
+								</div>
+								<div class="col-md-6">
+									<div class="form-group">
+										<label for="example-text-input" class="form-control-label">類型</label>
+										<select v-model="details.ProductCategoryId" class="form-control text-center">
+											<option value="1">衣服</option>
+											<option value="2">文具</option>
+											<option value="3">生鮮食材</option>
+											<option value="4">電玩</option>
+											<option value="5">美妝</option>
+											<option value="6">家電</option>
+											<option value="7">漫畫</option>
+											<option value="8">家具</option>
+										</select>
+									</div>
+								</div>
+								<div class="col-md-2">
+									<div class="form-group">
+										<label for="example-text-input" class="form-control-label">貨幣</label>
+										<select v-model="details.Currency" class="form-control text-center">
+											<option value="NTD">NTD</option>
+											<option value="USD" disabled>USD</option>
+										</select>
+									</div>
+								</div>
+								<div class="col-md-4">
+									<div class="form-group">
+										<label for="example-text-input" class="form-control-label">單價</label>
+										<input v-model="details.UnitPrice" class="form-control text-center" type="text">
+									</div>
+								</div>
+								<div class="col-md-2">
+									<div class="form-group">
+										<label for="example-text-input" class="form-control-label">庫存增減</label>
+										<div class="form-check form-switch ps-0 ms-auto my-auto">
+											<select v-model="plus" class="form-control text-center">
+												<option value="INC">增加</option>
+												<option value="DEC">減少</option>
+											</select>
+										</div>
+									</div>
+								</div>
+								<div class="col-md-4">
+									<div class="form-group">
+										<label for="example-text-input" class="form-control-label">變化數量</label>
+										<div class="form-check form-switch ps-0 ms-auto my-auto">
+											<input v-model="increase" class="form-control text-center" type="text">
+										</div>
+									</div>
+								</div>
+								<div class="col-md-12">
+									<div class="form-group">
+										<label for="example-text-input" class="form-control-label">說明</label>
+										<textarea v-model="details.Description" class="form-control" rows="5" cols="20" placeholder="商品介紹"></textarea>
+									</div>
+								</div>
+							</div>
+							<hr class="horizontal dark">
+							<p class="text-uppercase text-sm">新增圖片</p>
+							<p v-if="this._create" class="text-uppercase text-sm">請先儲存新增商品</p>
+							<div v-if="!this._create" class="row">
+								<div class="col-md-12">
+									<div class="form-group">
+										<label for="example-text-input" class="form-control-label">預覽</label>
+										<input class="form-control" type="file" @@change="selectedFile">
+										<div class="col-md-6">
+											<div class="form-group">
+												<img :src="this.preview" />
+											</div>
+										</div>
+									</div>
+									<div class="form-group">
+										<label for="example-text-input" class="form-control-label">圖片說明</label>
+										<textarea class="form-control" rows="5" cols="20" v-model="pictureText" value=""></textarea>
+									</div>
+									<div class="form-group">
+										<div class="d-flex align-items-center">											
+											<div class="col-md-8 col-5"></div>
+											<div class="col-md-4 col-7 d-flex justify-content-between">
+												<button class="btn btn-primary btn-sm ms-auto" @@click="uploadFile">新增</button>
+												<button class="btn btn-outline-primary btn-sm ms-auto" @@click="getPictures(this.details.ProductId)">查看圖片</button>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div v-if="this._pictures" class="row">
+				<div class="col-12">
+					<div class="card mb-4">
+						<div class="card-header pb-0">
+							<div class="d-flex align-items-center">
+								<h6 class="mb-0">商品圖片管理</h6>
+							</div>
+						</div>
+						<div class="card-body px-0 pt-0 pb-2">
+							<div class="table-responsive p-0">
+								<table class="table align-items-center mb-0">
+									<thead>
+										<tr>
+											<th class="text-secondary opacity-7"></th>
+											<th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">商品圖片</th>
+											<th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">圖片說明</th>
+										</tr>
+									</thead>
+									<tbody>
+										<tr v-for="item in Pictures">
+											<td class="align-middle text-center">
+												<p><a href="javascript:;" class="text-secondary font-weight-bold text-xs" data-toggle="tooltip" @@click="updatePicture(item)">
+													<i class="fas fa-pencil-alt text-dark me-2" aria-hidden="true"></i>儲存圖片說明</a></p>
+												<p><a href="javascript:;" class="text-secondary font-weight-bold text-xs" data-toggle="tooltip" @@click="deletePicture(item.PictureId)">
+													<i class="far fa-trash-alt me-2" aria-hidden="true"></i>刪除商品圖片</a></p>
+											</td>
+											<td class="align-middle text-center">
+												<img :src="item.Path" />
+											</td>
+											<td>
+												<textarea class="form-control" rows="2" cols="20" v-model="item.Description"></textarea>
+											</td>											
+										</tr>
+									</tbody>
+								</table>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div v-if="this._orders" class="row">
+				<div class="col-12">
+					<div class="card mb-4">
+						<div class="card-header pb-0">
+							<div class="d-flex align-items-center">
+								<h6 class="mb-0">訂單管理</h6>
+							</div>
+						</div>
+						<div class="card-body px-0 pt-0 pb-2">
+							<div class="table-responsive p-0">
+								<table class="table align-items-center mb-0">
+									<thead>
+										<tr>
+											<th class="text-secondary opacity-7"></th>
+											<th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">編號</th>
+											<th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">買家</th>
+											<th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">商品數量</th>
+											<th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">總價</th>
+											<th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">付款方式</th>
+											<th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">狀態</th>
+											<th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">訂購時間</th>
+											<th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">到貨時間</th>
+										</tr>
+									</thead>
+									<tbody>
+										<tr v-for="(item,index) in Orders">
+											<td class="align-middle text-center">
+												<a href="javascript:;" class="text-secondary font-weight-bold text-xs" data-toggle="tooltip" @@click="editOrders(item.OrderId, index)">
+													<i class="fas fa-pencil-alt text-dark me-2" aria-hidden="true"></i>查看明細
+												</a>
+											</td>
+											<td class="align-middle text-center">
+												<span class="text-secondary text-xs font-weight-bold">{{item.OrderId}}</span>
+											</td>
+											<td>
+												<div class="d-flex px-2 py-1">
+													<div class="d-flex flex-column justify-content-center">
+														<h6 class="mb-0 text-sm">{{item.BuyerAccount}}</h6>
+													</div>
+												</div>
+											</td>
+											<td class="align-middle text-center">
+												<p class="text-xs font-weight-bold mb-0">{{this.OrderDetails[index].ProductCount}}</p>
+											</td>
+											<td class="align-middle text-end">
+												<div class="row">
+													<p class="text-xs font-weight-bold mb-0">{{this.OrderSum[index].NTD}}&nbsp;&nbsp;NTD</p>
+												</div>
+												<div class="row">
+													<p class="text-xs font-weight-bold mb-0">{{this.OrderSum[index].USD}}&nbsp;&nbsp;USD</p>
+												</div>
+											</td>
+											<td class="align-middle text-center">
+												<p class="text-xs font-weight-bold mb-0">{{item.PayMethod}}</p>
+											</td>
+											<td class="align-middle text-center text-sm">
+												<span v-if="item.Status=='o1'" class="badge badge-sm bg-gradient-danger">未出貨</span>
+												<span v-if="item.Status=='o2'" class="badge badge-sm bg-gradient-secondary">未完全收貨</span>
+												<span v-if="item.Status=='o3'" class="badge badge-sm bg-gradient-success">已收貨</span>
+												<span v-if="item.Status=='o4'" class="badge badge-sm bg-gradient-warning">含退貨</span>
+												<span v-if="item.Status=='o5'" class="badge badge-sm bg-gradient-dark">已取消</span>
+											</td>
+											<td class="align-middle text-center">
+												<p class="text-xs font-weight-bold mb-0">{{item.OrderDate}}</p>
+											</td>
+											<td class="align-middle text-center">
+												<span class="text-secondary text-xs font-weight-bold">{{item.ArrivalDate}}</span>
+											</td>
+										</tr>
+									</tbody>
+								</table>
+								@*<paginate :page-count="pageCount"
+								:clickHandler="changePage"
+								:prevText="'Prev'"
+								:nextText="'Next'"
+								:containerClass="'className'">
+								</paginate>*@
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div v-if="this._orderDetails" class="row">
+				<div class="col-12">
+					<div class="card mb-4">
+						<div class="card-header pb-0">
+							<div class="d-flex align-items-center">
+								<h6 class="mb-0">訂單管理</h6>
+							</div>
+						</div>
+						<div class="card-body px-0 pt-0 pb-2">
+							<div class="table-responsive p-0">
+								<table class="table align-items-center mb-0">
+									<thead>
+										<tr>
+											<th class="text-secondary opacity-7"></th>
+											<th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">編號</th>
+											<th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">買家</th>
+											<th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">商品數量</th>
+											<th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">總價</th>
+											<th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">付款方式</th>
+											<th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">狀態</th>
+											<th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">訂購時間</th>
+											<th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">到貨時間</th>
+										</tr>
+									</thead>
+									<tbody>
+										<tr>
+											<td class="align-middle text-center">
+												<a href="javascript:;" class="text-secondary font-weight-bold text-xs" data-toggle="tooltip" @@click="cancelOrderDetails">
+													<i class="fas fas fa-arrow-circle-up text-dark me-2" aria-hidden="true"></i>取消
+												</a>
+											</td>
+											<td class="align-middle text-center">
+												<span class="text-secondary text-xs font-weight-bold">{{this.OrderInfo[0].OrderId}}</span>
+											</td>
+											<td>
+												<div class="d-flex px-2 py-1">
+													<div class="d-flex flex-column justify-content-center">
+															<h6 class="mb-0 text-sm">{{this.OrderInfo[0].BuyerAccount}}</h6>
+													</div>
+												</div>
+											</td>
+											<td class="align-middle text-center">
+												<p class="text-xs font-weight-bold mb-0">{{this.OrderInfo[1].ProductCount}}</p>
+											</td>
+											<td class="align-middle text-end">
+												<div class="row">
+														<p class="text-xs font-weight-bold mb-0">{{this.OrderInfo[2].NTD}}&nbsp;&nbsp;NTD</p>
+												</div>
+												<div class="row">
+														<p class="text-xs font-weight-bold mb-0">{{this.OrderInfo[2].USD}}&nbsp;&nbsp;USD</p>
+												</div>
+											</td>
+											<td class="align-middle text-center">
+												<p class="text-xs font-weight-bold mb-0">{{this.OrderInfo[0].PayMethod}}</p>
+											</td>
+											<td class="align-middle text-center text-sm">
+												<span v-if="this.OrderInfo[0].Status=='o1'" class="badge badge-sm bg-gradient-danger">未出貨</span>
+												<span v-if="this.OrderInfo[0].Status=='o2'" class="badge badge-sm bg-gradient-secondary">未完全收貨</span>
+												<span v-if="this.OrderInfo[0].Status=='o3'" class="badge badge-sm bg-gradient-success">已收貨</span>
+												<span v-if="this.OrderInfo[0].Status=='o4'" class="badge badge-sm bg-gradient-warning">含退貨</span>
+												<span v-if="this.OrderInfo[0].Status=='o5'" class="badge badge-sm bg-gradient-dark">已取消</span>
+											</td>
+											<td class="align-middle text-center">
+												<p class="text-xs font-weight-bold mb-0">{{this.OrderInfo[0].OrderDate}}</p>
+											</td>
+											<td class="align-middle text-center">
+												<span class="text-secondary text-xs font-weight-bold">{{this.OrderInfo[0].ArrivalDate}}</span>
+											</td>
+										</tr>
+									</tbody>
+								</table>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div v-if="this._orderDetails" class="row">
+				<div class="col-12">
+					<div class="card mb-4">
+						<div class="card-header pb-0">
+							<div class="d-flex align-items-center">
+								<h6 class="mb-0">訂單明細</h6>
+								<button class="btn btn-primary btn-sm ms-auto" @@click="updateOrders(this.OrderInfo[0].OrderId)">更新出貨狀態</button>
+							</div>
+						</div>
+						<div class="card-body">
+							<div class="row">
+								<p class="col-md-6 text-sm">訂單編號：{{this.OrderInfo[0].OrderId}}</p>
+								<p class="col-md-6 text-sm">買家帳號：{{this.OrderInfo[0].BuyerAccount}}</p>
+								<p class="col-md-6 text-sm">送貨地址：{{this.OrderInfo[0].Address}}</p>
+								<p class="col-md-6 text-sm">買家聯絡電話：{{this.OrderInfo[0].BuyerPhone}}</p>
+								<p class="col-md-6 text-sm">訂單日期：{{this.OrderInfo[0].OrderDate}}</p>
+								<p class="col-md-6 text-sm">到貨日期：{{this.OrderInfo[0].ArrivalDate}}</p>								
+								<p class="col-md-6 text-sm">付款方式：{{this.OrderInfo[0].PayMethod}}</p>
+							</div>
+						</div>
+						<div class="card-body px-0 pt-0 pb-2">
+							<div class="table-responsive p-0">
+								<table class="table align-items-center mb-0">
+									<thead>
+										<tr>
+											<th class="text-secondary opacity-7"></th>
+											<th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">商品編號</th>
+											<th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">名稱</th>
+											<th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">單價</th>
+											<th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">數量</th>
+											<th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">優惠券</th>
+											<th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">小計</th>
+											<th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">狀態</th>
+										</tr>
+									</thead>
+									<tbody>
+										<tr v-for="(item,index) in OrderInfo[1].Product">
+											<td class="align-middle text-center">
+												<a href="javascript:;" class="text-secondary font-weight-bold text-xs" @@click="getProduct(item.ProductId)">
+													<i class="fas fa-arrow-circle-up text-dark me-2" aria-hidden="true"></i>商品資訊
+												</a>
+												<a v-if="item.Status=='od6'" href="javascript:;" class="text-secondary font-weight-bold text-xs" @@click="replyBuyers">
+													<i class="fas fa-arrow-circle-up text-dark me-2" aria-hidden="true"></i>回應買家評價
+												</a>
+											</td>
+											<td class="align-middle text-center">
+												<span class="text-secondary text-xs font-weight-bold">{{item.ProductId}}</span>
+											</td>
+											<td class="align-middle text-center">
+												<div class="d-flex px-2 py-1">
+													<div class="d-flex flex-column justify-content-center">
+														<h6 class="mb-0 text-sm">{{item.ProductName}}</h6>
+													</div>
+												</div>
+											</td>
+											<td class="align-middle text-end">
+												<div class="row">
+														<p class="text-xs font-weight-bold mb-0">{{item.UnitPrice}}&nbsp;&nbsp;{{item.Currency}}</p>
+												</div>
+											</td>
+											<td class="align-middle text-center">
+													<p class="text-xs font-weight-bold mb-0">{{item.Quantity}}</p>
+											</td>
+											<td class="align-middle text-center">
+												<div class="row">
+													<div class="col-3"><p class="text-xs font-weight-bold mb-0">{{item.CouponId==null ? '' :'×&nbsp;' + item.Discount}}</p></div>
+													<div class="col-9"><p class="text-xs font-weight-bold mb-0">{{item.CouponId==null ? '未使用' : item.CouponId}}</p></div>
+												</div>
+											</td>
+											<td class="align-middle text-end">
+												<div class="row">
+													<p class="text-xs font-weight-bold mb-0">
+														{{(item.Discount != null) ? (item.UnitPrice * item.Quantity * item.Discount) : (item.UnitPrice * item.Quantity)}}
+														&nbsp;&nbsp;{{item.Currency}}
+													</p>
+												</div>
+											</td>
+											<td class="align-middle text-center text-sm">
+												<div class="form-check form-switch ps-0 ms-auto my-auto">
+													<div class="form-check form-switch ps-0 ms-auto my-auto">
+														<div v-if="item.Status=='od1'">
+															<input v-model="this.Checked[index]" class="form-check-input mt-1 ms-auto" type="checkbox">														
+														</div>
+													</div>
+													<span v-if="this.Checked[index]==false" class="badge badge-sm bg-gradient-danger">未出貨</span>
+													<span v-if="this.Checked[index]==true" class="badge badge-sm bg-gradient-secondary">未收貨</span>
+													<span v-if="item.Status=='od3'" class="badge badge-sm bg-gradient-success">已收貨</span>
+													<span v-if="item.Status=='od4'" class="badge badge-sm bg-gradient-warning">退貨</span>
+													<span v-if="item.Status=='od5'" class="badge badge-sm bg-gradient-dark">已取消</span>
+													<span v-if="item.Status=='od6'" class="badge badge-sm bg-gradient-light">已評價</span>
+												</div>
+											</td>											
+										</tr>
+									</tbody>
+								</table>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div v-if="this._productDetails" class="row">
+				<div class="col-12">
+					<div class="card mb-4">
+						<div class="card-header pb-0">
+							<div class="d-flex align-items-center">
+								<h6 class="mb-0">商品資訊</h6>
+								<button class="btn btn-primary btn-sm ms-auto" @@click="getOrders">回訂單管理</button>
+							</div>
+						</div>
+						<div v-for="item in details" class="card-body">
+							<p class="text-uppercase text-sm">商品編號：{{item.ProductId}}</p>
+							<div class="row">
+								<p class="col-md-6 text-sm">名稱：{{item.ProductName}}</p>
+								<p class="col-md-6 text-sm">賣家帳號：{{item.SellerAccount}}</p>
+								<p class="col-md-6 text-sm">類別：{{item.ProductCategory}}</p>
+								<p class="col-md-6 text-sm">上架日期：{{item.LaunchDate}}</p>
+								<p class="col-md-6 text-sm">庫存：{{item.UnitsInStock}}</p>
+								<p class="col-md-6 text-sm">銷量：{{item.Sales}}</p>
+								<p class="col-md-6 text-sm">單價：{{item.UnitPrice}}&nbsp;&nbsp;{{item.Currency}}</p>
+								<p class="col-md-6 text-sm">狀態：
+									<span v-if="item.Status=='p0'" class="badge badge-sm bg-gradient-secondary">未上架</span>
+									<span v-if="item.Status=='p1'" class="badge badge-sm bg-gradient-success">已上架</span>
+								</p>
+								<p class="col-md-12 text-sm">說明：{{item.Description}}</p>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div v-if="this._ratings" class="row">
+					<div class="col-12">
+						<div class="card mb-4">
+							<div class="card-header pb-0">
+								<div class="d-flex align-items-center">
+									<h6 class="mb-0">買家評價管理</h6>
+									<div class="ms-md-auto pe-md-3 d-flex align-items-center">
+										@*<div class="input-group">
+											<input v-model="filter" type="text" class="form-control" placeholder="#商品關鍵字" @@keyup.enter="filterProducts">
+											<button class="input-group-text text-body" @@click="filterProducts">
+												<i class="fas fa-search" aria-hidden="true">&nbsp;搜尋</i>
+											</button>
+										</div>*@
+									</div>									
+								</div>
+							</div>
+							<div class="card-body px-0 pt-0 pb-2">
+								<div class="table-responsive p-0">
+									<table class="table align-items-center mb-0">
+										<thead>
+											<tr>
+												<th class="text-secondary opacity-7"></th>
+												<th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">訂單編號</th>
+												<th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">商品名稱</th>
+												<th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">買家帳號</th>
+												<th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">評價星數</th>
+												<th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">訂購日期</th>
+												<th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">到貨日期</th>
+												<th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">狀態</th>
+											</tr>
+										</thead>
+										<tbody v-for="(r,rx) in Ratings">
+											<tr v-for="(p,px) in Ratings[rx].Product">
+												<td class="align-middle text-center">
+													<a href="javascript:;" class="text-secondary font-weight-bold text-xs" data-toggle="tooltip" @@click="editReply(rx,px)">
+														<i class="fas fa-pencil-alt text-dark me-2" aria-hidden="true"></i>查看評價內容
+													</a>
+												</td>
+												<td class="align-middle text-center">
+													<span class="text-secondary text-xs font-weight-bold">{{p.OrderId}}</span>
+												</td>
+												<td>
+													<div class="d-flex px-2 py-1">
+														<div class="d-flex flex-column justify-content-center">
+															<h6 class="mb-0 text-sm">{{this.OrderDetails[rx].Product[px].ProductName}}</h6>
+														</div>
+													</div>
+												</td>												
+												<td class="align-middle text-center">
+													<span class="text-secondary text-xs font-weight-bold">{{this.Orders[rx].BuyerAccount}}</span>
+												</td>
+												<td class="align-middle text-center">
+													<span class="text-secondary text-xs font-weight-bold">{{p.StarCount}}</span>
+												</td>
+												<td class="align-middle text-center">
+													<p class="text-xs font-weight-bold mb-0">{{this.Orders[rx].OrderDate}}</p>
+												</td>
+												<td class="align-middle text-center">
+													<p class="text-xs font-weight-bold mb-0">{{this.Orders[rx].ArrivalDate}}</p>
+												</td>
+												<td class="align-middle text-center text-sm">
+													<span v-if="p.Status=='r0'" class="badge badge-sm bg-gradient-secondary">未回應</span>
+													<span v-if="p.Status=='r1'" class="badge badge-sm bg-gradient-success">已回應</span>
+												</td>
+											</tr>
+										</tbody>
+									</table>
+									@*<paginate :page-count="pageCount"
+									:clickHandler="changePage"
+									:prevText="'Prev'"
+									:nextText="'Next'"
+									:containerClass="'className'">
+									</paginate>*@
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			<div v-if="this._ratingDetails" class="row">
+					<div class="col-12">
+						<div class="card mb-4">
+							<div class="card-header pb-0">
+								<h6>買家評價管理</h6>
+							</div>
+							<div class="card-body px-0 pt-0 pb-2">
+								<div class="table-responsive p-0">
+									<table class="table align-items-center mb-0">
+										<thead>
+											<tr>
+												<th class="text-secondary opacity-7"></th>
+												<th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">訂單編號</th>
+												<th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">商品名稱</th>
+												<th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">買家帳號</th>
+												<th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">評價星數</th>
+												<th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">訂購日期</th>
+												<th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">到貨日期</th>
+												<th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">狀態</th>
+											</tr>
+										</thead>
+										<tbody>
+											<tr>
+												<td class="align-middle text-center">
+													<a href="javascript:;" class="text-secondary font-weight-bold text-xs" @@click="cancelRatingDetails">
+														<i class="fas fa-arrow-circle-up text-dark me-2" aria-hidden="true"></i>取消
+													</a>
+												</td>
+												<td class="align-middle text-center">
+													<span class="text-secondary text-xs font-weight-bold">{{this.RatingDetails[1].OrderId}}</span>
+												</td>
+												<td>
+													<div class="d-flex px-2 py-1">
+														<div class="d-flex flex-column justify-content-center">
+															<h6 class="mb-0 text-sm">{{this.RatingDetails[2].ProductName}}</h6>
+														</div>
+													</div>
+												</td>
+												<td class="align-middle text-center">
+													<span class="text-secondary text-xs font-weight-bold">{{this.RatingDetails[1].BuyerAccount}}</span>
+												</td>
+												<td class="align-middle text-center">
+													<span class="text-secondary text-xs font-weight-bold">{{this.RatingDetails[0].StarCount}}</span>
+												</td>
+												<td class="align-middle text-center">
+													<p class="text-xs font-weight-bold mb-0">{{this.RatingDetails[1].OrderDate}}</p>
+												</td>
+												<td class="align-middle text-center">
+													<p class="text-xs font-weight-bold mb-0">{{this.RatingDetails[1].ArrivalDate}}</p>
+												</td>
+												<td class="align-middle text-center text-sm">
+													<span v-if="this.RatingDetails[0].Status=='r0'" class="badge badge-sm bg-gradient-secondary">未回應</span>
+													<span v-if="this.RatingDetails[0].Status=='r1'" class="badge badge-sm bg-gradient-success">已回應</span>
+												</td>
+											</tr>
+										</tbody>
+									</table>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			<div v-if="this._ratingDetails" class="row">
+				<div class="col-md-12">
+					<div class="card mb-4">
+						<div class="card-header pb-0">
+							<div class="d-flex align-items-center">
+								<p class="col-4 mb-0">買家評價內容</p>
+								<div class="col-8"></div>
+							</div>
+						</div>
+						<div class="card-body">
+							<p class="text-uppercase text-sm">商品編號：{{this.RatingDetails[0].ProductId}}</p>
+							<div class="row">
+								<p class="col-md-6 text-sm">單價：{{this.RatingDetails[2].UnitPrice}}</p>
+								<p class="col-md-6 text-sm">數量：{{this.RatingDetails[2].Quantity}}</p>
+								<p class="col-md-6 text-sm">折扣：{{this.RatingDetails[2].Discount}}</p>
+								<p class="col-md-6 text-sm">小計：
+									{{this.RatingDetails[2].UnitPrice * this.RatingDetails[2].Quantity * this.RatingDetails[2].Discount}}
+								</p>
+								<p class="col-md-12 text-sm">評價內容：{{this.RatingDetails[0].Description}}</p>
+							</div>
+							<hr class="horizontal dark">
+							<div class="col-md-12">
+								<div class="form-group">
+									<label class="form-control-label">回應</label>
+									<div v-if="RatingDetails[0].Status=='r1'">
+										<p class="col-md-12 text-sm">{{this.RatingDetails[0].Reply}}</p>
+									</div>
+									<div v-if="RatingDetails[0].Status=='r0'">
+										<textarea v-model="reply" class="form-control" rows="5" cols="20" placeholder="回應內容"></textarea>
+									</div>
+								</div>
+								<div class="form-group">
+									<div class="d-flex align-items-center">											
+										<div class="col-md-8 col-5"></div>
+										<div v-if="RatingDetails[0].Status=='r0'" class="col-md-4 col-7 d-flex justify-content-between">
+											<button class="btn btn-primary btn-sm ms-auto" @@click="replyBuyers">儲存評價回應</button>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+				</div>
+			@*Footer*@
+			<footer class="footer pt-3">
+				<div class="container-fluid py-5">
+					<div class="row align-items-center justify-content-lg-between">
+						<div class="col-lg-6 mb-lg-0 mb-4">
+							<div class="copyright text-center text-sm text-muted text-lg-start">
+								© <script>
+							   document.write(new Date().getFullYear())
+								</script>,
+								made with <i class="fa fa-heart"></i> by
+								<a href="#" class="font-weight-bold" target="_blank">Creative Tim</a>
+								for a better web.
+							</div>
+						</div>
+						<div class="col-lg-6">
+							<ul class="nav nav-footer justify-content-center justify-content-lg-end">
+								<li class="nav-item">
+									<a href="#" class="nav-link text-muted" target="_blank">Creative Tim</a>
+								</li>
+								<li class="nav-item">
+									<a href="#" class="nav-link text-muted" target="_blank">About Us</a>
+								</li>
+								<li class="nav-item">
+									<a href="#" class="nav-link text-muted" target="_blank">Blog</a>
+								</li>
+								<li class="nav-item">
+									<a href="#" class="nav-link pe-0 text-muted" target="_blank">License</a>
+								</li>
+							</ul>
+						</div>
+					</div>
+				</div>
+			</footer>
+		</div>
+	</main>
+</div>
+	<div class="fixed-plugin">
+		<a class="fixed-plugin-button text-dark position-fixed px-3 py-2">
+			<i class="fa fa-cog py-2"> </i>
+		</a>
+		<div class="card shadow-lg">
+			<div class="card-header pb-0 pt-3 ">
+				<div class="float-start">
+					<h5 class="mt-3 mb-0">Argon Configurator</h5>
+					<p>See our dashboard options.</p>
+				</div>
+				<div class="float-end mt-4">
+					<button class="btn btn-link text-dark p-0 fixed-plugin-close-button">
+						<i class="fa fa-close"></i>
+					</button>
+				</div>
+				<!-- End Toggle Button -->
+			</div>
+			<hr class="horizontal dark my-1">
+			<div class="card-body pt-sm-3 pt-0 overflow-auto">
+				<!-- Sidebar Backgrounds -->
+				<div>
+					<h6 class="mb-0">Sidebar Colors</h6>
+				</div>
+				<a href="javascript:void(0)" class="switch-trigger background-color">
+					<div class="badge-colors my-2 text-start">
+						<span class="badge filter bg-gradient-primary active" data-color="primary" onclick="sidebarColor(this)"></span>
+						<span class="badge filter bg-gradient-dark" data-color="dark" onclick="sidebarColor(this)"></span>
+						<span class="badge filter bg-gradient-info" data-color="info" onclick="sidebarColor(this)"></span>
+						<span class="badge filter bg-gradient-success" data-color="success" onclick="sidebarColor(this)"></span>
+						<span class="badge filter bg-gradient-warning" data-color="warning" onclick="sidebarColor(this)"></span>
+						<span class="badge filter bg-gradient-danger" data-color="danger" onclick="sidebarColor(this)"></span>
+					</div>
+				</a>
+				<!-- Sidenav Type -->
+				<div class="mt-3">
+					<h6 class="mb-0">Sidenav Type</h6>
+					<p class="text-sm">Choose between 2 different sidenav types.</p>
+				</div>
+				<div class="d-flex">
+					<button class="btn bg-gradient-primary w-100 px-3 mb-2 active me-2" data-class="bg-white" onclick="sidebarType(this)">White</button>
+					<button class="btn bg-gradient-primary w-100 px-3 mb-2" data-class="bg-default" onclick="sidebarType(this)">Dark</button>
+				</div>
+				<p class="text-sm d-xl-none d-block mt-2">You can change the sidenav type just on desktop view.</p>
+				<!-- Navbar Fixed -->
+				<div class="d-flex my-3">
+					<h6 class="mb-0">Navbar Fixed</h6>
+					<div class="form-check form-switch ps-0 ms-auto my-auto">
+						<input class="form-check-input mt-1 ms-auto" type="checkbox" id="navbarFixed" onclick="navbarFixed(this)">
+					</div>
+				</div>
+				<hr class="horizontal dark my-sm-4">
+				<div class="mt-2 mb-5 d-flex">
+					<h6 class="mb-0">Light / Dark</h6>
+					<div class="form-check form-switch ps-0 ms-auto my-auto">
+						<input class="form-check-input mt-1 ms-auto" type="checkbox" id="dark-version" onclick="darkMode(this)">
+					</div>
+				</div>
+				<a class="btn bg-gradient-dark w-100" href="#">Free Download</a>
+				<a class="btn btn-outline-dark w-100" href="#">View documentation</a>
+				<div class="w-100 text-center">
+					<a class="github-button" href="#" data-icon="octicon-star" data-size="large" data-show-count="true" aria-label="Star creativetimofficial/argon-dashboard on GitHub">Star</a>
+					<h6 class="mt-3">Thank you for sharing!</h6>
+					<a href="#" class="btn btn-dark mb-0 me-2" target="_blank">
+						<i class="fab fa-twitter me-1" aria-hidden="true"></i> Tweet
+					</a>
+					<a href="#" class="btn btn-dark mb-0 me-2" target="_blank">
+						<i class="fab fa-facebook-square me-1" aria-hidden="true"></i> Share
+					</a>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!--   Core JS Files   -->
+	<script src="~/assets/js/core/popper.min.js"></script>
+	<script src="~/assets/js/core/bootstrap.min.js"></script>
+	<script src="~/assets/js/plugins/perfect-scrollbar.min.js"></script>
+	<script src="~/assets/js/plugins/smooth-scrollbar.min.js"></script>
+	<script>
+		var win = navigator.platform.indexOf('Win') > -1;
+		if (win && document.querySelector('#sidenav-scrollbar')) {
+			var options = {
+				damping: '0.5'
+			}
+			Scrollbar.init(document.querySelector('#sidenav-scrollbar'), options);
+		}
+	</script>
+	<script src="~/js/jquery-3.3.1.min.js"></script>
+	<script src="~/lib/vue/vue.global.prod.js"></script>
+	<script src="~/lib/axios/axios.min.js"></script>
+	@*<script src="https://unpkg.com/vuejs-paginate@0.9.0"></script>*@
+	<script>
+		var baseAddress = `${window.location.origin}`;
+		//Vue.component('paginate', VuejsPaginate)
+		var vueApp = {
+			data() {
+				return {
+					loginAccount: 'User2',
+					_info: false,
+					Info: [],
+					infoText: '',
+					_products: false,
+					Products: [],
+					_details: false,
+					details: [],
+					_create: false,
+					_pictures: false,
+					Pictures: [],
+					_orders: false,
+					Orders: [],
+					_orderDetails: false,
+					OrderDetails: [],
+					OrderInfo: [],
+					OrderSum: [],
+					_productDetails: false,
+					Checked: [],
+					_ratings: false,
+					Ratings: [],
+					_ratingDetails: false,
+					RatingsDetails: [],
+					reply: '',
+					_checked: false,
+					plus: 'INC',
+					increase: 0,
+					picture: '',
+					preview: '',
+					pictureText: '',
+					filter: ''
+				};
+			},
+			mounted: function () {
+				let _this = this;
+				_this.navbar(0);
+			},
+			methods: {
+				closePanels: function() {
+					let _this = this;
+					_this._info = _this._products = _this._details = _this._create = _this._pictures = false;
+					_this._orders = _this._orderDetails = _this._productDetails = false;
+					_this._ratings = _this._ratingDetails = false;
+				},
+				navbar: function(n) {
+					let _this = this;
+					_this.closePanels();
+					$('#nav0').removeClass('active');
+					$('#nav1').removeClass('active');
+					$('#nav2').removeClass('active');
+					$('#nav3').removeClass('active');
+					switch (n) {
+						case 0:
+							$('#nav0').addClass('active');
+							_this.getInfo();
+							break;
+						case 1:
+							$('#nav1').addClass('active');
+							_this.getProducts();
+							break;
+						case 2:
+							$('#nav2').addClass('active');
+							_this.getOrders();
+							break;
+						case 3:
+							$('#nav3').addClass('active');
+							_this.getRatings();
+							break;
+						default:
+							$('#nav0').addClass('active');
+							_this.getInfo();
+							break;
+					}
+				},
+				//changePage: function(currentPage) {
+				//},
+				getInfo: async function() {
+					let _this = this;
+					_this._info = true;
+					await axios.post(`${baseAddress}/Products/GetInfo/${_this.loginAccount}`).then(response => {
+						_this.Info = response.data;
+						_this.infoText = _this.Info[0].AboutSeller;
+					});
+				},
+				updateInfo: function(info) {
+					let _this = this;
+					_this._info = true;
+					var request = {};
+					request.Id = _this.loginAccount;
+					request.AboutSeller = info;
+					axios.post(`${baseAddress}/Products/UpdateInfo/`, request).then(response => {
+						alert(response.data.Message);
+						_this.getInfo();
+					});
+				},
+				getProducts: async function () {
+					let _this = this;
+					_this.closePanels();
+					_this._products = true;
+					await axios.post(`${baseAddress}/Products/GetProducts/`).then(response => {
+						_this.Products = response.data;
+					});
+					_this.details = _this.Products[0];
+				},
+				filterProducts: function () {
+					let _this = this; 
+					_this.closePanels();
+					_this. _products = true;
+					var request = {};
+					request.SellerAccount = _this.loginAccount;
+					request.ProductId = request.ProductCategoryId = request.UnitsInStock = request.UnitPrice = isNaN(parseInt(_this.filter)) ? -1 : parseInt(_this.filter);
+					request.ProductName = request.Description = request.Status = request.Currency = _this.filter;
+					axios.post(`${baseAddress}/Products/Filter`, request).then(response => {
+						_this.Products = response.data;
+					});
+					_this.details = _this.Products[0];
+				},
+				edit: function (productId) {
+					let _this = this;
+					_this.details = _this.Products[0];
+					_this.Products.forEach(item => {
+						if (item.ProductId == productId) {
+							_this.details = item;
+						}
+						_this._checked = (_this.details.Status == 'p1') ? true : false;
+					});
+					_this.closePanels();
+					_this._details = true;
+				},
+				update: function (item) {
+					let _this = this;
+					var request = {};
+					_this.stock();
+					request.ProductId = item.ProductId;
+					request.SellerAccount = item.SellerAccount;
+					request.ProductName = item.ProductName;
+					request.ProductCategoryId = item.ProductCategoryId;
+					request.Description = item.Description;
+					request.UnitsInStock = item.UnitsInStock;
+					request.UnitPrice = item.UnitPrice;
+					request.Status = item.Status;
+					request.Currency = item.Currency;
+					var ret = confirm('確定要儲存嗎？');
+					if (ret == true) {
+						axios.post(`${baseAddress}/Products/Update/`, request).then(response => {
+							alert(response.data.Message);
+							_this.cancel();
+						});
+					}
+				},
+				cancel: function () {
+					let _this = this;
+					_this.closePanels();
+					_this._products = true;
+					_this.Products.forEach(item => {
+						if (item.ProductId == _this.details.ProductId) {
+							_this.details = item;
+						}
+					});
+					_this.increase = 0;
+					_this.picture = '';
+					_this.preview = '';
+					_this.pictureText = '';					
+					//if(_this.filter == '') _this.getProducts();
+					//if (_this.filter != '') _this.filterProducts();
+				},
+				deleteProduct: function (productId) {
+					let _this = this;
+					var ret = confirm('確定要刪除嗎？');
+					if (ret == true) {
+						axios.post(`${baseAddress}/Products/Delete/${productId}`).then(response => {
+							alert(response.data.Message);
+							_this.cancel();
+						});
+					}
+				},
+				create: function () {
+					var _this = this;
+					_this.closePanels();
+					_this._details = true;
+					_this._create = true;
+					_this.details = _this.Products[0];
+					_this.details.ProductId = 0;
+					_this.details.SellerAccount = _this.loginAccount;
+					_this.details.LaunchDate = '';
+					_this.details.ProductName = '';
+					_this.details.ProductCategoryId = 1;
+					_this.details.Description = '';
+					_this.details.UnitsInStock = 0;
+					_this.details.Sales = 0;
+					_this.details.UnitPrice = '';
+					_this.details.Status = '未上架';
+					_this.details.Currency = 'NTD';
+					_this._checked = false;
+					_this.plus = 'INC';
+					_this.increase = 0;
+					_this._create = true;
+				},
+				createSave: function (item) {
+					let _this = this;
+					var request = {};
+					_this.stock();
+					request.ProductId = 0;
+					request.SellerAccount = item.SellerAccount;
+					request.ProductName = item.ProductName;
+					request.ProductCategoryId = item.ProductCategoryId;
+					request.Description = item.Description;
+					request.UnitsInStock = item.UnitsInStock;
+					request.UnitPrice = item.UnitPrice;
+					request.Status = item.Status;
+					request.Currency = item.Currency;
+					var ret = confirm('確定要新增嗎？');
+					if (ret == true) {
+						axios.post(`${baseAddress}/Products/Create/`, request).then(response => {
+							alert(response.data.Message);
+							_this.cancel();
+						});
+					}
+				},
+				stock: function () {
+					let _this = this;
+					if (_this.plus == 'INC') {
+						_this.details.UnitsInStock += parseInt(_this.increase);
+					}
+					else _this.details.UnitsInStock -= parseInt(_this.increase);
+				},
+				shelf: function () {
+					let _this = this;
+					_this.details.Status = (_this._checked) ? 'p1' : 'p0';
+				},
+				uploadFile: function () {
+					var _this = this;
+					var formData = new FormData();
+					formData.append('Picture', _this.picture);
+					formData.append('ProductId', _this.details.ProductId);
+					formData.append('Description', _this.pictureText);
+					axios.post(`${baseAddress}/Products/UploadPicture`, formData).then(response => {
+						alert(response.data.Message);
+					});
+				},
+				selectedFile: function (e) {
+					var _this = this;
+					_this.picture = e.target.files[0];
+					_this.preview = URL.createObjectURL(_this.picture);
+				},
+				getPictures: function (productId) {
+					let _this = this;
+					_this._pictures = !_this._pictures;
+					if (_this._pictures) {
+						axios.post(`${baseAddress}/Products/GetPictures/${productId}`).then(response => {
+							_this.Pictures = response.data;
+							_this.Pictures.forEach(item => {
+								item.Path = `${window.location.origin}/productpictures/${item.PictureId}-${item.Path}`;
+							});
+						});
+					}
+				},
+				updatePicture: function (item) {
+					let _this = this;
+					var request = {};
+					_this.stock();
+					request.PictureId = item.PictureId;
+					request.ProductId = item.ProductId;
+					request.Path = item.Path;
+					request.Description = item.Description;
+					var ret = confirm('確定要儲存嗎？');
+					if (ret == true) {
+						axios.post(`${baseAddress}/Products/UpdatePicture/`, request).then(response => {
+							alert(response.data.Message);
+						});
+					}
+					_this._pictures = false;
+				},
+				deletePicture: function (pictureId) {
+					let _this = this;
+					var ret = confirm('確定要刪除嗎？');
+					if (ret == true) {
+						axios.post(`${baseAddress}/Products/DeletePicture/${pictureId}`).then(response => {
+							alert(response.data.Message);
+						});
+					}
+					_this._pictures = false;
+				},
+				getOrders: async function() {
+					let _this = this;
+					_this.closePanels();
+					_this._orders = true;
+					await axios.post(`${baseAddress}/Products/GetOrders/${_this.loginAccount}/`).then(response => {
+						_this.Orders = response.data.Orders;
+						_this.OrderDetails = response.data.OrderDetails;
+						_this.OrderDetails.forEach(o => {
+							var Total = {};
+							Total.NTD = 0;
+							Total.USD = 0;
+							o.Product.forEach(p => {
+								if (p.Currency == 'NTD') {
+									Total.NTD += ((p.Discount != null) ? (p.UnitPrice * p.Quantity * p.Discount) : (p.UnitPrice * p.Quantity));
+								}
+								if (p.Currency == 'USD') {
+									Total.USD += ((p.Discount != null) ? (p.UnitPrice * p.Quantity * p.Discount) : (p.UnitPrice * p.Quantity));
+								}
+							});
+							_this.OrderSum.push(Total);
+						});
+					});					
+				},
+				editOrders: function(orderId, index) {
+					let _this = this;
+					_this.OrderInfo = [];
+					_this.Checked = [];
+					_this.Orders.forEach(item => {
+						if(item.OrderId == orderId) {
+							_this.OrderInfo.push(item);
+						}
+					});
+					_this.OrderDetails.forEach(item => {
+						if(item.OrderId == orderId){
+							_this.OrderInfo.push(item);
+							_this.OrderInfo[1].Product.forEach(p => {
+								if (p.Status == 'od1') _this.Checked.push(false);
+								if (p.Status == 'od2') _this.Checked.push(true);
+								if ((p.Status != 'od1') && (p.Status != 'od2')) _this.Checked.push(null);
+							});
+						}
+					});
+					_this.OrderInfo.push(_this.OrderSum[index]);
+					_this.closePanels();
+					_this._orderDetails = true;
+				},
+				updateOrders: function(orderId) {
+					let _this = this;
+					var ret = confirm('確定更新出貨狀態嗎？');
+					if (ret == true) {
+						var request = {};
+						request.OrderId = orderId;
+						request.ProductId = [];
+						if(_this.Checked.length != 0){
+							for(var i = 0; i < _this.Checked.length; i++) {
+								if ((_this.Checked[i] == true) && (_this.OrderInfo[1].Product[i].Status == 'od1')){
+									request.ProductId.push(_this.OrderInfo[1].Product[i].ProductId);
+								}
+							}
+							if(request.ProductId.length != 0){
+								axios.post(`${baseAddress}/Products/UpdateOrderStatus`, request).then(response => {
+									alert(response.data.Message);
+								});
+							}
+							else alert('請先更新商品狀態');
+						}
+						else alert('訂單中沒有商品');
+						_this.getOrders();
+					}
+				},
+				cancelOrderDetails: function() {
+					let _this = this;
+					_this.closePanels();
+					_this._orders = true; 
+				},
+				getProduct: function(productId) {
+					let _this = this;
+					_this.closePanels();
+					axios.get(`${baseAddress}/Products/GetProduct/${productId}`).then(response => {
+						_this.details = response.data;
+					});
+					_this._productDetails = true;
+				},
+				getRatings: async function() {
+					let _this = this;
+					_this.closePanels();
+					_this._ratings = true;
+					await axios.post(`${baseAddress}/Products/GetRatings`).then(response => {
+						_this.Ratings = response.data.Ratings;
+						_this.Orders = response.data.Orders;
+						_this.OrderDetails = response.data.OrderDetails;
+						_this.OrderDetails.forEach(o => {
+							var Total = {};
+							Total.NTD = 0;
+							Total.USD = 0;
+							o.Product.forEach(p => {
+								if (p.Currency == 'NTD') {
+									Total.NTD += ((p.Discount != null) ? (p.UnitPrice * p.Quantity * p.Discount) : (p.UnitPrice * p.Quantity));
+								}
+								if (p.Currency == 'USD') {
+									Total.USD += ((p.Discount != null) ? (p.UnitPrice * p.Quantity * p.Discount) : (p.UnitPrice * p.Quantity));
+								}
+							});
+							_this.OrderSum.push(Total);
+						});
+					});
+				},
+				editReply: function(rx,px) {
+					let _this = this;
+					_this.RatingDetails = [];
+					_this.RatingDetails.push(_this.Ratings[rx].Product[px]);
+					_this.RatingDetails.push(_this.Orders[rx]);
+					_this.RatingDetails.push(_this.OrderDetails[rx].Product[px])
+					_this.closePanels();
+					_this._ratingDetails = true;
+				},
+				cancelRatingDetails: function() {
+					let _this = this;
+					_this.closePanels();
+					_this._ratings = true;
+				},
+				replyBuyers: function() {
+					let _this = this;
+					if (_this.RatingDetails[0].Status == r0){
+						if(_this.reply != ''){
+							var request = {};
+							request.ProductId = _this.RatingDetails[0].ProductId;
+							request.OrderId = _this.RatingDetails[0].OrderId;
+							request.Reply = _this.reply;
+							axios.post(`${baseAddress}/Products/ReplyBuyer`, request).then(response => {
+								alert(response.data.Message);
+							});
+						}
+						else alert('無回應內容');
+					}
+					else alert('已回應買家評價');					
+				}
+			}
+		};
+		var app = Vue.createApp(vueApp).mount('#app');
+	</script>
+	<!-- Control Center for Soft Dashboard: parallax effects, scripts for the example pages etc -->
+	<script src="~/assets/js/argon-dashboard.min.js?v=2.0.4"></script>
+</body>
+
+</html>
