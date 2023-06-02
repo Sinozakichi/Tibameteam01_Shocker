@@ -4,6 +4,31 @@
 
 <div id="app" class="container">
 	<div class="form-group">
+		<nav class="navbar navbar-expand-lg navbar-light bg-light">
+			<span class="navbar-brand" style="color:blue">您的訂單</span>
+			<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+				<span class="navbar-toggler-icon"></span>
+			</button>
+			<div class="collapse navbar-collapse" id="navbarNav">
+				<ul class="nav nav-tabs justify-content-center">					
+					<li class="nav-item">
+						<a class="nav-link" href="#" @@click="filterStatus('o1')">未出貨</a>
+					</li>
+					<li class="nav-item">
+						<a class="nav-link" href="#" @@click="filterStatus('o2')">未完全收貨</a>
+					</li>
+					<li class="nav-item">
+						<a class="nav-link" href="#" @@click="filterStatus('o3')">已收貨</a>
+					</li>
+					<li class="nav-item">
+						<a class="nav-link" href="#" @@click="filterStatus('o4')">含退貨</a>
+					</li>
+					<li class="nav-item">
+						<a class="nav-link" href="#" @@click="filterStatus('o5')">已取消</a>
+					</li>
+				</ul>
+			</div>
+		</nav>
 		<table class="table table-hover table table-striped">
 			<thead>
 				<tr>
@@ -15,12 +40,11 @@
 				</tr>
 			</thead>
 			<tbody>
-				<tr v-for="(item,index) in Orders">
-					<td scope="row">
-						<!-- Button trigger modal -->
+				<tr v-for="(item,index) in ordersInPage">
+					<td scope="row">					
 						<a button type="button" class="btn btn-outline-primary" :href="'/User/UserOrderDetails?id='+item.orderId">訂單詳情頁面</a>										
 					</td>
-					<td>{{item.productName.join(',')}}</td>					
+					<td>{{item.productName.length>3?item.productName.slice(0,3).join(',')+'...':item.productName.join(',')}}</td>
 					<td>{{item.statusName}}
 						<template v-if="item.statusName=='未出貨'">
 							<button type="button" class="btn btn-outline-danger" data-toggle="modal" data-target="#cancelordersModal" @@click="cancel(item.orderId)">取消訂單</button>
@@ -51,22 +75,56 @@
 			</tbody>
 		</table>		
 	</div>
+	<div class="row justify-content-center">
+		<paginate :page-count="pageCount"
+				  :click-handler="changePage"
+				  :prev-text="'Prev'"
+				  :next-text="'Next'"
+				  :page-class="'page-item'"
+				  :page-link-class="'page-link'"
+				  :prev-class="'page-item'"
+				  :prev-link-class="'page-link'"
+				  :next-class="'page-item'"
+				  :next-link-class="'page-link'"
+				  :container-class="'pagination justify-content-center'">
+		</paginate>
+	</div>
 </div>
 
 <script src="https://cdn.jsdelivr.net/npm/vue@2.7.14"></script>
+<script src="https://unpkg.com/vuejs-paginate@0.9.0"></script>
 <script src="~/axios/axios.min.js"></script>
 <script>
-	var baseAddress = "https://localhost:7033/User";
+	Vue.component('paginate', VuejsPaginate)
+	var baseAddress = "https://localhost:7259/User";
 	var Vue = new Vue({
 		el: '#app',
 		data: {
 			Orders: [],
 			totalPrice:[],
 			orderId:"",
-			productName:[]
+			status:"o1",
+			productName:[],
+			maxCount:10,
+			currentPage:1
 		},
 		mounted: function () {
 			this.getOrders();
+		},
+		computed:{
+			pageCount:function(){
+				return Math.ceil(this.Orders/this.maxCount);
+			},
+			filterOrders: function () {
+				return this.Orders.filter(o => o.status == this.status);
+			},
+			ordersInPage: function() {
+				var max = this.currentPage * this.maxCount;
+				var min = this.maxCount * (this.currentPage - 1) + 1;
+				console.log('max', max);
+				console.log('min', min);
+				return this.filterOrders.slice(min - 1, max);
+			},
 		},
 		methods:{
 			getOrders:function(){
@@ -102,7 +160,14 @@
 					alert('取消訂單成功');
 					this.getOrders();
 				});			
-			},			
+			},	
+			changePage:function(page){
+				console.log(page);
+				this.currentPage=page;
+			},
+			filterStatus:function(status){
+				this.status=status
+			}
 		} 
 	});
 </script>						

@@ -17,7 +17,7 @@ namespace Shocker.Controllers
 			_environment = environment;
 			_configuration = configuration;
 		}
-		string loginAccount = "User2";
+		private readonly string loginAccount = "User2";
 		public IActionResult Index()
 		{
 			return View();
@@ -31,7 +31,7 @@ namespace Shocker.Controllers
 			var r = _context.Ratings.AsNoTracking().Where(r => r.Product.SellerAccount == id);
 			var info = _context.Users.AsNoTracking().Where(u => u.Id == id)
 					   .Select(u => new {
-						   AboutSeller = u.AboutSeller,
+						   u.AboutSeller,
 						   p0 = p.Count(p => p.Status == "p0"),
 						   p1 = p.Count(p => p.Status == "p1"),
 						   od1 = od.Count(od => od.Status == "od1"),
@@ -70,7 +70,7 @@ namespace Shocker.Controllers
 		public JsonResult GetProducts()
 		{
 			var product = from p in _context.Products
-						  //where p.SellerAccount == loginAccount
+						  where p.SellerAccount == loginAccount
 						  select new Products
 						  {
 							  ProductId = p.ProductId,
@@ -93,17 +93,17 @@ namespace Shocker.Controllers
 			var product = _context.Products.Where(p => p.ProductId == id)
 			.Select(p => new
 			{
-				ProductId = p.ProductId,
-				SellerAccount = p.SellerAccount,
-				LaunchDate = p.LaunchDate,
-				ProductName = p.ProductName,
+				p.ProductId,
+				p.SellerAccount,
+				p.LaunchDate,
+				p.ProductName,
 				ProductCategory = p.ProductCategory.CategoryName,
-				Description = p.Description,
-				UnitsInStock = p.UnitsInStock,
-				Sales = p.Sales,
-				UnitPrice = p.UnitPrice,
-				Status = p.Status,
-				Currency = p.Currency
+				p.Description,
+				p.UnitsInStock,
+				p.Sales,
+				p.UnitPrice,
+				p.Status,
+				p.Currency
 			});			
 			return Json(product);
 		}
@@ -112,13 +112,13 @@ namespace Shocker.Controllers
 		public JsonResult Filter([FromBody] ProductsViewModel product)
 		{
 			var query = _context.Products.Where(p =>
-				//p.SellerAccount == loginAccount && (
+				p.SellerAccount == loginAccount && (
 				p.ProductId == product.ProductId ||
 				p.ProductName.Contains(product.ProductName) ||
 				p.Description.Contains(product.Description) ||
 				p.StatusNavigation.StatusName.Contains(product.Status) ||
 				p.ProductCategory.CategoryName.Contains(product.Description)
-				//)
+				)
 				).Select(p => new Products
 				{
 					ProductId = p.ProductId,
@@ -141,18 +141,20 @@ namespace Shocker.Controllers
 		{
 			if (ModelState.IsValid)
 			{
-				Products p = new Products();
-				p.ProductId = 0;
-				p.SellerAccount = product.SellerAccount;
-				p.LaunchDate = DateTime.Now;
-				p.ProductName = product.ProductName;
-				p.ProductCategoryId = product.ProductCategoryId;
-				p.Description = product.Description;
-				p.UnitsInStock = product.UnitsInStock;
-				p.Sales = 0;
-				p.UnitPrice = product.UnitPrice;
-				p.Status = product.Status;
-				p.Currency = product.Currency;
+				Products p = new Products
+				{
+					ProductId = 0,
+					SellerAccount = product.SellerAccount,
+					LaunchDate = DateTime.Now,
+					ProductName = product.ProductName,
+					ProductCategoryId = product.ProductCategoryId,
+					Description = product.Description,
+					UnitsInStock = product.UnitsInStock,
+					Sales = 0,
+					UnitPrice = product.UnitPrice,
+					Status = product.Status,
+					Currency = product.Currency
+				};
 				_context.Products.Add(p);
 				await _context.SaveChangesAsync();
 				return Json(new { Result = "OK", Record = product });
@@ -223,10 +225,10 @@ namespace Shocker.Controllers
 						  where p.ProductId == id
 						  select new
 						  {
-							  PictureId = p.PictureId,
-							  ProductId = p.ProductId,
-							  Path = p.Path,
-							  Description = p.Description
+							  p.PictureId,
+							  p.ProductId,
+							  p.Path,
+							  p.Description
 						  };
 			return Json(picture);
 		}
@@ -323,14 +325,14 @@ namespace Shocker.Controllers
 		{
 			var orders = _context.Orders.Where(o => o.OrderDetails.Any(od => od.Product.SellerAccount == id)).Select(o => new
 			{
-				OrderId = o.OrderId,
-				BuyerAccount = o.BuyerAccount,
-				Address = o.Address,
-				OrderDate = o.OrderDate,
-				ArrivalDate = o.ArrivalDate,
-				BuyerPhone = o.BuyerPhone,
-				PayMethod = o.PayMethod,
-				Status = o.Status
+				o.OrderId,
+				o.BuyerAccount,
+				o.Address,
+				o.OrderDate,
+				o.ArrivalDate,
+				o.BuyerPhone,
+				o.PayMethod,
+				o.Status
 			});
 			if (orders == null) return Json(new { Result = "None", Message = "沒有訂單記錄" });
 			var orderDetails = _context.OrderDetails.Where(od => od.Product.SellerAccount == loginAccount)
@@ -338,7 +340,18 @@ namespace Shocker.Controllers
 				{
 					OrderId = order,
 					ProductCount = details.Count(),
-					Product = details.ToList()
+					Product = details.Select(d => new
+					{
+						d.ProductId,
+						d.CouponId,
+						d.Quantity,
+						d.Status,
+						d.ReturnReason,
+						d.ProductName,
+						d.UnitPrice,
+						d.Discount,
+						d.Currency
+					})
 				});
 			return Json(new { Orders = orders, OrderDetails = orderDetails });
 		}
@@ -384,11 +397,11 @@ namespace Shocker.Controllers
 				.Where(o => o.Ratings.Any(r => r.OrderId == o.OrderId))
 				.Select(o => new
 				{
-					OrderId = o.OrderId,
-					BuyerAccount = o.BuyerAccount,
-					OrderDate = o.OrderDate,
-					ArrivalDate = o.ArrivalDate,
-					Status = o.Status
+					o.OrderId,
+					o.BuyerAccount,
+					o.OrderDate,
+					o.ArrivalDate,
+					o.Status
 				});
 			var orderDetails = _context.OrderDetails.Where(od => od.Product.SellerAccount == loginAccount)
 				.Where(od => od.Status == "od6")
@@ -405,7 +418,7 @@ namespace Shocker.Controllers
 			if (ModelState.IsValid)
 			{
 				Ratings? rating = await _context.Ratings.FindAsync(reply.ProductId, reply.OrderId);
-				if (rating == null || rating.Product.SellerAccount != loginAccount)
+				if (rating == null || reply.SellerAccount != loginAccount)
 				{
 					return Json(new { Result = "Error", Message = "評價記錄不存在" });
 				}
