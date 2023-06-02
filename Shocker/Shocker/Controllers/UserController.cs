@@ -129,9 +129,10 @@ namespace Shocker.Controllers
 								buyerAccount = o.BuyerAccount,
 								orderId = o.OrderId,
 								payMethod = o.PayMethod,
+								status = o.Status,
 								quantity = o.OrderDetails.Select(od => od.Quantity).ToList(),
 								productName = o.OrderDetails.Select(od => od.ProductName).ToList(),
-								unitPrice = o.OrderDetails.Select(od => od.UnitPrice).ToList(),
+								unitPrice = o.OrderDetails.Select(od => od.UnitPrice).ToList(),							
 								statusName = o.StatusNavigation.StatusName,
 							};
 			return Json(getorders);
