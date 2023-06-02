@@ -20,11 +20,10 @@ namespace Shocker.Controllers
         string loginAccount = "User2";
         public IActionResult Index()
         {
-            int productId = 10;
-            var products = _context.Products.Where(x => x.ProductId==productId).OrderByDescending(m => m.ProductId);
-            return View(products);
-        }
 
+            return View();
+        }
+        //此頁為產品列表, 按下開始購物後取得產品類別 名稱 單價 賣家 產品敘述 發行日期給產品列表 但還少加了圖片
         public IActionResult Product()
         {
               return View();
@@ -42,21 +41,9 @@ namespace Shocker.Controllers
                                Quantity = x.Quantity
 
                            };
-
-            //var products = _context.Pictures.Select(p =>
-            //                new
-            //                {
-            //                    PictureId= p.PictureId,
-            //                    PicturePath=p.Path,
-            //                    ProductId = p.ProductId,
-            //                    ProductName = p.Product.ProductName,
-            //                    UnitPrice = p.Product.UnitPrice,
-
-            //                }
-            //                );
-
             return Json(products);
         }
+        //取得資料庫購物車內容 顯示到按結帳後出現的畫面 目前沒有新增連結 所以查網頁ShoppingCart/ShoppingCart
         public IActionResult ShoppingCart()
         {
             return View();
@@ -71,21 +58,37 @@ namespace Shocker.Controllers
                     ProductId =p.ProductId,
                     UnitPrice=p.Product.UnitPrice,
                 });
-                //_context.Shopping.Add(d);
-                //await _context.SaveChangesAsync();
-                //return Json(new { Result = "OK", Record = shoppingViewModel });
+
                 return Json(d);
             }
-        //    else
-        //    {
-        //        return Json(new { Result = "Error", Message = "新增失敗" });
-        //    }
-        //}
+   
         string loginaccount = "User2";
-       
-
-
-        public IActionResult/*async Task<JsonResult>*/ AddCar([FromBody] ShoppingViewModel shoppingViewmodel)
+        
+        //(一)想做將商品加入購物車的功能 以下是自己跟延榮寫的 
+        [HttpPost]
+        public async Task<JsonResult> AddCart([FromBody] ShoppingViewModel shopping)
+        {
+            if (ModelState.IsValid)
+            {
+                //if (currentcar == null)
+                //{
+                Shopping s = new Shopping();
+                /*Shopping s = new Shopping()*/
+                s.ProductId = shopping.ProductId;
+                s.Product.ProductName = shopping.ProductName;
+                s.Product.UnitPrice = shopping.UnitPrice;
+                s.Quantity = shopping.Quantity;
+                _context.Shopping.Add(s);
+                await _context.SaveChangesAsync();
+                return Json(new { Result = "OK", Record = shopping });
+            }
+            else
+            {
+                return Json(new { Result = "Error", Message = "新增失敗" });
+            }
+        }
+        //(二)想做將商品加入購物車的功能 以下是書上寫的判斷式
+        public IActionResult AddCar([FromBody] ShoppingViewModel shoppingViewmodel)
         {
             if (ModelState.IsValid)
             {
@@ -111,6 +114,7 @@ namespace Shocker.Controllers
                 return RedirectToAction("ShoppingCart");
             }
         }
+        //將商品從購物車移除
         public IActionResult Delete(int Id)
         {
             var shopping = _context.Shopping.Where(m => m.ProductId == 1).FirstOrDefault();
@@ -119,7 +123,7 @@ namespace Shocker.Controllers
             return RedirectToAction("ShoppingCart");
         }
 
-
+        //按結帳後出現的收件人填寫訂單資料
         [HttpPost]
         //[ValidateAntiForgeryToken]
         public IActionResult Create(OrdersViewModel ordersViewModel)
@@ -137,15 +141,6 @@ namespace Shocker.Controllers
                 order.PayMethod = ordersViewModel.PayMethod;
                 order.Status = "o1";
                 _context.Orders.Add(order);
-                //order.BuyerAccount = "User2";
-                //order.Address = "台中";
-                //order.BuyerPhone = "0933335566";
-                //order.OrderDate = DateTime.Now;
-                //order.PayMethod = "信用卡";
-                //order.Status = "未出貨";
-                //order.ArrivalDate = ;
-                //_context.Orders.Add(order);
-
                 var carList = _context.Orders.Where(m => m.BuyerAccount == UserId)/*.ToList()*/;
 
 
@@ -160,14 +155,7 @@ namespace Shocker.Controllers
         }
 
 
-        //建立訂單主檔列表
-        public IActionResult OrderList()
-        {
-            string UserId = loginaccount;//User.Identity.Name;
-            var orders = _context.Orders.Where(m => m.BuyerAccount == UserId).OrderByDescending(m => m.OrderDate).ToList();
-            //目前會員的訂單主檔OrderList
-            return View(orders);
-        }
+        //確認填寫完收件人訂單資料後要出現訂單明細
         public IActionResult OrderDetails(int OrderId)
         {
             var orderDetails = _context.OrderDetails.Where(m => m.OrderId == OrderId).ToList();
