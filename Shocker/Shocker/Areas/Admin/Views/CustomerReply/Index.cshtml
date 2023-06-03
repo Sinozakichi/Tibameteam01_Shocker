@@ -5,17 +5,25 @@
 @section Styles
     {
     <style>
-        .Replybod {
-            border: 1px solid black;
-            border-radius: 20px;
+        .buttonWidth {
+            width:80%;
+            margin:10px;
         }
 
-        .ReplyMode {
+        .textBorder{
+            border: 1px solid white;
+            border-radius :10px;
+            box-shadow: 0px -1px 0px 8px rgba(93,15,93,0.26);
+            -webkit-box-shadow: 0px -1px 0px 8px rgba(93,15,93,0.26);
+            -moz-box-shadow: 0px -1px 0px 8px rgba(93,15,93,0.26);
+        }
+
+/*        .ReplyMode {
             border: 1px white solid;
             box-shadow: 10px 10px 5px 0px rgba(0,0,0,0.75);
             -webkit-box-shadow: 10px 10px 5px 0px rgba(0,0,0,0.75);
             -moz-box-shadow: 10px 10px 5px 0px rgba(0,0,0,0.75);
-        }
+        }*/
     </style>
 }
 
@@ -75,7 +83,7 @@
                                     @*操作*@
                                     <td class=" text-center">
                                         <span class="text-secondary text-xs font-weight-bold">
-                                            <a class="btn btn-info btn-sm" v-if="item.status=='cc0'" v-on:click="edit(item.caseId)" id="editChange">Edit</a>
+                                            <a class="btn btn-info btn-sm" v-if="item.status=='cc0'" v-on:click="edit(item.caseId)" id="editChange">回覆</a>
                                             <a class="btn btn-success btn-sm" v-if="item.status=='cc1'" v-on:click="edited(item.caseId)" id="editChange">檢視</a>
                                         </span>
                                     </td>
@@ -125,13 +133,16 @@
                                         <p class="text-xs font-weight-bold mb-0">{{isedit.description}}</p>
                                     </td>
                                     <td class="align-middle text-center">
-                                        <textarea v-model="reply" style="resize:none" placeholder="在此輸入回覆內容" rows="10" cols="40"></textarea>
+                                        <textarea v-model="reply" style="resize:none" class="textBorder" placeholder="在此輸入回覆內容" rows="10" cols="40"></textarea>
                                     </td>
                                     <td class="align-middle text-center">
-                                        <span class="text-secondary text-xs font-weight-bold">
-                                            <a class="btn btn-info btn-sm" asp-route-id="id" v-on:click="updateReply">Update</a>
-                                            <a class="btn btn-info btn-sm" asp-route-id="id" v-on:click="backindex()">back</a>
+                                        <span class="text-secondary text-xs font-weight-bold ">
+                                            <a class="btn btn-info btn-sm buttonWidth" v-on:click="updateReply">更新</a>
                                         </span>
+                                        <div class="text-secondary text-xs font-weight-bold ">
+                                            <a class="btn btn-success btn-sm buttonWidth"  v-on:click="backindex()">返回</a>
+                                        </div>
+                                        
                                     </td>
                                 </tr>
                             </tbody>
@@ -234,14 +245,14 @@
                     ccvm.CaseId = _this.isedit.caseId
                     ccvm.AdminAccount = _this.account;
                     ccvm.Reply = _this.reply;
-
                     axios.post(`${window.location.origin}/Admin/CustomerReply/ReplyQA`, ccvm)
-                        .then(response => { alert(response.data.Message) })
-                        alert("回復成功");
+                        .then(response => {
+                            if (response.data.message != "建立成功") { _this.nosweetAlert(response.data.message) }
+                            else { _this.sweetAlert(response.data.message)}})
                     //.catch(Error err)
-                    window.location.replace(location.href);  /*更新本畫面*/
-
-
+                            
+                            
+                  
                 },
                 qAfilter: function () {
                     var _this = this;
@@ -259,7 +270,6 @@
                     _this.qA.forEach(item => {
                         if (item.caseId == caseId) {
                             _this.isedit = item;
-                            alert(item.description)
                         };
                     })
                 },
@@ -278,10 +288,30 @@
                     _this.qA.forEach(item => {
                         if (item.caseId == caseId) {
                             _this.isedit = item;
-                            alert(item.description)
                         };
                     })
                 },
+                sweetAlert:function(input){
+                    Swal.fire({
+                        title:'送出成功',
+                        text:input,
+                        icon:'success',
+                        timer:3000,
+                        confirmButtonText: '完成'
+
+                    }).then((result) =>window.location.replace(window.location.href))
+                },
+                nosweetAlert: function (input) {
+                    Swal.fire({
+                        title: '錯誤',
+                        text:input,
+                        icon: 'error',
+                        timer:3000,
+                        confirmButtonText:'完成'
+                    }).then((result) => window.location.replace(window.location.href))
+                },
+                
+                
             }
         };
         var app = Vue.createApp(VueApp).mount('#app');

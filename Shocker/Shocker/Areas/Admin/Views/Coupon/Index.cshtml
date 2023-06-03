@@ -1,6 +1,8 @@
-﻿@{
-    ViewData["Title"] = "折價券";
+﻿@model Shocker.Areas.Admin.Models.ViewModels.CreateCouponsViewModel
+@{
+    ViewData["Title"] = "優惠券";
     Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+    
 }
 @section Styles
 {
@@ -11,7 +13,7 @@
     </style>
 }
 <div class="container-fluid py-4" id="app">
-    <h1 class="text-black">折價券</h1>
+    <h1 class="text-black">優惠券</h1>
     <div class="container-fluid py-4">
         @*table*@
         <div class="row" v-if="tableControl">
@@ -19,14 +21,18 @@
                 <div class="card mb-4">
                     <div class="card-header pb-0">
                         <h3>Coupons</h3>
-                        <div class="row" style="width:40%; margin-left:auto; margin-right:20px;">
-                            <span class="text-secondary text-xs font-weight-bold">
-                                <a class="btn btn-info btn-sm" v-on:click="viewChange" id="createCoupon">CreateCoupns</a>
-                            </span>
-                            <label id="filterkeyword" class="col-md-4">關鍵字:</label>
-                            <input type="text" v-model="filter" v-on:keyup="couponSerch" class="col-md-8 form-control" placeholder="請輸入關鍵字內容" />
+                        <div class="row">
+                            <div class="col-4">
+                                <a class="btn btn-info btn-sm" v-on:click="viewChange" id="createCoupon" style="width:100%">創建優惠券</a>
+                            </div>
+                            <div class="col-3"></div>
+                            <div class="col-5 d-flex justify-content-end align-items-center" >
+                                <label style="width:30%" class="">Search:</label>
+                                <input type="text" v-model="filter" v-on:keyup="couponSerch" class="form-control " placeholder="請輸入關鍵字內容" />
+                            </div>
                         </div>
                     </div>
+
                     <div class="card-body px-0 pt-0 pb-2">
                         <div class="table-responsive p-0">
                             <table class="table align-items-center mb-0">
@@ -106,7 +112,8 @@
                                 @*折價券張數*@
                                 <div class="form-group">
                                     <label for="example-text-input" class="form-control-label">張數</label>
-                                    <input v-model="cAmount" class="form-control" type="text" value="Jesse" onfocus="focused(this)" onfocusout="defocused(this)">
+                                    <input v-model="cAmount" class="form-control" type="text" value="Jesse">
+                                    <span asp-validation-for="Amount" class="text-danger"></span>
                                     @*//Status選擇*@
                                     @*                                    <label for="example-text-input" class="form-control-label">Status</label>
                                     <select v-model="cStatus" class="form-select" >
@@ -137,14 +144,14 @@
                                 @*//Discount*@
                                 <div class="form-group">
                                     <label for="example-text-input" class="form-control-label">Discount</label>
-                                    <input v-model="cDiscount" class="form-control" type="text" value="Jesse" onfocus="focused(this)" onfocusout="defocused(this)">
+                                    <input v-model="cDiscount" class="form-control" type="text" value="Jesse" >
                                 </div>
                             </div>
                             <div class="col-md-6">
                                 @*//到期日*@
                                 <div class="form-group">
                                     <label for="example-text-input" class="form-control-label">到期日</label>
-                                    <input v-model="cExpirationDate" class="form-control" type="date" onfocus="focused(this)" onfocusout="defocused(this)">
+                                    <input v-model="cExpirationDate" class="form-control" type="date" >
                                 </div>
                             </div>
                         </div>
@@ -155,7 +162,7 @@
                                 @*//收件帳號*@
                                 <div class="form-group">
                                     <label for="example-text-input" class="form-control-label">Account</label>
-                                    <input v-model="cHolderAccount" class="form-control" type="text" value="Bld Mihail Kogalniceanu, nr. 8 Bl 1, Sc 1, Ap 09" onfocus="focused(this)" onfocusout="defocused(this)">
+                                    <input v-model="cHolderAccount" class="form-control" type="text" value="Bld Mihail Kogalniceanu, nr. 8 Bl 1, Sc 1, Ap 09" >
                                 </div>
                             </div>
                             @*                        <div class="col-md-4">
@@ -210,6 +217,7 @@
                     tableControl: true,
                     couponControl: false,
                     filter: '',
+                    errormessage:[],
                 };
             },
             mounted: function () {
@@ -222,22 +230,23 @@
                     axios.post(`${window.location.origin}/Admin/Coupon/DisaplayCoupon`)
                         .then(res => { _this.displayCp = res.data })
                 },
-                createCoupon: function () { //要做張數迴圈
+                createCoupon: function () { 
                     var _this = this;
                     input = {};
                     input.Amount = _this.cAmount;
                     input.ExpirationDate = _this.cExpirationDate;
                     input.HolderAccount = _this.cHolderAccount;
-                    input.ProductCategoryId = _this.cProductCategoryId;
-                    input.Discount = _this.cDiscount;
+                    input.ProductCategoryId = parseInt(_this.cProductCategoryId);
+                    input.Discount = parseFloat(_this.cDiscount);
                     input.PublisherAccount = _this.cPublisherAccount;
                     axios.post(`${window.location.origin}/Admin/Coupon/CreateCoupon`, input)
-                        .then(res => {
-                            alert(res.data);
-                            alert("折價券建立成功");})
-                        //}).catch(error => {
-                        //    console.log(error.res.data)
-                        //})
+                        .then(response => {
+                            if (response.data.message != "回復成功") { _this.nosweetAlert(response.data.message) }
+                            else { _this.sweetAlert(response.data.message) }
+                        })
+                             .catch(error => {
+                            console.log(_this.errormessage = error.response.data.error)
+                        })
 
                     //window.location.replace(location.href);
                 },
@@ -253,13 +262,32 @@
                     var _this = this;
                     _this.tableControl = false;
                     _this.couponControl = true;
-                }
                 },
                 backToTable:function(){
                     var _this = this;
                     _this.tableControl = true;
                     _this.couponControl = false;
                 },
+                sweetAlert: function (input) {
+                    Swal.fire({
+                        title: '送出成功',
+                        text: input,
+                        icon: 'success',
+                        timer: 6000,
+                        confirmButtonText: '完成'
+
+                    }).then((result) => window.location.replace(window.location.href))
+                },
+                nosweetAlert: function (input) {
+                    Swal.fire({
+                        title: '錯誤',
+                        text: input,
+                        icon: 'error',
+                        timer: 6000,
+                        confirmButtonText: '完成'
+                    })
+                },
+        },
         }
         var app = Vue.createApp(VueApp).mount("#app");
 

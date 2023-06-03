@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.IdentityModel.Tokens;
 using Shocker.Areas.Admin.Models.ViewModels;
 using Shocker.Models;
 
@@ -49,7 +50,9 @@ namespace Shocker.Areas.Admin.Controllers
         [HttpPost]
         public async Task<JsonResult> ReplyQA([FromBody] ClientCaseViewModels ccvm)
         {
-            if (ModelState.IsValid)
+            if (ccvm.Reply.IsNullOrEmpty()) { return Json(new { Message = "不可回復空白" }); }
+
+            if (ccvm!=null && ModelState.IsValid)
             {
                 ClientCases cc = await _context.ClientCases.FindAsync(ccvm.CaseId);
                 if (cc == null)
@@ -69,7 +72,7 @@ namespace Shocker.Areas.Admin.Controllers
                 cc.CloseDate = DateTime.Now;
                 _context.Update(cc);
                 await _context.SaveChangesAsync();
-                return Json(new { Message = "回復完畢" });
+                return Json(new { Message = "回復成功" });
             }
             else
             {
@@ -86,10 +89,6 @@ namespace Shocker.Areas.Admin.Controllers
                 c.QuestionCategory.CategoryName.Contains(ccf.CategoryName) ||
                 c.AdminAccountNavigation.Email.Contains(ccf.Email) ||
                 c.StatusNavigation.StatusName.Contains(ccf.StatusName)
-
-
-
-
                 ).Select(c => new
                 {
                     CaseId = c.CaseId,

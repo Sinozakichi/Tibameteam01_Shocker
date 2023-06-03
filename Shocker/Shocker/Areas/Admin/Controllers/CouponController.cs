@@ -33,62 +33,61 @@ namespace Shocker.Areas.Admin.Controllers
             return Json(DC);
         }
         [HttpPost]
-        public async Task<IActionResult> CreateCoupon([FromBody] CreateCouponsViewModel cvm)
+        public IActionResult CreateCoupon([FromBody] CreateCouponsViewModel cvm)
         {
-            if (ModelState.IsValid)
+            if (cvm!=null && ModelState.IsValid)
             {
-                for (var i = 1; i <= cvm.Amount; i++)
+                try
                 {
-                    Coupons coupons = new Coupons()
+                    for (var i = 1; i <= cvm.Amount; i++)
                     {
-                        //CouponId = 0,
-                        ExpirationDate = cvm.ExpirationDate,
-                        HolderAccount = cvm.HolderAccount,
-                        ProductCategoryId = cvm.ProductCategoryId,
-                        Discount = cvm.Discount,
-                        Status = "c0",
-                        PublisherAccount = cvm.PublisherAccount,
+                        Coupons coupons = new Coupons()
+                        {
+                            //CouponId = 0,
+                            ExpirationDate = cvm.ExpirationDate,
+                            HolderAccount = cvm.HolderAccount,
+                            ProductCategoryId = cvm.ProductCategoryId,
+                            Discount = cvm.Discount,
+                            Status = "c0",
+                            PublisherAccount = cvm.PublisherAccount,
+                        };
+                        _context.Coupons.Add(coupons);
+                        _context.SaveChanges();
 
                     };
-                    try
-                    {
-                        _context.Coupons.Add(coupons);
-                        await _context.SaveChangesAsync();
-                    }
-
-                    catch (Exception)
-                    {
-                        return BadRequest("錯誤");
-                    }
+                    return Json(new { message = "建立成功" });
                 }
-                return Json(new { Message = "成功傳入資料庫" });
+
+                catch (Exception ex)
+                {
+                    return Json(new { Error = ex.Message });
+                }
             }
-
-            else { return Json(new { Message = "未傳至後端" }); }
-
+            return Json(new {Message="格式錯誤"});
         }
-        [HttpPost]
-        public JsonResult FilterCoupon([FromBody] CouponsViewModels cvm)
-        {
+            
+            [HttpPost]
+    public JsonResult FilterCoupon([FromBody] CouponsViewModels cvm)
+    {
 
-            return Json(_context.Coupons.Where(x =>
-                      x.HolderAccount.Contains(cvm.HolderAccount) ||
-                      x.Discount == cvm.Discount ||
-                      x.StatusNavigation.StatusName.Contains(cvm.StatusName) ||
-                      x.ProductCategory.CategoryName.Contains(cvm.CategoryName)
-                      ).Select(c => new
-                      {
-                          PublisherAccount = c.PublisherAccount,
-                          HolderAccount = c.HolderAccount,
-                          ProductCategoryId = c.ProductCategoryId,
-                          Discount = c.Discount,
-                          StatusName = c.StatusNavigation.StatusName,
-                          CategoryName = c.ProductCategory.CategoryName,
-                          ExpirationDate = c.ExpirationDate,
-                          Status = c.Status,
-                      }
-                ));
+        return Json(_context.Coupons.Where(x =>
+                  x.HolderAccount.Contains(cvm.HolderAccount) ||
+                  x.Discount == cvm.Discount ||
+                  x.StatusNavigation.StatusName.Contains(cvm.StatusName) ||
+                  x.ProductCategory.CategoryName.Contains(cvm.CategoryName)
+                  ).Select(c => new
+                  {
+                      PublisherAccount = c.PublisherAccount,
+                      HolderAccount = c.HolderAccount,
+                      ProductCategoryId = c.ProductCategoryId,
+                      Discount = c.Discount,
+                      StatusName = c.StatusNavigation.StatusName,
+                      CategoryName = c.ProductCategory.CategoryName,
+                      ExpirationDate = c.ExpirationDate,
+                      Status = c.Status,
+                  }
+            ));
 
-        }
     }
+}
 }

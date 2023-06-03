@@ -21,7 +21,7 @@ namespace Shocker.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Index( CustomerQAViewModel cqavm)
         {
-            if (ModelState.IsValid)
+            if (cqavm!=null && ModelState.IsValid)
             {
                 ClientCases clientCases = new ClientCases()
                 {
