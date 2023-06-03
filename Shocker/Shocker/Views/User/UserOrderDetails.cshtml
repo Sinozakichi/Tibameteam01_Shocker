@@ -234,13 +234,19 @@
 				</div>
 			</div>
 			
-			<div class="col-lg-6">
+			<div class="col">
 				<div class="shoping__checkout">
 					<h5 class="text-center">結算</h5>
 					<ul v-for="(productName, index) in item.productId">
-						<li>{{item.productName[index]}} <span>{{totalPrice[index]}}</span></li>
+						<li>{{item.productName[index]}} 							
+							<span>{{totalPrice[index]}}</span>
+						</li>
 					</ul>
-					<ul class="text-left">Total: <span class="text-right totalsumprice">{{totalSumPrice}}</span></ul>
+					@*<span class="text-left">總和:</span><ul class="totalsumprice" style="text-align: right">{{totalSumPrice}}</ul>*@
+					<div class="row">
+						<div class="col text-left">總和:</div>
+						<div class="col text-right" style="color:red">{{totalSumPrice}}</div>
+					</div>
 				</div>
 			</div>
 		</div>
