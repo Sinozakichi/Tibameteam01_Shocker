@@ -1,38 +1,190 @@
-﻿
-
-<h2>購物車清單</h2>
-
-
-<div id="app" class="container">
-@*    <button @@click="update(null)">Update</button>
-    <button @@click="edit(1)">Edit</button>
-    <button @@click="cancel(null)">Cancel</button>*@
-    <div class="form-group">
-        <table class="table table-striped table-hover">
-            <thead>
-                <tr>
-                    <th>產品名稱</th>
-                    <th>單價</th>
-                    <th>數量</th>
-                    <th>總計</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr v-for="item in Shoppings">
-@*                    <template v-if="item.edit==true"></template>*@
-                    <td>{{item.ProductName}}</td>
-                    <td>{{item.UnitPrice}}</td>
-                    <td>{{item.Quantity}}</td>
-                    <td>{{item.UnitPrice*item.Quantity}}</td>
-                    <td>
-                        <button class="btn btn-warning" @@click="cancel" >刪除</button>
-                        <button class="btn btn-primary" @@click="update(item)">新增數量</button>
-                    </td>
-                </tr>
-            </tbody>
-        </table>
+﻿<!-- Breadcrumb Section Begin -->
+<section class="breadcrumb-section set-bg" data-setbg="/img/breadcrumb.jpg">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12 text-center">
+                <div class="breadcrumb__text">
+                    <h2>購物車</h2>
+                    <div class="breadcrumb__option">
+                        <a asp-controller="Home" asp-action="Index">首頁</a>
+                        <span>購物車</span>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
+</section>
+<!-- Breadcrumb Section End -->
+<!-- Shoping Cart Section Begin -->
+<div id="app">
+<section v-if="this._shoppingCart" class="shoping-cart spad">
+    <div class="container">
+        <div class="btn-group" role="group">
+            <button v-for="(cart,cx) in shoppingCart" type="button" class="btn btn-outline-secondary" @@click="showCart(cx)">{{cart.sellerAccount}}</button>
+        </div>
+    </div>
+    <div v-for="(cart,cx) in shoppingCart">
+        <div v-if="show[cx]" class="container spad">
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="shoping__cart__table">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>#</th>
+                                    <th class="shoping__product">商品</th>
+                                    <th>優惠券</th>
+                                    <th>單價</th>
+                                    <th>數量</th>
+                                    <th>小計</th>
+                                    <th></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr v-for="(product,px) in shoppingCart[cx].products">
+                                    <td class="shoping__cart__price">
+                                        {{product.productId}}
+                                    </td>
+                                    <td class="shoping__cart__item">
+                                        <img :src="path[cx][px]" style="width:100px;">
+                                        <h5>{{product.productName}}</h5><br>
+                                        <p>{{product.categoryName}}</p>
+                                    </td>
+                                    <td class="shoping__cart__item text-center">
+                                        <select v-model="discount[cx][px]" class="col-12">
+                                            <option value="1">選擇優惠券</option>
+                                            <option v-for="item in coupons[product.categoryId]" :value="item.discount">
+                                                #{{item.couponId}}&nbsp;&nbsp;類型：{{item.categoryName}}&nbsp;&nbsp;/&nbsp;&nbsp;折扣：×{{item.discount}}
+                                            </option>
+                                        </select>
+                                    </td>
+                                    <td class="shoping__cart__price">
+                                        {{product.currency}}&nbsp;&nbsp;{{product.unitPrice}}
+                                    </td>
+                                    <td class="shoping__cart__quantity">
+                                        <div class="quantity">
+                                            <div class="pro-qty">
+                                                <button class="btn btn-sm" @@click="increase('minus',cx,px)">－</button>
+                                                <input type="text" v-model="product.quantity">
+                                                <button class="btn btn-sm" @@click="increase('plus',cx,px)">＋</button>
+                                                <p>庫存&nbsp;{{product.unitsInStock}}</p>
+                                            </div>
+                                        </div>
+                                    </td>  
+                                    <td class="shoping__cart__total">
+                                        {{product.currency}}&nbsp;&nbsp;{{add[cx][px] = product.unitPrice * product.quantity * discount[cx][px]}}
+                                    </td>
+                                    <td class="shoping__cart__item__close">
+                                        <span class="icon_close" @@click="deleteItem(product.productId)"></span>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="shoping__cart__btns">
+                        <a href="#" class="primary-btn cart-btn">繼續選購</a>
+                        <a href="#" class="primary-btn cart-btn cart-btn-right" @@click="updateShoppingCart(cx)">
+                            <span class="icon_loading"></span>
+                            儲存商品數量
+                        </a>
+                    </div>
+                </div>
+                <div class="col-lg-6"></div>
+                <div class="col-lg-6">
+                    <div class="shoping__checkout">
+                        <h5>您向賣家{{cart.sellerAccount}}選購</h5>
+                        <ul>
+                            <li>商品數量 <span>{{cart.productCount}}</span></li>
+                            <li>總計 <span>{{shoppingCart[cx].products[0].currency}}&nbsp;&nbsp;{{getTotal(add[cx],shoppingCart[cx].products.length)}}</span></li>
+                        </ul>
+                        <a href="#" class="primary-btn" @@click="checkout(this.loginAccount)">結帳</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<section v-if="!this._shoppingCart" class="checkout spad">
+    <div class="container">        
+        <div class="checkout__form">
+            <h4>填寫訂單收件人資料</h4>
+            <form action="#">
+                <div v-for="info in userInfo" class="row">
+                    <div class="col-lg-8 col-md-6">
+                        <div class="row">
+                            <div class="col-lg-6">
+                                <div class="checkout__input">
+                                    <p>收件人</p>
+                                    <input type="text" :value="info.nickName">
+                                </div>
+                            </div>
+                            <div class="col-lg-6">
+                                <div class="checkout__input">
+                                    <p>買家帳號</p>
+                                    <input type="text" :value="info.id" disabled>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-lg-6">
+                                <div class="checkout__input">
+                                    <p>電話</p>
+                                    <input type="text" :value="info.phone" disabled>
+                                </div>
+                            </div>
+                            <div class="col-lg-6">
+                                <div class="checkout__input">
+                                    <p>Email</p>
+                                    <input type="text" :value="info.email" disabled>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="checkout__input">
+                            <p>收件地址</p>
+                            <select type="text" class="col-12">
+                                <option v-for="address in info.addresses" :value="address"></option>
+                            </select>
+                            <p>其他地址</p>
+                            <input type="text" >
+                        </div>
+                    </div>
+                    <div class="col-lg-4 col-md-6">
+                        <div class="checkout__order">
+                            <h4>訂單</h4>
+                            <div class="checkout__order__products">商品 <span>小計</span></div>
+                            <ul>
+                                <li v-for="">{{}} <span>{{}}&nbsp;{{}}</span></li>
+                            </ul>
+                                <div class="checkout__order__total">總計 <span>{{}}&nbsp;{{}}</span></div>
+                                <div class="checkout__input__checkbox">
+                                <label for="onArrival">
+                                    貨到付款
+                                    <input type="checkbox" id="onArrival">
+                                    <span class="checkmark"></span>
+                                </label>
+                            </div>
+                            <div class="checkout__input__checkbox">
+                                <label for="creditCard">
+                                    信用卡
+                                    <input type="checkbox" id="creditCard">
+                                    <span class="checkmark"></span>
+                                </label>
+                            </div>
+                            <button type="submit" class="site-btn" @@click="createOrder">確認訂購</button>
+                            <button type="submit" class="site-btn" @@click="checkout">回上頁</button>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</section>
 </div>
+<!-- Shoping Cart Section End -->
 
 <script src="~/lib/vue/vue.global.prod.js"></script>
 <script src="~/lib/axios/axios.min.js"></script>
@@ -42,96 +194,133 @@
     var vueApp = {
         data() {
             return {
-                shoppings: [],
-                total: []
+                loginAccount: 'User2',
+                _shoppingCart: true,
+                shoppingCart: [],
+                coupons: {},
+                total: [],
+                discount: [],
+                add: [],
+                path: [],
+                show: [],
+                userInfo: [],
+                newOrder: []
             }
         },
         mounted: function () {
             let _this = this;
-            _this.getShoppings();
+            _this.getShoppingCart(0);
+            _this._shoppingCart = true;
         },
         methods: {
-            getShoppings: async function () {
+            showCart: function(index) {
                 let _this = this;
-                //_this.stock();
-                   await axios.post(`${baseAddress}/ShoppingCart/GetShopping`).then(response =>     {
-                        _this.Shoppings=response.data;
-                    }
-                   )
-            }
-        }
-    };
-    var app = Vue.createApp(vueApp).mount('#app');
-</script>
-
-<div id="ordercreate" class="container">
-<form action="@Url.Action("Create")" method="post">
-    <div class="form-horizontal">
-        <h4>填寫訂單收件人資料</h4>
-        <hr />
-        <div class="form-group">
-            <span class="control-label col-md-2">帳號名稱</span>
-            <div class="col-md-10">
-            <input v-model="item.BuyerAccount" type="text" id="BuyerAccount" name="BuyerAccount" required="required" class="form-control" />
-            </div>
-        </div>
-        <div class="form-group">
-            <span class="control-label col-md-2">付款方式</span>
-            <div class="col-md-10">
-            <input v-model="item.PayMethod" type="text" id="PayMethod" name="PayMethod" required="required" class="form-control" />
-            </div>
-        </div>
-        <div class="form-group">
-            <span class="control-label col-md-2">收件人地址</span>
-            <div class="col-md-10">
-            <input v-model="item.Address" type="text" id="Address" name="Address" required="required" class="form-control" />
-            </div>
-        </div>
-        <div class="form-group">
-            <span class="control-label col-md-2">收件人電話</span>
-            <div class="col-md-10">
-            <input v-model="item.BuyerPhone" type="text" id="BuyerPhone" name="BuyerPhone" required="required" class="form-control" />
-            </div>
-        </div>
-        <div class="form-group">
-            <div class="col-md-offset-2 col-md-10"></div>
-            <input type="submit" value="確認訂購" class="btn btn-default" />
-        </div>
-        <button v-if="this._create" class="btn btn-primary btn-sm ms-auto" @@click="createSave(details)">儲存新增</button>
-    </div>
-</form>
-</div>
-<script src="~/lib/axios/axios.min.js"></script>
-<script src="~/lib/vue/vue.global.prod.js"></script>
-
-<script>
-    var baseAddress = `${window.location.origin}`
-    var vueApp = {
-        data() {
-            return {
-                Orders: [],
-            }
-        },
-        mounted: function () {
-            let _this = this;
-            _this.createSave();
-        },
-        methods: {
-            createSave:async function (item) {
+                var i = 0;
+                _this.shoppingCart.forEach(c => {
+                    _this.show[i] = false;
+                    i++;
+                });
+                _this.show[index] = true;
+            },
+            getShoppingCart: async function (index) {
+                let _this = this;
+                await axios.get(`${baseAddress}/ShoppingCart/GetShopping`).then(response => {
+                    _this.shoppingCart = response.data.cart;
+                    _this.total = [];
+                    _this.discount = [];
+                    _this.add = [];
+                    _this.path = [];
+                    _this.shoppingCart.forEach(c => {
+                        _this.show.push(false);
+                        var price = 0;
+                        var cart = {};
+                        var sum = {};
+                        var picture = {};
+                        var i = 0;
+                        c.products.forEach(p => {
+                            price += p.unitPrice * p.quantity;
+                            cart[i] = 1;
+                            sum[i] = 0;
+                            picture[i] = `${window.location.origin}/productpictures/${p.picture[0].pictureId}-${p.picture[0].picturePath}`;
+                            i++;
+                        });
+                        _this.total.push(price);
+                        _this.discount.push(cart);
+                        _this.add.push(sum);
+                        _this.path.push(picture);
+                    });
+                    _this.show[index] = true;
+                    response.data.coupon.forEach(c => {
+                        _this.coupons[c.categoryId] = c.coupons;
+                    });                    
+                });
+            },
+            getTotal: function(obj, count) {
+                let _this = this;
+                var sum = 0;
+                for (var i = 0; i < count; i++) {
+                    sum += obj[i];
+                }
+                return sum;
+            },
+            updateShoppingCart: function(index) {
                 let _this = this;
                 var request = {};
-                //_this.stock();
+                request.buyerAccount = _this.loginAccount;
+                request.productId = [];
+                request.quantity = [];
+                _this.shoppingCart[index].products.forEach(p => {
+                    request.productId.push(p.productId);
+                    request.quantity.push(p.quantity);                    
+                });
+                axios.post(`${baseAddress}/ShoppingCart/AddCart`, request).then(response => {
+                    alert(response.data.message);
+                });
+            },
+            increase: function(sign, cx, px) {
+                let _this = this;
+                if (sign == 'plus' && _this.shoppingCart[cx].products[px].quantity < _this.shoppingCart[cx].products[px].unitsInStock && _this.shoppingCart[cx].products[px].quantity > 0) {
+                    _this.shoppingCart[cx].products[px].quantity = parseInt(_this.shoppingCart[cx].products[px].quantity) + 1;
+                }
+                if (sign == 'minus' && _this.shoppingCart[cx].products[px].quantity > 1) {
+                    _this.shoppingCart[cx].products[px].quantity = parseInt(_this.shoppingCart[cx].products[px].quantity) - 1;
+                }
+            },
+            deleteItem: function(productId) {
+                let _this = this;
+                var ret = confirm('確定要刪除嗎？');
+                if (ret == true) {
+                    axios.post(`${baseAddress}/ShoppingCart/Delete/${productId}`).then(response => {
+                        alert(response.data.message);
+                        _this.gerShoppingCart();
+                    });
+                }
+            },
+            checkout: function(id) {
+                let _this = this;
+                _this._shoppingCart = !_this._shoppingCart;
+                _this.newOrder = _this.shoppingCart;
+                _this.userInfo = [];
+                axios.post(`${baseAddress}/ShoppingCart/GetUserInfo/${id}`).then(response => {
+                    _this.userInfo = response.data;
+                });
+            },
+            createOrder: async function (item) {
+                let _this = this;
+                var request = {};
                 request.BuyerAccount = this.BuyerAccount;
                 request.Address = item.Address;
                 request.BuyerPhone = item.BuyerPhone;
                 request.PayMethod = item.PayMethod;
                 var ret = confirm('確定要新增嗎？');
                 if (ret == true) {
-                   await axios.post(`${baseAddress}/ShoppingCart/Create/`, request).then(response => {
+                    await axios.post(`${baseAddress}/ShoppingCart/Create/`, request).then(response => {
                         alert(response.data);
                         _this.cancel();
                     });
                 }
-        };
-            var ordercreate = Vue.createApp(vueApp).mount('#ordercreate');
-        </script>
+            }
+        }
+    };
+    var app = Vue.createApp(vueApp).mount('#app');
+</script>
