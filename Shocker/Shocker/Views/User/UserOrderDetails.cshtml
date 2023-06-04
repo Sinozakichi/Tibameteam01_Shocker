@@ -52,7 +52,6 @@
 	</style>
 }
 
-<!-- Breadcrumb Section Begin -->
 <div class="container">
 	<div class="row">
 		<div class="col-lg-12 text-center">
@@ -66,8 +65,7 @@
 		</div>
 	</div>
 </div>
-<!-- Breadcrumb Section End -->
-<!-- Shoping Cart Section Begin -->
+
 <section class="shoping-cart spad">
 	<div id="app" class="container">
 		<div class="row">
@@ -253,7 +251,7 @@
 		</div>
 	</div>
 </section>
-<!-- Shoping Cart Section End -->
+
 <script src="https://cdn.jsdelivr.net/npm/vue@2.7.14"></script>
 <script src="~/axios/axios.min.js"></script>
 <script src="~/js/jquery-3.3.1.min.js"></script>
@@ -282,7 +280,6 @@
 					else { sum += this.allData.details[i].quantity * this.allData.details[i].unitPrice * this.allData.details[i].discount; }
 				}
 				return Math.ceil(sum);
-				//return this.allData.details.map(x=> x.quantity*x.unitPrice).reduce((x,y)=> x+y,0);
 			}
 		},
 		methods: {

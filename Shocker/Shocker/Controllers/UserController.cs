@@ -20,7 +20,7 @@ namespace Shocker.Controllers
 			_environment = environment;
 		}
 		[HttpGet]
-		public async Task<IActionResult> MyAccount(string tab)//點選用戶資訊編輯的菜單選項時，帶一個tab的參數，依據參數abcde呈現不同的Partial View
+		public IActionResult MyAccount(string tab)//點選用戶資訊編輯的菜單選項時，帶一個tab的參數，依據參數abcde呈現不同的Partial View
 		{
 			ViewBag.Tab = tab;
 			return View();
@@ -69,6 +69,12 @@ namespace Shocker.Controllers
 				u.Gender = uvm.Gender;
 				u.BirthDate = uvm.BirthDate;
 				u.Email = uvm.Email;
+
+				_context.Addresses.Add(new Addresses
+				{
+					Address = uvm.Address,
+					UserAccount = uvm.Id,
+				});
 				_context.SaveChanges();
 				return new ApiResultModel() { Status = true };
 			}
@@ -104,20 +110,22 @@ namespace Shocker.Controllers
 		[HttpGet]
 		public ApiResultModel GetOrders()//抓取登入的Account的所有的Orders的以下欄位資訊，暫時寫死，等登入傳入的參數
 		{
-			var o = _context.Orders.AsNoTracking().Where(x => x.BuyerAccount == loginAccount).Select(x => new
+			var o = _context.Orders.AsNoTracking().Include(x => x.StatusNavigation).Where(x => x.BuyerAccount == loginAccount).Select(x => new
 			{
 				buyerAccount = x.BuyerAccount,
 				orderId = x.OrderId,
 				payMethod = x.PayMethod,
-				status = x.Status,
+				status = x.StatusNavigation.StatusName,
 			}).ToList();
 			if (o == null) return new ApiResultModel() { Status = false, ErrorMessage = "此帳號不存在!" };
-			var od = _context.OrderDetails.AsNoTracking().Include(x => x.StatusNavigation).Select(x => new
+			var od = _context.OrderDetails.AsNoTracking().Include(x=>x.Order).Where(x=>x.Order.BuyerAccount==loginAccount).Select(x => new
 			{
+				orderId= x.OrderId,
+				product=x.ProductId,
 				quantity = x.Quantity,
 				productName = x.ProductName,
 				unitPrice = x.UnitPrice,
-				statusName = x.StatusNavigation.StatusName,
+				disCount=x.Discount,
 			}).ToList();
 			return new ApiResultModel()
 			{
@@ -173,7 +181,7 @@ namespace Shocker.Controllers
 					path = x.Product.Pictures.FirstOrDefault().Path,
 					statusName = x.StatusNavigation.StatusName,
 					description = x.Product.Ratings.FirstOrDefault().Description == null ? "" : x.Product.Ratings.FirstOrDefault().Description,
-					//starCount = x.Product.Ratings.FirstOrDefault().StarCount==null?"": x.Product.Ratings.FirstOrDefault().StarCount,
+					starCount = x.Product.Ratings.FirstOrDefault().StarCount == null ? 0 : x.Product.Ratings.FirstOrDefault().StarCount,
 				}).ToList();
 
 			return new ApiResultModel()
@@ -274,7 +282,7 @@ namespace Shocker.Controllers
 		[HttpGet]
 		public ApiResultModel GetCoupons()
 		{
-			var c = _context.Coupons.AsNoTracking().Where(c => c.HolderAccount == loginAccount).Select(c => new
+			var c = _context.Coupons.AsNoTracking().Include(c=>c.OrderDetails).Where(c => c.HolderAccount == loginAccount).Select(c => new
 			{
 				holderAccount = c.HolderAccount,
 				couponId = c.CouponId,
@@ -282,8 +290,8 @@ namespace Shocker.Controllers
 				publisherAccount = c.PublisherAccount,
 				discount = c.Discount,
 				productCategoryName = c.ProductCategory.CategoryName,
-				statusName = c.StatusNavigation.StatusName,
-				orderId=c.OrderDetails.FirstOrDefault().OrderId,
+				statusName = c.StatusNavigation.StatusName == null ? "" : c.StatusNavigation.StatusName,
+				orderId =c.OrderDetails.FirstOrDefault().OrderId,
 			}).ToList();
 			if (c == null) return new ApiResultModel() { Status = false, ErrorMessage = "此優惠碼不存在!" };
 			return new ApiResultModel()

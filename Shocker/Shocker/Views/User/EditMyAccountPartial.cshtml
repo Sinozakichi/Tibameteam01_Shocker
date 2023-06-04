@@ -3,150 +3,173 @@
 	{
 }
 <div id="app" class="container">
-	<div>
-		@*上傳頭像的區塊*@
+	<div>		
 		<div class="mb-3 row">
 			<label for="staticPicture" class="col-sm-2 col-form-label">頭像</label>
 			<div class="col-sm-10">
-				<img style="width:250px;height:250px" :src="'/' +picture" />
+				<img style="width:250px;height:250px" :src="picture"/>
 				<input type="file" @@change="selectPicture" />
 				<button type="button" class="btn btn-outline-success" @@click="uploadPicture">上傳</button>
 			</div>
-		</div>
+		</div>		
 
 		<hr style="height: 3px;border-color: chartreuse;background-color: chartreuse" />
-		@*未編輯的頁面*@
+		
 		<template v-if="Edit==false">
 			<div class="mb-3 row">
 				<label for="staticAccount" class="col-sm-2 col-form-label">帳號</label>
 				<div class="col-sm-10">
-					<input type="text" readonly class="form-control-plaintext" id="staticAccount" v-model="users.id">
+					<input type="text" readonly class="form-control-plaintext" id="staticAccount" v-model="users.user.id">
 				</div>
 			</div>
 
 			<div class="mb-3 row">
 				<label for="inputPassword" class="col-sm-2 col-form-label">密碼</label>
 				<div class="col-sm-10">
-					<input type="password" readonly class="form-control-plaintext" id="inputPassword" v-model="users.password">
+					<input type="password" readonly class="form-control-plaintext" id="inputPassword" v-model="users.user.password">
 				</div>
 			</div>
 
 			<div class="mb-3 row">
 				<label for="inputName" class="col-sm-2 col-form-label">名字</label>
 				<div class="col-sm-10">
-					<input type="text" readonly class="form-control-plaintext" id="inputName" v-model="users.nickName">
+					<input type="text" readonly class="form-control-plaintext" id="inputName" v-model="users.user.nickName">
 				</div>
 			</div>
 
 			<div class="mb-3 row">
 				<label for="inputGender" class="col-sm-2 col-form-label">性別</label>
 				<div class="col-sm-10">
-					<input type="text" readonly class="form-control-plaintext" id="inputGender" v-model="users.gender">
+					<input type="text" readonly class="form-control-plaintext" id="inputGender" v-model="users.user.gender">
 				</div>
 			</div>
 
 			<div class="mb-3 row">
 				<label for="inputBirthDate" class="col-sm-2 col-form-label">生日</label>
 				<div class="col-sm-10">
-					<input type="text" readonly class="form-control-plaintext" id="inputBirthDate" v-model="users.birthDate">
+					<input type="text" readonly class="form-control-plaintext" id="inputBirthDate" v-model="users.user.birthDate">
 				</div>
 			</div>
 
 			<div class="mb-3 row">
 				<label for="inputEmail" class="col-sm-2 col-form-label">郵件</label>
 				<div class="col-sm-10">
-					<input type="text" readonly class="form-control-plaintext" id="inputEmail" v-model="users.email">
+					<input type="text" readonly class="form-control-plaintext" id="inputEmail" v-model="users.user.email">
 				</div>
 			</div>
 
 			<div class="mb-3 row">
 				<label for="staticPhone" class="col-sm-2 col-form-label">手機</label>
 				<div class="col-sm-10">
-					<input type="text" readonly class="form-control-plaintext" id="staticPhone" v-model="users.phone">
+					<input type="text" readonly class="form-control-plaintext" id="staticPhone" v-model="users.user.phone">
 				</div>
 			</div>
 
 			<div class="mb-3 row">
 				<label for="staticRole" class="col-sm-2 col-form-label">身分</label>
 				<div class="col-sm-10">
-					<input type="text" readonly class="form-control-plaintext" id="staticRole" v-model="users.role">
+					<input type="text" readonly class="form-control-plaintext" id="staticRole" v-model="users.user.role">
 				</div>
 			</div>
 
 			<div class="mb-3 row">
 				<label for="staticRegisterDate" class="col-sm-2 col-form-label">帳號創辦時間</label>
 				<div class="col-sm-10">
-					<input type="text" readonly class="form-control-plaintext" id="staticRegisterDate" v-model="users.registerDate">
+					<input type="text" readonly class="form-control-plaintext" id="staticRegisterDate" v-model="users.user.registerDate">
 				</div>
 			</div>
+
+			<div class="mb-3 row">			
+				<label for="staticRegisterDate" class="col-sm-2 col-form-label">地址</label>
+				<div class="col-sm-10" >
+					<input type="text" readonly class="form-control-plaintext" id="staticRegisterDate" v-model="selectAddress">
+				</div>
+			</div>
+
 			<div class="col-sm-3">
-				<button type="button" class="btn btn-outline-info" @@click="editUsers">編輯</button>@*編輯按鈕，按下切換至有取消鍵與完成鍵的編輯頁面*@
+				<button type="button" class="btn btn-outline-info" @@click="editUsers">編輯</button>
 			</div>
 		</template>
-		@*編輯中的頁面*@
+		
 		<template v-else>
 			<div class="mb-3 row">
 				<label for="staticAccount" class="col-sm-2 col-form-label">帳號</label>
 				<div class="col-sm-6">
-					<input type="text" readonly class="form-control-plaintext" id="staticAccount" v-model="users.id">
+					<input type="text" readonly class="form-control-plaintext" id="staticAccount" v-model="users.user.id">
 				</div>
 			</div>
 
 			<div class="mb-3 row">
 				<label for="inputPassword" class="col-sm-2 col-form-label">密碼</label>
 				<div class="col-sm-10">
-					<input type="text" class="form-control" id="inputPassword" v-model="users.password">
+					<input type="text" class="form-control" id="inputPassword" v-model="users.user.password">
 				</div>
 			</div>
 
 			<div class="mb-3 row">
 				<label for="inputName" class="col-sm-2 col-form-label">名字</label>
 				<div class="col-sm-10">
-					<input type="text" class="form-control" id="inputName" v-model="users.nickName">
+					<input type="text" class="form-control" id="inputName" v-model="users.user.nickName">
 				</div>
 			</div>
 
 			<div class="mb-3 row">
 				<label for="inputGender" class="col-sm-2 col-form-label">性別</label>
 				<div class="col-sm-10">
-					<input type="text" class="form-control" id="inputGender" v-model="users.gender">
+					<input type="text" class="form-control" id="inputGender" v-model="users.user.gender">
 				</div>
 			</div>
 
 			<div class="mb-3 row">
 				<label for="inputBirthDate" class="col-sm-2 col-form-label">生日</label>
 				<div class="col-sm-10">
-					<input type="text" class="form-control" id="inputBirthDate" v-model="users.birthDate">
+					<input type="text" class="form-control" id="inputBirthDate" v-model="users.user.birthDate">
 				</div>
 			</div>
 
 			<div class="mb-3 row">
 				<label for="inputEmail" class="col-sm-2 col-form-label">郵件</label>
 				<div class="col-sm-10">
-					<input type="text" class="form-control" id="inputEmail" v-model="users.email">
+					<input type="text" class="form-control" id="inputEmail" v-model="users.user.email">
 				</div>
 			</div>
 
 			<div class="mb-3 row">
 				<label for="staticPhone" class="col-sm-2 col-form-label">手機</label>
 				<div class="col-sm-6">
-					<input type="text" readonly class="form-control-plaintext" id="staticPhone" v-model="users.phone">
+					<input type="text" readonly class="form-control-plaintext" id="staticPhone" v-model="users.user.phone">
 				</div>
 			</div>
 
 			<div class="mb-3 row">
 				<label for="staticRole" class="col-sm-2 col-form-label">身分</label>
 				<div class="col-sm-6">
-					<input type="text" readonly class="form-control-plaintext" id="staticRole" v-model="users.role">
+					<input type="text" readonly class="form-control-plaintext" id="staticRole" v-model="users.user.role">
 				</div>
 			</div>
 
 			<div class="mb-3 row">
 				<label for="staticRegisterDate" class="col-sm-2 col-form-label">帳號創辦時間</label>
 				<div class="col-sm-6">
-					<input type="text" readonly class="form-control-plaintext" id="staticRegisterDate" v-model="users.registerDate">
+					<input type="text" readonly class="form-control-plaintext" id="staticRegisterDate" v-model="users.user.registerDate">
 				</div>
 			</div>
+
+			<div class="mb-3 row">
+				<label for="staticaddress" class="col-sm-2 col-form-label">地址</label>
+				<select v-model="selectAddress" type="text" class="col-12">
+					<option value="" disabled>選擇地址</option>
+					<option v-for="item in users.address" :value="item.address" :key="item.address">{{item.address}}</option>
+				</select>
+			</div>
+
+			<div class="mb-3 row">
+				<label for="inputEmail" class="col-sm-2 col-form-label">新增地址</label>
+				<div class="col-sm-10">
+					<input type="text" class="form-control" id="inputEmail" v-model="addAddress">
+				</div>
+			</div>
+
 			<div class="row">
 				<div class="col-sm-3">
 					<button type="button" class="btn btn-outline-success" @@click="updateUsers">完成</button>@*按完成以完成編輯*@
@@ -165,7 +188,7 @@
 								<div class="modal-body">您確定要取消所有變更內容?</div>
 								<div class="modal-footer">
 									<button type="button" class="btn btn-secondary" data-dismiss="modal">返回</button>
-									<button type="button" class="btn btn-danger" data-dismiss="modal" @*@@click="cancel*@">確定</button>
+									<button type="button" class="btn btn-danger" data-dismiss="modal" @@click="cancel">確定</button>
 								</div>
 							</div>
 						</div>
@@ -182,9 +205,14 @@
 	var app = new Vue({
 		el: '#app',
 		data: {
-			users: [],
+			users: {
+				user:{},
+				address:[]
+			},
 			picture: "",
 			uploadPic: {},
+			selectAddress:"",
+			addAddress:"",
 			Edit: false
 		},
 		mounted: function () {
@@ -195,18 +223,20 @@
 				var _this = this;
 				axios.get(`/User/GetAccount`).then(response => {
 					_this.users = response.data.data;
-					_this.picture = _this.users.picture
+					_this.picture = '/' + _this.users.user.picture
+					_this.selectAddress=_this.users.address[0].address
 				});
 			},
 			updateUsers: function () {//更改User指定欄位之資料
 				var _this = this;
 				var request = {
-					id:_this.users.id,
-					password: _this.users.password,
-					nickName: _this.users.nickName,
-					gender: _this.users.gender,
-					birthDate: _this.users.birthDate,
-					email: _this.users.email,
+					id:_this.users.user.id,
+					password: _this.users.user.password,
+					nickName: _this.users.user.nickName,
+					gender: _this.users.user.gender,
+					birthDate: _this.users.user.birthDate,
+					email: _this.users.user.email,
+					address: _this.addAddress
 				};
 				axios.post(`/User/UpdateAccount`, request).then(response => {
 					alert('更新成功!')//跳更新成功的訊息
@@ -219,11 +249,14 @@
 			},
 			cancel: function () {//取消編輯User的欄位，並更新當前User的資料
 				this.Edit = false;
+				this.addAddress ="";
 				this.getUsers();
 			},
 			selectPicture: function (evemt) {//點選要上傳的的圖片
 				var _this = this;
-				_this.uploadPic = event.target.files[0];//(1)從local裝置中點選要上傳的檔案存至uploadPic
+				_this.uploadPic = event.target.files[0];//(1)從local裝置中點選要上傳的檔案存至uploadPic	
+				
+				//_this.picture = URL.createObjectURL(_this.uploadPic).split('blob:')[1];
 				var reader = new FileReader();
 				reader.onload = function (e) {
 					_this.picture = e.target.result;//(3)將轉成URL的目標(uploadPic)放入picture，便可達成預覽欲上傳之圖片的效果
@@ -232,9 +265,13 @@
 			},
 			uploadPicture: function () {//上傳圖片
 				var _this = this;
-				var formdata = new FormData();//用FormData傳
-				formdata.append('Account', _this.users.id);
-				formdata.append('Picture', _this.uploadPic);//方才未轉成URL的uploadPic
+				var formdata = new FormData();
+				formdata.append('Account', _this.users.user.id);
+				formdata.append('Picture', _this.uploadPic);
+				//var request={
+				//	id:_this.users.user.id,
+				//	picture:_this.uploadPic
+				//};
 				axios.post(`/User/UploadPicture`, formdata).then(response => {
 					if (response.data) {
 						alert('上傳成功!')//跳上傳成功的訊息

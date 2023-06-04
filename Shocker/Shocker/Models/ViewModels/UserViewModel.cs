@@ -9,6 +9,7 @@ namespace Shocker.Models.ViewModels
         public string NickName { get; set; }
         public string Gender { get; set; }
         public DateTime? BirthDate { get; set; }
-        public string Email { get; set; }     
-    }
+        public string Email { get; set; }
+		public string Address { get; set; }
+	}
 }
