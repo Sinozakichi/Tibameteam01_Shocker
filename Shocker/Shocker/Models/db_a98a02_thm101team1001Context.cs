@@ -194,7 +194,9 @@ namespace Shocker.Models
                 entity.HasKey(e => e.OrderId)
                     .HasName("PK_Orders_1");
 
-                entity.Property(e => e.OrderId).HasColumnName("OrderID");
+                entity.Property(e => e.OrderId)
+                    .ValueGeneratedNever()
+                    .HasColumnName("OrderID");
 
                 entity.Property(e => e.Address)
                     .IsRequired()
