@@ -239,7 +239,7 @@
 					address: _this.addAddress
 				};
 				axios.post(`/User/UpdateAccount`, request).then(response => {
-					alert('更新成功!')//跳更新成功的訊息
+					alert('更新資料成功!')//跳更新成功的訊息
 					this.getUsers();
 					this.Edit = false;
 				});
@@ -266,16 +266,10 @@
 			uploadPicture: function () {//上傳圖片
 				var _this = this;
 				var formdata = new FormData();
-				formdata.append('Account', _this.users.user.id);
+				formdata.append('Id', _this.users.user.id);
 				formdata.append('Picture', _this.uploadPic);
-				//var request={
-				//	id:_this.users.user.id,
-				//	picture:_this.uploadPic
-				//};
-				axios.post(`/User/UploadPicture`, formdata).then(response => {
-					if (response.data) {
-						alert('上傳成功!')//跳上傳成功的訊息
-					}
+				axios.post(`/User/UploadPicture`, formdata).then(response => {					
+						alert('上傳成功!')//跳上傳成功的訊息					
 				});
 			}
 		}

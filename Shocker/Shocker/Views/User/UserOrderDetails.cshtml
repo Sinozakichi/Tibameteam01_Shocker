@@ -106,24 +106,28 @@
 								<td class="shoping__cart__total">
 									{{item.quantity}}
 								</td>
-								<td class="shoping__cart__price">
-									{{item.discount}}
+								<td class="shoping__cart__price">									
 									<template v-if="item.discount!=null">
+										{{item.discount}}
 										<span class="badge bg-success">有使用優惠</span>
 									</template>
 									<template v-else>
 										<span class="badge bg-danger">未使用優惠</span>
 									</template>
 								</td>
-								<td class="shoping__cart__price">
-									{{item.starCount}}
-									<template v-if="item.starCount==null">
+								<td class="shoping__cart__price">								
+									<template v-if="item.starCount==0">
 										<span class="badge bg-danger">暫無評價</span>
 									</template>
+									<template v-else>
+										{{item.starCount}}
+									</template>
 								</td>
-								<td class="shoping__cart__price">
-									{{item.description}}
-									<template v-if="item.description==null">
+								<td class="shoping__cart__price">								
+									<template v-if="item.description!=''">
+										{{item.description}}
+									</template>
+									<template v-else>
 										<span class="badge bg-danger">暫無評價內容</span>
 									</template>
 								</td>
@@ -166,7 +170,7 @@
 											</div>
 										</template>
 									</div>
-									<template v-if="item.statusName=='已評價'">
+									<template v-if="item.statusName=='已評價'&&item.description==''">
 										<button type="button" class="btn btn-warning" data-toggle="modal" data-target="#returnModal">新增評價內容</button>
 										<div class="modal fade" id="returnModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
 											<div class="modal-dialog">
@@ -284,7 +288,7 @@
 		},
 		methods: {
 			getUserOrderDetails: function () {
-				let _this=this;
+				var _this=this;
 				var id = location.search.replace('?id=', '');
 				axios(`/User/GetUserOrderDetails/${id}`).then(x=> {
 					if (x.data.status) {_this.allData = x.data.data;}
@@ -293,50 +297,50 @@
 				});
 			},
 			createRating: function (productId, rating) {
+				var _this = this;
 				var request = {
-					OrderId: this.orderDetails[0].orderId,
+					OrderId: _this.allData.order.orderId,
 					ProductId: productId,
 					StarCount: rating
 				}
 				axios.post(`${baseAddress}/CreateRating`, request).then(response => {
 					alert('完成評價!')
-					this.orderDetails.pop();
-					this.getUserOrderDetails();
+					_this.getUserOrderDetails();
 				})
 			},
 			updateOdReturnReason: function (productId) {
+				var _this = this;
 				var request = {
 					ProductId: productId,
-					OrderId: this.orderDetails[0].orderId,
-					Returnreason: this.returnReason
+					OrderId: _this.allData.order.orderId,
+					Returnreason: _this.returnReason
 				}
 				axios.post(`${baseAddress}/UpdateOdReturnReason`, request).then(reponse => {
 					alert('成功送出退貨申請')
-					this.orderDetails.pop();
-					this.getUserOrderDetails();
+					_this.getUserOrderDetails();
 				})
 			},
 			updateRatingDescription: function (productId) {
+				var _this = this;
 				var request = {
-					OrderId: this.orderDetails[0].orderId,
+					OrderId: _this.allData.order.orderId,
 					ProductId: productId,
-					Description: this.ratingDescription
+					Description: _this.ratingDescription
 				}
 				axios.post(`${baseAddress}/UpdateRatingDescription`, request).then(reponse => {
-					alert('成功送出評價內容')
-					this.orderDetails.pop();
-					this.getUserOrderDetails();
+					alert('成功送出評價內容')					
+					_this.getUserOrderDetails();
 				})
 			},
 			takeProduct: function (productId) {
+				var _this = this;
 				var request = {
-					OrderId: this.orderDetails[0].orderId,
+					OrderId: _this.allData.order.orderId,
 					ProductId: productId,
 				}
 				axios.post(`${baseAddress}/TakeProduct`, request).then(reponse => {
 					alert('成功收到商品')
-					this.orderDetails.pop();
-					this.getUserOrderDetails();
+					_this.getUserOrderDetails();
 				})
 			},
 			getTotal: function (quantity, unitPrice, discount) {

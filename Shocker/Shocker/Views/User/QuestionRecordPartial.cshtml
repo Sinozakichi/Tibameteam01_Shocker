@@ -11,15 +11,15 @@
 				</tr>
 			</thead>
 			<tbody>
-				<tr v-for="(item,index) in Questions">
+				<tr v-for="(item,index) in questions">
 					<td>
 						<template v-if="item.statusName=='已回應'">
 							<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#replyModal" @@click="showReply(item.caseId)">查看回覆內容</button>
-							<div class="modal fade" id="replyModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+							<div class="modal fade" id="replyModal" tabindex="-1" aria-labelledby="replyModalLabel" aria-hidden="true">
 								<div class="modal-dialog">
 									<div class="modal-content">
 										<div class="modal-header">
-											<h5 class="modal-title" id="exampleModalLabel">回覆內容</h5>
+											<h5 class="modal-title" id="replyModalLabel">回覆內容</h5>
 											<button type="button" class="close" data-dismiss="modal" aria-label="Close">
 												<span aria-hidden="true">&times;</span>
 											</button>
@@ -75,10 +75,10 @@
 <script src="~/axios/axios.min.js"></script>
 <script>
 	var baseAddress = "https://localhost:7259/User";
-	var Vue = new Vue({
+	var app = new Vue({
 		el: '#app',
 		data: {
-			Questions: [],
+			questions: [],
 			reply: "",
 			description: ""
 		},
@@ -87,21 +87,24 @@
 		},
 		methods: {
 			getQuestions: function () {
+				var _this=this;
 				axios.get(`${baseAddress}/GetQuestions`).then(response => {
-					this.Questions = response.data;
+					_this.questions = response.data.data.clientCases;
 				});
 			},
 			showReply: function (caseId) {
-				for (var i = 0; i < this.Questions.length; i++) {
-					if (this.Questions[i].caseId == caseId) {
-						this.reply = this.Questions[i].reply;
+				var _this = this;
+				for (var i = 0; i < this.questions.length; i++) {
+					if (_this.questions[i].caseId == caseId) {
+						_this.reply = _this.questions[i].reply;
 					}
 				}
 			},
 			showDescription: function (caseId) {
-				for (var i = 0; i < this.Questions.length; i++) {
-					if (this.Questions[i].caseId == caseId) {
-						this.description = this.Questions[i].description;
+				var _this = this;
+				for (var i = 0; i < this.questions.length; i++) {
+					if (_this.questions[i].caseId == caseId) {
+						_this.description = _this.questions[i].description;
 					}
 				}
 			}

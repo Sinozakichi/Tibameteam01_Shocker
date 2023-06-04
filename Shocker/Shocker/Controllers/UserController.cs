@@ -84,7 +84,7 @@ namespace Shocker.Controllers
 			}
 		}
 		[HttpPost]
-		public ApiResultModel UploadPicture([FromBody] PictureViewModel pvm)//更改User照片
+		public ApiResultModel UploadPicture(PictureViewModel pvm)//更改User照片
 		{
 			try
 			{
@@ -118,14 +118,14 @@ namespace Shocker.Controllers
 				status = x.StatusNavigation.StatusName,
 			}).ToList();
 			if (o == null) return new ApiResultModel() { Status = false, ErrorMessage = "此帳號不存在!" };
-			var od = _context.OrderDetails.AsNoTracking().Include(x=>x.Order).Where(x=>x.Order.BuyerAccount==loginAccount).Select(x => new
+			var od = _context.OrderDetails.AsNoTracking().Include(x => x.Order).Where(x => x.Order.BuyerAccount == loginAccount).Select(x => new
 			{
-				orderId= x.OrderId,
-				product=x.ProductId,
+				orderId = x.OrderId,
+				product = x.ProductId,
 				quantity = x.Quantity,
 				productName = x.ProductName,
 				unitPrice = x.UnitPrice,
-				disCount=x.Discount,
+				disCount = x.Discount,
 			}).ToList();
 			return new ApiResultModel()
 			{
@@ -282,7 +282,7 @@ namespace Shocker.Controllers
 		[HttpGet]
 		public ApiResultModel GetCoupons()
 		{
-			var c = _context.Coupons.AsNoTracking().Include(c=>c.OrderDetails).Where(c => c.HolderAccount == loginAccount).Select(c => new
+			var c = _context.Coupons.AsNoTracking().Include(c => c.StatusNavigation).Include(c => c.OrderDetails).Where(c => c.HolderAccount == loginAccount).Select(c => new
 			{
 				holderAccount = c.HolderAccount,
 				couponId = c.CouponId,
@@ -290,16 +290,16 @@ namespace Shocker.Controllers
 				publisherAccount = c.PublisherAccount,
 				discount = c.Discount,
 				productCategoryName = c.ProductCategory.CategoryName,
-				statusName = c.StatusNavigation.StatusName == null ? "" : c.StatusNavigation.StatusName,
-				orderId =c.OrderDetails.FirstOrDefault().OrderId,
+				statusName = c.StatusNavigation.StatusName,
+				orderId = c.OrderDetails.FirstOrDefault().OrderId == null ? 0 : c.OrderDetails.FirstOrDefault().OrderId,
 			}).ToList();
-			if (c == null) return new ApiResultModel() { Status = false, ErrorMessage = "此優惠碼不存在!" };
+			if (c == null) return new ApiResultModel() { Status = false, ErrorMessage = "此帳號不存在!" };
 			return new ApiResultModel()
 			{
 				Status = true,
 				Data = new
 				{
-					coupons=c,
+					coupons = c,
 				}
 			};
 		}
