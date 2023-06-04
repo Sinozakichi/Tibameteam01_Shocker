@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.DotNet.Scaffolding.Shared.Messaging;
 using Shocker.Areas.Admin.Models.ViewModels;
 using Shocker.Models;
 
@@ -87,7 +88,53 @@ namespace Shocker.Areas.Admin.Controllers
                       Status = c.Status,
                   }
             ));
+    }
+        [HttpPost]
+        public IActionResult DisplayUser()
+        {
+            var cu =  _context.Users
+                .Select(x => new
+                {
+                    holderAccount = x.Id
+                });
+            return Json(cu);
+        }
+
+        public JsonResult CreateActivCoupon()
+        { 
+            var now  = DateTime.Now;
+            var allUser = _context.Users.Where(x=>x.BirthDate!=null).ToList();
+            var MatchBD =allUser.Where(x => x.BirthDate.Value.Month == now.Month && x.BirthDate.Value.Day == now.Day);
+            if (MatchBD != null)
+            {
+                foreach (var a in MatchBD)
+                {
+                    if (_context.Coupons.Any(x => x.HolderAccount == a.Id)) //Any 判斷true/false
+                    {
+                        return Json(new { Message = $"今日份已重複"});
+                    }
+                    else 
+                    {
+                        Coupons c1 = new Coupons();
+                        c1.Discount = 0.5M;
+                        c1.Status = "c0";
+                        c1.ExpirationDate = DateTime.Now.AddDays(30);
+                        c1.PublisherAccount = "Admin1";
+                        c1.HolderAccount = a.Id;
+                        c1.ProductCategoryId = 9;
+                        _context.Coupons.Add(c1);
+                        _context.SaveChanges();
+                    }
+                };
+            }
+            else 
+            {
+                return Json(new { message = "沒有人今天生日喔!" });
+            }
+
+            return Json(new {message="生日比對完畢" });
+         }
+        
 
     }
-}
 }
