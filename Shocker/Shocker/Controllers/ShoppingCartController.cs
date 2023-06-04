@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.CodeAnalysis;
+using Microsoft.EntityFrameworkCore;
 using Shocker.Models;
 using Shocker.Models.ViewModels;
 
@@ -10,14 +11,13 @@ namespace Shocker.Controllers
         private readonly IWebHostEnvironment _environment;
         private readonly IConfiguration _configuration;
         private readonly db_a98a02_thm101team1001Context _context;
-
+        private readonly string loginAccount = "User2";
         public ShoppingCartController(db_a98a02_thm101team1001Context context, IWebHostEnvironment environment, IConfiguration configuration)
         {
             _context = context;
             _environment = environment;
             _configuration = configuration;
         }
-        string loginAccount = "User2";
         public IActionResult Index()
         {
             int productId = 10;
@@ -61,64 +61,103 @@ namespace Shocker.Controllers
         {
             return View();
         }
-        [HttpPost]
-        public async Task<JsonResult> GetShopping(/*[FromBody] ShoppingViewModel shoppingViewModel*/)
+        [HttpGet]
+        public JsonResult GetShopping()
         {
-               var d = _context.Shopping.Select(p => new
+            var cart = _context.Shopping.Where(c => c.BuyerAccount == loginAccount)
+                .Select(c => new
                 {
-                    Quantity= p.Quantity ,
-                    ProductName = p.Product.ProductName,
-                    ProductId =p.ProductId,
-                    UnitPrice=p.Product.UnitPrice,
+                    sellerAccount = c.Product.SellerAccount,
+                    productId = c.ProductId,
+                    productName = c.Product.ProductName,
+                    categoryId = c.Product.ProductCategoryId,
+                    categoryName = c.Product.ProductCategory.CategoryName,
+                    unitPrice = c.Product.UnitPrice,
+                    quantity = c.Quantity,
+                    unitsInStock = c.Product.UnitsInStock,
+                    currency = c.Product.Currency,
+                    picture = c.Product.Pictures.ToList().Select(p => new
+                    {
+                        pictureId = p.PictureId,
+                        picturePath = p.Path
+                    })
+                }).ToList().GroupBy(c => c.sellerAccount, (seller, product) => new
+                {
+                    sellerAccount = seller,
+                    productCount = product.Count(),
+                    products = product.Select(p => new
+                    {
+                        p.productId, p.productName, p.categoryId, p.categoryName, p.unitPrice, p.quantity, p.unitsInStock, p.picture, p.currency
+                    })
                 });
-                //_context.Shopping.Add(d);
-                //await _context.SaveChangesAsync();
-                //return Json(new { Result = "OK", Record = shoppingViewModel });
-                return Json(d);
-            }
-        //    else
-        //    {
-        //        return Json(new { Result = "Error", Message = "新增失敗" });
-        //    }
-        //}
-        string loginaccount = "User2";
-       
-
-
-        public IActionResult/*async Task<JsonResult>*/ AddCar([FromBody] ShoppingViewModel shoppingViewmodel)
+            var coupon = _context.Coupons.Where(c => c.HolderAccount == loginAccount && c.Status == "c0")
+                .Where(c => DateTime.Compare(c.ExpirationDate, DateTime.Now) >= 0)
+                .Select(c => new { c.CouponId, c.ProductCategoryId, c.ProductCategory.CategoryName, c.Discount })
+                .ToList().GroupBy(c => c.ProductCategoryId, (category, coupon) => new
+                {
+                    categoryId = category,
+                    coupons = coupon.Select(c => new
+                    {
+                        c.CouponId, c.CategoryName, c.Discount
+                    })
+                });
+			if (cart == null) return Json(new { Result = "null"});
+            return Json(new { cart, coupon });
+        }
+        [HttpPost]
+        public async Task<JsonResult> AddCart([FromBody]ShoppingViewModel product)
         {
             if (ModelState.IsValid)
-            {
-                string UserId = loginaccount;//User.Identity.Name;
-                var currentcar = _context.Shopping.Where(m => m.ProductId == shoppingViewmodel.ProductId && m.BuyerAccount == UserId).FirstOrDefault();
-                if (currentcar == null)
-                {
-                    var product = _context.Shopping.Where(m => m.ProductId == shoppingViewmodel.ProductId).FirstOrDefault();
-                    Shopping shopping = new Shopping();
-                    shopping.ProductId = shoppingViewmodel.ProductId;
-                    shopping.Quantity = 1;
-                    _context.Shopping.Add(shopping);
-                }
-                else
-                {
-                    currentcar.Quantity += 1;
-                }
-                _context.SaveChanges();
-                return View();
+			{
+				for (int i = 0; i < product.ProductId.Count; i++)
+				{
+					var p = await _context.Shopping.FindAsync(product.BuyerAccount, product.ProductId[i]);
+                    if (p == null) continue;
+					if (p.Quantity == product.Quantity[i]) continue;
+					p.Quantity = product.Quantity[i];
+					_context.Update(p);
+					await _context.SaveChangesAsync();
+				}
+                return Json(new {Result = "OK", Message = "更新成功" });
             }
             else
             {
-                return RedirectToAction("ShoppingCart");
+                return Json(new {Result = "Error", Message = "更新失敗" });
             }
         }
-        public IActionResult Delete(int Id)
+        [HttpPost]
+        public async Task<JsonResult> Delete(int id)
         {
-            var shopping = _context.Shopping.Where(m => m.ProductId == 1).FirstOrDefault();
-            _context.Shopping.Remove(shopping);
-            _context.SaveChanges();
-            return RedirectToAction("ShoppingCart");
+            Shopping? shopping = await _context.Shopping.FindAsync(loginAccount, id);
+			if (shopping == null)
+			{
+				return Json(new { Result = "Error", Message = "找不到欲刪除商品" });
+			}
+            try
+            {
+				_context.Shopping.Remove(shopping);
+				await _context.SaveChangesAsync();
+			}
+			catch (DbUpdateException)
+			{
+				return Json(new { Result = "Error", Message = "刪除失敗" });
+			}
+			return Json(new { Result = "OK", Message = "刪除成功" });
+		}
+        [HttpPost]
+        public JsonResult GetUserInfo(string id)
+        {
+            var user = _context.Users.Where(u => u.Id == id)
+                .Select(u => new
+                {
+                    u.Id,
+                    u.NickName,
+                    u.Email,
+                    u.Phone,
+					Addresses = u.Addresses.Select(a => a.Address)
+				});
+            return Json(user);
         }
-
 
         [HttpPost]
         //[ValidateAntiForgeryToken]
@@ -127,7 +166,7 @@ namespace Shocker.Controllers
 
             if (ModelState.IsValid)
             {
-                string UserId = loginaccount;//User.Identity.Name;
+                string UserId = loginAccount;//User.Identity.Name;
                                              //string guid = Guid.NewGuid().ToString();
                 Orders order = new Orders();
                 order.BuyerAccount = UserId;
@@ -163,7 +202,7 @@ namespace Shocker.Controllers
         //建立訂單主檔列表
         public IActionResult OrderList()
         {
-            string UserId = loginaccount;//User.Identity.Name;
+            string UserId = loginAccount;//User.Identity.Name;
             var orders = _context.Orders.Where(m => m.BuyerAccount == UserId).OrderByDescending(m => m.OrderDate).ToList();
             //目前會員的訂單主檔OrderList
             return View(orders);
