@@ -1,4 +1,5 @@
-﻿
+﻿@model Shocker.Models.Users
+
 <main class="main-content  mt-0">
     <section>
         <div class="page-header min-vh-100">
@@ -13,6 +14,7 @@
                             <div class="card-body">
                                 <form action="/Member/SignIn" method="post" role="form">
                                     <div class="mb-3">
+                                        @* @Html.TextBoxFor(model => model.Id, new {@class="form-control form-control-lg", type="text", required="required", placeholder="帳號", })*@
                                         <input type="text" id="Id" name="Id" required class="form-control form-control-lg" placeholder="帳號" aria-label="Id">
                                     </div>
                                     <div class="mb-3">

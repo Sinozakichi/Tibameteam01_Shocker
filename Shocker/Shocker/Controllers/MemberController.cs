@@ -32,7 +32,7 @@ namespace Shocker.Controllers
         }
 
         [HttpPost]
-        public IActionResult SignIn(LoginViewModel model)
+        public async Task<IActionResult> SignIn(LoginViewModel model)
         {
             var user = _DBcontext.Users
                 .FirstOrDefault(x => x.Id == model.Id && x.Password == model.Password);
@@ -52,7 +52,7 @@ namespace Shocker.Controllers
             var claimsIdentity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
             var claimsPrincipal = new ClaimsPrincipal(claimsIdentity);
 
-            HttpContext.SignInAsync(claimsPrincipal);
+            await HttpContext.SignInAsync(claimsPrincipal);
             return RedirectToAction("Index", "Home");
         }
 
@@ -94,11 +94,12 @@ namespace Shocker.Controllers
                 Email = model.Email,
                 Phone = model.Phone,
                 RegisterDate = DateTime.Now
+                
             });
 
             _DBcontext.SaveChanges();
 
-            return View();
+            return View("Index", "Home");
         }
 
         public IActionResult AccessDenied()

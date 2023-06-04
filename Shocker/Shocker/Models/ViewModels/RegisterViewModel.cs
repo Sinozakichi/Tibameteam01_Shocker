@@ -10,9 +10,10 @@
         public DateTime? BirthDate { get; set; }
         public string Email { get; set; }
         public string Phone { get; set; }
-        public DateTime RegisterDate { get; set; }
-        public string? PicturePath { get; set; }
-        public string? AboutSeller { get; set; }
+
+        //public DateTime? RegisterDate { get; set; }
+        //public string? PicturePath { get; set; }
+        //public string? AboutSeller { get; set; }
 
     }
 }
