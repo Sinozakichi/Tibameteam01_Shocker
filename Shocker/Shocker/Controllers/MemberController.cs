@@ -35,7 +35,7 @@ namespace Shocker.Controllers
         public IActionResult SignIn(LoginViewModel model)
         {
             var user = _DBcontext.Users
-                .FirstOrDefault(x => x.Email == model.Email && x.Password == model.Password);
+                .FirstOrDefault(x => x.Id == model.Id && x.Password == model.Password);
 
             if (user == null)
             {
@@ -86,16 +86,14 @@ namespace Shocker.Controllers
             _DBcontext.Users.Add(new Users()
             {
                 Id = model.Id,
-                AccountType = model.AccountType,
+                //AccountType = model.AccountType,
                 Password = model.Password,
                 NickName = model.NickName,
                 Gender = model.Gender,
                 BirthDate = model.BirthDate,
                 Email = model.Email,
                 Phone = model.Phone,
-                RegisterDate = model.RegisterDate,
-                PicturePath = model.PicturePath,
-                AboutSeller = model.AboutSeller
+                RegisterDate = DateTime.Now
             });
 
             _DBcontext.SaveChanges();
