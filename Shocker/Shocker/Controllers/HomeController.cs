@@ -28,5 +28,12 @@ namespace Shocker_Project.Controllers
 		{
 			return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
 		}
-	}
+		
+		public IActionResult GetProductlist (string search)
+		{
+			ViewBag.Search = search;
+			return View();
+		}
+
+}
 }
