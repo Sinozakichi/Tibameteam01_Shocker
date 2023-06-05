@@ -100,7 +100,7 @@ namespace Shocker.Areas.Admin.Controllers
             return Json(cu);
         }
 
-        public JsonResult CreateActivCoupon()
+        public JsonResult CreateHBDCoupon()
         { 
             var now  = DateTime.Now;
             var allUser = _context.Users.Where(x=>x.BirthDate!=null).ToList();
@@ -134,7 +134,12 @@ namespace Shocker.Areas.Admin.Controllers
 
             return Json(new {message="生日比對完畢" });
          }
-        
+
+        public JsonResult CreateActivCoupon()  //需要創造另外一個資料表 CID 為 null 發送 STATUS 已使用未使用
+        {
+            
+            return Json(null);
+        }
 
     }
 }
