@@ -47,7 +47,7 @@
 			</ul>
 			<div class="header__cart__price">item: <span>$100.00</span></div>
 		</div>
-		<div class="humberger__menu__widget">			
+		<div class="humberger__menu__widget">
 			<div class="header__top__right__auth">
 				<a href="#"><i class="fa fa-user"></i> 註冊</a>
 				<a class="nav-link text-dark" asp-controller="User" asp-action="MyAccount" asp-route-tab="a"><i class="fa fa-user"></i>我的帳戶</a>
@@ -81,7 +81,7 @@
 			</ul>
 		</nav>
 		<div id="mobile-menu-wrap"></div>
-		<ul class="header__menu__dropdown">			
+		<ul class="header__menu__dropdown">
 		</ul>
 		<div class="humberger__menu__contact">
 			<ul>
@@ -103,11 +103,19 @@
 						</div>
 					</div>
 					<div class="col-lg-6 col-md-6">
-						<div class="header__top__right">						
+						<div class="header__top__right">
 							<div class="header__top__right__auth">
-								<a href="#"><i class="fa fa-user"></i> 註冊</a>
-								<a class="nav-link text-dark" asp-controller="User" asp-action="MyAccount" asp-route-tab="a"><i class="fa fa-user"></i>我的帳戶</a>
+								<a class="nav-link text-dark" asp-controller="Member" asp-action="Register"><i class="fa fa-user"></i> 註冊</a>
 							</div>
+							<div class="header__top__right__auth">
+								<a class="nav-link text-dark" asp-controller="Member" asp-action="Signin"><i class="fa fa-user"></i> 登入</a>
+							</div>
+							<div class="header__top__right__auth">
+								<a class="nav-link text-dark" asp-controller="Member" asp-action="SignOut"><i class="fa fa-user"></i> 登出</a>
+							</div>
+							<div class="header__top__right__auth">
+								<a class="nav-link text-dark" asp-controller="User" asp-action="MyAccount" asp-route-tab="a"><i class="fa fa-user"></i>我的帳戶</a>
+							</div>							
 						</div>
 					</div>
 				</div>
@@ -163,9 +171,9 @@
 				<div class="col">
 				</div>
 				<div class="hero__search__form col-6">
-					@*<form action="#">				
-						<input type="text" placeholder="今晚我想買點?">
-						<button type="submit" class="site-btn"><a class="text-dark" asp-controller="Home" asp-action="GetProductlist">SEARCH</a></button>
+					@*<form action="#">
+					<input type="text" placeholder="今晚我想買點?">
+					<button type="submit" class="site-btn"><a class="text-dark" asp-controller="Home" asp-action="GetProductlist">SEARCH</a></button>
 					</form>*@
 					<form action="/Home/GetProductlist" method="post">
 						<input type="text" name="search" placeholder="今晚我想買點?" />
@@ -229,7 +237,7 @@
 								Copyright &copy;<script>document.write(new Date().getFullYear());</script> All rights reserved | This template is made with <i class="fa fa-heart" aria-hidden="true"></i> by <a href="https://colorlib.com" target="_blank">Colorlib</a>
 								<!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
 							</p>
-						</div>						
+						</div>
 					</div>
 				</div>
 			</div>
