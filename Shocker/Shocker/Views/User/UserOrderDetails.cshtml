@@ -258,11 +258,9 @@
 
 <script src="https://cdn.jsdelivr.net/npm/vue@2.7.14"></script>
 <script src="~/axios/axios.min.js"></script>
-<script src="~/js/jquery-3.3.1.min.js"></script>
-<script src="~/js/star-rating.min.js"></script>
+<script src="~/js/jquery-3.3.1.min.js"></script>>
 <script src="~/js/popper.min.js"></script>
 <script>
-	var baseAddress = "https://localhost:7259/User";
 	var app = new Vue({
 		el: '#app',
 		data: {
@@ -290,7 +288,7 @@
 			getUserOrderDetails: function () {
 				var _this=this;
 				var id = location.search.replace('?id=', '');
-				axios(`/User/GetUserOrderDetails/${id}`).then(x=> {
+				axios.get(`/User/GetUserOrderDetails/${id}`).then(x=> {
 					if (x.data.status) {_this.allData = x.data.data;}
 					else { alert('not found data') }
 				
@@ -303,7 +301,7 @@
 					ProductId: productId,
 					StarCount: rating
 				}
-				axios.post(`${baseAddress}/CreateRating`, request).then(response => {
+				axios.post(`/User/CreateRating`, request).then(response => {
 					alert('完成評價!')
 					_this.getUserOrderDetails();
 				})
@@ -315,7 +313,7 @@
 					OrderId: _this.allData.order.orderId,
 					Returnreason: _this.returnReason
 				}
-				axios.post(`${baseAddress}/UpdateOdReturnReason`, request).then(reponse => {
+				axios.post(`/User/UpdateOdReturnReason`, request).then(reponse => {
 					alert('成功送出退貨申請')
 					_this.getUserOrderDetails();
 				})
@@ -327,7 +325,7 @@
 					ProductId: productId,
 					Description: _this.ratingDescription
 				}
-				axios.post(`${baseAddress}/UpdateRatingDescription`, request).then(reponse => {
+				axios.post(`/User/UpdateRatingDescription`, request).then(reponse => {
 					alert('成功送出評價內容')					
 					_this.getUserOrderDetails();
 				})
@@ -338,7 +336,7 @@
 					OrderId: _this.allData.order.orderId,
 					ProductId: productId,
 				}
-				axios.post(`${baseAddress}/TakeProduct`, request).then(reponse => {
+				axios.post(`/User/TakeProduct`, request).then(reponse => {
 					alert('成功收到商品')
 					_this.getUserOrderDetails();
 				})

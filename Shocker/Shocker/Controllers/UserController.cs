@@ -19,6 +19,39 @@ namespace Shocker.Controllers
 			_context = context;
 			_environment = environment;
 		}
+		//後併入ShoppindCartController
+		[HttpGet]
+		public ApiResultModel GetPopluarProduct()
+		{
+			var p = _context.Products.Where(p =>  p.Status == "p1").Include(p => p.Pictures).OrderByDescending(p => p.Sales).Take(4).Select(p => new {
+				productId = p.ProductId,
+				productName = p.ProductName,
+				path = p.Pictures.FirstOrDefault().Path,
+			}).ToList();
+
+			var p1 = _context.Products.Where(p => p.ProductCategoryId == 1 && p.Status == "p1").Include(p => p.Pictures).OrderByDescending(p => p.Sales).Take(4).Select(p => new {
+				productId = p.ProductId,
+				productName = p.ProductName,
+				path = p.Pictures.FirstOrDefault().Path,
+			}).ToList();
+
+			var p2 = _context.Products.Where(p => p.ProductCategoryId == 2 && p.Status == "p1").Include(p => p.Pictures).OrderByDescending(p => p.Sales).Take(4).Select(p => new {
+				productId = p.ProductId,
+				productName = p.ProductName,
+				path = p.Pictures.FirstOrDefault().Path,
+			}).ToList();
+			return new ApiResultModel()
+			{
+				Status = true,
+				Data = new
+				{
+					Allproduct=p,
+					product1 = p1,
+					product2 = p2,
+				}
+			};
+		}
+		//
 		[HttpGet]
 		public IActionResult MyAccount(string tab)//點選用戶資訊編輯的菜單選項時，帶一個tab的參數，依據參數abcde呈現不同的Partial View
 		{

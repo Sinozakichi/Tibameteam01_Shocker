@@ -1,9 +1,10 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Shocker.Models;
 using System.Diagnostics;
 
 namespace Shocker_Project.Controllers
-{
+{	
 	public class HomeController : Controller
 	{
 		private readonly ILogger<HomeController> _logger;
@@ -12,7 +13,6 @@ namespace Shocker_Project.Controllers
 		{
 			_logger = logger;
 		}
-
 		public IActionResult Index()
 		{
 			return View();
@@ -21,8 +21,7 @@ namespace Shocker_Project.Controllers
 		public IActionResult Privacy()
 		{
 			return View();
-		}
-
+		}		
 		[ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
 		public IActionResult Error()
 		{
