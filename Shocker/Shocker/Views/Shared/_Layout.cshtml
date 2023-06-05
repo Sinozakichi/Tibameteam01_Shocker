@@ -104,18 +104,28 @@
 					</div>
 					<div class="col-lg-6 col-md-6">
 						<div class="header__top__right">
-							<div class="header__top__right__auth">
-								<a class="nav-link text-dark" asp-controller="Member" asp-action="Register"><i class="fa fa-user"></i> 註冊</a>
-							</div>
-							<div class="header__top__right__auth">
-								<a class="nav-link text-dark" asp-controller="Member" asp-action="Signin"><i class="fa fa-user"></i> 登入</a>
-							</div>
-							<div class="header__top__right__auth">
-								<a class="nav-link text-dark" asp-controller="Member" asp-action="SignOut"><i class="fa fa-user"></i> 登出</a>
-							</div>
+							@{
+								if (User.Identity.IsAuthenticated)
+								{
+									<div class="header__top__right__auth">
+										<a class="nav-link text-dark" asp-controller="Member" asp-action="SignOut"><i class="fa fa-user"></i> 登出</a>
+									</div>
+								}
+								else
+								{
+									<div class="header__top__right__auth">
+										<a class="nav-link text-dark" asp-controller="Member" asp-action="Register"><i class="fa fa-user"></i> 註冊</a>
+									</div>
+									<div class="header__top__right__auth">
+										<a class="nav-link text-dark" asp-controller="Member" asp-action="Signin"><i class="fa fa-user"></i> 登入</a>
+									</div>
+								}
+							}
+							
 							<div class="header__top__right__auth">
 								<a class="nav-link text-dark" asp-controller="User" asp-action="MyAccount" asp-route-tab="a"><i class="fa fa-user"></i>我的帳戶</a>
-							</div>							
+							</div>		
+							
 						</div>
 					</div>
 				</div>
