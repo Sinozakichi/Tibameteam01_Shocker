@@ -133,7 +133,6 @@
 			getOrders: function () {
 				var _this = this;
 				axios.get(`${baseAddress}/GetOrders`).then(response => {
-					console.log(JSON.stringify(response.data.data));
 					_this.orders = response.data.data;
 				});
 			},
