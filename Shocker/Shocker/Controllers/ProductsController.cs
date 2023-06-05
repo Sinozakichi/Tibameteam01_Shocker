@@ -70,7 +70,7 @@ namespace Shocker.Controllers
 		public JsonResult GetProducts()
 		{
 			var product = from p in _context.Products
-						  where p.SellerAccount == loginAccount
+						  //where p.SellerAccount == loginAccount
 						  select new Products
 						  {
 							  ProductId = p.ProductId,

@@ -1,30 +1,79 @@
 ﻿@model Shocker.Models.ViewModels.CustomerQAViewModel
+@section Styles
+    {
+    <style>
+        .formborder {
+            border:1px solid;
+            border-radius:10px;
+            box-shadow: 10px 12px 3px 0px rgba(203,218,192,0.75);
+            -webkit-box-shadow: 10px 12px 3px 0px rgba(203,218,192,0.75);
+            -moz-box-shadow: 10px 12px 3px 0px rgba(203,218,192,0.75);
+            padding :20px;
+        }
+        .categoryCenter{
+            margin: 0 36%;
+        }
+        .allBorder{
+            border: 3px solid;
+        }
+        .selectBorder{
+            width: 300px;
+            text-align:center;
+        }
 
+        .contact-form form textarea {
+            width: 80%;
+            height: 150px;
+            font-size: 16px;
+            color: black;
+            padding-left: 20px;
+            margin:0 10%;
+            margin-bottom: 24px;
+            border: 3px solid black;
+            border-radius: 4px;
+            padding-top: 12px;
+            resize: none;
+        }
+
+    </style>
+}
 
 <body>
-        
-       <form asp-controller="CustomerQuestion" asp-action="Index" method="post">
-
-         <div class="form-group">
-           <span asp-validation-for="QuestionCategoryId" class="text-danger"></span>
-        
-        <select class="form-select"  asp-for="QuestionCategoryId">
-                <option selected >請選擇您的問題種類</option>
-                <option value="1">帳號問題</option>
-                <option value="2">付款問題</option>
-                <option value="3">退款問題</option>
-                <option value="4">更改出貨地址</option>
-                <option value="5">其他類別</option>
-            </select>
-
+    <div class="contact-form spad ">
+        <div class="container formborder">
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="contact__form__title">
+                        <h2>ContantUS</h2>
+                    </div>
+                </div>
+            </div>
+            <form asp-controller="CustomerQuestion" asp-action="Index" method="post">
+                <div class="row">
+                    <div class="col-lg-12 col-md-12 text-center categoryCenter">
+                        <select class="selectBorder allBorder " asp-for="QuestionCategoryId">
+                            <option selected>請選擇您的問題種類</option>
+                            <option value="1">帳號問題</option>
+                            <option value="2">付款問題</option>
+                            <option value="3">退款問題</option>
+                            <option value="4">更改出貨地址</option>
+                            <option value="5">其他類別</option>
+                        </select>
+                    </div>
+                    <div class="col-lg-12 col-md-12 text-center">
+                        <span asp-validation-for="QuestionCategoryId" class="text-danger"></span>
+                    </div>
+                    <hr />
+                    <div class="col-lg-12 col-md-12 text-center">
+                        <textarea asp-for="Description" class="allBorder" rows="20" cols="10" placeholder="請輸入您的問題我們會儘快回復"></textarea>
+                        <div class="col-lg-12 col-md-12 text-center">
+                            <span asp-validation-for="Description" class="text-danger"></span>
+                        </div>
+                        <button type="submit" class="site-btn">Submit</button>
+                    </div>
+                </div>
+            </form>
         </div>
-        <div class="form-group">
-            <textarea asp-for="Description" cols="30" rows="10" placeholder="請在此輸入問題並送出" class="form-control" style="resize:none"></textarea>
-            <span asp-validation-for="Description" class="text-danger"></span>
-            <button type="submit" name="submit">送出</button>
-        </div>
-        </form>
-
-   
+    </div>
 </body>
 

@@ -194,7 +194,9 @@ namespace Shocker.Models
                 entity.HasKey(e => e.OrderId)
                     .HasName("PK_Orders_1");
 
-                entity.Property(e => e.OrderId).HasColumnName("OrderID");
+                entity.Property(e => e.OrderId)
+                    .ValueGeneratedNever()
+                    .HasColumnName("OrderID");
 
                 entity.Property(e => e.Address)
                     .IsRequired()
@@ -203,6 +205,10 @@ namespace Shocker.Models
                 entity.Property(e => e.ArrivalDate).HasColumnType("smalldatetime");
 
                 entity.Property(e => e.BuyerAccount)
+                    .IsRequired()
+                    .HasMaxLength(50);
+
+                entity.Property(e => e.BuyerName)
                     .IsRequired()
                     .HasMaxLength(50);
 
@@ -216,7 +222,9 @@ namespace Shocker.Models
                     .IsRequired()
                     .HasMaxLength(30);
 
-                entity.Property(e => e.Status).HasMaxLength(10);
+                entity.Property(e => e.Status)
+                    .IsRequired()
+                    .HasMaxLength(10);
 
                 entity.HasOne(d => d.BuyerAccountNavigation)
                     .WithMany(p => p.Orders)
@@ -227,6 +235,7 @@ namespace Shocker.Models
                 entity.HasOne(d => d.StatusNavigation)
                     .WithMany(p => p.Orders)
                     .HasForeignKey(d => d.Status)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_Orders_Status");
 
                 entity.HasOne(d => d.Addresses)

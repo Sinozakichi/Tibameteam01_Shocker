@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.CodeAnalysis;
+using Microsoft.EntityFrameworkCore;
 using Shocker.Models;
 using Shocker.Models.ViewModels;
 
@@ -10,20 +11,20 @@ namespace Shocker.Controllers
         private readonly IWebHostEnvironment _environment;
         private readonly IConfiguration _configuration;
         private readonly db_a98a02_thm101team1001Context _context;
-
+        private readonly string loginAccount = "User2";
         public ShoppingCartController(db_a98a02_thm101team1001Context context, IWebHostEnvironment environment, IConfiguration configuration)
         {
             _context = context;
             _environment = environment;
             _configuration = configuration;
         }
-        string loginAccount = "User2";
         public IActionResult Index()
         {
-
-            return View();
+            int productId = 10;
+            var products = _context.Products.Where(x => x.ProductId==productId).OrderByDescending(m => m.ProductId);
+            return View(products);
         }
-        //此頁為產品列表, 按下開始購物後取得產品類別 名稱 單價 賣家 產品敘述 發行日期給產品列表 但還少加了圖片
+
         public IActionResult Product()
         {
               return View();
@@ -41,89 +42,123 @@ namespace Shocker.Controllers
                                Quantity = x.Quantity
 
                            };
+
+            //var products = _context.Pictures.Select(p =>
+            //                new
+            //                {
+            //                    PictureId= p.PictureId,
+            //                    PicturePath=p.Path,
+            //                    ProductId = p.ProductId,
+            //                    ProductName = p.Product.ProductName,
+            //                    UnitPrice = p.Product.UnitPrice,
+
+            //                }
+            //                );
+
             return Json(products);
         }
-        //取得資料庫購物車內容 顯示到按結帳後出現的畫面 目前沒有新增連結 所以查網頁ShoppingCart/ShoppingCart
         public IActionResult ShoppingCart()
         {
             return View();
         }
-        [HttpPost]
-        public async Task<JsonResult> GetShopping(/*[FromBody] ShoppingViewModel shoppingViewModel*/)
+        [HttpGet]
+        public JsonResult GetShopping()
         {
-               var d = _context.Shopping.Select(p => new
+            var cart = _context.Shopping.Where(c => c.BuyerAccount == loginAccount)
+                .Select(c => new
                 {
-                    Quantity= p.Quantity ,
-                    ProductName = p.Product.ProductName,
-                    ProductId =p.ProductId,
-                    UnitPrice=p.Product.UnitPrice,
+                    sellerAccount = c.Product.SellerAccount,
+                    productId = c.ProductId,
+                    productName = c.Product.ProductName,
+                    categoryId = c.Product.ProductCategoryId,
+                    categoryName = c.Product.ProductCategory.CategoryName,
+                    unitPrice = c.Product.UnitPrice,
+                    quantity = c.Quantity,
+                    unitsInStock = c.Product.UnitsInStock,
+                    currency = c.Product.Currency,
+                    picture = c.Product.Pictures.ToList().Select(p => new
+                    {
+                        pictureId = p.PictureId,
+                        picturePath = p.Path
+                    })
+                }).ToList().GroupBy(c => c.sellerAccount, (seller, product) => new
+                {
+                    sellerAccount = seller,
+                    productCount = product.Count(),
+                    products = product.Select(p => new
+                    {
+                        p.productId, p.productName, p.categoryId, p.categoryName, p.unitPrice, p.quantity, p.unitsInStock, p.picture, p.currency
+                    })
                 });
-
-                return Json(d);
-            }
-   
-        string loginaccount = "User2";
-        
-        //(一)想做將商品加入購物車的功能 以下是自己跟延榮寫的 
+            var coupon = _context.Coupons.Where(c => c.HolderAccount == loginAccount && c.Status == "c0")
+                .Where(c => DateTime.Compare(c.ExpirationDate, DateTime.Now) >= 0)
+                .Select(c => new { c.CouponId, c.ProductCategoryId, c.ProductCategory.CategoryName, c.Discount })
+                .ToList().GroupBy(c => c.ProductCategoryId, (category, coupon) => new
+                {
+                    categoryId = category,
+                    coupons = coupon.Select(c => new
+                    {
+                        c.CouponId, c.CategoryName, c.Discount
+                    })
+                });
+			if (cart == null) return Json(new { Result = "null"});
+            return Json(new { cart, coupon });
+        }
         [HttpPost]
-        public async Task<JsonResult> AddCart([FromBody] ShoppingViewModel shopping)
+        public async Task<JsonResult> AddCart([FromBody]ShoppingViewModel product)
         {
             if (ModelState.IsValid)
-            {
-                //if (currentcar == null)
-                //{
-                Shopping s = new Shopping();
-                /*Shopping s = new Shopping()*/
-                s.ProductId = shopping.ProductId;
-                s.Product.ProductName = shopping.ProductName;
-                s.Product.UnitPrice = shopping.UnitPrice;
-                s.Quantity = shopping.Quantity;
-                _context.Shopping.Add(s);
-                await _context.SaveChangesAsync();
-                return Json(new { Result = "OK", Record = shopping });
+			{
+				for (int i = 0; i < product.ProductId.Count; i++)
+				{
+					var p = await _context.Shopping.FindAsync(product.BuyerAccount, product.ProductId[i]);
+                    if (p == null) continue;
+					if (p.Quantity == product.Quantity[i]) continue;
+					p.Quantity = product.Quantity[i];
+					_context.Update(p);
+					await _context.SaveChangesAsync();
+				}
+                return Json(new {Result = "OK", Message = "更新成功" });
             }
             else
             {
-                return Json(new { Result = "Error", Message = "新增失敗" });
+                return Json(new {Result = "Error", Message = "更新失敗" });
             }
         }
-        //(二)想做將商品加入購物車的功能 以下是書上寫的判斷式
-        public IActionResult AddCar([FromBody] ShoppingViewModel shoppingViewmodel)
+        [HttpPost]
+        public async Task<JsonResult> Delete(int id)
         {
-            if (ModelState.IsValid)
+            Shopping? shopping = await _context.Shopping.FindAsync(loginAccount, id);
+			if (shopping == null)
+			{
+				return Json(new { Result = "Error", Message = "找不到欲刪除商品" });
+			}
+            try
             {
-                string UserId = loginaccount;//User.Identity.Name;
-                var currentcar = _context.Shopping.Where(m => m.ProductId == shoppingViewmodel.ProductId && m.BuyerAccount == UserId).FirstOrDefault();
-                if (currentcar == null)
-                {
-                    var product = _context.Shopping.Where(m => m.ProductId == shoppingViewmodel.ProductId).FirstOrDefault();
-                    Shopping shopping = new Shopping();
-                    shopping.ProductId = shoppingViewmodel.ProductId;
-                    shopping.Quantity = 1;
-                    _context.Shopping.Add(shopping);
-                }
-                else
-                {
-                    currentcar.Quantity += 1;
-                }
-                _context.SaveChanges();
-                return View();
-            }
-            else
-            {
-                return RedirectToAction("ShoppingCart");
-            }
-        }
-        //將商品從購物車移除
-        public IActionResult Delete(int Id)
+				_context.Shopping.Remove(shopping);
+				await _context.SaveChangesAsync();
+			}
+			catch (DbUpdateException)
+			{
+				return Json(new { Result = "Error", Message = "刪除失敗" });
+			}
+			return Json(new { Result = "OK", Message = "刪除成功" });
+		}
+        [HttpPost]
+        public JsonResult GetUserInfo(string id)
         {
-            var shopping = _context.Shopping.Where(m => m.ProductId == 1).FirstOrDefault();
-            _context.Shopping.Remove(shopping);
-            _context.SaveChanges();
-            return RedirectToAction("ShoppingCart");
+            var user = _context.Users.Where(u => u.Id == id)
+                .Select(u => new
+                {
+                    u.Id,
+                    u.NickName,
+                    u.Email,
+                    u.Phone,
+					Addresses = u.Addresses.Select(a => a.Address)
+				});
+            return Json(user);
         }
 
-        //按結帳後出現的收件人填寫訂單資料
         [HttpPost]
         //[ValidateAntiForgeryToken]
         public IActionResult Create(OrdersViewModel ordersViewModel)
@@ -131,7 +166,7 @@ namespace Shocker.Controllers
 
             if (ModelState.IsValid)
             {
-                string UserId = loginaccount;//User.Identity.Name;
+                string UserId = loginAccount;//User.Identity.Name;
                                              //string guid = Guid.NewGuid().ToString();
                 Orders order = new Orders();
                 order.BuyerAccount = UserId;
@@ -141,6 +176,15 @@ namespace Shocker.Controllers
                 order.PayMethod = ordersViewModel.PayMethod;
                 order.Status = "o1";
                 _context.Orders.Add(order);
+                //order.BuyerAccount = "User2";
+                //order.Address = "台中";
+                //order.BuyerPhone = "0933335566";
+                //order.OrderDate = DateTime.Now;
+                //order.PayMethod = "信用卡";
+                //order.Status = "未出貨";
+                //order.ArrivalDate = ;
+                //_context.Orders.Add(order);
+
                 var carList = _context.Orders.Where(m => m.BuyerAccount == UserId)/*.ToList()*/;
 
 
@@ -155,7 +199,14 @@ namespace Shocker.Controllers
         }
 
 
-        //確認填寫完收件人訂單資料後要出現訂單明細
+        //建立訂單主檔列表
+        public IActionResult OrderList()
+        {
+            string UserId = loginAccount;//User.Identity.Name;
+            var orders = _context.Orders.Where(m => m.BuyerAccount == UserId).OrderByDescending(m => m.OrderDate).ToList();
+            //目前會員的訂單主檔OrderList
+            return View(orders);
+        }
         public IActionResult OrderDetails(int OrderId)
         {
             var orderDetails = _context.OrderDetails.Where(m => m.OrderId == OrderId).ToList();

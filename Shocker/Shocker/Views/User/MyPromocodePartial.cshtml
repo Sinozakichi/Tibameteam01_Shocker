@@ -8,7 +8,7 @@
 			<h2 class="text-center">優惠卷一覽</h2>
 		</div>
 	</div>
-	<div class="container" v-for="item in Coupons">
+	<div class="container" v-for="item in coupons">
 		<div class="card">
 			<h5 class="card-header">編號:{{item.couponId}}</h5>
 			<template v-if="item.statusName=='已使用'">
@@ -35,10 +35,10 @@
 <script src="~/axios/axios.min.js"></script>
 <script>
 	var baseAddress = "https://localhost:7259/User";
-	var Vue = new Vue({
+	var app = new Vue({
 		el: '#app',
 		data: {
-			Coupons: [],
+			coupons: [],
 		},
 		mounted: function () {
 			this.getCoupons();
@@ -46,8 +46,7 @@
 		methods: {
 			getCoupons: function () {
 				axios.get(`${baseAddress}/GetCoupons`).then(response => {
-					alert(JSON.stringify(response.data));
-					this.Coupons = response.data;
+					this.coupons = response.data.data.coupons;
 				})
 			}
 		}
