@@ -1,5 +1,5 @@
 ﻿@section Styles
-{
+	{
 }
 
 <div id="app" class="container">
@@ -10,21 +10,21 @@
 				<span class="navbar-toggler-icon"></span>
 			</button>
 			<div class="collapse navbar-collapse" id="navbarNav">
-				<ul class="nav nav-tabs justify-content-center">					
+				<ul class="nav nav-tabs justify-content-center">
 					<li class="nav-item">
-						<a class="nav-link" href="#" @@click="filterStatus('o1')">未出貨</a>
+						<a class="nav-link" href="#" @@click="filterStatus('未出貨')">未出貨</a>
 					</li>
 					<li class="nav-item">
-						<a class="nav-link" href="#" @@click="filterStatus('o2')">未完全收貨</a>
+						<a class="nav-link" href="#" @@click="filterStatus('未完全收貨')">未完全收貨</a>
 					</li>
 					<li class="nav-item">
-						<a class="nav-link" href="#" @@click="filterStatus('o3')">已收貨</a>
+						<a class="nav-link" href="#" @@click="filterStatus('已收貨')">已收貨</a>
 					</li>
 					<li class="nav-item">
-						<a class="nav-link" href="#" @@click="filterStatus('o4')">含退貨</a>
+						<a class="nav-link" href="#" @@click="filterStatus('含退貨')">含退貨</a>
 					</li>
 					<li class="nav-item">
-						<a class="nav-link" href="#" @@click="filterStatus('o5')">已取消</a>
+						<a class="nav-link" href="#" @@click="filterStatus('已取消')">已取消</a>
 					</li>
 				</ul>
 			</div>
@@ -33,7 +33,7 @@
 			<thead>
 				<tr>
 					<th scope="col">查看詳情</th>
-					<th scope="col">商品名稱</th>					
+					<th scope="col">訂單編號</th>
 					<th scope="col">訂單狀態</th>
 					<th scope="col">付款方式</th>
 					<th scope="col">訂單總額</th>
@@ -41,39 +41,40 @@
 			</thead>
 			<tbody>
 				<tr v-for="(item,index) in ordersInPage">
-					<td scope="row">					
-						<a button type="button" class="btn btn-outline-primary" :href="'/User/UserOrderDetails?id='+item.orderId">訂單詳情頁面</a>										
+					<td scope="row">
+						<a button type="button" class="btn btn-outline-primary" :href="'/User/UserOrderDetails?id='+item.orderId">訂單詳情頁面</a>
 					</td>
-					<td>{{item.productName.length>3?item.productName.slice(0,3).join(',')+'...':item.productName.join(',')}}</td>
-					<td>{{item.statusName}}
-						<template v-if="item.statusName=='未出貨'">
+					<td>{{item.orderId}}</td>
+					<td>
+						{{item.status}}
+						<template v-if="item.status=='未出貨'">
 							<button type="button" class="btn btn-outline-danger" data-toggle="modal" data-target="#cancelordersModal" @@click="cancel(item.orderId)">取消訂單</button>
 							<div class="modal fade" id="cancelordersModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-											<div class="modal-dialog">
-												<div class="modal-content">
-													<div class="modal-header">
-														<h5 class="modal-title" id="exampleModalLabel">取消訂單</h5>
-														<button type="button" class="close" data-dismiss="modal" aria-label="Close">
-															<span aria-hidden="true">&times;</span>
-														</button>
-													</div>
-													<div class="form-group">
-														<label for="exampleFormControlTextarea1">您確定要取消編號{{orderId}}訂單?裡面總共有{{productName.join(',')}}等品項</label>														
-													</div>
-													<div class="modal-footer">
-														<button type="button" class="btn btn-secondary" data-dismiss="modal">取消</button>
-														<button type="button" class="btn btn-danger" data-dismiss="modal" @@click="cancelOrders(item.orderId)">確定</button>
-													</div>
-												</div>
-											</div>
+								<div class="modal-dialog">
+									<div class="modal-content">
+										<div class="modal-header">
+											<h5 class="modal-title" id="exampleModalLabel">取消訂單</h5>
+											<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+												<span aria-hidden="true">&times;</span>
+											</button>
 										</div>
+										<div class="form-group">
+											<label for="exampleFormControlTextarea1">您確定要取消編號{{orderId}}訂單?裡面總共有{{productName.join(',')}}等品項</label>
+										</div>
+										<div class="modal-footer">
+											<button type="button" class="btn btn-secondary" data-dismiss="modal">取消</button>
+											<button type="button" class="btn btn-danger" data-dismiss="modal" @@click="cancelOrders(orderId)">確定</button>
+										</div>
+									</div>
+								</div>
+							</div>
 						</template>
 					</td>
 					<td>{{item.payMethod}}</td>
-					<td>{{totalPrice[index]}}</td>
+					<td>{{totalPrice(item.orderId)}}</td>
 				</tr>
 			</tbody>
-		</table>		
+		</table>
 	</div>
 	<div class="row justify-content-center">
 		<paginate :page-count="pageCount"
@@ -97,28 +98,30 @@
 <script>
 	Vue.component('paginate', VuejsPaginate)
 	var baseAddress = "https://localhost:7259/User";
-	var Vue = new Vue({
+	var app = new Vue({
 		el: '#app',
 		data: {
-			Orders: [],
-			totalPrice:[],
+			orders: {
+				order: [],
+				orderdetails: []
+			},
+			status: "未出貨",
 			orderId:"",
-			status:"o1",
-			productName:[],
-			maxCount:10,
-			currentPage:1
+			productName: [],
+			maxCount: 5,
+			currentPage: 1
 		},
 		mounted: function () {
 			this.getOrders();
 		},
-		computed:{
-			pageCount:function(){
-				return Math.ceil(this.Orders/this.maxCount);
+		computed: {
+			pageCount: function () {
+				return Math.ceil(this.orders.order / this.maxCount);
 			},
 			filterOrders: function () {
-				return this.Orders.filter(o => o.status == this.status);
+				return this.orders.order.filter(o => o.status == this.status);
 			},
-			ordersInPage: function() {
+			ordersInPage: function () {
 				var max = this.currentPage * this.maxCount;
 				var min = this.maxCount * (this.currentPage - 1) + 1;
 				console.log('max', max);
@@ -126,29 +129,20 @@
 				return this.filterOrders.slice(min - 1, max);
 			},
 		},
-		methods:{
-			getOrders:function(){
-				alert('getOrders')
-				axios.get(`${baseAddress}/GetOrders`).then(response=>{
-					alert(JSON.stringify(response.data));
-					this.Orders=response.data;
-					var value = 0;
-					for(var i=0;i<this.Orders.length;i++){
-						value = 0;
-						for (var j = 0; j < this.Orders[i].quantity.length; j++){
-							value+=this.Orders[i].quantity[j] * this.Orders[i].unitPrice[j];						
-						}
-						this.totalPrice.push(value)
-					}
+		methods: {
+			getOrders: function () {
+				var _this = this;
+				axios.get(`${baseAddress}/GetOrders`).then(response => {
+					_this.orders = response.data.data;
 				});
 			},
-			cancel:function(orderId){
-				for (var i = 0; i < this.Orders.length; i++) {
-					if (this.Orders[i].orderId == orderId) {
-						this.orderId = this.Orders[i].orderId;
-						for(var j=0;j<this.Orders[i].productName.length;j++){
-						this.productName.push(this.Orders[i].productName[j]);
-						}
+			cancel: function (id) {
+				var _this = this;
+				_this.orderId=id;
+				_this.productName = [];
+				for (var i = 0; i < _this.orders.orderdetails.length; i++) {
+					if (_this.orders.orderdetails[i].orderId == id) {
+						_this.productName.push(_this.orders.orderdetails[i].productName);
 					}
 				}
 			},
@@ -159,15 +153,47 @@
 				axios.post(`${baseAddress}/CancelOrders`,request).then(reponse=>{
 					alert('取消訂單成功');
 					this.getOrders();
-				});			
-			},	
-			changePage:function(page){
-				console.log(page);
-				this.currentPage=page;
+				});
 			},
-			filterStatus:function(status){
-				this.status=status
-			}
-		} 
+			changePage: function (page) {
+				console.log(page);
+				this.currentPage = page;
+			},
+			filterStatus: function (status) {
+				this.status = status
+			},
+			totalPrice: function (id) {
+				var sum = 0;
+				for (var i = 0; i < this.orders.orderdetails.length; i++) {
+					if (this.orders.orderdetails[i].orderId == id) {
+						if (this.orders.orderdetails[i].discount == null) {
+							sum += this.orders.orderdetails[i].quantity * this.orders.orderdetails[i].unitPrice;
+						}
+						else {
+							sum += this.orders.orderdetails[i].quantity * this.orders.orderdetails[i].unitPrice * this.orders.orderdetails[i].discount;
+						}
+					}
+				}
+				return Math.ceil(sum);
+			},
+			//findOrderdetails: function (id) {
+			//	var _this = this;
+			//	_this.productName = [];
+			//	for (var i = 0; i < _this.orders.orderdetails.length; i++) {
+			//		if (_this.orders.orderdetails[i].orderId == id) {
+			//			_this.productName.push(_this.orders.orderdetails[i].productName);
+			//		}
+			//	}
+			//},
+		},
 	});
+
+
+
+
+
+
+				
+			
+
 </script>						

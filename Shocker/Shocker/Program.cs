@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.EntityFrameworkCore;
 using Shocker.Models;
 
@@ -15,7 +16,15 @@ namespace Shocker
             var db_a98a02_thm101team1001ConnectionString = builder.Configuration.GetConnectionString("db_a98a02_thm101team1001") ?? throw new InvalidOperationException("Connection string 'DefaultConnection' not found.");
             builder.Services.AddDbContext<db_a98a02_thm101team1001Context>(options =>
                 options.UseSqlServer(db_a98a02_thm101team1001ConnectionString));
-            
+
+            builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
+                .AddCookie(opt => {
+                    opt.LoginPath = "/Member/Signin";
+                    opt.AccessDeniedPath = "/Member/AccessDenied";
+                    opt.ExpireTimeSpan = TimeSpan.FromDays(1);
+                });
+
+
             var app = builder.Build();
 
             // Configure the HTTP request pipeline.

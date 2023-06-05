@@ -4,9 +4,7 @@ namespace Shocker.Models.ViewModels
 {
     public class PictureViewModel
     {
-        [Display(Name = "帳號名稱")]//Readonly
-        public string Id { get; set; }
-        [Display(Name = "圖片")]
+        public string Id { get; set; }       
         public IFormFile Picture { get; set; }
     }
 }
