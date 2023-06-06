@@ -26,7 +26,7 @@
 			<div class="mb-3 row">
 				<label for="inputPassword" class="col-sm-2 col-form-label">密碼</label>
 				<div class="col-sm-10">
-					<input type="password" readonly class="form-control-plaintext" id="inputPassword" v-model="users.user.password">
+					<input type="password" readonly maxlength="50" class="form-control-plaintext" id="inputPassword" v-model="users.user.password">
 				</div>
 			</div>
 
@@ -54,7 +54,7 @@
 			<div class="mb-3 row">
 				<label for="inputEmail" class="col-sm-2 col-form-label">郵件</label>
 				<div class="col-sm-10">
-					<input type="text" readonly class="form-control-plaintext" id="inputEmail" v-model="users.user.email">
+					<input type="text" maxlength="50" readonly class="form-control-plaintext" id="inputEmail" v-model="users.user.email">
 				</div>
 			</div>
 
@@ -167,16 +167,18 @@
 					<option value="" disabled>選擇地址</option>
 					<option v-for="item in users.address" :value="item.address" :key="item.address">{{item.address}}</option>
 				</select>
+				
 			</div>
 
 			<div class="mb-3 row">
-				<label for="inputEmail" class="col-sm-2 col-form-label">新增地址</label>
+				<label for="inputEmail"  class="col-sm-2 col-form-label">新增地址</label>
 				<div class="col-sm-10">
-					<input type="text" class="form-control" id="inputEmail" v-model="addAddress">
+					<input type="text" maxlength="50" class="form-control" id="inputEmail" v-model="addAddress">
 				</div>
 				<div v-if="aErrorbox" class="text-danger">
 					<h5 class="text-danger">錯誤:{{eAddress}}</h5>
 				</div>
+				
 			</div>
 
 			<div class="row">
@@ -256,10 +258,10 @@
 					address: _this.addAddress
 				};
 				axios.post(`/User/UpdateAccount`, request).then(response => {
-					alert('!')//跳更新成功的訊息 =>res.data.message
+					response.data.status ? alert("更新成功") : alert("未更新")})//跳更新成功的訊息 
 					//this.getUsers();
 					this.Edit = false;
-				});
+				
 			},
 			editUsers: function () {//開始編輯User的欄位
 				this.Edit = true;
@@ -292,18 +294,21 @@
 			requiredError:function(){
 				var _this =this;
 
-				if(_this.users.user.password == "" || _this.users.user.password.value.length >50){
+				if(_this.users.user.password == "" ){
 					_this.pErrorbox=true;
 					_this.ePassword="密碼不能空白 *請輸入1~50個中英文字做為密碼";
+				} else if (_this.users.user.password.length > 50){
+					_this.pErrorbox = true;
+					_this.ePassword = "密碼超過最大上限 *請輸入1~50個中英文字做為密碼";
 				};
-				if (_this.users.user.email == "" || _this.users.user.email.value.length > 50){
+				if (_this.users.user.email == "" || _this.users.user.email.length > 50){
 					_this.eErrorbox = true;
 					_this.eEmail="信箱格式錯誤 *請輸入正確的信箱地址 字數上限50個字"
 				};
-				if (_this.addAddress == "" || _this.addAddress.value.length > 50) {
+				if (_this.addAddress == "" && (_this.addAddress.length > 50 || _this.addAddress.length<0)) {
 					_this.aErrorbox = true;
-					_this.eAddress = "地址不能空白 *地址不得超過50個字"
-				};
+					_this.eAddress = "新增地址,不能為空白! *新增地址字數上限為50個字"
+				} 
 	
 			},
 		}

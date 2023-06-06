@@ -17,7 +17,7 @@ namespace Shocker.Models.ViewModels
         [MaxLength(50)]
         [EmailAddress]
         public string Email { get; set; }
-        [Required]
+        
         [MaxLength(50)]
 		public string Address { get; set; }
 	}
