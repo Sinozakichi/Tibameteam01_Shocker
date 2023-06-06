@@ -19,41 +19,70 @@ namespace Shocker.Controllers
             _configuration = configuration;
         }
 
-        public IActionResult Product()
+        public IActionResult Product(int id)
         {
-              return View();
+            ViewBag.Id = id;
+            return View();
         }
-        [HttpPost]
-        public JsonResult GetProduct()
+        [HttpGet]
+        public JsonResult GetProduct(int id)
         {
-            int productId = 2;
-            var products = from x in _context.OrderDetails.Where(x => x.ProductId == productId)
-                           select new
-                           {
-                               ProductId = x.ProductId,
-                               ProductName = x.ProductName,
-                               UnitPrice = x.UnitPrice,
-                               Quantity = x.Quantity
-
-                           };
-
-            //var products = _context.Pictures.Select(p =>
-            //                new
-            //                {
-            //                    PictureId= p.PictureId,
-            //                    PicturePath=p.Path,
-            //                    ProductId = p.ProductId,
-            //                    ProductName = p.Product.ProductName,
-            //                    UnitPrice = p.Product.UnitPrice,
-
-            //                }
-            //                );
-
-            return Json(products);
+            var product = _context.Products.Where(p => p.ProductId == id)
+                .Select(p => new
+                {
+                    p.ProductId, p.ProductName, p.SellerAccount, p.LaunchDate, p.ProductCategory.CategoryName,
+                    p.Description, p.UnitsInStock, p.Sales, p.UnitPrice, p.Status, p.Currency,
+                    p.SellerAccountNavigation.AboutSeller
+                });
+            if (product == null) return Json(new { Result = "NotFound", Message = "無商品記錄" });
+            var products = _context.Products.Where(p => p.SellerAccount == product.ToList()[0].SellerAccount).Take(4)
+                .Select(p => new
+                {
+                    p.ProductId, p.ProductName, p.UnitPrice, p.UnitsInStock, p.Currency,
+					p.Pictures.FirstOrDefault().Path,
+					p.Pictures.FirstOrDefault().PictureId
+                });
+            var pictures = _context.Pictures.Where(p => p.ProductId == id)
+                .Select(p => new
+                {
+                    p.PictureId, p.Path, p.Description
+                });
+            var ratings = _context.Ratings.Where(r => r.ProductId == id)
+                .Select(r => new
+                {
+                    r.Description, r.StarCount, r.Reply,
+                    r.Order.BuyerAccount
+                });
+            return Json(new { product, pictures, ratings, products });
         }
         public IActionResult Index()
         {
             return View();
+        }
+        [HttpPost]
+        public async Task<JsonResult> CreateCart([FromBody]ShoppingViewModel product)
+        {
+            if (ModelState.IsValid)
+			{
+				if (product.ProductId.Count > 1) return Json(new { Result = "Error", Message = "加入失敗" });
+				if (product.BuyerAccount != loginAccount) return Json(new { Result = "Error", Message = "加入失敗" });
+				var cart = await _context.Shopping.FindAsync(product.BuyerAccount, product.ProductId[0]);
+				if (cart != null) return Json(new { Result = "Error", Message = "已加入購物車" });
+				var p = await _context.Products.FindAsync(product.ProductId[0]);
+				if (p == null) return Json(new { Result = "Error", Message = "加入失敗" });
+                if (p.SellerAccount == product.BuyerAccount) return Json(new { Result = "Error", Message = "加入失敗" });
+				if (p.Status != "p1" || p.UnitsInStock < product.Quantity[0]) return Json(new { Result = "Error", Message = "商品未上架或庫存不足" });                
+				Shopping s = new()
+                {
+                    BuyerAccount = product.BuyerAccount,
+                    ProductId = product.ProductId[0],
+                    Quantity = product.Quantity[0]
+                };
+                _context.Shopping.Add(s);
+                await _context.SaveChangesAsync();
+				return Json(new { Result = "OK", Message = "加入成功" });
+			}
+            else return Json(new { Result = "Error", Message = "加入失敗" });
         }
         [HttpGet]
         public JsonResult GetShopping()
@@ -99,7 +128,7 @@ namespace Shocker.Controllers
             return Json(new { cart, coupon });
         }
         [HttpPost]
-        public async Task<JsonResult> AddCart([FromBody]ShoppingViewModel product)
+        public async Task<JsonResult> UpdateCart([FromBody]ShoppingViewModel product)
         {
             if (ModelState.IsValid)
 			{
@@ -170,7 +199,7 @@ namespace Shocker.Controllers
 
         [HttpPost]
         //[ValidateAntiForgeryToken]
-        public async Task<JsonResult> Create([FromBody]OrdersViewModel order)
+        public async Task<JsonResult> CreateOrder([FromBody]OrdersViewModel order)
         {
             if (ModelState.IsValid)
             {

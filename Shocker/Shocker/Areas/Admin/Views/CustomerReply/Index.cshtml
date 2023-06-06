@@ -134,10 +134,14 @@
                                     </td>
                                     <td class="align-middle text-center">
                                         <textarea v-model="reply" style="resize:none" class="textBorder" placeholder="在此輸入回覆內容" rows="10" cols="40"></textarea>
+                                        <div v-if="errorBox" class="text-danger">
+                                            <b>錯誤如下:</b>
+                                            <p class="text-danger">{{errors}}</p>
+                                        </div>
                                     </td>
                                     <td class="align-middle text-center">
                                         <span class="text-secondary text-xs font-weight-bold ">
-                                            <a class="btn btn-info btn-sm buttonWidth" v-on:click="updateReply">更新</a>
+                                            <a class="btn btn-info btn-sm buttonWidth" v-on:click="updateReply(),requiredReply()">更新</a>
                                         </span>
                                         <div class="text-secondary text-xs font-weight-bold ">
                                             <a class="btn btn-success btn-sm buttonWidth"  v-on:click="backindex()">返回</a>
@@ -227,6 +231,8 @@
                     _filterData: [],
                     ifHaveDS: false,
                     viewDS: false,
+                    errorBox:false,
+                    errors:"",
                 };
             },
             mounted: function () {
@@ -308,8 +314,17 @@
                         icon: 'error',
                         timer:3000,
                         confirmButtonText:'完成'
-                    }).then((result) => window.location.replace(window.location.href))
+                    }).then((result) =>{res.data})
                 },
+                requiredReply:function(){
+                    _this = this;
+                    if (_this.reply == "" || _this.reply==NaN)
+                    {
+                        _this.errorBox=true;
+                        _this.errors="不可回復空白";
+
+                    }
+                }
                 
                 
             }

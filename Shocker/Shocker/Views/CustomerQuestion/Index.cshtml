@@ -19,7 +19,7 @@
                 <div class="row">
                     <div class="col-lg-12 col-md-12 text-center categoryCenter">
                         <select class="selectBorder allBorder " asp-for="QuestionCategoryId">
-                            <option selected>請選擇您的問題種類</option>
+                            <option value="-1" selected>請選擇您的問題種類</option>
                             <option value="1">帳號問題</option>
                             <option value="2">付款問題</option>
                             <option value="3">退款問題</option>
@@ -34,6 +34,7 @@
                     <div class="col-lg-12 col-md-12 text-center">
                         <textarea asp-for="Description" class="allBorder" rows="20" cols="10" placeholder="請輸入您的問題我們會儘快回復"></textarea>
                         <div class="col-lg-12 col-md-12 text-center">
+                            
                             <span asp-validation-for="Description" class="text-danger"></span>
                         </div>
                         <button type="submit" class="site-btn">Submit</button>

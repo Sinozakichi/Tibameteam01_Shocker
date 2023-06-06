@@ -26,28 +26,86 @@ namespace Shocker.Controllers
 			var p = _context.Products.Where(p =>  p.Status == "p1").Include(p => p.Pictures).OrderByDescending(p => p.Sales).Take(4).Select(p => new {
 				productId = p.ProductId,
 				productName = p.ProductName,
+				unitPrice=p.UnitPrice,
 				path = p.Pictures.FirstOrDefault().Path,
 			}).ToList();
 
 			var p1 = _context.Products.Where(p => p.ProductCategoryId == 1 && p.Status == "p1").Include(p => p.Pictures).OrderByDescending(p => p.Sales).Take(4).Select(p => new {
 				productId = p.ProductId,
 				productName = p.ProductName,
+				unitPrice = p.UnitPrice,
 				path = p.Pictures.FirstOrDefault().Path,
 			}).ToList();
 
 			var p2 = _context.Products.Where(p => p.ProductCategoryId == 2 && p.Status == "p1").Include(p => p.Pictures).OrderByDescending(p => p.Sales).Take(4).Select(p => new {
 				productId = p.ProductId,
 				productName = p.ProductName,
+				unitPrice = p.UnitPrice,
 				path = p.Pictures.FirstOrDefault().Path,
 			}).ToList();
+
+			var p3 = _context.Products.Where(p => p.ProductCategoryId == 3 && p.Status == "p1").Include(p => p.Pictures).OrderByDescending(p => p.Sales).Take(4).Select(p => new {
+				productId = p.ProductId,
+				productName = p.ProductName,
+				unitPrice = p.UnitPrice,
+				path = p.Pictures.FirstOrDefault().Path,
+			}).ToList();
+
+			var p4 = _context.Products.Where(p => p.ProductCategoryId == 4 && p.Status == "p1").Include(p => p.Pictures).OrderByDescending(p => p.Sales).Take(4).Select(p => new {
+				productId = p.ProductId,
+				productName = p.ProductName,
+				unitPrice = p.UnitPrice,
+				path = p.Pictures.FirstOrDefault().Path,
+			}).ToList();
+			if (p == null||p1==null || p2 == null || p3 == null || p4 == null) return new ApiResultModel() { Status = false, ErrorMessage = "商品類別中有無上架的商品!" };
 			return new ApiResultModel()
 			{
 				Status = true,
 				Data = new
 				{
-					Allproduct=p,
+					allProduct=p,
 					product1 = p1,
 					product2 = p2,
+					product3 = p3,
+					product4 = p4,
+				}
+			};
+		}
+		[HttpGet]
+		public ApiResultModel GetLatestProduct()
+		{
+			var p = _context.Products.Where(p => p.Status == "p1").Include(p => p.Pictures).OrderByDescending(p => p.LaunchDate).Take(6).Select(p => new
+			{
+				productId = p.ProductId,
+				productName = p.ProductName,
+				unitPrice = p.UnitPrice,
+				path = p.Pictures.FirstOrDefault().Path,
+			}).ToList();
+			if (p == null) return new ApiResultModel() { Status = false, ErrorMessage = "沒有上架的商品!" };
+			return new ApiResultModel()
+			{
+				Status = true,
+				Data = new
+				{
+					latestProduct = p,
+				}
+			};
+		}
+		[HttpGet]
+		public ApiResultModel GetYourCoupons()
+		{
+			var c=_context.Coupons.Where(c=>c.Status == "c0" && c.HolderAccount == loginAccount).Include(c=>c.ProductCategory).OrderByDescending(c => c.ExpirationDate).Take(6).Select(c => new
+			{
+				discount= c.Discount,
+				categoryName=c.ProductCategory.CategoryName,
+			}).ToList();
+			if (c == null) return new ApiResultModel() { Status = false, ErrorMessage = "您沒有優惠碼!" };
+			return new ApiResultModel()
+			{
+				Status = true,
+				Data = new
+				{
+					yourCoupons = c,
 				}
 			};
 		}
@@ -175,12 +233,14 @@ namespace Shocker.Controllers
 		{
 			try
 			{
-				var o = _context.Orders.Include(x => x.OrderDetails).FirstOrDefault(x => x.OrderId == covm.OrderId);
+				var o = _context.Orders.Include(x => x.OrderDetails).ThenInclude(x=>x.Product).FirstOrDefault(x => x.OrderId == covm.OrderId);
 				if (o == null) return new ApiResultModel() { Status = false, ErrorMessage = "此訂單不存在!" };
 				o.Status = "o5";//o5=已取消
 				foreach (var od in o.OrderDetails)//尋覽每一個此筆Order裡的OrderDetail，並將他們的狀態一併改為已取消
 				{
 					od.Status = "od5";//od5=已取消
+					od.Product.Sales-=od.Quantity;
+					od.Product.UnitsInStock += od.Quantity;
 				}
 				_context.SaveChanges();
 				return new ApiResultModel() { Status = true };
@@ -211,6 +271,7 @@ namespace Shocker.Controllers
 					unitPrice = x.UnitPrice,
 					discount = x.Discount,
 					categoryName = x.Product.ProductCategory.CategoryName,
+					pictureId=x.Product.Pictures.FirstOrDefault().PictureId,
 					path = x.Product.Pictures.FirstOrDefault().Path,
 					statusName = x.StatusNavigation.StatusName,
 					description = x.Product.Ratings.FirstOrDefault().Description == null ? "" : x.Product.Ratings.FirstOrDefault().Description,

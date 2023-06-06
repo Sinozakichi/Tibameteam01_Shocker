@@ -104,6 +104,9 @@
 				<div class="col-sm-10">
 					<input type="text" class="form-control" id="inputPassword" v-model="users.user.password">
 				</div>
+				<div v-if="pErrorbox" class="text-danger">
+					<h5 class="text-danger">錯誤:{{ePassword}}</h5>
+				</div>
 			</div>
 
 			<div class="mb-3 row">
@@ -131,6 +134,9 @@
 				<label for="inputEmail" class="col-sm-2 col-form-label">郵件</label>
 				<div class="col-sm-10">
 					<input type="text" class="form-control" id="inputEmail" v-model="users.user.email">
+				</div>
+				<div v-if="eErrorbox" class="text-danger">
+					<h5 class="text-danger">錯誤:{{eEmail}}</h5>
 				</div>
 			</div>
 
@@ -168,11 +174,14 @@
 				<div class="col-sm-10">
 					<input type="text" class="form-control" id="inputEmail" v-model="addAddress">
 				</div>
+				<div v-if="aErrorbox" class="text-danger">
+					<h5 class="text-danger">錯誤:{{eAddress}}</h5>
+				</div>
 			</div>
 
 			<div class="row">
 				<div class="col-sm-3">
-					<button type="button" class="btn btn-outline-success" @@click="updateUsers">完成</button>@*按完成以完成編輯*@
+					<button type="button" class="btn btn-outline-success" @@click="updateUsers(),requiredError()">完成</button>@*按完成以完成編輯*@
 				</div>
 				<div class="col-sm-3">
 					<button type="button" class="btn btn-outline-danger" data-toggle="modal" data-target="#cancelModal">取消</button>@*按取消彈出提示訊息，再按確定才會取消所有變更內容，按返回則回復*@
@@ -213,7 +222,15 @@
 			uploadPic: {},
 			selectAddress:"",
 			addAddress:"",
-			Edit: false
+			Edit: false,
+			//驗證
+			ePassword:"",
+			eEmail:"",
+			eAddress:"",
+			pErrorbox:false,
+			eErrorbox:false,
+			aErrorbox:false,
+
 		},
 		mounted: function () {
 			this.getUsers();//一開始載入即執行getUsers()以拿到資料
@@ -239,8 +256,8 @@
 					address: _this.addAddress
 				};
 				axios.post(`/User/UpdateAccount`, request).then(response => {
-					alert('更新資料成功!')//跳更新成功的訊息
-					this.getUsers();
+					alert('!')//跳更新成功的訊息 =>res.data.message
+					//this.getUsers();
 					this.Edit = false;
 				});
 			},
@@ -271,7 +288,24 @@
 				axios.post(`/User/UploadPicture`, formdata).then(response => {					
 						alert('上傳成功!')//跳上傳成功的訊息					
 				});
-			}
+			},
+			requiredError:function(){
+				var _this =this;
+
+				if(_this.users.user.password == "" || _this.users.user.password.value.length >50){
+					_this.pErrorbox=true;
+					_this.ePassword="密碼不能空白 *請輸入1~50個中英文字做為密碼";
+				};
+				if (_this.users.user.email == "" || _this.users.user.email.value.length > 50){
+					_this.eErrorbox = true;
+					_this.eEmail="信箱格式錯誤 *請輸入正確的信箱地址 字數上限50個字"
+				};
+				if (_this.addAddress == "" || _this.addAddress.value.length > 50) {
+					_this.aErrorbox = true;
+					_this.eAddress = "地址不能空白 *地址不得超過50個字"
+				};
+	
+			},
 		}
 	});
 </script>
