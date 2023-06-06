@@ -89,7 +89,7 @@
 						<tbody>
 							<tr v-for="(item, index) in allData.details">
 								<td class="shoping__cart__item">
-									<img style="width:250px;height:250px" :src="'/'+item.path" alt="">
+									<img style="width:250px;height:250px" :src="item.path" alt="">
 								</td>
 								<td class="shoping__cart__price">
 									{{item.productName}}
@@ -290,9 +290,11 @@
 				var id = location.search.replace('?id=', '');
 				axios.get(`/User/GetUserOrderDetails/${id}`).then(x=> {
 					if (x.data.status) {_this.allData = x.data.data;}
-					else { alert('not found data') }
-				
-				});
+					else { alert('not found data') }	
+					for (var i = 0; i < _this.allData.details.length; i++) {
+						_this.allData.details[i].path = `${window.location.origin}/productpictures/${_this.allData.details[i].pictureId}-${_this.allData.details[i].path};`
+					}
+				});			
 			},
 			createRating: function (productId, rating) {
 				var _this = this;

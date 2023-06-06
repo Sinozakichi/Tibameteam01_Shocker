@@ -105,135 +105,18 @@
 					</div>
 				</div>
 			</div>
-			<div class="row featured__filter">
-				<div class="col-lg-3 col-md-4 col-sm-6 mix oranges fresh-meat">
+			<div class="row">
+				<div class="col-lg-3 col-md-4 col-sm-6" v-for="item in nowpop">
 					<div class="featured__item">
-						<div class="featured__item__pic set-bg" data-setbg="img/featured/feature-1.jpg">
+						<div class="featured__item__pic set-bg" data-setbg="item.path">
 						</div>
 						<div class="featured__item__text">
-							<h6><a href="#">Crab Pool Security</a></h6>
-							<h5>$30.00</h5>
+							<h6><a href="#">{{item.productName}}</a></h6>
+							<h5>{{'$'+item.unitPrice}}</h5>
 						</div>
 					</div>
 				</div>
-			</div>
-			@*<div class="row featured__filter">
-				<div class="col-lg-3 col-md-4 col-sm-6 mix oranges fresh-meat">
-					<div class="featured__item">
-						<div class="featured__item__pic set-bg" data-setbg="img/featured/feature-1.jpg">						
-						</div>
-						<div class="featured__item__text">
-							<h6><a href="#">Crab Pool Security</a></h6>
-							<h5>$30.00</h5>
-						</div>
-					</div>
-				</div>
-				<div class="col-lg-3 col-md-4 col-sm-6 mix vegetables fastfood">
-					<div class="featured__item">
-						<div class="featured__item__pic set-bg" data-setbg="img/featured/feature-2.jpg">
-							<ul class="featured__item__pic__hover">
-								<li><a href="#"><i class="fa fa-heart"></i></a></li>
-								<li><a href="#"><i class="fa fa-retweet"></i></a></li>
-								<li><a href="#"><i class="fa fa-shopping-cart"></i></a></li>
-							</ul>
-						</div>
-						<div class="featured__item__text">
-							<h6><a href="#">Crab Pool Security</a></h6>
-							<h5>$30.00</h5>
-						</div>
-					</div>
-				</div>
-				<div class="col-lg-3 col-md-4 col-sm-6 mix vegetables fresh-meat">
-					<div class="featured__item">
-						<div class="featured__item__pic set-bg" data-setbg="img/featured/feature-3.jpg">
-							<ul class="featured__item__pic__hover">
-								<li><a href="#"><i class="fa fa-heart"></i></a></li>
-								<li><a href="#"><i class="fa fa-retweet"></i></a></li>
-								<li><a href="#"><i class="fa fa-shopping-cart"></i></a></li>
-							</ul>
-						</div>
-						<div class="featured__item__text">
-							<h6><a href="#">Crab Pool Security</a></h6>
-							<h5>$30.00</h5>
-						</div>
-					</div>
-				</div>
-				<div class="col-lg-3 col-md-4 col-sm-6 mix fastfood oranges">
-					<div class="featured__item">
-						<div class="featured__item__pic set-bg" data-setbg="img/featured/feature-4.jpg">
-							<ul class="featured__item__pic__hover">
-								<li><a href="#"><i class="fa fa-heart"></i></a></li>
-								<li><a href="#"><i class="fa fa-retweet"></i></a></li>
-								<li><a href="#"><i class="fa fa-shopping-cart"></i></a></li>
-							</ul>
-						</div>
-						<div class="featured__item__text">
-							<h6><a href="#">Crab Pool Security</a></h6>
-							<h5>$30.00</h5>
-						</div>
-					</div>
-				</div>
-				<div class="col-lg-3 col-md-4 col-sm-6 mix fresh-meat vegetables">
-					<div class="featured__item">
-						<div class="featured__item__pic set-bg" data-setbg="img/featured/feature-5.jpg">
-							<ul class="featured__item__pic__hover">
-								<li><a href="#"><i class="fa fa-heart"></i></a></li>
-								<li><a href="#"><i class="fa fa-retweet"></i></a></li>
-								<li><a href="#"><i class="fa fa-shopping-cart"></i></a></li>
-							</ul>
-						</div>
-						<div class="featured__item__text">
-							<h6><a href="#">Crab Pool Security</a></h6>
-							<h5>$30.00</h5>
-						</div>
-					</div>
-				</div>
-				<div class="col-lg-3 col-md-4 col-sm-6 mix oranges fastfood">
-					<div class="featured__item">
-						<div class="featured__item__pic set-bg" data-setbg="img/featured/feature-6.jpg">
-							<ul class="featured__item__pic__hover">
-								<li><a href="#"><i class="fa fa-heart"></i></a></li>
-								<li><a href="#"><i class="fa fa-retweet"></i></a></li>
-								<li><a href="#"><i class="fa fa-shopping-cart"></i></a></li>
-							</ul>
-						</div>
-						<div class="featured__item__text">
-							<h6><a href="#">Crab Pool Security</a></h6>
-							<h5>$30.00</h5>
-						</div>
-					</div>
-				</div>
-				<div class="col-lg-3 col-md-4 col-sm-6 mix fresh-meat vegetables">
-					<div class="featured__item">
-						<div class="featured__item__pic set-bg" data-setbg="img/featured/feature-7.jpg">
-							<ul class="featured__item__pic__hover">
-								<li><a href="#"><i class="fa fa-heart"></i></a></li>
-								<li><a href="#"><i class="fa fa-retweet"></i></a></li>
-								<li><a href="#"><i class="fa fa-shopping-cart"></i></a></li>
-							</ul>
-						</div>
-						<div class="featured__item__text">
-							<h6><a href="#">Crab Pool Security</a></h6>
-							<h5>$30.00</h5>
-						</div>
-					</div>
-				</div>
-				<div class="col-lg-3 col-md-4 col-sm-6 mix fastfood vegetables">
-					<div class="featured__item">
-						<div class="featured__item__pic set-bg" data-setbg="img/featured/feature-8.jpg">
-							<ul class="featured__item__pic__hover">
-								<li><a href="#"><i class="fa fa-heart"></i></a></li>
-								<li><a href="#"><i class="fa fa-retweet"></i></a></li>
-								<li><a href="#"><i class="fa fa-shopping-cart"></i></a></li>
-							</ul>
-						</div>
-						<div class="featured__item__text">
-							<h6><a href="#">Crab Pool Security</a></h6>
-							<h5>$30.00</h5>
-						</div>
-					</div>
-				</div>
-			</div>*@
+			</div>			
 		</div>
 	</section>
 	<!-- Featured Section End -->
@@ -248,66 +131,30 @@
 						<h4>最新商品</h4>
 						<div class="latest-product__slider owl-carousel">
 							<div class="latest-prdouct__slider__item">
-								<a href="#" class="latest-product__item">
+								<a href="#" class="latest-product__item" v-for="item in latestProduct1">
 									<div class="latest-product__item__pic">
-										<img src="img/latest-product/lp-1.jpg" alt="">
+										<img :src="item.path" alt="">
 									</div>
 									<div class="latest-product__item__text">
-										<h6>Crab Pool Security</h6>
-										<span>$30.00</span>
+										<h6>{{item.productName}}</h6>
+										<span>{{'$'+item.unitPrice}}</span>
 									</div>
-								</a>
-								<a href="#" class="latest-product__item">
-									<div class="latest-product__item__pic">
-										<img src="img/latest-product/lp-2.jpg" alt="">
-									</div>
-									<div class="latest-product__item__text">
-										<h6>Crab Pool Security</h6>
-										<span>$30.00</span>
-									</div>
-								</a>
-								<a href="#" class="latest-product__item">
-									<div class="latest-product__item__pic">
-										<img src="img/latest-product/lp-3.jpg" alt="">
-									</div>
-									<div class="latest-product__item__text">
-										<h6>Crab Pool Security</h6>
-										<span>$30.00</span>
-									</div>
-								</a>
+								</a>								
 							</div>
 							<div class="latest-prdouct__slider__item">
-								<a href="#" class="latest-product__item">
+								<a href="#" class="latest-product__item" v-for="item in latestProduct2">
 									<div class="latest-product__item__pic">
-										<img src="img/latest-product/lp-1.jpg" alt="">
+										<img :src="item.path" alt="">
 									</div>
 									<div class="latest-product__item__text">
-										<h6>Crab Pool Security</h6>
-										<span>$30.00</span>
+										<h6>{{item.productName}}</h6>
+										<span>{{'$'+item.unitPrice}}</span>
 									</div>
-								</a>
-								<a href="#" class="latest-product__item">
-									<div class="latest-product__item__pic">
-										<img src="img/latest-product/lp-2.jpg" alt="">
-									</div>
-									<div class="latest-product__item__text">
-										<h6>Crab Pool Security</h6>
-										<span>$30.00</span>
-									</div>
-								</a>
-								<a href="#" class="latest-product__item">
-									<div class="latest-product__item__pic">
-										<img src="img/latest-product/lp-3.jpg" alt="">
-									</div>
-									<div class="latest-product__item__text">
-										<h6>Crab Pool Security</h6>
-										<span>$30.00</span>
-									</div>
-								</a>
+								</a>						
 							</div>
 						</div>
 					</div>
-				</div>				
+				</div>
 				<div class="col-lg-4 col-md-6">
 					<div class="latest-product__text">
 						<h4>優惠卷活動</h4>
@@ -378,7 +225,7 @@
 			</div>
 		</div>
 	</section>
-	<!-- Latest Product Section End -->	
+	<!-- Latest Product Section End -->
 </div>
 
 
@@ -388,22 +235,14 @@
 	var app = new Vue({
 		el: '#app',
 		data: {
-			popularProduct: {
-				allProduct: [],
-				product1: [],
-				product2: []
-			}
-			popular1:"",
-			popular2:"",
-			popular3:"",
-			popular4:"",
-			popular1picture: "",
-			popular2picture: "",
-			popular3picture: "",
-			popular4picture: "",
+			popularProduct: {},
+			nowpop: [],
+			latestProduct1:[],
+			latestProduct2: [],
 		},
 		mounted: function () {
 			this.getPopluarProduct();
+			this.getLatestProduct();
 		},
 		computed: {
 
@@ -413,12 +252,60 @@
 				var _this = this;
 				axios.get('/User/GetPopluarProduct').then(response => {
 					if (response.data.status) { _this.popularProduct = response.data.data; }
-					else { alert('資料載入失敗') }
-				})
+					else { alert('人氣商品資料載入失敗') }
+					_this.showPopluarProduct(0);
+				});				
 			},
-			showPopluarProduct:function(){
+			showPopluarProduct: function (categoryId) {
+				var _this = this;
+				if (categoryId == 0) {
+					_this.nowpop=[];
+					for (var i = 0; i < _this.popularProduct.allProduct.length; i++) {
+						_this.popularProduct.allProduct[i].path = `${window.location.origin}/productpictures/${_this.popularProduct.allProduct[i].pictureId}-${_this.popularProduct.allProduct[i].path};`
+						_this.nowpop.push(_this.popularProduct.allProduct[i]);
+					}
+				};
+				if (categoryId == 1) {
+					_this.nowpop = [];
+					for (var i = 0; i < _this.popularProduct.product1.length; i++) {
+						_this.popularProduct.product1[i].path = `${window.location.origin}/productpictures/${_this.popularProduct.product1[i].pictureId}-${_this.popularProduct.product1[i].path};`
+						_this.nowpop.push(_this.popularProduct.product1[i]);
+					}
+				};
+				if (categoryId == 2) {
+					_this.nowpop = [];
+					for (var i = 0; i < _this.popularProduct.product2.length; i++) {
+						_this.popularProduct.product2[i].path = `${window.location.origin}/productpictures/${_this.popularProduct.product2[i].pictureId}-${_this.popularProduct.product2[i].path};`
+						_this.nowpop.push(_this.popularProduct.product2[i]);
+					}
+				};
+				if (categoryId == 3) {
+					_this.nowpop = [];
+					for (var i = 0; i < _this.popularProduct.product3.length; i++) {
+						_this.popularProduct.product3[i].path = `${window.location.origin}/productpictures/${_this.popularProduct.product3[i].pictureId}-${_this.popularProduct.product3[i].path};`
+						_this.nowpop.push(_this.popularProduct.product3[i]);
+					}
+				};
+				if (categoryId == 4) {
+					_this.nowpop = [];
+					for (var i = 0; i < _this.popularProduct.product4.length; i++) {
+						_this.popularProduct.product4[i].path = `${window.location.origin}/productpictures/${_this.popularProduct.product4[i].pictureId}-${_this.popularProduct.product4[i].path};`
+						_this.nowpop.push(_this.popularProduct.product4[i]);
+					}
+				};
+			},
+			getLatestProduct:function(){
 				var _this=this;
-
+				axios.get('/User/GetLatestProduct').then(response=>{
+					if (response.data.status) {
+						for (var i = 0; i < response.data.data.latestProduct.length; i++) {
+							response.data.data.latestProduct[i].path = `${window.location.origin}/productpictures/${response.data.data.latestProduct[i].pictureId}-${response.data.data.latestProduct[i].path};`							
+						}
+						_this.latestProduct1 = response.data.data.latestProduct.slice(0, 3);
+						_this.latestProduct2 = response.data.data.latestProduct.slice(3, 6);
+					}
+					else { alert('最新商品資料載入失敗') }
+				});
 			}
 		},
 	});
