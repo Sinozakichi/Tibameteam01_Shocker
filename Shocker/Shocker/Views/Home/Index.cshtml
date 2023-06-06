@@ -41,7 +41,7 @@
 			<div class="row">
 				<div class="categories__slider owl-carousel">
 
-					<div class="col-lg-3">					
+					<div class="col-lg-3">
 						<div class="categories__item set-bg" data-setbg="img/categories/categories-1.jpg">
 							<h5><a href="/CustomerQuestion/GetProductlist?categoryId=1">衣服</a></h5>
 						</div>
@@ -105,20 +105,24 @@
 					</div>
 				</div>
 			</div>
+			
 			<div class="row">
 				<div class="col-lg-3 col-md-4 col-sm-6" v-for="item in nowpop">
 					<a :href="'/ShoppingCart/Product/'+item.productId">
-					<div class="featured__item">
-						<div class="featured__item__pic set-bg" data-setbg="item.path">
-						</div>
-						<div class="featured__item__text">
-							<h6>{{item.productName}}</h6>
-							<h5>{{'$'+item.unitPrice}}</h5>
-						</div>
+						<div class="featured__item">
+							<div class="featured__item__pic set-bg" >
+								<div>
+									<img :src="'/productpictures/'+item.picture" style="width:200px;height:200px" />
+								</div>
+							</div>
+							<div class="featured__item__text">
+								<h6>{{item.productName}}</h6>
+								<h5>{{'$'+item.unitPrice}}</h5>
+							</div>
 						</div>
 					</a>
 				</div>
-			</div>			
+			</div>
 		</div>
 	</section>
 	<!-- Featured Section End -->
@@ -135,24 +139,24 @@
 							<div class="latest-prdouct__slider__item">
 								<a :href="'/ShoppingCart/Product/'+item.productId" class="latest-product__item" v-for="item in latestProduct1">
 									<div class="latest-product__item__pic">
-										<img :src="item.path" alt="">
+										<img :src="'/productpictures/'+item.picture" style="width:100px;height:100px">
 									</div>
 									<div class="latest-product__item__text">
 										<h6>{{item.productName}}</h6>
 										<span>{{'$'+item.unitPrice}}</span>
 									</div>
-								</a>								
+								</a>
 							</div>
 							<div class="latest-prdouct__slider__item">
 								<a :href="'/ShoppingCart/Product/'+item.productId" class="latest-product__item" v-for="item in latestProduct2">
 									<div class="latest-product__item__pic">
-										<img :src="item.path" alt="">
+										<img :src="'/productpictures/'+item.picture" style="width:100px;height:100px">
 									</div>
 									<div class="latest-product__item__text">
 										<h6>{{item.productName}}</h6>
 										<span>{{'$'+item.unitPrice}}</span>
 									</div>
-								</a>						
+								</a>
 							</div>
 						</div>
 					</div>
@@ -170,7 +174,7 @@
 										<h6>{{item.categoryName}}</h6>
 										<span>{{item.discount+'折'}}</span>
 									</div>
-								</a>								
+								</a>
 							</div>
 							<div class="latest-prdouct__slider__item">
 								<a href="/User/MyAccount?tab=d" class="latest-product__item" v-for="item in yourCoupons2">
@@ -203,9 +207,9 @@
 		data: {
 			popularProduct: {},
 			nowpop: [],
-			latestProduct1:[],
+			latestProduct1: [],
 			latestProduct2: [],
-			yourCoupons1:[],
+			yourCoupons1: [],
 			yourCoupons2: [],
 		},
 		mounted: function () {
@@ -213,62 +217,56 @@
 			this.getLatestProduct();
 			this.getYourCoupons();
 		},
-		computed: {
-
-		},
 		methods: {
 			getPopluarProduct: function () {
 				var _this = this;
 				axios.get('/User/GetPopluarProduct').then(response => {
-					if (response.data.status) { _this.popularProduct = response.data.data; }
+					if (response.data.status) {
+						_this.popularProduct = response.data.data; 
+					}
 					else { alert('人氣商品資料載入失敗') }
 					_this.showPopluarProduct(0);
-				});				
+				});
 			},
 			showPopluarProduct: function (categoryId) {
 				var _this = this;
 				if (categoryId == 0) {
-					_this.nowpop=[];
-					for (var i = 0; i < _this.popularProduct.allProduct.length; i++) {
-						_this.popularProduct.allProduct[i].path = `${window.location.origin}/productpictures/${_this.popularProduct.allProduct[i].pictureId}-${_this.popularProduct.allProduct[i].path};`
+					_this.nowpop = [];
+					for (var i = 0; i < _this.popularProduct.allProduct.length; i++) {					
 						_this.nowpop.push(_this.popularProduct.allProduct[i]);
 					}
 				};
 				if (categoryId == 1) {
 					_this.nowpop = [];
 					for (var i = 0; i < _this.popularProduct.product1.length; i++) {
-						_this.popularProduct.product1[i].path = `${window.location.origin}/productpictures/${_this.popularProduct.product1[i].pictureId}-${_this.popularProduct.product1[i].path};`
 						_this.nowpop.push(_this.popularProduct.product1[i]);
 					}
 				};
 				if (categoryId == 2) {
 					_this.nowpop = [];
-					for (var i = 0; i < _this.popularProduct.product2.length; i++) {
-						_this.popularProduct.product2[i].path = `${window.location.origin}/productpictures/${_this.popularProduct.product2[i].pictureId}-${_this.popularProduct.product2[i].path};`
+					for (var i = 0; i < _this.popularProduct.product2.length; i++) {					
 						_this.nowpop.push(_this.popularProduct.product2[i]);
 					}
 				};
 				if (categoryId == 3) {
 					_this.nowpop = [];
 					for (var i = 0; i < _this.popularProduct.product3.length; i++) {
-						_this.popularProduct.product3[i].path = `${window.location.origin}/productpictures/${_this.popularProduct.product3[i].pictureId}-${_this.popularProduct.product3[i].path};`
 						_this.nowpop.push(_this.popularProduct.product3[i]);
 					}
 				};
 				if (categoryId == 4) {
 					_this.nowpop = [];
-					for (var i = 0; i < _this.popularProduct.product4.length; i++) {
-						_this.popularProduct.product4[i].path = `${window.location.origin}/productpictures/${_this.popularProduct.product4[i].pictureId}-${_this.popularProduct.product4[i].path};`
+					for (var i = 0; i < _this.popularProduct.product4.length; i++) {						
 						_this.nowpop.push(_this.popularProduct.product4[i]);
 					}
 				};
 			},
-			getLatestProduct:function(){
-				var _this=this;
-				axios.get('/User/GetLatestProduct').then(response=>{
+			getLatestProduct: function () {
+				var _this = this;
+				axios.get('/User/GetLatestProduct').then(response => {
 					if (response.data.status) {
 						for (var i = 0; i < response.data.data.latestProduct.length; i++) {
-							response.data.data.latestProduct[i].path = `${window.location.origin}/productpictures/${response.data.data.latestProduct[i].pictureId}-${response.data.data.latestProduct[i].path};`							
+							response.data.data.latestProduct[i].path = `${window.location.origin}/productpictures/${response.data.data.latestProduct[i].pictureId}-${response.data.data.latestProduct[i].path};`
 						}
 						_this.latestProduct1 = response.data.data.latestProduct.slice(0, 3);
 						_this.latestProduct2 = response.data.data.latestProduct.slice(3, 6);
@@ -276,10 +274,10 @@
 					else { alert('最新商品資料載入失敗') }
 				});
 			},
-			getYourCoupons:function(){
+			getYourCoupons: function () {
 				var _this = this;
-				axios.get('/User/GetYourCoupons').then(response=>{
-					if (response.data.status) { 
+				axios.get('/User/GetYourCoupons').then(response => {
+					if (response.data.status) {
 						_this.yourCoupons1 = response.data.data.yourCoupons.slice(0, 3);
 						_this.yourCoupons2 = response.data.data.yourCoupons.slice(3, 6);
 					}

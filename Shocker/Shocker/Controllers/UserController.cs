@@ -27,35 +27,35 @@ namespace Shocker.Controllers
 				productId = p.ProductId,
 				productName = p.ProductName,
 				unitPrice=p.UnitPrice,
-				path = p.Pictures.FirstOrDefault().Path,
+				picture = $"{p.Pictures.FirstOrDefault().PictureId}-{p.Pictures.FirstOrDefault().Path}"
 			}).ToList();
 
 			var p1 = _context.Products.Where(p => p.ProductCategoryId == 1 && p.Status == "p1").Include(p => p.Pictures).OrderByDescending(p => p.Sales).Take(4).Select(p => new {
 				productId = p.ProductId,
 				productName = p.ProductName,
 				unitPrice = p.UnitPrice,
-				path = p.Pictures.FirstOrDefault().Path,
+				picture = $"{p.Pictures.FirstOrDefault().PictureId}-{p.Pictures.FirstOrDefault().Path}"
 			}).ToList();
 
 			var p2 = _context.Products.Where(p => p.ProductCategoryId == 2 && p.Status == "p1").Include(p => p.Pictures).OrderByDescending(p => p.Sales).Take(4).Select(p => new {
 				productId = p.ProductId,
 				productName = p.ProductName,
 				unitPrice = p.UnitPrice,
-				path = p.Pictures.FirstOrDefault().Path,
+				picture = $"{p.Pictures.FirstOrDefault().PictureId}-{p.Pictures.FirstOrDefault().Path}"
 			}).ToList();
 
 			var p3 = _context.Products.Where(p => p.ProductCategoryId == 3 && p.Status == "p1").Include(p => p.Pictures).OrderByDescending(p => p.Sales).Take(4).Select(p => new {
 				productId = p.ProductId,
 				productName = p.ProductName,
 				unitPrice = p.UnitPrice,
-				path = p.Pictures.FirstOrDefault().Path,
+				picture = $"{p.Pictures.FirstOrDefault().PictureId}-{p.Pictures.FirstOrDefault().Path}"
 			}).ToList();
 
 			var p4 = _context.Products.Where(p => p.ProductCategoryId == 4 && p.Status == "p1").Include(p => p.Pictures).OrderByDescending(p => p.Sales).Take(4).Select(p => new {
 				productId = p.ProductId,
 				productName = p.ProductName,
 				unitPrice = p.UnitPrice,
-				path = p.Pictures.FirstOrDefault().Path,
+				picture = $"{p.Pictures.FirstOrDefault().PictureId}-{p.Pictures.FirstOrDefault().Path}"
 			}).ToList();
 			if (p == null||p1==null || p2 == null || p3 == null || p4 == null) return new ApiResultModel() { Status = false, ErrorMessage = "商品類別中有無上架的商品!" };
 			return new ApiResultModel()
@@ -79,7 +79,7 @@ namespace Shocker.Controllers
 				productId = p.ProductId,
 				productName = p.ProductName,
 				unitPrice = p.UnitPrice,
-				path = p.Pictures.FirstOrDefault().Path,
+				picture=$"{p.Pictures.FirstOrDefault().PictureId}-{p.Pictures.FirstOrDefault().Path}"				
 			}).ToList();
 			if (p == null) return new ApiResultModel() { Status = false, ErrorMessage = "沒有上架的商品!" };
 			return new ApiResultModel()
