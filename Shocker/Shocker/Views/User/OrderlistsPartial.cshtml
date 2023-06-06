@@ -97,7 +97,6 @@
 <script src="~/axios/axios.min.js"></script>
 <script>
 	Vue.component('paginate', VuejsPaginate)
-	var baseAddress = "https://localhost:7259/User";
 	var app = new Vue({
 		el: '#app',
 		data: {
@@ -132,7 +131,7 @@
 		methods: {
 			getOrders: function () {
 				var _this = this;
-				axios.get(`${baseAddress}/GetOrders`).then(response => {
+				axios.get(`/User/GetOrders`).then(response => {
 					_this.orders = response.data.data;
 				});
 			},
@@ -150,7 +149,7 @@
 				var request={
 					OrderID:orderId,
 				}
-				axios.post(`${baseAddress}/CancelOrders`,request).then(reponse=>{
+				axios.post(`/User/CancelOrders`, request).then(reponse => {
 					alert('取消訂單成功');
 					this.getOrders();
 				});
@@ -187,13 +186,4 @@
 			//},
 		},
 	});
-
-
-
-
-
-
-				
-			
-
 </script>						
