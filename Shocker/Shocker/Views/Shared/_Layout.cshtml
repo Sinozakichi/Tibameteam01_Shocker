@@ -11,7 +11,7 @@
 	<meta name="keywords" content="蝦殼,Shocker">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>蝦殼Shocker</title>
+	<title>蝦殼Shocker</title>
 
 	<!-- Google Font -->
 	<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@200;300;400;600;900&display=swap" rel="stylesheet">
@@ -38,7 +38,7 @@
 	<!-- Humberger Begin -->
 	<div class="humberger__menu__overlay"></div>
 	<div class="humberger__menu__wrapper">
-		<div class="humberger__menu__logo">			
+		<div class="humberger__menu__logo">
 			<a asp-controller="Home" asp-action="Index"><img src="~/img/advertise/shocker.png" style="width:130px;height:130px;" /></a>
 		</div>
 		<div class="humberger__menu__cart">
@@ -110,6 +110,9 @@
 									<div class="header__top__right__auth">
 										<a class="nav-link text-dark" asp-controller="Member" asp-action="SignOut"><i class="fa fa-user"></i> 登出</a>
 									</div>
+									<div class="header__top__right__auth">
+										<a class="nav-link text-dark" asp-controller="User" asp-action="MyAccount" asp-route-tab="a"><i class="fa fa-user"></i>我的帳戶</a>
+									</div>
 								}
 								else
 								{
@@ -121,11 +124,6 @@
 									</div>
 								}
 							}
-							
-							<div class="header__top__right__auth">
-								<a class="nav-link text-dark" asp-controller="User" asp-action="MyAccount" asp-route-tab="a"><i class="fa fa-user"></i>我的帳戶</a>
-							</div>		
-							
 						</div>
 					</div>
 				</div>
@@ -135,46 +133,46 @@
 			<div class="row">
 				<div class="col-lg-3">
 					<div class="header__logo">
-						<a asp-controller="Home" asp-action="Index"><img src="~/img/advertise/shocker.png" style="width:130px;height:130px;"/></a>
+						<a asp-controller="Home" asp-action="Index"><img src="~/img/advertise/shocker.png" style="width:130px;height:130px;" /></a>
 					</div>
 				</div>
 				<div class="col-lg-6">
 					<div class="row">
-					<nav class="header__menu">
-						<ul>
-							<li class="active"><a asp-controller="Home" asp-action="Index">首頁</a></li>
+						<nav class="header__menu">
+							<ul>
+								<li class="active"><a asp-controller="Home" asp-action="Index">首頁</a></li>
 								<li><a asp-controller="ShoppingCart" asp-action="GetProductlist">開始購物</a></li>
-							<li>
-								<a href="#">客服中心</a>
-								<ul class="header__menu__dropdown">
-									<li><a asp-controller="CustomerQuestion" asp-action="QA">常見Q&A</a></li>
-									<li><a asp-controller="CustomerQuestion" asp-action="Index">聯絡客服</a></li>
-								</ul>
-							</li>
-							<li>
-								<a href="./contact.html">關注蝦殼</a>
-								<ul class="header__menu__dropdown">
-									<li><a href="#">Facebook</a></li>
-									<li><a href="#">Instgram</a></li>
-								</ul>
-							</li>
-							<li>
-								<a href="#">Admin</a>
-								<ul class="header__menu__dropdown">
-									<li><a asp-area="Admin" asp-controller="Coupon" asp-action="Index">折價券查詢</a></li>
-									<li><a asp-area="Admin" asp-controller="CustomerReply" asp-action="Index">客戶問題查詢</a></li>
-								</ul>
-							</li>
-						</ul>
-					</nav>
+								<li>
+									<a href="#">客服中心</a>
+									<ul class="header__menu__dropdown">
+										<li><a asp-controller="CustomerQuestion" asp-action="QA">常見Q&A</a></li>
+										<li><a asp-controller="CustomerQuestion" asp-action="Index">聯絡客服</a></li>
+									</ul>
+								</li>
+								<li>
+									<a href="./contact.html">關注蝦殼</a>
+									<ul class="header__menu__dropdown">
+										<li><a href="#">Facebook</a></li>
+										<li><a href="#">Instgram</a></li>
+									</ul>
+								</li>
+								<li>
+									<a href="#">Admin</a>
+									<ul class="header__menu__dropdown">
+										<li><a asp-area="Admin" asp-controller="Coupon" asp-action="Index">折價券查詢</a></li>
+										<li><a asp-area="Admin" asp-controller="CustomerReply" asp-action="Index">客戶問題查詢</a></li>
+									</ul>
+								</li>
+							</ul>
+						</nav>
 					</div>
-					<div class="row">						
+					<div class="row">
 						<div class="hero__search__form col-12">
 							@*<form action="#">
 							<input type="text" placeholder="今晚我想買點?">
 							<button type="submit" class="site-btn"><a class="text-dark" asp-controller="Home" asp-action="GetProductlist">SEARCH</a></button>
 							</form>*@
-							<form action="/ShoppingCart/GetProductlist" method="post">
+							<form action="/CustomerQuestion/GetProductlist" method="post">
 								<input type="text" name="search" placeholder="今晚我想買點?" />
 								<button type="submit" class="site-btn">SEARCH</button>
 							</form>
@@ -189,7 +187,7 @@
 						<div class="header__cart__price">item: <span>$100.00</span></div>
 					</div>
 				</div>
-			</div>		
+			</div>
 			<div class="humberger__open">
 				<i class="fa fa-bars"></i>
 			</div>
