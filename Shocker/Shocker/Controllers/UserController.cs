@@ -91,6 +91,24 @@ namespace Shocker.Controllers
 				}
 			};
 		}
+		[HttpGet]
+		public ApiResultModel GetYourCoupons()
+		{
+			var c=_context.Coupons.Where(c=>c.Status == "c0" && c.HolderAccount == loginAccount).Include(c=>c.ProductCategory).OrderByDescending(c => c.ExpirationDate).Take(6).Select(c => new
+			{
+				discount= c.Discount,
+				categoryName=c.ProductCategory.CategoryName,
+			}).ToList();
+			if (c == null) return new ApiResultModel() { Status = false, ErrorMessage = "您沒有優惠碼!" };
+			return new ApiResultModel()
+			{
+				Status = true,
+				Data = new
+				{
+					yourCoupons = c,
+				}
+			};
+		}
 		//
 		[HttpGet]
 		public IActionResult MyAccount(string tab)//點選用戶資訊編輯的菜單選項時，帶一個tab的參數，依據參數abcde呈現不同的Partial View
