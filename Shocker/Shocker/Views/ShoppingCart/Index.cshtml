@@ -314,7 +314,7 @@
                     request.productId.push(p.productId);
                     request.quantity.push(p.quantity);                    
                 });
-                axios.post(`${baseAddress}/ShoppingCart/AddCart`, request).then(response => {
+                axios.post(`${baseAddress}/ShoppingCart/UpdateCart`, request).then(response => {
                     alert(response.data.message);
                 });
             },
@@ -390,7 +390,7 @@
                 }
                 var ret = confirm('確認成立訂單');
                 if (ret == true) {
-                    await axios.post(`${baseAddress}/ShoppingCart/Create/`, request).then(response => {
+                    await axios.post(`${baseAddress}/ShoppingCart/CreateOrder/`, request).then(response => {
                         alert(response.data.message);
                         if(response.data.result == 'OK'){
                             _this.getShoppingCart(0);
