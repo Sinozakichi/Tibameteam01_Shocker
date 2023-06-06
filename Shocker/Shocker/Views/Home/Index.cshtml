@@ -105,12 +105,12 @@
 					</div>
 				</div>
 			</div>
-			
+
 			<div class="row">
 				<div class="col-lg-3 col-md-4 col-sm-6" v-for="item in nowpop">
 					<a :href="'/ShoppingCart/Product/'+item.productId">
 						<div class="featured__item">
-							<div class="featured__item__pic set-bg" >
+							<div class="featured__item__pic set-bg">
 								<div>
 									<img :src="'/productpictures/'+item.picture" style="width:200px;height:200px" />
 								</div>
@@ -222,7 +222,7 @@
 				var _this = this;
 				axios.get('/User/GetPopluarProduct').then(response => {
 					if (response.data.status) {
-						_this.popularProduct = response.data.data; 
+						_this.popularProduct = response.data.data;
 					}
 					else { alert('人氣商品資料載入失敗') }
 					_this.showPopluarProduct(0);
@@ -230,35 +230,39 @@
 			},
 			showPopluarProduct: function (categoryId) {
 				var _this = this;
-				if (categoryId == 0) {
-					_this.nowpop = [];
-					for (var i = 0; i < _this.popularProduct.allProduct.length; i++) {					
-						_this.nowpop.push(_this.popularProduct.allProduct[i]);
-					}
-				};
-				if (categoryId == 1) {
-					_this.nowpop = [];
-					for (var i = 0; i < _this.popularProduct.product1.length; i++) {
-						_this.nowpop.push(_this.popularProduct.product1[i]);
-					}
-				};
-				if (categoryId == 2) {
-					_this.nowpop = [];
-					for (var i = 0; i < _this.popularProduct.product2.length; i++) {					
-						_this.nowpop.push(_this.popularProduct.product2[i]);
-					}
-				};
-				if (categoryId == 3) {
-					_this.nowpop = [];
-					for (var i = 0; i < _this.popularProduct.product3.length; i++) {
-						_this.nowpop.push(_this.popularProduct.product3[i]);
-					}
-				};
-				if (categoryId == 4) {
-					_this.nowpop = [];
-					for (var i = 0; i < _this.popularProduct.product4.length; i++) {						
-						_this.nowpop.push(_this.popularProduct.product4[i]);
-					}
+				switch (categoryId) {
+					case 0:
+						_this.nowpop = [];
+						for (var i = 0; i < _this.popularProduct.allProduct.length; i++) {
+							_this.nowpop.push(_this.popularProduct.allProduct[i]);
+						};
+						break;
+					case 1:
+						_this.nowpop = [];
+						for (var i = 0; i < _this.popularProduct.product1.length; i++) {
+							_this.nowpop.push(_this.popularProduct.product1[i]);
+						};
+						break;
+					case 2:
+						_this.nowpop = [];
+						for (var i = 0; i < _this.popularProduct.product2.length; i++) {
+							_this.nowpop.push(_this.popularProduct.product2[i]);
+						};
+						break;
+					case 3:
+						_this.nowpop = [];
+						for (var i = 0; i < _this.popularProduct.product3.length; i++) {
+							_this.nowpop.push(_this.popularProduct.product3[i]);
+						};
+						break;
+					case 4:
+						_this.nowpop = [];
+						for (var i = 0; i < _this.popularProduct.product4.length; i++) {
+							_this.nowpop.push(_this.popularProduct.product4[i]);
+						};
+						break;
+					default:
+						break;
 				};
 			},
 			getLatestProduct: function () {

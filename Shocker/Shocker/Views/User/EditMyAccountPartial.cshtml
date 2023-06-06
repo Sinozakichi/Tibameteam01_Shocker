@@ -114,6 +114,9 @@
 				<div class="col-sm-10">
 					<input type="text" class="form-control" id="inputName" v-model="users.user.nickName">
 				</div>
+				<div v-if="nErrorbox" class="text-danger">
+					<h5 class="text-danger">錯誤:{{enickName}}</h5>
+				</div>
 			</div>
 
 			<div class="mb-3 row">
@@ -229,10 +232,11 @@
 			ePassword:"",
 			eEmail:"",
 			eAddress:"",
+			enickName :"",
 			pErrorbox:false,
 			eErrorbox:false,
 			aErrorbox:false,
-
+			nErrorbox :false,
 		},
 		mounted: function () {
 			this.getUsers();//一開始載入即執行getUsers()以拿到資料
@@ -258,10 +262,9 @@
 					address: _this.addAddress
 				};
 				axios.post(`/User/UpdateAccount`, request).then(response => {
-					response.data.status ? alert("更新成功") : alert("未更新")})//跳更新成功的訊息 
-					//this.getUsers();
-					this.Edit = false;
-				
+					response.data.status ? alert("更新成功") : alert("資料更新失敗!")
+					if (response.data.status){_this.getUsers();_this.Edit = false;}
+				})			
 			},
 			editUsers: function () {//開始編輯User的欄位
 				this.Edit = true;
@@ -294,20 +297,21 @@
 			requiredError:function(){
 				var _this =this;
 
-				if(_this.users.user.password == "" ){
+				if (_this.users.user.password.length < 6 || _this.users.user.password.length > 30) {
 					_this.pErrorbox=true;
-					_this.ePassword="密碼不能空白 *請輸入1~50個中英文字做為密碼";
-				} else if (_this.users.user.password.length > 50){
-					_this.pErrorbox = true;
-					_this.ePassword = "密碼超過最大上限 *請輸入1~50個中英文字做為密碼";
+					_this.ePassword="密碼必須在6~30字之間!";
+				} ;
+				if (_this.users.user.nickName.length < 5 || _this.users.user.password.length > 30){
+					_this.nErrorbox = true;
+					_this.enickName = "暱稱必須在5~30字之間!";
 				};
 				if (_this.users.user.email == "" || _this.users.user.email.length > 50){
 					_this.eErrorbox = true;
-					_this.eEmail="信箱格式錯誤 *請輸入正確的信箱地址 字數上限50個字"
+					_this.eEmail="請輸入正確的信箱地址，字數上限50個字"
 				};
 				if (_this.addAddress == "" && (_this.addAddress.length > 50 || _this.addAddress.length<0)) {
 					_this.aErrorbox = true;
-					_this.eAddress = "新增地址,不能為空白! *新增地址字數上限為50個字"
+					_this.eAddress = "地址不能為空白!，新增地址字數上限為50個字"
 				} 
 	
 			},
