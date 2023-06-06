@@ -305,7 +305,7 @@
                 },
                 happyBirthday:function(){
                     var _this =this;
-                    axios.get(`${window.location.origin}/Admin/Coupon/CreateActivCoupon`)
+                    axios.get(`${window.location.origin}/Admin/Coupon/CreateHBDCoupon`)
                         .then(response => {
                     if (response.data.message != "成功送出生日折價券") { _this.nosweetAlert(response.data.message) }
                     else { _this.sweetAlert(response.data.message) }

@@ -1,151 +1,216 @@
-﻿<title>購物車</title>
-<!-- font-awesome -->
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css">
-<!-- bootstrap.css -->
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.5.3/css/bootstrap.min.css">
-<!-- style.css -->
-@*<link rel="stylesheet" href="./css/style.css">*@
-<link href="~/css/chuyi/style.min.css" rel="stylesheet" />
-<link href="~/css/chuyi/style.css" rel="stylesheet" />
-    <a class="navbar-brand" href="/">
-</a>
-
-    <button class="navbar-toggler d-lg-none" type="button" data-toggle="collapse" data-target="#collapsibleNavId"
-            aria-controls="collapsibleNavId" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-    </button>
-    <div class="collapse navbar-collapse" id="collapsibleNavId">
-        <ul class="navbar-nav ml-auto">
-            <li class="nav-item">
-                <a id="navLinkItem" class="nav-link" href="#cartModal" data-toggle="modal">
-                    <i class="fas fa-shopping-cart"></i>
-                    購物車
-                    <div id="cartNumber">0</div>
-
-                </a>
-            </li>
-        </ul>
-    </div>
-</nav>
-<!-- navbar end -->
-<!-- header -->
-<div id="header" class="jumbotron">
+﻿<!-- Breadcrumb Section Begin -->
+<section class="breadcrumb-section set-bg" data-setbg="/img/breadcrumb.jpg">
     <div class="container">
-        <h1> 購物車</h1>
-    </div>
-</div>
-<!-- header end -->
-<!-- productSection -->
-<div id="app">
-<section id="productSection" class="py-5">
-    <div class="container">
-        <h1 class="text-center mb-5">產品列表</h1>
-        <div id="productRow" class="row"></div>
-    </div>
-        <table class="table table-border">
-            <thead>
-                <tr v-if="Products[0].ProductId==2">
-                    <th>產品名稱</th>
-                    <th >單價</th>
-                    <th >數量</th>
-                    <th >總計</th>
-  
-                </tr>
-            </thead>
-            <tbody id="cartTableBody">
-                <tr v-for="item in Products">
-                     <td>{{item.ProductName}}</td>
-                     <td>{{item.UnitPrice}}</td>
-                     <td>{{item.Quantity}}</td>
-                     <td>{{item.UnitPrice*item.Quantity}}</td>
-                </tr>
-                @*還不知道該怎麼加加入購物車的button在每一格商品後面*@
-            </tbody>
-            <tfoot id="cartTableFoot"></tfoot>
-        </table>
-</section>
-</div>
-<!-- productSection end -->
-
-
-<!-- modal -->
-
-<div class="modal fade" id="cartModal" tabindex="-1" role="dialog" aria-labelledby="cartModal" aria-hidden="true">
-    <div class="modal-dialog modal-lg" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title">
-                    <i class="fas fa-shopping-cart"></i> 購物車
-                </h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="modal-body">
-                <table class="table table-border">
-                    <thead>
-                        <tr v-if="true">
-                            <th>產品名稱</th>
-                            <th class="text-right">單價</th>
-                            <th class="text-right">數量</th>
-                            <th class="text-right">總計</th>
-                        </tr>
-                    </thead>
-                    <tbody id="cartTableBody">
-                        <tr v-for="item in Products">
-                            <td>{{item.ProductName}}</td>
-                            <td>{{item.UnitPrice}}</td>
-                            <td>{{item.Quantity}}</td>
-                            <td>{{item.UnitPrice*item.Quantity}}</td>
-                        </tr>
-                    </tbody>
-                    <tfoot id="cartTableFoot"></tfoot>
-                </table>
-            </div>
-            <div class="modal-footer">
-                <button id="clearCartBtn" type="button" class="btn btn-danger">
-                    <i class="fas fa-trash-alt"></i> 清空購物車
-                </button>
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">
-                    <i class="fas fa-times"></i> 關閉
-                </button>
-                <a class="btn btn-success" href="@Url.Action("Create")">結帳</a>
-                <i class="fas fa-credit-card" type="btn btn-primary">
-                    < a asp-controller="ShoppingCart"asp-action="ShoppingCart" >
-                    結帳
-                </i>
-
+        <div class="row">
+            <div class="col-lg-12 text-center">
+                <div class="breadcrumb__text">
+                    <h2 class="productName"></h2>
+                    <div class="breadcrumb__option">
+                        <a asp-controller="Home" asp-action="Index">首頁</a>
+                        <a class="productName" :href="categoryLink"></a>
+                        <span class="productName"></span>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
+</section>
+<!-- Breadcrumb Section End -->
+<div id="app">
+<!-- Product Details Section Begin -->
+<section class="product-details spad">
+    <div v-for="product in info.product" class="container">
+        <div class="row">
+            <div class="col-lg-6 col-md-6">
+                <div class="product__details__pic">
+                    <div class="product__details__pic__item">
+                        <img class="product__details__pic__item--large" :src="info.pictures[0].path" :title="info.pictures[0].description">
+                    </div>
+                    <div class="product__details__pic__slider owl-carousel owl-drag">
+                        <div class="owl-stage-outer">
+                            <div class="owl-stage" style="transform: translate3d(-718px, 0px, 0px); transition: all 1.2s ease 0s; width: 1725px;">
+                                
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-6 col-md-6">
+                <div class="product__details__text">
+                    <h3>{{product.productName}}</h3>
+                    <div class="product__details__rating">
+                        <i v-for="n in starCount" class="fa fa-star"></i>
+                        <span>( {{info.ratings.length}} 則評價)</span>
+                    </div>
+                    <div class="product__details__price">{{product.currency}}&nbsp;&nbsp;{{product.unitPrice}}</div>
+                    <p>{{product.description==null ? '尚無商品資訊' : product.description}}</p>
+                    <div class="product__details__quantity">
+                        <div class="quantity">
+                            <div class="pro-qty">
+                                <button class="btn btn-sm" @@click="increase('minus')">－</button>
+                                <input type="text" v-model="quantity">
+                                <button class="btn btn-sm" @@click="increase('plus')">＋</button>
+                            </div>
+                        </div>
+                    </div>
+                    <a href="#" class="primary-btn" @@click="createCart(product.productId,quantity,product.unitsInStock)">加入購物車</a>
+                    <ul>
+                        <li><b>賣家</b> <span>{{product.sellerAccount}}</span></li>
+                        <li><b>上架狀態</b>
+                            <span v-if="product.status=='p0'">未上架</span>
+                            <span v-if="product.status=='p1'">已上架</span>
+                            <span v-if="product.status=='p2'">已刪除</span>
+                        </li>
+                        <li><b>上架時間</b> <span>{{product.launchDate}}</span></li>
+                        <li><b>庫存</b> <span>{{product.unitsInStock}}<samp v-if="product.unitsInStock<=0">&nbsp;&nbsp;無庫存</samp></span></li>
+                        <li><b>銷量</b> <span>{{product.sales}}</span></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="col-lg-12">
+                <div class="product__details__tab">
+                    <ul class="nav nav-tabs" role="tablist">
+                        <li class="nav-item">
+                            <a class="nav-link active" data-toggle="tab" href="#tabs-1" role="tab"
+                                aria-selected="true">賣家資訊</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" data-toggle="tab" href="#tabs-2" role="tab"
+                               aria-selected="false">買家評價 <span>( {{info.ratings.length}} )</span></a>
+                        </li>
+                    </ul>
+                    <div class="tab-content">
+                        <div class="tab-pane active" id="tabs-1" role="tabpanel">
+                            <div class="product__details__tab__desc">
+                                <h6>&nbsp;&nbsp;{{product.sellerAccount}}</h6>
+                                <p>{{product.aboutSeller == null ? '尚無賣家資訊' : product.aboutSeller}}</p>
+                            </div>
+                        </div>
+                        <div class="tab-pane" id="tabs-2" role="tabpanel">
+                            <div class="product__details__tab__desc">
+                                <h6 v-if="info.ratings.length==0">尚無評價</h6>
+                            </div>                            
+                            <div v-for="rating in info.ratings" class="product__details__tab__desc">
+                                <div class="product__details__text">
+                                    <div class="product__details__rating">
+                                        <h6>{{rating.buyerAccount}}&nbsp;&nbsp;評價
+                                            <i v-for="n in rating.starCount" class="fa fa-star"></i>
+                                        </h6>
+                                    </div>
+                                </div>
+                                <p>{{rating.description}}</p>
+                                <h6>賣家回應</h6>
+                                <p>{{rating.reply==null ? '尚未回應' : rating.reply}}</p>
+                                <hr>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<!-- Product Details Section End -->
+
+<!-- Related Product Section Begin -->
+<section class="related-product">
+    <div v-for="product in info.product" class="container">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="section-title related__product__title">
+                    <h2>&nbsp;&nbsp;{{product.sellerAccount}}&nbsp;&nbsp;所有商品</h2>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div v-for="(item,px) in info.products" class="col-lg-3 col-md-4 col-sm-6">
+                <div class="product__item">
+                    <div class="product__item__pic set-bg" :style="item.path">
+                        <ul class="product__item__pic__hover">
+                            <li><a href="#" @@click="createCart(item.productId,1,item.unitsInStock)"><i class="fa fa-shopping-cart"></i></a></li>
+                        </ul>
+                    </div>
+                    <div class="product__item__text">
+                        <h6><a :href="productLinks[px]">{{item.productName}}</a></h6>
+                        <h5>{{item.currency}}&nbsp;&nbsp;{{item.unitPrice}}</h5>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<!-- Related Product Section End -->
 </div>
-
-<script src="~/js/chuyi/cart.js"></script>
-<script src="~/lib/axios/axios.min.js"></script>
 <script src="~/lib/vue/vue.global.prod.js"></script>
+<script src="~/lib/axios/axios.min.js"></script>
 <script>
-    var baseAddress = `${window.location.origin}`
-    var vueApp={
-        data(){
+    var productId = @ViewBag.Id;
+    var baseAddress = `${window.location.origin}`;
+    var vueApp = {
+        data() {
             return {
-                Products:[],
-
+                loginAccount: 'User2',
+                info: [],
+                starCount: 1,
+                path: [],
+                quantity: 1,
+                categoryLink: '',
+                productLinks: []
             }
         },
         mounted: function(){
-            let _this=this;
-            _this.getProducts();
+            let _this = this;
+            _this.getProduct(productId);
         },
-        methods:{
-            getProducts:async function(){
-                let _this=this;
-                await axios.post(`${baseAddress}/ShoppingCart/GetProduct`).then(
-                    response =>{
-                        _this.Products = response.data;
-                    }
-                )
-            }
+        methods: {
+            getProduct: function(id) {
+                let _this = this;
+                axios.get(`${baseAddress}/ShoppingCart/GetProduct/${id}`).then(response => {
+                    _this.info = response.data;
+                    document.getElementsByClassName('productName')[0].append(app.info.product[0].productName);
+                    document.getElementsByClassName('productName')[1].append(app.info.product[0].categoryName);
+                    document.getElementsByClassName('productName')[2].append(app.info.product[0].productName);
+                    _this.info.pictures.forEach(p => {
+                        p.path = `${window.location.origin}/productpictures/${p.pictureId}-${p.path}`;
+                    });
+                    _this.productLinks = [];
+                    _this.info.products.forEach(p => {
+                        p.path = `background-image: url("${window.location.origin}/productpictures/${p.pictureId}-${p.path}");`;
+                        _this.productLinks.push(`${window.location.origin}/ShoppingCart/Product/${p.productId}`);
+                    });
+                    var stars = 0;
+                    _this.info.ratings.forEach(r => {
+                        stars += r.starCount;
+                    });
+                    if (_this.info.ratings.length == 0) _this.starCount = 0;
+                    else _this.starCount = Math.round(stars / _this.info.ratings.length);
+                });
+            },
+            increase: function (sign) {
+                let _this = this;
+                if (sign == 'plus' && _this.quantity < _this.info.product[0].unitsInStock && _this.quantity > 0) {
+                    _this.quantity = parseInt(_this.quantity) + 1;
+                }
+                if (sign == 'minus' && _this.quantity > 1) {
+                    _this.quantity = parseInt(_this.quantity) - 1;
+                }
+            },
+            createCart: function (productId, quantity, unitsInStock) {
+                let _this = this;
+                if(_this.quantity <= unitsInStock && _this.quantity > 0) {
+                    var request = {};
+                    request.buyerAccount = _this.loginAccount;
+                    request.productId = [];
+                    request.quantity = [];
+                    request.productId.push(productId);
+                    request.quantity.push(quantity);
+                    axios.post(`${baseAddress}/ShoppingCart/CreateCart`, request).then(response => {
+                        alert(response.data.message);
+                    });
+                }
+                else alert('訂購數量超過庫存');
+            },
         }
     };
-    var app =Vue.createApp(vueApp).mount('#app');
+    var app = Vue.createApp(vueApp).mount('#app');
 </script>

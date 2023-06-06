@@ -343,7 +343,7 @@
 											<td class="align-middle text-center text-sm">
 												<span v-if="item.status=='p0'" class="badge badge-sm bg-gradient-secondary">未上架</span>
 												<span v-if="item.status=='p1'" class="badge badge-sm bg-gradient-success">已上架</span>
-													<span v-if="item.status=='p2'" class="badge badge-sm bg-gradient-success">已刪除</span>
+												<span v-if="item.status=='p2'" class="badge badge-sm bg-gradient-success">已刪除</span>
 											</td>
 											<td class="align-middle text-center">
 												<span class="text-secondary text-xs font-weight-bold">{{item.launchDate}}</span>
@@ -458,12 +458,13 @@
 										<select v-model="details.productCategoryId" class="form-control text-center">
 											<option value="1">衣服</option>
 											<option value="2">文具</option>
-											<option value="3">生鮮食材</option>
+											<option value="3">食品</option>
 											<option value="4">電玩</option>
 											<option value="5">美妝</option>
 											<option value="6">家電</option>
 											<option value="7">漫畫</option>
 											<option value="8">家具</option>
+											<option value="9">生日禮</option>
 										</select>
 									</div>
 								</div>

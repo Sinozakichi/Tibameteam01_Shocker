@@ -74,7 +74,6 @@
 <script src="https://cdn.jsdelivr.net/npm/vue@2.7.14"></script>
 <script src="~/axios/axios.min.js"></script>
 <script>
-	var baseAddress = "https://localhost:7259/User";
 	var app = new Vue({
 		el: '#app',
 		data: {
@@ -88,7 +87,7 @@
 		methods: {
 			getQuestions: function () {
 				var _this=this;
-				axios.get(`${baseAddress}/GetQuestions`).then(response => {
+				axios.get(`/User/GetQuestions`).then(response => {
 					_this.questions = response.data.data.clientCases;
 				});
 			},

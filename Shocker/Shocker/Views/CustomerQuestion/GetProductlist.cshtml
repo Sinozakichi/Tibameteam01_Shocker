@@ -1,0 +1,536 @@
+﻿@section Styles
+    {
+    <link href="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+    <script src="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <link href="~/css/productlist.css" rel="stylesheet" />
+}}
+<body>
+    <!-- Page Preloder -->
+    <!-- Humberger Begin -->
+    <!-- Humberger End -->
+    <!-- Header Section Begin -->
+    <!-- Header Section End -->
+    <!-- Hero Section Begin -->
+    <!-- Hero Section End -->
+    <!-- Breadcrumb Section Begin -->
+    <section class="breadcrumb-section set-bg" data-setbg="img/breadcrumb.jpg" style="background-image: url(&quot;img/breadcrumb.jpg&quot;);">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12 text-center">
+                    <div class="breadcrumb__text">
+                        <h2>Organi Shop</h2>
+                        <div class="breadcrumb__option">
+                            <a href="./index.html">Home</a>
+                            <span>Shop</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- Breadcrumb Section End -->
+    <!-- Product Section Begin -->
+    
+    <section class="product spad">
+        <div class="container">
+           
+            <div class="row">
+                <div class="col-lg-3 col-md-5">
+                    @*左邊bar*@
+                    <div class="sidebar">
+                        <div class="sidebar__item">
+                            <h4>Department</h4>
+                            <ul>
+                                <li><a href="#">Fresh Meat</a></li>
+                                <li><a href="#">Vegetables</a></li>
+                                <li><a href="#">Fruit &amp; Nut Gifts</a></li>
+                                <li><a href="#">Fresh Berries</a></li>
+                                <li><a href="#">Ocean Foods</a></li>
+                                <li><a href="#">Butter &amp; Eggs</a></li>
+                                <li><a href="#">Fastfood</a></li>
+                                <li><a href="#">Fresh Onion</a></li>
+                                <li><a href="#">Papayaya &amp; Crisps</a></li>
+                                <li><a href="#">Oatmeal</a></li>
+                            </ul>
+                        </div>
+                        <div class="sidebar__item">
+                            <h4>Price</h4>
+                            <div class="price-range-wrap">
+                                <div class="price-range ui-slider ui-corner-all ui-slider-horizontal ui-widget ui-widget-content" data-min="10" data-max="540">
+                                    <div class="ui-slider-range ui-corner-all ui-widget-header"></div>
+                                    <span tabindex="0" class="ui-slider-handle ui-corner-all ui-state-default" style="left: 0%;"></span>
+                                    <span tabindex="0" class="ui-slider-handle ui-corner-all ui-state-default" style="left: 97.7358%;"></span>
+                                    <div class="ui-slider-range ui-corner-all ui-widget-header" style="left: 0%; width: 97.7358%;"></div>
+                                </div>
+                                <div class="range-slider">
+                                    <div class="price-input">
+                                        <input type="text" id="minamount">
+                                        <input type="text" id="maxamount">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="sidebar__item sidebar__item__color--option">
+                            <h4>Colors</h4>
+                            <div class="sidebar__item__color sidebar__item__color--white">
+                                <label for="white">
+                                    White
+                                    <input type="radio" id="white">
+                                </label>
+                            </div>
+                            <div class="sidebar__item__color sidebar__item__color--gray">
+                                <label for="gray">
+                                    Gray
+                                    <input type="radio" id="gray">
+                                </label>
+                            </div>
+                            <div class="sidebar__item__color sidebar__item__color--red">
+                                <label for="red">
+                                    Red
+                                    <input type="radio" id="red">
+                                </label>
+                            </div>
+                            <div class="sidebar__item__color sidebar__item__color--black">
+                                <label for="black">
+                                    Black
+                                    <input type="radio" id="black">
+                                </label>
+                            </div>
+                            <div class="sidebar__item__color sidebar__item__color--blue">
+                                <label for="blue">
+                                    Blue
+                                    <input type="radio" id="blue">
+                                </label>
+                            </div>
+                            <div class="sidebar__item__color sidebar__item__color--green">
+                                <label for="green">
+                                    Green
+                                    <input type="radio" id="green">
+                                </label>
+                            </div>
+                        </div>
+                        <div class="sidebar__item">
+                            <h4>Popular Size</h4>
+                            <div class="sidebar__item__size">
+                                <label for="large">
+                                    Large
+                                    <input type="radio" id="large">
+                                </label>
+                            </div>
+                            <div class="sidebar__item__size">
+                                <label for="medium">
+                                    Medium
+                                    <input type="radio" id="medium">
+                                </label>
+                            </div>
+                            <div class="sidebar__item__size">
+                                <label for="small">
+                                    Small
+                                    <input type="radio" id="small">
+                                </label>
+                            </div>
+                            <div class="sidebar__item__size">
+                                <label for="tiny">
+                                    Tiny
+                                    <input type="radio" id="tiny">
+                                </label>
+                            </div>
+                        </div>
+                       @* <div class="sidebar__item">
+                            <div class="latest-product__text">
+                                <h4>Latest Products</h4>
+                                <div class="latest-product__slider owl-carousel owl-loaded owl-drag">
+
+
+                                    <div class="owl-stage-outer">
+                                        <div class="owl-stage" style="transform: translate3d(-1530px, 0px, 0px); transition: all 1.2s ease 0s; width: 3060px;">
+                                            <div class="owl-item cloned" style="width: 510px;">
+                                                <div class="latest-prdouct__slider__item">
+                                                    <a href="#" class="latest-product__item">
+                                                        <div class="latest-product__item__pic">
+                                                            <img src="img/latest-product/lp-1.jpg" alt="">
+                                                        </div>
+                                                        <div class="latest-product__item__text">
+                                                            <h6>Crab Pool Security</h6>
+                                                            <span>$30.00</span>
+                                                        </div>
+                                                    </a>
+                                                    <a href="#" class="latest-product__item">
+                                                        <div class="latest-product__item__pic">
+                                                            <img src="img/latest-product/lp-2.jpg" alt="">
+                                                        </div>
+                                                        <div class="latest-product__item__text">
+                                                            <h6>Crab Pool Security</h6>
+                                                            <span>$30.00</span>
+                                                        </div>
+                                                    </a>
+                                                    <a href="#" class="latest-product__item">
+                                                        <div class="latest-product__item__pic">
+                                                            <img src="img/latest-product/lp-3.jpg" alt="">
+                                                        </div>
+                                                        <div class="latest-product__item__text">
+                                                            <h6>Crab Pool Security</h6>
+                                                            <span>$30.00</span>
+                                                        </div>
+                                                    </a>
+                                                </div>
+                                            </div><div class="owl-item cloned" style="width: 510px;">
+                                                <div class="latest-prdouct__slider__item">
+                                                    <a href="#" class="latest-product__item">
+                                                        <div class="latest-product__item__pic">
+                                                            <img src="img/latest-product/lp-1.jpg" alt="">
+                                                        </div>
+                                                        <div class="latest-product__item__text">
+                                                            <h6>Crab Pool Security</h6>
+                                                            <span>$30.00</span>
+                                                        </div>
+                                                    </a>
+                                                    <a href="#" class="latest-product__item">
+                                                        <div class="latest-product__item__pic">
+                                                            <img src="img/latest-product/lp-2.jpg" alt="">
+                                                        </div>
+                                                        <div class="latest-product__item__text">
+                                                            <h6>Crab Pool Security</h6>
+                                                            <span>$30.00</span>
+                                                        </div>
+                                                    </a>
+                                                    <a href="#" class="latest-product__item">
+                                                        <div class="latest-product__item__pic">
+                                                            <img src="img/latest-product/lp-3.jpg" alt="">
+                                                        </div>
+                                                        <div class="latest-product__item__text">
+                                                            <h6>Crab Pool Security</h6>
+                                                            <span>$30.00</span>
+                                                        </div>
+                                                    </a>
+                                                </div>
+                                            </div><div class="owl-item" style="width: 510px;">
+                                                <div class="latest-prdouct__slider__item">
+                                                    <a href="#" class="latest-product__item">
+                                                        <div class="latest-product__item__pic">
+                                                            <img src="img/latest-product/lp-1.jpg" alt="">
+                                                        </div>
+                                                        <div class="latest-product__item__text">
+                                                            <h6>Crab Pool Security</h6>
+                                                            <span>$30.00</span>
+                                                        </div>
+                                                    </a>
+                                                    <a href="#" class="latest-product__item">
+                                                        <div class="latest-product__item__pic">
+                                                            <img src="img/latest-product/lp-2.jpg" alt="">
+                                                        </div>
+                                                        <div class="latest-product__item__text">
+                                                            <h6>Crab Pool Security</h6>
+                                                            <span>$30.00</span>
+                                                        </div>
+                                                    </a>
+                                                    <a href="#" class="latest-product__item">
+                                                        <div class="latest-product__item__pic">
+                                                            <img src="img/latest-product/lp-3.jpg" alt="">
+                                                        </div>
+                                                        <div class="latest-product__item__text">
+                                                            <h6>Crab Pool Security</h6>
+                                                            <span>$30.00</span>
+                                                        </div>
+                                                    </a>
+                                                </div>
+                                            </div><div class="owl-item active" style="width: 510px;">
+                                                <div class="latest-prdouct__slider__item">
+                                                    <a href="#" class="latest-product__item">
+                                                        <div class="latest-product__item__pic">
+                                                            <img src="img/latest-product/lp-1.jpg" alt="">
+                                                        </div>
+                                                        <div class="latest-product__item__text">
+                                                            <h6>Crab Pool Security</h6>
+                                                            <span>$30.00</span>
+                                                        </div>
+                                                    </a>
+                                                    <a href="#" class="latest-product__item">
+                                                        <div class="latest-product__item__pic">
+                                                            <img src="img/latest-product/lp-2.jpg" alt="">
+                                                        </div>
+                                                        <div class="latest-product__item__text">
+                                                            <h6>Crab Pool Security</h6>
+                                                            <span>$30.00</span>
+                                                        </div>
+                                                    </a>
+                                                    <a href="#" class="latest-product__item">
+                                                        <div class="latest-product__item__pic">
+                                                            <img src="img/latest-product/lp-3.jpg" alt="">
+                                                        </div>
+                                                        <div class="latest-product__item__text">
+                                                            <h6>Crab Pool Security</h6>
+                                                            <span>$30.00</span>
+                                                        </div>
+                                                    </a>
+                                                </div>
+                                            </div><div class="owl-item cloned" style="width: 510px;">
+                                                <div class="latest-prdouct__slider__item">
+                                                    <a href="#" class="latest-product__item">
+                                                        <div class="latest-product__item__pic">
+                                                            <img src="img/latest-product/lp-1.jpg" alt="">
+                                                        </div>
+                                                        <div class="latest-product__item__text">
+                                                            <h6>Crab Pool Security</h6>
+                                                            <span>$30.00</span>
+                                                        </div>
+                                                    </a>
+                                                    <a href="#" class="latest-product__item">
+                                                        <div class="latest-product__item__pic">
+                                                            <img src="img/latest-product/lp-2.jpg" alt="">
+                                                        </div>
+                                                        <div class="latest-product__item__text">
+                                                            <h6>Crab Pool Security</h6>
+                                                            <span>$30.00</span>
+                                                        </div>
+                                                    </a>
+                                                    <a href="#" class="latest-product__item">
+                                                        <div class="latest-product__item__pic">
+                                                            <img src="img/latest-product/lp-3.jpg" alt="">
+                                                        </div>
+                                                        <div class="latest-product__item__text">
+                                                            <h6>Crab Pool Security</h6>
+                                                            <span>$30.00</span>
+                                                        </div>
+                                                    </a>
+                                                </div>
+                                            </div><div class="owl-item cloned" style="width: 510px;">
+                                                <div class="latest-prdouct__slider__item">
+                                                    <a href="#" class="latest-product__item">
+                                                        <div class="latest-product__item__pic">
+                                                            <img src="img/latest-product/lp-1.jpg" alt="">
+                                                        </div>
+                                                        <div class="latest-product__item__text">
+                                                            <h6>Crab Pool Security</h6>
+                                                            <span>$30.00</span>
+                                                        </div>
+                                                    </a>
+                                                    <a href="#" class="latest-product__item">
+                                                        <div class="latest-product__item__pic">
+                                                            <img src="img/latest-product/lp-2.jpg" alt="">
+                                                        </div>
+                                                        <div class="latest-product__item__text">
+                                                            <h6>Crab Pool Security</h6>
+                                                            <span>$30.00</span>
+                                                        </div>
+                                                    </a>
+                                                    <a href="#" class="latest-product__item">
+                                                        <div class="latest-product__item__pic">
+                                                            <img src="img/latest-product/lp-3.jpg" alt="">
+                                                        </div>
+                                                        <div class="latest-product__item__text">
+                                                            <h6>Crab Pool Security</h6>
+                                                            <span>$30.00</span>
+                                                        </div>
+                                                    </a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div><div class="owl-nav"><button type="button" role="presentation" class="owl-prev"><span class="fa fa-angle-left"><span></span></span></button><button type="button" role="presentation" class="owl-next"><span class="fa fa-angle-right"><span></span></span></button></div><div class="owl-dots disabled"></div>
+                                </div>
+                            </div>
+                        </div>*@
+                    </div>
+                </div>
+                <div class="col-lg-9 col-md-7">
+                    @*//篩選*@
+                    
+                    @*<div class="filter__item">
+                        <div class="row">
+                            <div class="col-lg-4 col-md-5">
+                                <div class="filter__sort">
+                                    <span>Sort By</span>
+                                    <select style="display: none;">
+                                        <option value="0">Default</option>
+                                        <option value="0">Default</option>
+                                    </select><div class="nice-select" tabindex="0"><span class="current">Default</span><ul class="list"><li data-value="0" class="option selected">Default</li><li data-value="0" class="option">Default</li></ul></div>
+                                </div>
+                            </div>
+                            <div class="col-lg-4 col-md-4">
+                                <div class="filter__found">
+                                    <h6><span>16</span> Products found</h6>
+                                </div>
+                            </div>
+                            <div class="col-lg-4 col-md-3">
+                                <div class="filter__option">
+                                    <span class="icon_grid-2x2"></span>
+                                    <span class="icon_ul"></span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>*@
+                    
+                    <!------ Include the above in your HEAD tag ---------->
+
+                    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" />
+
+                   @* <demo14>*@
+                    @*產品列表*@
+                    <div class="container" id="app">
+                        <div class="row">
+                            <div class="col-md-4 col-sm-6" v-for="item in products">
+                                <div class="product-grid4">
+                                    <div class="product-image4" >
+                                        <a href="#">
+                                            <div style="width:200px;height:300px;border:1px solid">
+                                                <img :src="'/'+item.path " class="image-class" />
+                                            </div>
+                                        </a>
+                                        <ul class="social">
+                                            <li><a href="#" data-tip="瀏覽"><i class="fa fa-eye"></i></a></li>
+                                            <li><a href="#" data-tip="加入願望清單"><i class="fa fa-shopping-bag"></i></a></li>
+                                            <li><a href="#" data-tip="加入購物車"><i class="fa fa-shopping-cart"></i></a></li>
+                                        </ul>
+                                        @*<span class="product-new-label">New</span>
+                                        <span class="product-discount-label">-10%</span>*@
+                                    </div>
+                                    <div class="product-content">
+                                        <h3 class="title"><a href="#">{{item.productName}}</a></h3>
+                                        <div class="price">
+                                            {{item.unitPrice}}
+                                            @*<span>$16.00</span>*@ 
+                                        </div>
+                                        <a class="add-to-cart" href="">商品明細</a>
+                                    </div>
+                                </div>
+                            </div>
+                           @* <div class="col-md-4 col-sm-6">
+                                <div class="product-grid4">
+                                    <div class="product-image4">
+                                        <a href="#">
+                                            <img class="pic-1" src="https://www.w3schools.com/bootstrap4/img_avatar4.png">
+                                            <img class="pic-2" src="https://www.w3schools.com/bootstrap4/img_avatar3.png">
+                                        </a>
+                                        <ul class="social">
+                                            <li><a href="#" data-tip="Quick View"><i class="fa fa-eye"></i></a></li>
+                                            <li><a href="#" data-tip="Add to Wishlist"><i class="fa fa-shopping-bag"></i></a></li>
+                                            <li><a href="#" data-tip="Add to Cart"><i class="fa fa-shopping-cart"></i></a></li>
+                                        </ul>
+                                        <span class="product-discount-label">-12%</span>
+                                    </div>
+                                    <div class="product-content">
+                                        <h3 class="title"><a href="#">Men's Blue Shirt</a></h3>
+                                        <div class="price">
+                                            $17.60
+                                            <span>$20.00</span>
+                                        </div>
+                                        <a class="add-to-cart" href="">ADD TO CART</a>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-4 col-sm-6">
+                                <div class="product-grid4">
+                                    <div class="product-image4">
+                                        <a href="#">
+                                            <img class="pic-1" src="https://www.w3schools.com/bootstrap4/img_avatar4.png">
+                                            <img class="pic-2" src="https://www.w3schools.com/bootstrap4/img_avatar3.png">
+                                        </a>
+                                        <ul class="social">
+                                            <li><a href="#" data-tip="Quick View"><i class="fa fa-eye"></i></a></li>
+                                            <li><a href="#" data-tip="Add to Wishlist"><i class="fa fa-shopping-bag"></i></a></li>
+                                            <li><a href="#" data-tip="Add to Cart"><i class="fa fa-shopping-cart"></i></a></li>
+                                        </ul>
+                                        <span class="product-new-label">New</span>
+                                        <span class="product-discount-label">-10%</span>
+                                    </div>
+                                    <div class="product-content">
+                                        <h3 class="title"><a href="#">Women's Black Top</a></h3>
+                                        <div class="price">
+                                            $14.40
+                                            <span>$16.00</span>
+                                        </div>
+                                        <a class="add-to-cart" href="">ADD TO CART</a>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-4 col-sm-6">
+                                <div class="product-grid4">
+                                    <div class="product-image4">
+                                        <a href="#">
+                                            <img class="pic-1" src="https://www.w3schools.com/bootstrap4/img_avatar4.png">
+                                            <img class="pic-2" src="https://www.w3schools.com/bootstrap4/img_avatar3.png">
+                                        </a>
+                                        <ul class="social">
+                                            <li><a href="#" data-tip="Quick View"><i class="fa fa-eye"></i></a></li>
+                                            <li><a href="#" data-tip="Add to Wishlist"><i class="fa fa-shopping-bag"></i></a></li>
+                                            <li><a href="#" data-tip="Add to Cart"><i class="fa fa-shopping-cart"></i></a></li>
+                                        </ul>
+                                        <span class="product-new-label">New</span>
+                                        <span class="product-discount-label">-10%</span>
+                                    </div>
+                                    <div class="product-content">
+                                        <h3 class="title"><a href="#">Women's Black Top</a></h3>
+                                        <div class="price">
+                                            $14.40
+                                            <span>$16.00</span>
+                                        </div>
+                                        <a class="add-to-cart" href="">ADD TO CART</a>
+                                    </div>
+                                </div>
+                            </div>*@
+                        </div>
+                    </div>
+                 
+                    
+                    
+                        
+                        @*分頁bar*@
+                    @*<div class="product__pagination">
+                        <a href="#">1</a>
+                        <a href="#">2</a>
+                        <a href="#">3</a>
+                        <a href="#"><i class="fa fa-long-arrow-right"></i></a>
+                    </div>*@
+                </div>
+            </div>
+        </div>
+        
+    </section>
+    <!-- Product Section End -->
+    <!-- Footer Section Begin -->
+    <!-- Footer Section End -->
+    <!-- Js Plugins -->
+    @*
+    <script src="js/jquery-3.3.1.min.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+    <script src="js/jquery.nice-select.min.js"></script>
+    <script src="js/jquery-ui.min.js"></script>
+    <script src="js/jquery.slicknav.js"></script>
+    <script src="js/mixitup.min.js"></script>
+    <script src="js/owl.carousel.min.js"></script>
+    <script src="js/main.js"></script>
+*@
+</body>
+   
+
+@section Scripts
+    {
+    
+    <script src="~/axios/axios.min.js"></script>
+    <script src="~/vue/vue.global.prod.js"></script>
+    <script>
+        var baseAddress = "https://localhosthttps://localhost:7259/CustomerQuestion/";
+        var VueApp = {
+            data(){
+                return{
+                        products:[],
+                    
+                
+                };
+            },
+            mounted:function(){
+             _this =this;
+                _this.getProductData();
+            },
+            methods:{
+                getProductData:function(){
+                    _this = this;
+                    axios.post(`${window.location.origin}/CustomerQuestion/GetProductlistApi`)
+                        .then(response => { _this.products = response.data.data, alert(response.data.errorMessage) })
+                }
+            }
+        };
+        var app = Vue.createApp(VueApp).mount("#app");
+    </script>
+}
