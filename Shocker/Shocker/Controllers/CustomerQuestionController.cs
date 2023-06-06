@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using Shocker.Models;
 using Shocker.Models.ViewModels;
+using System.ComponentModel.DataAnnotations;
 
 namespace Shocker.Controllers
 {
@@ -22,6 +23,7 @@ namespace Shocker.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Index(CustomerQAViewModel cqavm)
         {
+           
             if (cqavm != null && ModelState.IsValid)
             {
                 ClientCases clientCases = new ClientCases()
@@ -34,7 +36,7 @@ namespace Shocker.Controllers
                 _context.ClientCases.Add(clientCases);
                 await _context.SaveChangesAsync();
             }
-            return RedirectToAction(nameof(Index));
+            return View(cqavm) /*RedirectToAction(nameof(Index)*/;
 
         }
 

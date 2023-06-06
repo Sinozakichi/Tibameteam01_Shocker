@@ -102,7 +102,7 @@
                     <div class="card-header pb-0">
                         <div class="d-flex align-items-center">
                             <h3 class="mb-0">建立折扣卷</h3>
-                            <button class="btn btn-primary btn-sm ms-auto buttonWidth" v-on:click="createCoupon">Create</button>
+                            <button class="btn btn-primary btn-sm ms-auto buttonWidth" @@click="requiredInput(),createCoupon()">Create</button>
                             
                         </div>
                         <div class="d-flex align-items-center">
@@ -147,7 +147,7 @@
                             <div class="col-md-6">
                                 @*//Discount*@
                                 <div class="form-group">
-                                    <label for="example-text-input" class="form-control-label">Discount</label>
+                                    <label for="example-text-input" class="form-control-label">折扣數</label>
                                     <input v-model="cDiscount" class="form-control" type="text" value="Jesse" >
                                 </div>
                             </div>
@@ -165,12 +165,19 @@
                             <div class="col-md-12">
                                 @*//收件帳號*@
                                 <div class="form-group">
-                                    <label for="example-text-input" class="form-control-label">接收者</label>
+                                    <label for="example-text-input" class="form-control-label">請選擇接收者</label>
                                     <select v-model="cHolderAccount">
                                         <option selected> 請選擇帳號 </option>
                                         <option  v-for="item in displayUser" :value="item.holderAccount">{{item.holderAccount}}</option>
                                     </select>
+                                    
                                 </div>
+                                <p v-if="errorsCreate">
+                                    <b>請正確填入所有值</b>
+                                    <ul>
+                                        <li v-for="error in errors" class="text-danger">{{error}}</li>
+                                    </ul>
+                                </p>
                             </div>
                             @*                        <div class="col-md-4">
                             <div class="form-group">
@@ -227,6 +234,8 @@
                     errormessage:[],
                     displayUser:[],
                     hbd:[],
+                    errors:[],
+                    errorsCreate:false,
                 };
             },
             mounted: function () {
@@ -309,7 +318,26 @@
                         .then(response => {
                     if (response.data.message != "成功送出生日折價券") { _this.nosweetAlert(response.data.message) }
                     else { _this.sweetAlert(response.data.message) }
-                })},
+                })
+                },
+                requiredInput:function(){
+                   
+                    var _this = this;
+                    var a = _this.errorsCreate;
+                    if (_this.cExpirationDate == null || _this.cExpirationDate=="") {
+                        _this.errors.push("到期日為必填");
+                        a=true;
+                    }
+                    if (_this.cProductCategoryId == NaN || _this.cProductCategoryId=="") {
+                        _this.errors.push("使用者不可為空");
+                        a = true;
+                    }
+                    if (_this.cDiscount < 0 || _this.cDiscount > 1 || _this.cDiscount =="") {
+                        _this.errors.push("折扣數請輸入 0~1 *取至小數點後一位");
+                        a = true;
+                    }
+                    
+                },
         },
         }
         var app = Vue.createApp(VueApp).mount("#app");
