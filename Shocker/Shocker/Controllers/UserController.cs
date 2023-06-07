@@ -166,7 +166,7 @@ namespace Shocker.Controllers
 				u.BirthDate = uvm.BirthDate;
 				u.Email = uvm.Email;
 
-				if (uvm.Address != null)
+				if (uvm.Address != "")
 				{
 					_context.Addresses.Add(new Addresses
 					{
