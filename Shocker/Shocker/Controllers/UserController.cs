@@ -1,16 +1,18 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.CodeAnalysis;
 using Microsoft.EntityFrameworkCore;
+using Newtonsoft.Json;
 using Shocker.Models;
 using Shocker.Models.ViewModels;
 using System.Net;
+using System.Security.Claims;
 
 namespace Shocker.Controllers
 {
 	[Route("{controller}/{action}/{id?}")]
 	public class UserController : Controller
 	{
-		private string loginAccount = "User8";//暫時寫死，等登入的參數
 		private readonly db_a98a02_thm101team1001Context _context;
 		private readonly IWebHostEnvironment _environment;
 
@@ -20,101 +22,9 @@ namespace Shocker.Controllers
 			_environment = environment;
 		}
 		//後併入ShoppindCartController
-		[HttpGet]
-		public ApiResultModel GetPopluarProduct()
-		{
-			var p = _context.Products.Where(p => p.Status == "p1").Include(p => p.Pictures).OrderByDescending(p => p.Sales).Take(4).Select(p => new
-			{
-				productId = p.ProductId,
-				productName = p.ProductName,
-				unitPrice = p.UnitPrice,
-				picture = $"{p.Pictures.FirstOrDefault().PictureId}-{p.Pictures.FirstOrDefault().Path}"
-			}).ToList();
-
-			var p1 = _context.Products.Where(p => p.ProductCategoryId == 1 && p.Status == "p1").Include(p => p.Pictures).OrderByDescending(p => p.Sales).Take(4).Select(p => new
-			{
-				productId = p.ProductId,
-				productName = p.ProductName,
-				unitPrice = p.UnitPrice,
-				picture = $"{p.Pictures.FirstOrDefault().PictureId}-{p.Pictures.FirstOrDefault().Path}"
-			}).ToList();
-
-			var p2 = _context.Products.Where(p => p.ProductCategoryId == 2 && p.Status == "p1").Include(p => p.Pictures).OrderByDescending(p => p.Sales).Take(4).Select(p => new
-			{
-				productId = p.ProductId,
-				productName = p.ProductName,
-				unitPrice = p.UnitPrice,
-				picture = $"{p.Pictures.FirstOrDefault().PictureId}-{p.Pictures.FirstOrDefault().Path}"
-			}).ToList();
-
-			var p3 = _context.Products.Where(p => p.ProductCategoryId == 3 && p.Status == "p1").Include(p => p.Pictures).OrderByDescending(p => p.Sales).Take(4).Select(p => new
-			{
-				productId = p.ProductId,
-				productName = p.ProductName,
-				unitPrice = p.UnitPrice,
-				picture = $"{p.Pictures.FirstOrDefault().PictureId}-{p.Pictures.FirstOrDefault().Path}"
-			}).ToList();
-
-			var p4 = _context.Products.Where(p => p.ProductCategoryId == 4 && p.Status == "p1").Include(p => p.Pictures).OrderByDescending(p => p.Sales).Take(4).Select(p => new
-			{
-				productId = p.ProductId,
-				productName = p.ProductName,
-				unitPrice = p.UnitPrice,
-				picture = $"{p.Pictures.FirstOrDefault().PictureId}-{p.Pictures.FirstOrDefault().Path}"
-			}).ToList();
-			if (p == null || p1 == null || p2 == null || p3 == null || p4 == null) return new ApiResultModel() { Status = false, ErrorMessage = "商品類別中有無上架的商品!" };
-			return new ApiResultModel()
-			{
-				Status = true,
-				Data = new
-				{
-					allProduct = p,
-					product1 = p1,
-					product2 = p2,
-					product3 = p3,
-					product4 = p4,
-				}
-			};
-		}
-		[HttpGet]
-		public ApiResultModel GetLatestProduct()
-		{
-			var p = _context.Products.Where(p => p.Status == "p1").Include(p => p.Pictures).OrderByDescending(p => p.LaunchDate).Take(6).Select(p => new
-			{
-				productId = p.ProductId,
-				productName = p.ProductName,
-				unitPrice = p.UnitPrice,
-				picture = $"{p.Pictures.FirstOrDefault().PictureId}-{p.Pictures.FirstOrDefault().Path}"
-			}).ToList();
-			if (p == null) return new ApiResultModel() { Status = false, ErrorMessage = "沒有上架的商品!" };
-			return new ApiResultModel()
-			{
-				Status = true,
-				Data = new
-				{
-					latestProduct = p,
-				}
-			};
-		}
-		[HttpGet]
-		public ApiResultModel GetYourCoupons()
-		{
-			var c = _context.Coupons.Where(c => c.Status == "c0" && c.HolderAccount == loginAccount).Include(c => c.ProductCategory).OrderByDescending(c => c.ExpirationDate).Take(6).Select(c => new
-			{
-				discount = c.Discount,
-				categoryName = c.ProductCategory.CategoryName,
-			}).ToList();
-			if (c == null) return new ApiResultModel() { Status = false, ErrorMessage = "您沒有優惠碼!" };
-			return new ApiResultModel()
-			{
-				Status = true,
-				Data = new
-				{
-					yourCoupons = c,
-				}
-			};
-		}
+		
 		//
+
 		[HttpGet]
 		public IActionResult MyAccount(string tab)//點選用戶資訊編輯的菜單選項時，帶一個tab的參數，依據參數abcde呈現不同的Partial View
 		{
@@ -122,16 +32,19 @@ namespace Shocker.Controllers
 			return View();
 		}
 		[HttpGet]
-		public ApiResultModel GetAccount()//要接登入驗證那裡傳回的Users.Account參數，找出User表裡Account欄位符合登入帳號的該筆資料，將資料物件包成JSON傳到前端，先暫時寫死，等登入的參數
+		public IActionResult GetAccount()//要接登入驗證那裡傳回的Users.Account參數，找出User表裡Account欄位符合登入帳號的該筆資料，將資料物件包成JSON傳到前端，先暫時寫死，等登入的參數
 		{
-			var a = _context.Users.AsNoTracking().FirstOrDefault(u => u.Id == loginAccount);
-			if (a == null) return new ApiResultModel() { Status = false, ErrorMessage = "此帳號不存在!" };
-			var ad = _context.Addresses.AsNoTracking().Where(u => u.UserAccount == loginAccount).Select(x => new
-			{
-				address = x.Address,
-			}).ToList();
+			var loginAccount = User.Claims.FirstOrDefault(x => x.Type == ClaimTypes.Name);
+			if (loginAccount == null) return BadRequest(new ApiResultModel { Status = false, ErrorMessage = "找不到此帳號" });
 
-			return new ApiResultModel()
+			var a = _context.Users.Include(x => x.Addresses).AsNoTracking().FirstOrDefault(u => u.Id == loginAccount.Value);
+			if (a == null) return BadRequest(new ApiResultModel() { Status = false, ErrorMessage = "此帳號不存在!" });
+			JsonSerializerSettings settings = new JsonSerializerSettings
+			{
+				ReferenceLoopHandling = ReferenceLoopHandling.Ignore,
+			};
+
+			var result = new ApiResultModel()
 			{
 				Status = true,
 				Data = new
@@ -149,38 +62,61 @@ namespace Shocker.Controllers
 						registerDate = a.RegisterDate,
 						picture = a.PicturePath,
 					},
-					address = ad
+					address = a.Addresses,
 				}
 			};
+			return Ok(JsonConvert.SerializeObject(result, settings));
 		}
+
 		[HttpPost]
 		public ApiResultModel UpdateAccount([FromBody] UserViewModel uvm)//更新User資訊
 		{
-			try
+			if (!ModelState.IsValid)
 			{
-				var u = _context.Users.FirstOrDefault(u => u.Id == uvm.Id);
-				if (u == null) return new ApiResultModel() { Status = false, ErrorMessage = "此帳號不存在!" };
-				u.Password = uvm.Password;
-				u.NickName = uvm.NickName;
-				u.Gender = uvm.Gender;
-				u.BirthDate = uvm.BirthDate;
-				u.Email = uvm.Email;
-
-				if (uvm.Address != "")
+				IEnumerable<string> passworderror = ModelState["Password"]?.Errors.Select(e => e.ErrorMessage);
+				IEnumerable<string> nicknameerror = ModelState["NickName"]?.Errors.Select(e => e.ErrorMessage);
+				IEnumerable<string> emailerror = ModelState["Email"]?.Errors?.Select(e => e.ErrorMessage);
+				return new ApiResultModel()
 				{
-					_context.Addresses.Add(new Addresses
+					Status = false,
+					Data = new
 					{
-						Address = uvm.Address,
-						UserAccount = uvm.Id,
-					});
-				}
-				_context.SaveChanges();
-				return new ApiResultModel() { Status = true };
+						passwordError = passworderror,
+						nicknameError = nicknameerror,
+						emailError = emailerror,
+					},
+					ErrorMessage = "欄位驗證有誤!"
+				};
 			}
-			catch (Exception)
+			else
 			{
-				return new ApiResultModel() { Status = false, ErrorMessage = "上傳帳號資訊失敗!" };
+				try
+				{
+					var u = _context.Users.FirstOrDefault(u => u.Id == uvm.Id);
+					if (u == null) return new ApiResultModel() { Status = false, ErrorMessage = "此帳號不存在!" };
+					u.Password = uvm.Password;
+					u.NickName = uvm.NickName;
+					u.Gender = uvm.Gender;
+					u.BirthDate = uvm.BirthDate;
+					u.Email = uvm.Email;
+
+					if (uvm.Address != "")
+					{
+						_context.Addresses.Add(new Addresses
+						{
+							Address = uvm.Address,
+							UserAccount = uvm.Id,
+						});
+					}
+					_context.SaveChanges();
+					return new ApiResultModel() { Status = true };
+				}
+				catch (Exception)
+				{
+					return new ApiResultModel() { Status = false, ErrorMessage = "上傳帳號資訊失敗!" };
+				}
 			}
+
 		}
 		[HttpPost]
 		public ApiResultModel UploadPicture(PictureViewModel pvm)//更改User照片
@@ -209,7 +145,10 @@ namespace Shocker.Controllers
 		[HttpGet]
 		public ApiResultModel GetOrders()//抓取登入的Account的所有的Orders的以下欄位資訊，暫時寫死，等登入傳入的參數
 		{
-			var o = _context.Orders.AsNoTracking().Include(x => x.StatusNavigation).Where(x => x.BuyerAccount == loginAccount).Select(x => new
+			var loginAccount = User.Claims.FirstOrDefault(x => x.Type == ClaimTypes.Name);
+			if (loginAccount == null) return new ApiResultModel { Status = false, ErrorMessage = "找不到此帳號" };
+
+			var o = _context.Orders.AsNoTracking().Include(x => x.StatusNavigation).Where(x => x.BuyerAccount == loginAccount.Value).Select(x => new
 			{
 				buyerAccount = x.BuyerAccount,
 				orderId = x.OrderId,
@@ -217,7 +156,7 @@ namespace Shocker.Controllers
 				status = x.StatusNavigation.StatusName,
 			}).ToList();
 			if (o == null) return new ApiResultModel() { Status = false, ErrorMessage = "此帳號不存在!" };
-			var od = _context.OrderDetails.AsNoTracking().Include(x => x.Order).Where(x => x.Order.BuyerAccount == loginAccount).Select(x => new
+			var od = _context.OrderDetails.AsNoTracking().Include(x => x.Order).Where(x => x.Order.BuyerAccount == loginAccount.Value).Select(x => new
 			{
 				orderId = x.OrderId,
 				product = x.ProductId,
@@ -346,44 +285,81 @@ namespace Shocker.Controllers
 		[HttpPost]
 		public ApiResultModel UpdateOdReturnreason([FromBody] ReturnreasonViewModel rrvm)
 		{
-			try
+			if (!ModelState.IsValid)
 			{
-				var od = _context.OrderDetails.FirstOrDefault(od => od.OrderId == rrvm.OrderId && od.ProductId == rrvm.ProductId);
-				if (od == null) return new ApiResultModel { Status = false, ErrorMessage = "此筆訂單明細不存在!" };
-				od.ReturnReason = rrvm.ReturnReason;
-				od.Status = "od4";
+				IEnumerable<string> returnreasonerror = ModelState["ReturnReason"]?.Errors.Select(e => e.ErrorMessage);
+				return new ApiResultModel()
+				{
+					Status = false,
+					Data = new
+					{
+						returnReasonError = returnreasonerror,
+					},
+					ErrorMessage = "欄位驗證有誤!"
+				};
+			}
+			else
+			{
+				try
+				{
+					var od = _context.OrderDetails.FirstOrDefault(od => od.OrderId == rrvm.OrderId && od.ProductId == rrvm.ProductId);
+					if (od == null) return new ApiResultModel { Status = false, ErrorMessage = "此筆訂單明細不存在!" };
+					od.ReturnReason = rrvm.ReturnReason;
+					od.Status = "od4";
 
-				var o = _context.Orders.FirstOrDefault(o => o.OrderId == rrvm.OrderId);
-				if (o == null) return new ApiResultModel() { Status = false, ErrorMessage = "此筆訂單不存在!" };
-				o.Status = "o4";
-				_context.SaveChanges();
-				return new ApiResultModel() { Status = true };
+					var o = _context.Orders.FirstOrDefault(o => o.OrderId == rrvm.OrderId);
+					if (o == null) return new ApiResultModel() { Status = false, ErrorMessage = "此筆訂單不存在!" };
+					o.Status = "o4";
+					_context.SaveChanges();
+					return new ApiResultModel() { Status = true };
+				}
+				catch (Exception)
+				{
+					return new ApiResultModel() { Status = false, ErrorMessage = "退貨失敗!" };
+				}
 			}
-			catch (Exception)
-			{
-				return new ApiResultModel() { Status = false, ErrorMessage = "退貨失敗!" };
-			}
+
 		}
 		[HttpPost]
 		public ApiResultModel UpdateRatingDescription([FromBody] RatingDescriptionViewModel rdvm)
 		{
-			try
+			if (!ModelState.IsValid)
 			{
-				var r = _context.Ratings.FirstOrDefault(r => r.OrderId == rdvm.OrderId && r.ProductId == rdvm.ProductId);
-				if (r == null) return new ApiResultModel() { Status = false, ErrorMessage = "此筆評價不存在!" };
-				r.Description = rdvm.Description;
-				_context.SaveChanges();
-				return new ApiResultModel() { Status = true };
+				IEnumerable<string> ratingdescriptionerror = ModelState["Description"]?.Errors.Select(e => e.ErrorMessage);
+				return new ApiResultModel()
+				{
+					Status = false,
+					Data = new
+					{
+						ratingdescriptionError = ratingdescriptionerror,
+					},
+					ErrorMessage = "欄位驗證有誤!"
+				};
 			}
-			catch (Exception)
+			else
 			{
-				return new ApiResultModel() { Status = false, ErrorMessage = "上傳評價失敗!" };
+				try
+				{
+					var r = _context.Ratings.FirstOrDefault(r => r.OrderId == rdvm.OrderId && r.ProductId == rdvm.ProductId);
+					if (r == null) return new ApiResultModel() { Status = false, ErrorMessage = "此筆評價不存在!" };
+					r.Description = rdvm.Description;
+					_context.SaveChanges();
+					return new ApiResultModel() { Status = true };
+				}
+				catch (Exception)
+				{
+					return new ApiResultModel() { Status = false, ErrorMessage = "上傳評價失敗!" };
+				}
 			}
+
 		}
 		[HttpGet]
 		public ApiResultModel GetCoupons()
 		{
-			var c = _context.Coupons.AsNoTracking().Include(c => c.StatusNavigation).Include(c => c.OrderDetails).Where(c => c.HolderAccount == loginAccount).Select(c => new
+			var loginAccount = User.Claims.FirstOrDefault(x => x.Type == ClaimTypes.Name);
+			if (loginAccount == null) return new ApiResultModel { Status = false, ErrorMessage = "找不到此帳號" };
+
+			var c = _context.Coupons.AsNoTracking().Include(c => c.StatusNavigation).Include(c => c.OrderDetails).Where(c => c.HolderAccount == loginAccount.Value).Select(c => new
 			{
 				holderAccount = c.HolderAccount,
 				couponId = c.CouponId,
@@ -407,7 +383,10 @@ namespace Shocker.Controllers
 		[HttpGet]
 		public ApiResultModel GetQuestions()
 		{
-			var c = _context.ClientCases.AsNoTracking().Where(c => c.UserAccount == loginAccount).Select(c => new
+			var loginAccount = User.Claims.FirstOrDefault(x => x.Type == ClaimTypes.Name);
+			if (loginAccount == null) return new ApiResultModel { Status = false, ErrorMessage = "找不到此帳號" };
+
+			var c = _context.ClientCases.AsNoTracking().Where(c => c.UserAccount == loginAccount.Value).Select(c => new
 			{
 				caseId = c.CaseId,
 				description = c.Description,
