@@ -343,7 +343,7 @@
 											<td class="align-middle text-center text-sm">
 												<span v-if="item.status=='p0'" class="badge badge-sm bg-gradient-secondary">未上架</span>
 												<span v-if="item.status=='p1'" class="badge badge-sm bg-gradient-success">已上架</span>
-												<span v-if="item.status=='p2'" class="badge badge-sm bg-gradient-success">已刪除</span>
+												<span v-if="item.status=='p2'" class="badge badge-sm bg-gradient-dark">已刪除</span>
 											</td>
 											<td class="align-middle text-center">
 												<span class="text-secondary text-xs font-weight-bold">{{item.launchDate}}</span>
@@ -411,9 +411,10 @@
 											</td>
 											<td class="align-middle text-center text-sm">
 												<div class="form-check form-switch ps-0 ms-auto my-auto">
-													<input v-model="this._checked" class="form-check-input mt-1 ms-auto" type="checkbox" @@change="shelf">
+													<input v-if="this.details.status!='p2'" v-model="this._checked" class="form-check-input mt-1 ms-auto" type="checkbox" @@change="shelf">
 													<span v-if="this.details.status=='p0'" class="badge badge-sm bg-gradient-secondary">未上架</span>
 													<span v-if="this.details.status=='p1'" class="badge badge-sm bg-gradient-success">已上架</span>
+													<span v-if="this.details.status=='p2'" class="badge badge-sm bg-gradient-dark">已刪除</span>
 												</div>
 											</td>
 											<td class="align-middle text-center">
@@ -437,7 +438,7 @@
 								<div v-if="this._create" class="col-md-4 col-7 d-flex justify-content-between">
 									<button class="btn btn-primary btn-sm ms-auto" @@click="createSave(details)">儲存新增</button>
 								</div>
-								<div v-if="!this._create" class="col-md-4 col-7 d-flex justify-content-between">
+								<div v-if="!this._create&&this.details.status!='p2'" class="col-md-4 col-7 d-flex justify-content-between">
 									<button class="btn btn-primary btn-sm ms-auto" @@click="update(details)">儲存</button>
 									<button class="btn btn-danger btn-sm ms-auto" @@click="deleteProduct(details.productId)">刪除商品</button>
 								</div>
@@ -1353,7 +1354,8 @@
 					_this.increase = 0;
 					_this.picture = '';
 					_this.preview = '';
-					_this.pictureText = '';					
+					_this.pictureText = '';
+					_this.getProducts();
 					//if(_this.filter == '') _this.getProducts();
 					//if (_this.filter != '') _this.filterProducts();
 				},
@@ -1382,7 +1384,7 @@
 					_this.details.unitsInStock = 0;
 					_this.details.sales = 0;
 					_this.details.unitPrice = '';
-					_this.details.status = '未上架';
+					_this.details.status = 'p0';
 					_this.details.currency = 'NTD';
 					_this._checked = false;
 					_this.plus = 'INC';
@@ -1552,7 +1554,7 @@
 			getProduct: function(productId) {
 					let _this = this;
 					_this.closePanels();
-					axios.get(`${baseAddress}/Products/GetProduct/${productId}`).then(response => {
+					axios.post(`${baseAddress}/Products/GetProduct/${productId}`).then(response => {
 						_this.details = response.data;
 					});
 					_this._productDetails = true;

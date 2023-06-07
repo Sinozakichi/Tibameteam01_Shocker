@@ -7,7 +7,7 @@
                     <h2 class="productName"></h2>
                     <div class="breadcrumb__option">
                         <a asp-controller="Home" asp-action="Index">首頁</a>
-                        <a class="productName" :href="categoryLink"></a>
+                        <a class="categoryName" href="#"></a>
                         <span class="productName"></span>
                     </div>
                 </div>
@@ -18,7 +18,7 @@
 <!-- Breadcrumb Section End -->
 <div id="app">
 <!-- Product Details Section Begin -->
-<section class="product-details spad">
+<section v-if="this._valid" class="product-details spad">
     <div v-for="product in info.product" class="container">
         <div class="row">
             <div class="col-lg-6 col-md-6">
@@ -26,12 +26,7 @@
                     <div class="product__details__pic__item">
                         <img class="product__details__pic__item--large" :src="info.pictures[0].path" :title="info.pictures[0].description">
                     </div>
-                    <div class="product__details__pic__slider owl-carousel owl-drag">
-                        <div class="owl-stage-outer">
-                            <div class="owl-stage" style="transform: translate3d(-718px, 0px, 0px); transition: all 1.2s ease 0s; width: 1725px;">
-                                
-                            </div>
-                        </div>
+                    <div class="product__details__pic__slider owl-carousel">
                     </div>
                 </div>
             </div>
@@ -113,12 +108,14 @@
 <!-- Product Details Section End -->
 
 <!-- Related Product Section Begin -->
-<section class="related-product">
+<section v-if="this._valid" class="related-product">
     <div v-for="product in info.product" class="container">
         <div class="row">
             <div class="col-lg-12">
                 <div class="section-title related__product__title">
-                    <h2>&nbsp;&nbsp;{{product.sellerAccount}}&nbsp;&nbsp;所有商品</h2>
+                        <a :href="'/ShoppingCart/ProductList/?query='+product.sellerAccount">
+                        <h2>{{product.sellerAccount}}&nbsp;&nbsp;其他商品</h2>
+                    </a>
                 </div>
             </div>
         </div>
@@ -150,6 +147,7 @@
         data() {
             return {
                 loginAccount: 'User2',
+                _valid: false,
                 info: [],
                 starCount: 1,
                 path: [],
@@ -160,30 +158,39 @@
         },
         mounted: function(){
             let _this = this;
+            _this._valid = false;
             _this.getProduct(productId);
         },
         methods: {
-            getProduct: function(id) {
+            getProduct: async function(id) {
                 let _this = this;
-                axios.get(`${baseAddress}/ShoppingCart/GetProduct/${id}`).then(response => {
-                    _this.info = response.data;
-                    document.getElementsByClassName('productName')[0].append(app.info.product[0].productName);
-                    document.getElementsByClassName('productName')[1].append(app.info.product[0].categoryName);
-                    document.getElementsByClassName('productName')[2].append(app.info.product[0].productName);
-                    _this.info.pictures.forEach(p => {
-                        p.path = `${window.location.origin}/productpictures/${p.pictureId}-${p.path}`;
-                    });
-                    _this.productLinks = [];
-                    _this.info.products.forEach(p => {
-                        p.path = `background-image: url("${window.location.origin}/productpictures/${p.pictureId}-${p.path}");`;
-                        _this.productLinks.push(`${window.location.origin}/ShoppingCart/Product/${p.productId}`);
-                    });
-                    var stars = 0;
-                    _this.info.ratings.forEach(r => {
-                        stars += r.starCount;
-                    });
-                    if (_this.info.ratings.length == 0) _this.starCount = 0;
-                    else _this.starCount = Math.round(stars / _this.info.ratings.length);
+                await axios.post(`${baseAddress}/ShoppingCart/GetProduct/${id}`).then(response => {
+                    if (response.data.result == 'NotFound') {
+                        _this._valid = false;
+                        document.getElementsByClassName('productName')[0].append(response.data.message);
+                    }
+                    else {
+                        _this._valid = true;
+                        _this.info = response.data;
+                        document.getElementsByClassName('productName')[0].append(app.info.product[0].productName);
+                        document.getElementsByClassName('productName')[1].append(app.info.product[0].productName);
+                        document.getElementsByClassName('categoryName')[0].append(app.info.product[0].categoryName);
+                        document.getElementsByClassName('categoryName')[0].setAttribute("href", `/ShoppingCart/ProductList/${app.info.product[0].productCategoryId}`);
+                        _this.info.pictures.forEach(p => {
+                            p.path = `${window.location.origin}/productpictures/${p.pictureId}-${p.path}`;
+                        });
+                        _this.productLinks = [];
+                        _this.info.products.forEach(p => {
+                            p.path = `background-image: url("${window.location.origin}/productpictures/${p.pictureId}-${p.path}");`;
+                            _this.productLinks.push(`${window.location.origin}/ShoppingCart/Product/${p.productId}`);
+                        });
+                        var stars = 0;
+                        _this.info.ratings.forEach(r => {
+                            stars += r.starCount;
+                        });
+                        if (_this.info.ratings.length == 0) _this.starCount = 0;
+                        else _this.starCount = Math.round(stars / _this.info.ratings.length);
+                    }
                 });
             },
             increase: function (sign) {
@@ -197,7 +204,7 @@
             },
             createCart: function (productId, quantity, unitsInStock) {
                 let _this = this;
-                if(_this.quantity <= unitsInStock && _this.quantity > 0) {
+                if(quantity <= unitsInStock && quantity > 0) {
                     var request = {};
                     request.buyerAccount = _this.loginAccount;
                     request.productId = [];
@@ -208,8 +215,8 @@
                         alert(response.data.message);
                     });
                 }
-                else alert('訂購數量超過庫存');
-            },
+                else alert('庫存不足');
+            }
         }
     };
     var app = Vue.createApp(vueApp).mount('#app');

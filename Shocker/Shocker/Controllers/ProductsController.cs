@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.CodeAnalysis;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
 using Shocker.Models;
 using Shocker.Models.ViewModels;
 
@@ -23,7 +24,6 @@ namespace Shocker.Controllers
 			return View();
 		}
 		[HttpPost]
-		//[ValidateAntiForgeryToken]
 		public JsonResult GetInfo(string id)
 		{
 			var p = _context.Products.AsNoTracking().Where(p => p.SellerAccount == id);			
@@ -44,7 +44,6 @@ namespace Shocker.Controllers
 			return Json(info);
 		}
 		[HttpPost]
-		//[ValidateAntiForgeryToken]
 		public async Task<JsonResult> UpdateInfo([FromBody]AboutModel info)
 		{
 			if (ModelState.IsValid)
@@ -66,7 +65,6 @@ namespace Shocker.Controllers
 		}
 
 		[HttpPost]
-		//[ValidateAntiForgeryToken]
 		public JsonResult GetProducts()
 		{
 			var product = from p in _context.Products
@@ -87,7 +85,7 @@ namespace Shocker.Controllers
 						  };
 			return Json(product);
 		}
-		[HttpGet]
+		[HttpPost]
 		public JsonResult GetProduct(int id)
 		{
 			var product = _context.Products.Where(p => p.ProductId == id)
@@ -108,7 +106,6 @@ namespace Shocker.Controllers
 			return Json(product);
 		}
 		[HttpPost]
-		//[ValidateAntiForgeryToken]
 		public JsonResult Filter([FromBody] ProductsViewModel product)
 		{
 			var query = _context.Products.Where(p =>
@@ -136,14 +133,12 @@ namespace Shocker.Controllers
 			return Json(query);
 		}
 		[HttpPost]
-		//[ValidateAntiForgeryToken]
 		public async Task<JsonResult> Create([FromBody] ProductsViewModel product)
 		{
 			if (ModelState.IsValid)
 			{
 				Products p = new Products
 				{
-					ProductId = 0,
 					SellerAccount = product.SellerAccount,
 					LaunchDate = DateTime.Now,
 					ProductName = product.ProductName,
@@ -152,12 +147,12 @@ namespace Shocker.Controllers
 					UnitsInStock = product.UnitsInStock,
 					Sales = 0,
 					UnitPrice = product.UnitPrice,
-					Status = product.Status,
+					Status = product.Status != "p2" ? (product.Status == "p1" ? "p1" : "p0") : "p0",
 					Currency = product.Currency
 				};
 				_context.Products.Add(p);
 				await _context.SaveChangesAsync();
-				return Json(new { Result = "OK", Record = product });
+				return Json(new { Result = "OK", Message = "新增成功" });
 			}
 			else
 			{
@@ -165,7 +160,6 @@ namespace Shocker.Controllers
 			}
 		}
 		[HttpPost]
-		//[ValidateAntiForgeryToken]
 		public async Task<JsonResult> Update([FromBody] ProductsViewModel product)
 		{
 			if (ModelState.IsValid)
@@ -175,6 +169,7 @@ namespace Shocker.Controllers
 				{
 					return Json(new { Result = "Error", Message = "記錄不存在" });
 				}
+				if(p.Status == "p2") return Json(new { Result = "Error", Message = "商品已刪除" });
 				if (p.Status == "p0" && product.Status == "p1")
 				{
 					p.LaunchDate = DateTime.Now;
@@ -184,7 +179,7 @@ namespace Shocker.Controllers
 				p.Description = product.Description;
 				p.UnitsInStock = product.UnitsInStock;
 				p.UnitPrice = product.UnitPrice;
-				p.Status = product.Status;
+				p.Status = product.Status != "p2" ? (product.Status == "p1" ? "p1" : "p0") : "p0";
 				p.Currency = product.Currency;
 				_context.Update(p);
 				await _context.SaveChangesAsync();
@@ -197,18 +192,26 @@ namespace Shocker.Controllers
 		}
 
 		[HttpPost]
-		//[ValidateAntiForgeryToken]
 		public async Task<JsonResult> Delete(int id)
 		{
 			Products? product = await _context.Products.FindAsync(id);
-			if (product == null)
+			if (product == null) return Json(new { Result = "Error", Message = "找不到欲刪除記錄" });
+			var picture = _context.Pictures.Where(p => p.ProductId == id).Select(p => p);
+			if (picture != null)
 			{
-				return Json(new { Result = "Error", Message = "找不到欲刪除記錄" });
+				foreach (var pic in picture)
+				{
+					var root = $@"{_environment.WebRootPath}\productpictures";
+					var path = $@"{root}\{pic.PictureId}-{pic.Path}";
+					System.IO.File.Delete(path);
+					_context.Pictures.Remove(pic);
+					await _context.SaveChangesAsync();
+				}
 			}
 			try
 			{
 				product.Status = "p2";
-				_context.Update(product);               //--Delete Pictures from Folder
+				_context.Update(product);
 				await _context.SaveChangesAsync();
 			}
 			catch (DbUpdateException)
@@ -218,7 +221,6 @@ namespace Shocker.Controllers
 			return Json(new { Result = "OK", Message = "刪除成功" });
 		}
 		[HttpPost]
-		//[ValidateAntiForgeryToken]
 		public JsonResult GetPictures(int id)
 		{
 			var picture = from p in _context.Pictures
@@ -281,7 +283,10 @@ namespace Shocker.Controllers
 			}
 			try
 			{
-				_context.Pictures.Remove(picture);               //---Delete Picture from Folder
+				var root = $@"{_environment.WebRootPath}\productpictures";
+				var path = $@"{root}\{picture.PictureId}-{picture.Path}";
+				System.IO.File.Delete(path);
+				_context.Pictures.Remove(picture);
 				await _context.SaveChangesAsync();
 			}
 			catch (DbUpdateException)
@@ -291,7 +296,6 @@ namespace Shocker.Controllers
 			return Json(new { Result = "OK", Message = "刪除成功" });
 		}
 		[HttpPost]
-		//[ValidateAntiForgeryToken]
 		public async Task<JsonResult> UploadPicture(PicturesViewModel pic)
 		{
 			if (ModelState.IsValid)
@@ -334,7 +338,7 @@ namespace Shocker.Controllers
 				o.PayMethod,
 				o.Status
 			});
-			if (orders == null) return Json(new { Result = "None", Message = "沒有訂單記錄" });
+			if (orders.IsNullOrEmpty()) return Json(new { Result = "None", Message = "沒有訂單記錄" });
 			var orderDetails = _context.OrderDetails.Where(od => od.Product.SellerAccount == loginAccount)
 				.GroupBy(od => od.OrderId, (order, details) => new
 				{
@@ -392,7 +396,7 @@ namespace Shocker.Controllers
 					OrderId = order,
 					Product = details.ToList()
 				});
-			if (ratings == null) return Json(new { Result = "None", Message = "沒有評價記錄" });
+			if (ratings.IsNullOrEmpty()) return Json(new { Result = "None", Message = "沒有評價記錄" });
 			var orders = _context.Orders.Where(o => o.OrderDetails.Any(od => od.Product.SellerAccount == loginAccount))
 				.Where(o => o.Ratings.Any(r => r.OrderId == o.OrderId))
 				.Select(o => new

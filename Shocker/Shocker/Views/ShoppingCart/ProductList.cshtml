@@ -1,0 +1,217 @@
+﻿<!-- Breadcrumb Section Begin -->
+<section class="breadcrumb-section set-bg" data-setbg="/img/breadcrumb.jpg">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12 text-center">
+                <div class="breadcrumb__text">
+                    <h2 class="categoryName"></h2>
+                    <div class="breadcrumb__option">
+                        <a asp-controller="Home" asp-action="Index">首頁</a>
+                        <span class="categoryName"></span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<!-- Breadcrumb Section End -->
+<!-- Product Section Begin -->
+<section id="app" class="product spad">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-3 col-md-5">
+                <div class="sidebar">
+                    <div class="sidebar__item">
+                        <h4>商品分類</h4>
+                        <ul>
+                            <li><a href="/ShoppingCart/ProductList/">所有商品</a></li>
+                            <li><a href="/ShoppingCart/ProductList/1">衣服</a></li>
+                            <li><a href="/ShoppingCart/ProductList/2">文具</a></li>
+                            <li><a href="/ShoppingCart/ProductList/3">食品</a></li>
+                            <li><a href="/ShoppingCart/ProductList/4">電玩</a></li>
+                            <li><a href="/ShoppingCart/ProductList/5">美妝</a></li>
+                            <li><a href="/ShoppingCart/ProductList/6">家電</a></li>
+                            <li><a href="/ShoppingCart/ProductList/7">漫畫</a></li>
+                            <li><a href="/ShoppingCart/ProductList/8">家具</a></li>
+                        </ul>
+                    </div>
+                    <div class="sidebar__item">
+                        <div class="latest-product__text">
+                            <h4>最新商品</h4>
+                            <div class="latest-product__slider owl-carousel">
+                                <div class="latest-prdouct__slider__item">
+                                    <a v-for="item in latestProduct1" :href="'/ShoppingCart/Product/'+item.productId" class="latest-product__item">
+                                        <div class="latest-product__item__pic">
+                                            <img :src="item.picture" alt="" style="width:100px;height:100px;">
+                                        </div>
+                                        <div class="latest-product__item__text">
+                                            <h6>{{item.productName}}</h6>
+                                            <span>NTD&nbsp;&nbsp{{item.unitPrice}}</span>
+                                        </div>
+                                    </a>                                    
+                                </div>
+                                <div class="latest-prdouct__slider__item">
+                                    <a v-for="item in latestProduct2" :href="'/ShoppingCart/Product/'+item.productId" class="latest-product__item">
+                                        <div class="latest-product__item__pic">
+                                            <img :src="item.picture" alt="" style="width:100px;height:100px;">
+                                        </div>
+                                        <div class="latest-product__item__text">
+                                            <h6>{{item.productName}}</h6>
+                                            <span>NTD&nbsp;&nbsp{{item.unitPrice}}</span>
+                                        </div>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-9 col-md-7">                
+                <div class="filter__item">
+                    <div class="row">                        
+                        <div class="col-lg-4 col-md-4">
+                            <div class="filter__found">
+                                <h6>共&nbsp;&nbsp;<span>{{products.length}}</span>&nbsp;項商品</h6>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div v-for="(item,px) in products" class="col-lg-4 col-md-6 col-sm-6">
+                        <div class="product__item">
+                            <div class="product__item__pic set-bg" :style="item.path">
+                                <ul class="product__item__pic__hover">
+                                    <li><a href="#" @@click="createCart(item.productId,1,item.unitsInStock)"><i class="fa fa-shopping-cart"></i></a></li>
+                                </ul>
+                            </div>
+                            <div class="product__item__text">
+                                <h6><a :href="productLinks[px]">{{item.productName}}</a></h6>
+                                <h5>{{item.currency}}&nbsp;&nbsp;{{item.unitPrice}}</h5>
+                            </div>
+                        </div>
+                    </div>                    
+                </div>
+                @*<div class="product__pagination">
+                    <a href="#">1</a>
+                    <a href="#">2</a>
+                    <a href="#">3</a>
+                    <a href="#"><i class="fa fa-long-arrow-right"></i></a>
+                </div>*@
+            </div>
+        </div>
+    </div>
+</section>
+<!-- Product Section End -->
+<script src="~/lib/vue/vue.global.prod.js"></script>
+<script src="~/lib/axios/axios.min.js"></script>
+<script>
+    var categoryId = @ViewBag.CategoryId;
+    var query = window.location.search.slice(7);
+    var baseAddress = `${window.location.origin}`;
+    var vueApp = {
+        data() {
+            return {
+                loginAccount: 'User2',
+                products: [],
+                categoryLink: '',
+                productLinks: [],
+                latestProduct1: [],
+                latestProduct2: []
+            }
+        },
+        mounted: function () {
+            let _this = this;
+            if (window.location.search.length == 0){
+                if (categoryId != null){
+                    _this.getProductList(categoryId);
+                }
+                else _this.getProductList(0);
+            }
+            else _this.getSearchResult(query);
+            _this.getLatestProduct();
+        },
+        methods: {
+            getSearchResult: function (id) {
+                let _this = this;
+                axios.post(`${baseAddress}/ShoppingCart/GetSearchResult/${id}`).then(response => {
+                    document.getElementsByClassName('categoryName')[0].textContent = '';
+                    document.getElementsByClassName('categoryName')[1].textContent = '';
+                    document.getElementsByClassName('categoryName')[1].append('搜尋');
+                    if (response.data.result == 'NotFound') {                        
+                        document.getElementsByClassName('categoryName')[0].append(response.data.message);                        
+                    }
+                    else {
+                        document.getElementsByClassName('categoryName')[0].append('搜尋');
+                        _this.products = response.data;
+                        _this.productLinks = [];
+                        _this.products.forEach(p => {
+                            p.path = `background-image: url("${window.location.origin}/productpictures/${p.pictureId}-${p.path}");`;
+                            _this.productLinks.push(`${window.location.origin}/ShoppingCart/Product/${p.productId}`);
+                        });
+                    }
+                });
+            },
+            getProductList: function (id) {
+                let _this = this;
+                var categoryName = '';
+                switch (id) {
+                    case 1: categoryName = '衣服'; break;
+                    case 2: categoryName = '文具'; break;
+                    case 3: categoryName = '食品'; break;
+                    case 4: categoryName = '電玩'; break;
+                    case 5: categoryName = '美妝'; break;
+                    case 6: categoryName = '家電'; break;
+                    case 7: categoryName = '漫畫'; break;
+                    case 8: categoryName = '家具'; break;
+                    default: categoryName = '所有商品'; id = 0; break;
+                }
+                document.getElementsByClassName('categoryName')[0].textContent = '';
+                document.getElementsByClassName('categoryName')[1].textContent = '';
+                document.getElementsByClassName('categoryName')[0].append(categoryName);
+                document.getElementsByClassName('categoryName')[1].append(categoryName);
+                axios.post(`${baseAddress}/ShoppingCart/GetProductList/${id}`).then(response => {
+                    if (response.data.result == 'NotFound') {
+                        alert(response.data.message);
+                    }
+                    else {
+                        _this.products = response.data;
+                        _this.productLinks = [];
+                        _this.products.forEach(p => {
+                            p.path = `background-image: url("${window.location.origin}/productpictures/${p.pictureId}-${p.path}");`;
+                            _this.productLinks.push(`${window.location.origin}/ShoppingCart/Product/${p.productId}`);
+                        }); 
+                    }
+                });
+            },
+            createCart: function (productId, quantity, unitsInStock) {
+                let _this = this;
+                if (quantity <= unitsInStock && quantity > 0) {
+                    var request = {};
+                    request.buyerAccount = _this.loginAccount;
+                    request.productId = [];
+                    request.quantity = [];
+                    request.productId.push(productId);
+                    request.quantity.push(quantity);
+                    axios.post(`${baseAddress}/ShoppingCart/CreateCart`, request).then(response => {
+                        alert(response.data.message);
+                    });
+                }
+                else alert('庫存不足');
+            },
+            getLatestProduct: function () {
+                let _this = this;
+                axios.get(`${baseAddress}/User/GetLatestProduct/`).then(response => {
+                    if (response.data.status) {
+                        for (var i = 0; i < response.data.data.latestProduct.length; i++) {
+                            response.data.data.latestProduct[i].picture = `${window.location.origin}/productpictures/${response.data.data.latestProduct[i].picture}`;
+                        }
+                        _this.latestProduct1 = response.data.data.latestProduct.slice(0, 3);
+                        _this.latestProduct2 = response.data.data.latestProduct.slice(3, 6);
+                    }
+                    else alert('最新商品載入失敗');
+                });
+            }
+        }
+    };
+    var app = Vue.createApp(vueApp).mount('#app');
+</script>
