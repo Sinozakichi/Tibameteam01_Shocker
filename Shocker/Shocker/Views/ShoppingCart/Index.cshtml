@@ -86,7 +86,7 @@
             <div class="row">
                 <div class="col-lg-12">
                     <div class="shoping__cart__btns">
-                        <a href="#" class="primary-btn cart-btn">繼續選購</a>
+                        <a href="/ShoppingCart/ProductList/" class="primary-btn cart-btn">繼續選購</a>
                         <a href="#" class="primary-btn cart-btn cart-btn-right" @@click="updateShoppingCart(cx)">
                             <span class="icon_loading"></span>
                             不結帳儲存商品數量
@@ -151,8 +151,8 @@
                             </select>
                         </div>
                         <div class="checkout__input">
-                            <p>其他地址</p>
-                            <input type="text" v-model="newAddress" placeholder="加入新收件地址">
+                            <p>新增常用地址</p>
+                            <input type="text" v-model="newAddress" placeholder="加入地址">
                         </div>
                         <div class="checkout__input">
                             <button class="site-btn" @@click="saveAddress">儲存地址</button>
@@ -242,7 +242,7 @@
             },
             getShoppingCart: async function (index) {
                 let _this = this;
-                await axios.get(`${baseAddress}/ShoppingCart/GetShopping`).then(response => {
+                await axios.post(`${baseAddress}/ShoppingCart/GetShopping`).then(response => {
                     _this.shoppingCart = response.data.cart;
                     _this.total = [];
                     _this.discount = [];
@@ -388,7 +388,7 @@
                     product.currency = _this.newOrder[0].products[i].currency;
                     request.orderDetails.push(product);
                 }
-                var ret = confirm('確認成立訂單');
+                var ret = confirm('確認訂購？');
                 if (ret == true) {
                     await axios.post(`${baseAddress}/ShoppingCart/CreateOrder/`, request).then(response => {
                         alert(response.data.message);

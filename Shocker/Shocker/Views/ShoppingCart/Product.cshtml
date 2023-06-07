@@ -7,7 +7,7 @@
                     <h2 class="productName"></h2>
                     <div class="breadcrumb__option">
                         <a asp-controller="Home" asp-action="Index">首頁</a>
-                        <a class="productName" :href="categoryLink"></a>
+                        <a class="categoryName" href="#"></a>
                         <span class="productName"></span>
                     </div>
                 </div>
@@ -26,12 +26,7 @@
                     <div class="product__details__pic__item">
                         <img class="product__details__pic__item--large" :src="info.pictures[0].path" :title="info.pictures[0].description">
                     </div>
-                    <div class="product__details__pic__slider owl-carousel owl-drag">
-                        <div class="owl-stage-outer">
-                            <div class="owl-stage" style="transform: translate3d(-718px, 0px, 0px); transition: all 1.2s ease 0s; width: 1725px;">
-                                
-                            </div>
-                        </div>
+                    <div class="product__details__pic__slider owl-carousel">
                     </div>
                 </div>
             </div>
@@ -165,9 +160,9 @@
             _this.getProduct(productId);
         },
         methods: {
-            getProduct: function(id) {
+            getProduct: async function(id) {
                 let _this = this;
-                axios.get(`${baseAddress}/ShoppingCart/GetProduct/${id}`).then(response => {
+                await axios.post(`${baseAddress}/ShoppingCart/GetProduct/${id}`).then(response => {
                     if (response.data.result == 'NotFound') {
                         _this._valid = false;
                         document.getElementsByClassName('productName')[0].append(response.data.message);
@@ -176,8 +171,9 @@
                         _this._valid = true;
                         _this.info = response.data;
                         document.getElementsByClassName('productName')[0].append(app.info.product[0].productName);
-                        document.getElementsByClassName('productName')[1].append(app.info.product[0].categoryName);
-                        document.getElementsByClassName('productName')[2].append(app.info.product[0].productName);
+                        document.getElementsByClassName('productName')[1].append(app.info.product[0].productName);
+                        document.getElementsByClassName('categoryName')[0].append(app.info.product[0].categoryName);
+                        document.getElementsByClassName('categoryName')[0].setAttribute("href", `/ShoppingCart/ProductList/${app.info.product[0].productCategoryId}`);
                         _this.info.pictures.forEach(p => {
                             p.path = `${window.location.origin}/productpictures/${p.pictureId}-${p.path}`;
                         });

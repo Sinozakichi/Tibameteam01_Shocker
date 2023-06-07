@@ -24,7 +24,7 @@ namespace Shocker.Controllers
             ViewBag.Id = id;
             return View();
         }
-        [HttpGet]
+        [HttpPost]
         public JsonResult GetProduct(int id)
         {
             var test = _context.Products.Find(id);
@@ -32,7 +32,7 @@ namespace Shocker.Controllers
 			var product = _context.Products.Where(p => p.ProductId == id)
                 .Select(p => new
                 {
-                    p.ProductId, p.ProductName, p.SellerAccount, p.LaunchDate, p.ProductCategory.CategoryName,
+                    p.ProductId, p.ProductName, p.SellerAccount, p.LaunchDate, p.ProductCategoryId ,p.ProductCategory.CategoryName,
                     p.Description, p.UnitsInStock, p.Sales, p.UnitPrice, p.Status, p.Currency,
                     p.SellerAccountNavigation.AboutSeller
                 });
@@ -85,7 +85,7 @@ namespace Shocker.Controllers
             }
             else return Json(new { Result = "Error", Message = "加入失敗" });
         }
-        [HttpGet]
+        [HttpPost]
         public JsonResult GetShopping()
         {
             var cart = _context.Shopping.Where(c => c.BuyerAccount == loginAccount)
@@ -199,7 +199,6 @@ namespace Shocker.Controllers
         }
 
         [HttpPost]
-        //[ValidateAntiForgeryToken]
         public async Task<JsonResult> CreateOrder([FromBody] OrdersViewModel order)
         {
             if (ModelState.IsValid)
@@ -227,10 +226,12 @@ namespace Shocker.Controllers
                     ArrivalDate = null,
                     BuyerPhone = order.BuyerPhone,
                     PayMethod = order.PayMethod,
-                    Status = "o1",
                     BuyerName = order.BuyerName
                 };
-                _context.Orders.Add(newOrder);
+                if (newOrder.PayMethod == "信用卡") newOrder.Status = "o0";
+                else if (newOrder.PayMethod == "貨到付款") newOrder.Status = "o1";
+                else return Json(new { Result = "Error", Message = "訂單不成立" });
+				_context.Orders.Add(newOrder);
                 await _context.SaveChangesAsync();
                 var productList = order.OrderDetails.Select(od => new OrderDetails
                 {

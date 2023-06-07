@@ -24,15 +24,15 @@
                     <div class="sidebar__item">
                         <h4>商品分類</h4>
                         <ul>
-                            <li><a href="#0" @@click="getProductList(0)">所有商品</a></li>
-                            <li><a href="#1" @@click="getProductList(1)">衣服</a></li>
-                            <li><a href="#2" @@click="getProductList(2)">文具</a></li>
-                            <li><a href="#3" @@click="getProductList(3)">食品</a></li>
-                            <li><a href="#4" @@click="getProductList(4)">電玩</a></li>
-                            <li><a href="#5" @@click="getProductList(5)">美妝</a></li>
-                            <li><a href="#6" @@click="getProductList(6)">家電</a></li>
-                            <li><a href="#7" @@click="getProductList(7)">漫畫</a></li>
-                            <li><a href="#8" @@click="getProductList(8)">家具</a></li>
+                            <li><a href="/ShoppingCart/Productlist/">所有商品</a></li>
+                            <li><a href="/ShoppingCart/Productlist/1">衣服</a></li>
+                            <li><a href="/ShoppingCart/Productlist/2">文具</a></li>
+                            <li><a href="/ShoppingCart/Productlist/3">食品</a></li>
+                            <li><a href="/ShoppingCart/Productlist/4">電玩</a></li>
+                            <li><a href="/ShoppingCart/Productlist/5">美妝</a></li>
+                            <li><a href="/ShoppingCart/Productlist/6">家電</a></li>
+                            <li><a href="/ShoppingCart/Productlist/7">漫畫</a></li>
+                            <li><a href="/ShoppingCart/Productlist/8">家具</a></li>
                         </ul>
                     </div>
                     <div class="sidebar__item">
@@ -40,9 +40,9 @@
                             <h4>最新商品</h4>
                             <div class="latest-product__slider owl-carousel">
                                 <div class="latest-prdouct__slider__item">
-                                    <a v-for="item in latestProduct1" href="#" class="latest-product__item">
+                                    <a v-for="item in latestProduct1" :href="'/ShoppingCart/Product/'+item.productId" class="latest-product__item">
                                         <div class="latest-product__item__pic">
-                                            <img :src="item.path" alt="">
+                                            <img :src="item.picture" alt="">
                                         </div>
                                         <div class="latest-product__item__text">
                                             <h6>{{item.productName}}</h6>
@@ -51,9 +51,9 @@
                                     </a>                                    
                                 </div>
                                 <div class="latest-prdouct__slider__item">
-                                    <a v-for="item in latestProduct2" href="#" class="latest-product__item">
+                                    <a v-for="item in latestProduct2" :href="'/ShoppingCart/Product/'+item.productId" class="latest-product__item">
                                         <div class="latest-product__item__pic">
-                                            <img :src="item.path" alt="">
+                                            <img :src="item.picture" alt="">
                                         </div>
                                         <div class="latest-product__item__text">
                                             <h6>{{item.productName}}</h6>
@@ -71,7 +71,7 @@
                     <div class="row">                        
                         <div class="col-lg-4 col-md-4">
                             <div class="filter__found">
-                                <h6>共&nbsp;&nbsp;<span>{{products.length}}</span>&nbsp;&nbsp;項商品</h6>
+                                <h6>共&nbsp;&nbsp;<span>{{products.length}}</span>&nbsp;項商品</h6>
                             </div>
                         </div>
                     </div>
@@ -145,7 +145,7 @@
                 document.getElementsByClassName('categoryName')[1].textContent = '';
                 document.getElementsByClassName('categoryName')[0].append(categoryName);
                 document.getElementsByClassName('categoryName')[1].append(categoryName);
-                axios.get(`${baseAddress}/ShoppingCart/GetProductList/${id}`).then(response => {
+                axios.post(`${baseAddress}/ShoppingCart/GetProductList/${id}`).then(response => {
                     if (response.data.result == 'NotFound') {
                         alert(response.data.message);
                     }
@@ -179,7 +179,7 @@
                 axios.get(`${baseAddress}/User/GetLatestProduct/`).then(response => {
                     if (response.data.status) {
                         for (var i = 0; i < response.data.data.latestProduct.length; i++) {
-                            response.data.data.latestProduct[i].path = `${window.location.origin}/productpictures/${response.data.data.latestProduct[i].pictureId}-${response.data.data.latestProduct[i].path};`
+                            response.data.data.latestProduct[i].picture = `${window.location.origin}/productpictures/${response.data.data.latestProduct[i].picture}`;
                         }
                         _this.latestProduct1 = response.data.data.latestProduct.slice(0, 3);
                         _this.latestProduct2 = response.data.data.latestProduct.slice(3, 6);
