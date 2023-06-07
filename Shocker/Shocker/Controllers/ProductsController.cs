@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.CodeAnalysis;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
 using Shocker.Models;
 using Shocker.Models.ViewModels;
 
@@ -84,7 +85,7 @@ namespace Shocker.Controllers
 						  };
 			return Json(product);
 		}
-		[HttpGet]
+		[HttpPost]
 		public JsonResult GetProduct(int id)
 		{
 			var product = _context.Products.Where(p => p.ProductId == id)
@@ -337,7 +338,7 @@ namespace Shocker.Controllers
 				o.PayMethod,
 				o.Status
 			});
-			if (orders == null) return Json(new { Result = "None", Message = "沒有訂單記錄" });
+			if (orders.IsNullOrEmpty()) return Json(new { Result = "None", Message = "沒有訂單記錄" });
 			var orderDetails = _context.OrderDetails.Where(od => od.Product.SellerAccount == loginAccount)
 				.GroupBy(od => od.OrderId, (order, details) => new
 				{
@@ -395,7 +396,7 @@ namespace Shocker.Controllers
 					OrderId = order,
 					Product = details.ToList()
 				});
-			if (ratings == null) return Json(new { Result = "None", Message = "沒有評價記錄" });
+			if (ratings.IsNullOrEmpty()) return Json(new { Result = "None", Message = "沒有評價記錄" });
 			var orders = _context.Orders.Where(o => o.OrderDetails.Any(od => od.Product.SellerAccount == loginAccount))
 				.Where(o => o.Ratings.Any(r => r.OrderId == o.OrderId))
 				.Select(o => new

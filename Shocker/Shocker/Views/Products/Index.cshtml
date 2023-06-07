@@ -1554,7 +1554,7 @@
 			getProduct: function(productId) {
 					let _this = this;
 					_this.closePanels();
-					axios.get(`${baseAddress}/Products/GetProduct/${productId}`).then(response => {
+					axios.post(`${baseAddress}/Products/GetProduct/${productId}`).then(response => {
 						_this.details = response.data;
 					});
 					_this._productDetails = true;

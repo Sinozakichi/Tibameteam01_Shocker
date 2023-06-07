@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.CodeAnalysis;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
 using Shocker.Models;
 using Shocker.Models.ViewModels;
 
@@ -125,7 +126,7 @@ namespace Shocker.Controllers
                         c.CouponId, c.CategoryName, c.Discount
                     })
                 });
-            if (cart == null) return Json(new { Result = "null" });
+            if (cart.IsNullOrEmpty()) return Json(new { Result = "null" });
             return Json(new { cart, coupon });
         }
         [HttpPost]
@@ -283,6 +284,7 @@ namespace Shocker.Controllers
 			ViewBag.CategoryId = id;
 			return View();
         }
+        [HttpPost]
         public JsonResult GetProductList(int id)
         {
             if (id == 0)
@@ -294,7 +296,7 @@ namespace Shocker.Controllers
 						p.Pictures.FirstOrDefault().Path,
 						p.Pictures.FirstOrDefault().PictureId
 					});
-				if (productList == null) return Json(new { Result = "NotFound", Message = "查無商品" });
+				if (productList.IsNullOrEmpty()) return Json(new { Result = "NotFound", Message = "查無商品" });
 				else return Json(productList);
 			}
             if (id == 1 || id == 2 || id == 3 || id == 4 || id == 5 || id == 6 || id == 7 || id == 8)
@@ -306,10 +308,28 @@ namespace Shocker.Controllers
                         p.Pictures.FirstOrDefault().Path,
                         p.Pictures.FirstOrDefault().PictureId
                     });
-                if (productList == null) return Json(new { Result = "NotFound", Message = "查無商品" });
+                if (productList.IsNullOrEmpty()) return Json(new { Result = "NotFound", Message = "查無商品" });
                 else return Json(productList);
             }
             return Json(new { Result = "NotFound", Message = "查無商品" });
+		}
+		
+		[HttpPost]
+        public JsonResult GetSearchResult(string id)
+        {
+			var query = _context.Products.Where(p =>
+				p.ProductName.Contains(id) ||
+				p.SellerAccount.Contains(id) ||
+				p.Description.Contains(id) ||
+				p.ProductCategory.CategoryName.Contains(id)
+				).Select(p => new
+				{
+					p.ProductId, p.ProductName, p.SellerAccount, p.UnitsInStock, p.UnitPrice, p.Currency,
+					p.Pictures.FirstOrDefault().Path,
+					p.Pictures.FirstOrDefault().PictureId
+				});
+			if (query.IsNullOrEmpty()) return Json(new { Result = "NotFound", Message = "查無商品" });
+			else return Json(query);
 		}
     }
 }
