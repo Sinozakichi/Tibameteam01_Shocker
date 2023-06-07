@@ -46,8 +46,8 @@
 			width: 15%
 		}
 
-		.totalsumprice{
-			color:red;
+		.totalsumprice {
+			color: red;
 		}
 	</style>
 }
@@ -106,7 +106,7 @@
 								<td class="shoping__cart__total">
 									{{item.quantity}}
 								</td>
-								<td class="shoping__cart__price">									
+								<td class="shoping__cart__price">
 									<template v-if="item.discount!=null">
 										{{item.discount}}
 										<span class="badge bg-success">有使用優惠</span>
@@ -115,7 +115,7 @@
 										<span class="badge bg-danger">未使用優惠</span>
 									</template>
 								</td>
-								<td class="shoping__cart__price">								
+								<td class="shoping__cart__price">
 									<template v-if="item.starCount==0">
 										<span class="badge bg-danger">暫無評價</span>
 									</template>
@@ -123,7 +123,7 @@
 										{{item.starCount}}
 									</template>
 								</td>
-								<td class="shoping__cart__price">								
+								<td class="shoping__cart__price">
 									<template v-if="item.description!=''">
 										{{item.description}}
 									</template>
@@ -148,6 +148,9 @@
 														<div class="form-group">
 															<label for="exampleFormControlTextarea1">您為甚麼想要退貨?</label>
 															<textarea class="form-control" id="exampleFormControlTextarea1" rows="3" v-model="returnReason"></textarea>
+														</div>
+														<div v-if="rErrorbox" class="text-danger">
+															<h5 class="text-danger">錯誤:{{errors1.returnReasonError}}</h5>
 														</div>
 														<div class="modal-footer">
 															<button type="button" class="btn btn-secondary" data-dismiss="modal">取消</button>
@@ -185,6 +188,9 @@
 														<label for="exampleFormControlTextarea1">給此商品一點回饋?</label>
 														<textarea class="form-control" id="exampleFormControlTextarea1" rows="3" v-model="ratingDescription"></textarea>
 													</div>
+													<div v-if="rdErrorbox" class="text-danger">
+														<h5 class="text-danger">錯誤:{{errors2.ratingDescriptionError}}</h5>
+													</div>
 													<div class="modal-footer">
 														<button type="button" class="btn btn-secondary" data-dismiss="modal">取消</button>
 														<button type="button" class="btn btn-danger" data-dismiss="modal" @@click="updateRatingDescription(item.productId)">送出</button>
@@ -220,13 +226,13 @@
 				</div>
 			</div>
 		</div>
-		
+
 		<div class="row">
 			<div class="card text-center col-12">
 				<div class="card-header">
 					<h5 class="card-title">地址:{{allData.order.address}}</h5>
 				</div>
-				<div class="card-body">					
+				<div class="card-body">
 					<p class="card-text">出貨日期:{{allData.order.orderDate}}</p>
 					<p class="card-text">到貨日期:{{allData.order.arrivalDate}}</p>
 				</div>
@@ -235,17 +241,18 @@
 					<p class="card-text">付款方式:{{allData.order.payMethod}}</p>
 				</div>
 			</div>
-			
+
 			<div class="col">
 				<div class="shoping__checkout">
 					<h5 class="text-center">結算</h5>
 					<ul v-for="item in allData.details">
-						<li>{{item.productName}} 							
+						<li>
+							{{item.productName}}
 							<span>
 								{{getTotal(item.quantity,item.unitPrice,item.discount)}}
 							</span>
 						</li>
-					</ul>					
+					</ul>
 					<div class="row">
 						<div class="col text-left">總和:</div>
 						<div class="col text-right" style="color:red">{{totalSumPrice}}</div>
@@ -265,20 +272,26 @@
 		el: '#app',
 		data: {
 			allData: {
-				order:{},
-				details:[]
-			},		
+				order: {},
+				details: []
+			},
 			returnReason: [],
-			ratingDescription: []
+			ratingDescription: [],
+			//驗證欄位
+			errors1: {
+
+			},
+			rErrorbox: false,
+			rdErrorbox: false
 		},
 		mounted: function () {
 			this.getUserOrderDetails();
 		},
-		computed:{
+		computed: {
 			totalSumPrice: function () {
-				var sum=0;
-				for(var i=0;i<this.allData.details.length;i++){
-					if (this.allData.details[i].discount==null){sum += this.allData.details[i].quantity * this.allData.details[i].unitPrice;}
+				var sum = 0;
+				for (var i = 0; i < this.allData.details.length; i++) {
+					if (this.allData.details[i].discount == null) { sum += this.allData.details[i].quantity * this.allData.details[i].unitPrice; }
 					else { sum += this.allData.details[i].quantity * this.allData.details[i].unitPrice * this.allData.details[i].discount; }
 				}
 				return Math.ceil(sum);
@@ -286,12 +299,12 @@
 		},
 		methods: {
 			getUserOrderDetails: function () {
-				var _this=this;
+				var _this = this;
 				var id = location.search.replace('?id=', '');
-				axios.get(`/User/GetUserOrderDetails/${id}`).then(x=> {
-					if (x.data.status) {_this.allData = x.data.data;}
-					else { alert('not found data') }						
-				});			
+				axios.get(`/User/GetUserOrderDetails/${id}`).then(x => {
+					if (x.data.status) { _this.allData = x.data.data; }
+					else { alert('not found data') }
+				});
 			},
 			createRating: function (productId, rating) {
 				var _this = this;
@@ -312,9 +325,17 @@
 					OrderId: _this.allData.order.orderId,
 					Returnreason: _this.returnReason
 				}
-				axios.post(`/User/UpdateOdReturnReason`, request).then(reponse => {
-					alert('成功送出退貨申請')
-					_this.getUserOrderDetails();
+				axios.post(`/User/UpdateOdReturnReason`, request).then(response => {
+					if (response.data.status) {
+						alert('成功送出退貨申請');
+						_this.getUserOrderDetails();
+						_this.rErrorbox = false;
+					}
+					else {
+						alert(response.data.errorMessage);
+						_this.errors1 = response.data.data;
+						if (_this.errors1.returnReasonError != null) { _this.rErrorbox = true; }
+					}
 				})
 			},
 			updateRatingDescription: function (productId) {
@@ -324,9 +345,18 @@
 					ProductId: productId,
 					Description: _this.ratingDescription
 				}
-				axios.post(`/User/UpdateRatingDescription`, request).then(reponse => {
-					alert('成功送出評價內容')					
-					_this.getUserOrderDetails();
+				axios.post(`/User/UpdateRatingDescription`, request).then(response => {
+					if (response.data.status) {
+						alert('成功送出評價內容')
+						_this.getUserOrderDetails();
+						_this.rdErrorbox = false;
+					}
+					else{
+						alert(response.data.errorMessage);
+						_this.errors2 = response.data.data;
+						if (_this.errors2.ratingDescriptionError != null) { _this.rdErrorbox = true; }
+					}
+
 				})
 			},
 			takeProduct: function (productId) {
@@ -335,7 +365,7 @@
 					OrderId: _this.allData.order.orderId,
 					ProductId: productId,
 				}
-				axios.post(`/User/TakeProduct`, request).then(reponse => {
+				axios.post(`/User/TakeProduct`, request).then(response => {
 					alert('成功收到商品')
 					_this.getUserOrderDetails();
 				})
