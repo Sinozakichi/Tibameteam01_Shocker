@@ -21,27 +21,33 @@ namespace Shocker.Controllers
 			_context = context;
 			_environment = environment;
 		}
-
+		[Authorize]
 		[HttpGet]
 		public IActionResult MyAccount(string tab)//點選用戶資訊編輯的菜單選項時，帶一個tab的參數，依據參數abcde呈現不同的Partial View
 		{
 			ViewBag.Tab = tab;
 			return View();
 		}
+		[Authorize]
 		[HttpGet]
-		public IActionResult GetAccount()//要接登入驗證那裡傳回的Users.Account參數，找出User表裡Account欄位符合登入帳號的該筆資料，將資料物件包成JSON傳到前端，先暫時寫死，等登入的參數
+		public ApiResultModel GetAccount()//要接登入驗證那裡傳回的Users.Account參數，找出User表裡Account欄位符合登入帳號的該筆資料，將資料物件包成JSON傳到前端，先暫時寫死，等登入的參數
 		{
 			var loginAccount = User.Claims.FirstOrDefault(x => x.Type == ClaimTypes.Name);
-			if (loginAccount == null) return BadRequest(new ApiResultModel { Status = false, ErrorMessage = "找不到此帳號" });
+			if (loginAccount == null) return new ApiResultModel { Status = false, ErrorMessage = "找不到此帳號" };
 
 			var a = _context.Users.Include(x => x.Addresses).AsNoTracking().FirstOrDefault(u => u.Id == loginAccount.Value);
-			if (a == null) return BadRequest(new ApiResultModel() { Status = false, ErrorMessage = "此帳號不存在!" });
+			if (a == null) return new ApiResultModel { Status = false, ErrorMessage = "此帳號不存在!" };
+			var ad = _context.Addresses.Include(u => u.UserAccountNavigation).AsNoTracking().Where(u => u.UserAccountNavigation.Id == loginAccount.Value).Select(u => new
+			{
+				address=u.Address,
+			}).ToList();
+			if (ad == null) return new ApiResultModel { Status = false, ErrorMessage = "此帳號不存在!" };
 			JsonSerializerSettings settings = new JsonSerializerSettings
 			{
 				ReferenceLoopHandling = ReferenceLoopHandling.Ignore,
 			};
 
-			var result = new ApiResultModel()
+			return new ApiResultModel()
 			{
 				Status = true,
 				Data = new
@@ -59,12 +65,11 @@ namespace Shocker.Controllers
 						registerDate = a.RegisterDate,
 						picture = a.PicturePath,
 					},
-					address = a.Addresses,
+					address = ad
 				}
 			};
-			return Ok(JsonConvert.SerializeObject(result, settings));
 		}
-
+		[Authorize]
 		[HttpPost]
 		public ApiResultModel UpdateAccount([FromBody] UserViewModel uvm)//更新User資訊
 		{
@@ -115,6 +120,7 @@ namespace Shocker.Controllers
 			}
 
 		}
+		[Authorize]
 		[HttpPost]
 		public ApiResultModel UploadPicture(PictureViewModel pvm)//更改User照片
 		{
@@ -139,6 +145,7 @@ namespace Shocker.Controllers
 				return new ApiResultModel() { Status = false, ErrorMessage = "上傳帳號頭像失敗!" };
 			}
 		}
+		[Authorize]
 		[HttpGet]
 		public ApiResultModel GetOrders()//抓取登入的Account的所有的Orders的以下欄位資訊，暫時寫死，等登入傳入的參數
 		{
@@ -172,6 +179,7 @@ namespace Shocker.Controllers
 				}
 			};
 		}
+		[Authorize]
 		[HttpPost]
 		public ApiResultModel CancelOrders([FromBody] CancelOrdersViewModel covm)//更改Order狀態為已取消
 		{
@@ -198,6 +206,7 @@ namespace Shocker.Controllers
 		{
 			return View();
 		}
+		[Authorize]
 		[HttpGet]
 		public ApiResultModel GetUserOrderDetails(int id)//抓取上頁點選之指定OrderId的全部OrderDetail的指定欄位的資料
 		{
@@ -240,6 +249,7 @@ namespace Shocker.Controllers
 				}
 			};
 		}
+		[Authorize]
 		[HttpPost]
 		public ApiResultModel TakeProduct([FromBody] TakeProductViewModel tpvm)
 		{
@@ -247,7 +257,21 @@ namespace Shocker.Controllers
 			{
 				var od = _context.OrderDetails.FirstOrDefault(od => od.OrderId == tpvm.OrderId && od.ProductId == tpvm.ProductId);
 				if (od == null) return new ApiResultModel { Status = false, ErrorMessage = "此筆訂單明細不存在!" };
-				od.Status = "od3";
+				od.Status = "od3";//od3=已收貨
+
+				int checkallget = 0;
+				var o = _context.Orders.Include(o=>o.OrderDetails).FirstOrDefault(o => o.OrderId == tpvm.OrderId);
+				foreach (var ord in o.OrderDetails)//尋覽每一個此筆Order裡的OrderDetail，並檢查他們的狀態
+				{
+					if(ord.Status=="od1"|| ord.Status == "od2"|| ord.Status == "od4"||ord.Status == "od5")
+					{
+						checkallget += 1;
+					}
+				}
+				if(checkallget == 0)
+				{
+					o.Status = "o3";//o3=已收貨
+				}
 				_context.SaveChanges();
 				return new ApiResultModel() { Status = true };
 			}
@@ -256,6 +280,7 @@ namespace Shocker.Controllers
 				return new ApiResultModel() { Status = false, ErrorMessage = "取貨失敗!" };
 			}
 		}
+		[Authorize]
 		[HttpPost]
 		public ApiResultModel CreateRating([FromBody] RatingViewModel rvm)
 		{
@@ -279,6 +304,7 @@ namespace Shocker.Controllers
 				return new ApiResultModel() { Status = false, ErrorMessage = "新增評價失敗!" };
 			}
 		}
+		[Authorize]
 		[HttpPost]
 		public ApiResultModel UpdateOdReturnreason([FromBody] ReturnreasonViewModel rrvm)
 		{
@@ -317,6 +343,7 @@ namespace Shocker.Controllers
 			}
 
 		}
+		[Authorize]
 		[HttpPost]
 		public ApiResultModel UpdateRatingDescription([FromBody] RatingDescriptionViewModel rdvm)
 		{
@@ -328,7 +355,7 @@ namespace Shocker.Controllers
 					Status = false,
 					Data = new
 					{
-						ratingdescriptionError = ratingdescriptionerror,
+						ratingDescriptionError = ratingdescriptionerror,
 					},
 					ErrorMessage = "欄位驗證有誤!"
 				};
@@ -350,6 +377,7 @@ namespace Shocker.Controllers
 			}
 
 		}
+		[Authorize]
 		[HttpGet]
 		public ApiResultModel GetCoupons()
 		{
@@ -377,6 +405,7 @@ namespace Shocker.Controllers
 				}
 			};
 		}
+		[Authorize]
 		[HttpGet]
 		public ApiResultModel GetQuestions()
 		{
