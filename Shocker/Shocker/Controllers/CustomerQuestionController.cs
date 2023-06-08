@@ -23,21 +23,31 @@ namespace Shocker.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Index(CustomerQAViewModel cqavm)
         {
-           
-            if (cqavm != null && ModelState.IsValid)
+            try
             {
-                ClientCases clientCases = new ClientCases()
+                if (cqavm != null && ModelState.IsValid)
                 {
-                    Status = "cc0",
-                    UserAccount = "User1",
-                    Description = cqavm.Description,
-                    QuestionCategoryId = cqavm.QuestionCategoryId,
-                };
-                _context.ClientCases.Add(clientCases);
-                await _context.SaveChangesAsync();
-            }
-            return View(cqavm) /*RedirectToAction(nameof(Index)*/;
+                    ClientCases clientCases = new ClientCases()
+                    {
+                        Status = "cc0",
+                        UserAccount = "User1",  //登入使用者
+                        Description = cqavm.Description,
+                        QuestionCategoryId = cqavm.QuestionCategoryId,
+                    };
+                    _context.ClientCases.Add(clientCases);
+                    await _context.SaveChangesAsync();
+                    TempData["Success"] = "成功送出";
+                    return RedirectToAction("Index");
 
+                }
+                else { ViewBag.fal = "送出失敗"; }
+
+                return View();
+            }
+            catch (Exception ex) 
+            {
+                return View(ex.Message);
+            }
         }
 
         public async Task<IActionResult> QA()

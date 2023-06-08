@@ -2,6 +2,7 @@
 @section Styles
 {
     <link href="~/css/rong.css" rel="stylesheet" />
+    
 }
 
 
@@ -15,6 +16,7 @@
                     </div>
                 </div>
             </div>
+            
             <form asp-controller="CustomerQuestion" asp-action="Index" method="post">
                 <div class="row">
                     <div class="col-lg-12 col-md-12 text-center categoryCenter">
@@ -37,11 +39,25 @@
                             
                             <span asp-validation-for="Description" class="text-danger"></span>
                         </div>
-                        <button type="submit" class="site-btn">Submit</button>
+                        <button type="submit" class="site-btn" >Submit</button>
+                        <div class="text-danger">@TempData["Success"]</div>  
                     </div>
                 </div>
             </form>
         </div>
     </div>
 </body>
+
+@section Scripts
+{
+    <script>
+
+    
+        @if (ViewBag.fal != null)
+        {
+            <text>alert("傳送失敗"); </text> //razor純文字用法
+        }
+  
+    </script>
+}
 

@@ -220,11 +220,9 @@
                     qA: [],
                     account: 'Admin1',
                     reply: '',
-                    //descipte: [],
                     editStatu: false,
                     replyIndex: true,
                     nowCaseID: '',
-                    //editDS: '',
                     replyData: [],
                     isedit: [],
                     filter: '',
@@ -253,7 +251,7 @@
                     ccvm.Reply = _this.reply;
                     axios.post(`${window.location.origin}/Admin/CustomerReply/ReplyQA`, ccvm)
                         .then(response => {
-                            if (response.data.message != "建立成功") { _this.nosweetAlert(response.data.message) }
+                            if (response.data.message != "回復成功") { _this.nosweetAlert(response.data.message) }
                             else { _this.sweetAlert(response.data.message)}})
                     //.catch(Error err)
                             

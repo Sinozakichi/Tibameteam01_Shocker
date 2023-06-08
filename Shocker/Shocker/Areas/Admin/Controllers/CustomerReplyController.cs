@@ -37,14 +37,6 @@ namespace Shocker.Areas.Admin.Controllers
                     Reply = y.Reply,
                     Email = y.UserAccountNavigation.Email,
                 });
-
-            //var UserEmail = _context.Users.Select(x => new {
-            //    Email = x.Email,
-            //    CaseId = clientQA.Where(y => y.UserAccount == x.Account).Select(y => y.CaseId),
-            //    QuestionCategoryId = clientQA.Where(y => y.UserAccount == x.Account).Select(y => y.QuestionCategoryId),
-
-            //})  ;
-
             return Json(clientQA);
         }
         [HttpPost]
