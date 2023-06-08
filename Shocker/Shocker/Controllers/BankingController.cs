@@ -44,7 +44,8 @@ namespace Shocker.Controllers
 				// * 串接程式版本
 				Version = version,
 				// * 商店訂單編號
-				MerchantOrderNo = $"T{DateTime.Now.ToString("yyyyMMddHHmm")}",
+				//MerchantOrderNo = $"T{DateTime.Now.ToString("yyyyMMddHHmm")}",
+				MerchantOrderNo = model.orderId,
 				// * 訂單金額
 				Amount = model.amount,
 				// * 商品資訊
