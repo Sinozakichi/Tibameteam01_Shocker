@@ -21,9 +21,6 @@ namespace Shocker.Controllers
 			_context = context;
 			_environment = environment;
 		}
-		//後併入ShoppindCartController
-		
-		//
 
 		[HttpGet]
 		public IActionResult MyAccount(string tab)//點選用戶資訊編輯的菜單選項時，帶一個tab的參數，依據參數abcde呈現不同的Partial View

@@ -220,7 +220,7 @@
 		methods: {
 			getPopluarProduct: function () {
 				var _this = this;
-				axios.get('/User/GetPopluarProduct').then(response => {
+				axios.get('/ShoppingCart/GetPopluarProduct').then(response => {
 					if (response.data.status) {
 						_this.popularProduct = response.data.data;
 					}
@@ -267,7 +267,7 @@
 			},
 			getLatestProduct: function () {
 				var _this = this;
-				axios.get('/User/GetLatestProduct').then(response => {
+				axios.get('/ShoppingCart/GetLatestProduct').then(response => {
 					if (response.data.status) {
 						for (var i = 0; i < response.data.data.latestProduct.length; i++) {
 							response.data.data.latestProduct[i].path = `${window.location.origin}/productpictures/${response.data.data.latestProduct[i].pictureId}-${response.data.data.latestProduct[i].path};`
@@ -280,7 +280,7 @@
 			},
 			getYourCoupons: function () {
 				var _this = this;
-				axios.get('/User/GetYourCoupons').then(response => {
+				axios.get('/ShoppingCart/GetYourCoupons').then(response => {
 					if (response.data.status) {
 						_this.yourCoupons1 = response.data.data.yourCoupons.slice(0, 3);
 						_this.yourCoupons2 = response.data.data.yourCoupons.slice(3, 6);
