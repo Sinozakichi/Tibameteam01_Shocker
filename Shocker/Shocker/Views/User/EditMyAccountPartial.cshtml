@@ -168,7 +168,7 @@
 				<label for="staticaddress" class="col-sm-2 col-form-label">地址</label>
 				<select v-model="selectAddress" type="text" class="col-12">
 					<option value="" disabled>選擇地址</option>
-					<option v-for="item in users.address" :value="item.Address" :key="item.Address">{{item.Address}}</option>
+					<option v-for="item in users.address" :value="item.address" :key="item.address">{{item.address}}</option>
 				</select>
 				
 			</div>
@@ -239,13 +239,10 @@
 			getUsers: function () {//帶入後端傳來的User資料，並將picture於當前伺服器上的路由組成正確
 				var _this = this;
 				axios.get(`/User/GetAccount`).then(response => {
-					_this.users = response.data.Data;
+					_this.users = response.data.data;
 					_this.picture = '/' + _this.users.user.picture
-					_this.selectAddress=_this.users.address[0].Address
+					_this.selectAddress=_this.users.address[0].address
 				})
-				.catch(error=>{
-					alert(error.response.data.errorMessage);
-				});
 			},
 			updateUsers: function () {//更改User指定欄位之資料
 				var _this = this;

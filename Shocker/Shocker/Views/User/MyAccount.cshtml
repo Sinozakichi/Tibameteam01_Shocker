@@ -12,18 +12,15 @@
 							<h3>我的帳號</h3>
 							<li class="nav-item">
                                 <a class="nav-link active" asp-controller="User" asp-route-tab="a" aria-current="page">個人檔案</a>@*點選下方用戶資訊編輯菜單選項時，傳入tab=abcde的參數至該Controller*@
+                            </li>                          
+                            <li class="nav-item">
+                                <a class="nav-link" asp-controller="User" asp-route-tab="b">購買清單</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" asp-controller="User" asp-route-tab="b">我的付款方式</a>
+                                <a class="nav-link" asp-controller="User" asp-route-tab="c">我的優惠碼</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" asp-controller="User" asp-route-tab="c">購買清單</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" asp-controller="User" asp-route-tab="d">我的優惠碼</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" asp-controller="User" asp-route-tab="e">客服發問紀錄</a>
+                                <a class="nav-link" asp-controller="User" asp-route-tab="d">客服發問紀錄</a>
                             </li>
                         </ul>                                                                   
                     </div>                 
@@ -36,17 +33,14 @@
                         {
                             case "a":
                                 <partial name="EditMyAccountPartial" />
-                                break;
+                                break;                          
                             case "b":
-                                <partial name="MyPaymentPartial" />
-                                break;
-                            case "c":
                                 <partial name="OrderlistsPartial" />
                                 break;
-                            case "d":
+                            case "c":
                                 <partial name="MyPromocodePartial" />
                                 break;
-                            case "e":
+                            case "d":
                                 <partial name="QuestionRecordPartial" />
                                 break;
                         }
