@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Shocker.Models;
 using Shocker.Models.Banking;
 using Shocker.Models.ViewModels;
 using Shocker.Utility;
@@ -8,6 +9,17 @@ namespace Shocker.Controllers
 {
     public class BankingController : Controller
 	{
+		private readonly db_a98a02_thm101team1001Context _DBcontext;
+		private readonly IWebHostEnvironment _environment;
+		private readonly IConfiguration _configuration;
+
+		public BankingController(db_a98a02_thm101team1001Context context, IWebHostEnvironment environment, IConfiguration configuration)
+		{
+			_DBcontext = context;
+			_environment = environment;
+			_configuration = configuration;
+		}
+
 		private BankInfoModel _bankInfoModel = new BankInfoModel
 		{
 			MerchantID = "MS149051454",
@@ -45,7 +57,7 @@ namespace Shocker.Controllers
 				Version = version,
 				// * 商店訂單編號
 				//MerchantOrderNo = $"T{DateTime.Now.ToString("yyyyMMddHHmm")}",
-				MerchantOrderNo = model.orderId,
+				MerchantOrderNo = Convert.ToString(model.orderId),
 				// * 訂單金額
 				Amount = model.amount,
 				// * 商品資訊
