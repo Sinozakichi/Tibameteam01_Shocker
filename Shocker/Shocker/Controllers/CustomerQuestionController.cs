@@ -3,6 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using Shocker.Models;
 using Shocker.Models.ViewModels;
 using System.ComponentModel.DataAnnotations;
+using System.Security.Claims;
 
 namespace Shocker.Controllers
 {
@@ -19,18 +20,60 @@ namespace Shocker.Controllers
             return View();
         }
 
+
+        //[HttpPost]
+        //public ApiResultModel ple([FromBody] CustomerQAViewModel cqavm)
+        //{
+        //    try
+        //    {
+        //        if (!ModelState.IsValid)
+        //        {
+        //            IEnumerable<string> QC = ModelState["QuestionCategoryId"]?.Errors.Select(x => x.ErrorMessage);
+        //            IEnumerable<string> DC = ModelState["Description"]?.Errors.Select(x => x.ErrorMessage);
+        //            return new ApiResultModel { Data = new { QCErrorMessage = QC, DCErrorMessage = DC }, Status = false, ErrorMessage = "出錯啦!" };
+        //        };
+        //        var loginAccount = User.Claims.FirstOrDefault(x => x.Type == ClaimTypes.Name);
+        //        if (loginAccount == null) return new ApiResultModel { Status = false, ErrorMessage = "請重新登入帳號" };
+
+        //        if (cqavm != null && ModelState.IsValid)
+        //        {
+        //            ClientCases clientCases = new ClientCases()
+        //            {
+        //                Status = "cc0",
+        //                UserAccount = "User1",  //登入使用者
+        //                Description = cqavm.Description,
+        //                QuestionCategoryId = cqavm.QuestionCategoryId,
+        //            };
+        //            _context.ClientCases.Add(clientCases);
+        //            _context.SaveChanges();
+        //            return new ApiResultModel { ErrorMessage = "成功送出", Status = true };
+
+        //        }
+        //        else { return new ApiResultModel { Status = false, ErrorMessage = "未傳送成功" }; };
+
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        return new ApiResultModel { ErrorMessage = "出蟲啦~", Status = false };
+        //    }
+        //}
         [HttpPost]
         [ValidateAntiForgeryToken]
+        
         public async Task<IActionResult> Index(CustomerQAViewModel cqavm)
         {
             try
             {
+                var loginAccount = User.Claims.FirstOrDefault(x => x.ValueType == ClaimTypes.Name);
+
+                if (loginAccount == null) { return View();};
+
                 if (cqavm != null && ModelState.IsValid)
                 {
                     ClientCases clientCases = new ClientCases()
                     {
                         Status = "cc0",
-                        UserAccount = "User1",  //登入使用者
+                        UserAccount = "User1",  //登入使用者要判斷
                         Description = cqavm.Description,
                         QuestionCategoryId = cqavm.QuestionCategoryId,
                     };

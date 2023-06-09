@@ -12,15 +12,15 @@
     }
     </style>
 }
-<div class="container-fluid py-4" id="app">
-    <h1 class="text-black">優惠券</h1>
+<div class="@*container-fluid py-4*@" id="app">
+    
     <div class="container-fluid py-4">
         @*AllCouponsTable*@
         <div class="row" v-if="tableControl">
             <div class="col-12">
                 <div class="card mb-4">
                     <div class="card-header pb-0">
-                        <h3>Coupons</h3>
+                        <h3>優惠券</h3>
                         <div class="row">
                             <div class="col-4">
                                 <a class="btn btn-info btn-sm" v-on:click="viewChange" id="createCoupon" style="width:100%">創建個人優惠券</a>
@@ -30,8 +30,8 @@
                             </div>
                             <div class="col-3"></div>
                             <div class="col-5 d-flex justify-content-end align-items-center" >
-                                <label style="width:30%" class="">Search:</label>
-                                <input type="text" v-model="filter" v-on:keyup.enter="couponSerch" class="form-control " placeholder="請輸入關鍵字內容" />
+                                <label style="width:30%" class="">搜尋:</label>
+                                <input type="text" v-model="filter" v-on:keyup="couponSerch" class="form-control " placeholder="請輸入關鍵字內容" />
                             </div>
                         </div>
                     </div>
@@ -110,10 +110,12 @@
                         </div>
                     </div>
                     <div class="card-body">
-                        <p class="text-uppercase text-sm">Info</p>
+                        <h3 class="text-uppercase text-sm">操作</h3>
+                        <hr class="horizontal dark">
+                        
                         <div class="row">
                             <div class="col-md-6">
-                                @*折價券張數*@
+                                @*優惠券張數*@
                                 <div class="form-group">
                                     <label for="example-text-input" class="form-control-label">張數</label>
                                     <input v-model="cAmount" class="form-control" type="text" value="Jesse">
@@ -131,7 +133,7 @@
                                 <div class="form-group">
                                     <label for="example-text-input" class="form-control-label">商品類別</label>
                                     <select v-model="cProductCategoryId" class="form-select" aria-label="Default select example">
-                                        <option selected>請選擇類別</option>
+                                        <option selected value="">請選擇類別</option>
                                         <option value="1">衣服</option>
                                         <option value="2">文具</option>
                                         <option value="3">生鮮食材</option>
@@ -159,15 +161,17 @@
                                 </div>
                             </div>
                         </div>
+                        
+                        <br />
+                        <h3 class="text-uppercase text-sm">收件者</h3>
                         <hr class="horizontal dark">
-                        <p class="text-uppercase text-sm">收件者</p>
                         <div class="row">
                             <div class="col-md-12">
                                 @*//收件帳號*@
                                 <div class="form-group">
                                     <label for="example-text-input" class="form-control-label">請選擇接收者</label>
                                     <select v-model="cHolderAccount">
-                                        <option selected> 請選擇帳號 </option>
+                                        <option selected value=""> 請選擇帳號 </option>
                                         <option  v-for="item in displayUser" :value="item.holderAccount">{{item.holderAccount}}</option>
                                     </select>
                                     
@@ -278,7 +282,7 @@
                     var _this = this;
                     input = {};
                     input.Discount = isNaN(Number(_this.filter)) ? -1 : Number(_this.filter);
-                    input.HolderAccount = input.StatusName = input.CategoryName = _this.filter;
+                    input.HolderAccount = input.StatusName = input.CategoryName = input.PublisherAccount = _this.filter;
                     axios.post(`${window.location.origin}/Admin/Coupon/FilterCoupon`, input)
                         .then(res => { _this.displayCp = res.data })
                 },
@@ -316,7 +320,7 @@
                     var _this =this;
                     axios.get(`${window.location.origin}/Admin/Coupon/CreateHBDCoupon`)
                         .then(response => {
-                    if (response.data.message != "成功送出生日折價券") { _this.nosweetAlert(response.data.message) }
+                    if (response.data.message != "成功送出生日優惠券") { _this.nosweetAlert(response.data.message) }
                     else { _this.sweetAlert(response.data.message) }
                 })
                 },
@@ -324,19 +328,25 @@
                    
                     var _this = this;
                     var a = _this.errorsCreate;
+
+                    
                     if (_this.cExpirationDate == null || _this.cExpirationDate=="") {
                         _this.errors.push("到期日為必填");
                         a=true;
                     }
-                    if (_this.cProductCategoryId == NaN || _this.cProductCategoryId=="") {
-                        _this.errors.push("使用者不可為空");
-                        a = true;
-                    }
-                    if (_this.cDiscount < 0 || _this.cDiscount > 1 || _this.cDiscount =="") {
+                    
+                    if (_this.cDiscount <=0 || _this.cDiscount > 1 || _this.cDiscount =="") {
                         _this.errors.push("折扣數請輸入 0~1 *取至小數點後一位");
                         a = true;
                     }
-                    
+                    if (_this.cProductCategoryId == NaN || _this.cProductCategoryId == "") {
+                        _this.errors.push("使用者不可為空");
+                        a = true;
+                    }
+                    if (_this.cAmount <= 0 || _this.cAmount=="" || _this.cAmount==null) {
+                        _this.errors.push("請輸入數字且張數不能為0");
+                        a = true;
+                    }
                 },
         },
         }

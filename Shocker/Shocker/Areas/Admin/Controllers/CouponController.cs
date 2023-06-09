@@ -75,7 +75,8 @@ namespace Shocker.Areas.Admin.Controllers
                   x.HolderAccount.Contains(cvm.HolderAccount) ||
                   x.Discount == cvm.Discount ||
                   x.StatusNavigation.StatusName.Contains(cvm.StatusName) ||
-                  x.ProductCategory.CategoryName.Contains(cvm.CategoryName)
+                  x.ProductCategory.CategoryName.Contains(cvm.CategoryName)||
+                  x.PublisherAccount.Contains(cvm.PublisherAccount)
                   ).Select(c => new
                   {
                       PublisherAccount = c.PublisherAccount,
@@ -111,7 +112,7 @@ namespace Shocker.Areas.Admin.Controllers
                 {
                     if (_context.Coupons.Any(x => x.HolderAccount == a.Id)) //Any 判斷true/false
                     {
-                        return Json(new { Message = $"今日份已重複"});
+                        return Json(new { Message = "今日份已重複" });
                     }
                     else 
                     {
@@ -124,15 +125,12 @@ namespace Shocker.Areas.Admin.Controllers
                         c1.ProductCategoryId = 9;
                         _context.Coupons.Add(c1);
                         _context.SaveChanges();
+                        return Json(new { Message = "成功送出生日優惠券" });
                     }
                 };
-            }
-            else 
-            {
-                return Json(new { message = "沒有人今天生日喔!" });
-            }
+            };
 
-            return Json(new {message="生日比對完畢" });
+            return Json(new {Message="今天沒人生日唷" });
          }
 
     }

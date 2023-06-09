@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Shocker.Areas.Admin.Models.ViewModels;
 using Shocker.Models;
@@ -42,6 +43,12 @@ namespace Shocker.Areas.Admin.Controllers
         [HttpPost]
         public async Task<JsonResult> ReplyQA([FromBody] ClientCaseViewModels ccvm)
         {
+            if (!ModelState.IsValid)
+            {
+                //IEnumerable<string> errm = ModelState["Reply"]?.Errors.Select(x => x.ErrorMessage);
+                return Json(new{ Message = "不可回復空白" });
+               
+            }
             if (ccvm.Reply.IsNullOrEmpty()) { return Json(new { Message = "不可回復空白" }); }
 
             if (ccvm!=null && ModelState.IsValid)
@@ -74,7 +81,8 @@ namespace Shocker.Areas.Admin.Controllers
         [HttpPost]
         public async Task<JsonResult> FilterQA([FromBody] ClientCaseFilterViewModels ccf)
         {
-            return Json(_context.ClientCases.Where(c =>
+            return Json(_context.ClientCases.Include(c=>c.QuestionCategory)
+                .Where(c =>
                 c.CaseId == ccf.CaseId ||
                 c.UserAccount.Contains(ccf.UserAccount) ||
                 c.Status.Contains(ccf.Status) ||

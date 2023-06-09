@@ -5,9 +5,7 @@
     
 }
 
-
-<body>
-    <div class="contact-form spad ">
+    <div class="contact-form spad " id="app">
         <div class="container formborder">
             <div class="row">
                 <div class="col-lg-12">
@@ -19,9 +17,9 @@
             
             <form asp-controller="CustomerQuestion" asp-action="Index" method="post">
                 <div class="row">
-                    <div class="col-lg-12 col-md-12 text-center categoryCenter">
-                        <select class="selectBorder allBorder " asp-for="QuestionCategoryId">
-                            <option value="-1" selected>請選擇您的問題種類</option>
+                    <div class="col-lg-12 col-md-12 text-center categoryCenter" >
+                    <select  class="selectBorder allBorder" asp-for="QuestionCategoryId">
+                            <option value="0" selected>請選擇您的問題種類</option>
                             <option value="1">帳號問題</option>
                             <option value="2">付款問題</option>
                             <option value="3">退款問題</option>
@@ -31,33 +29,66 @@
                     </div>
                     <div class="col-lg-12 col-md-12 text-center">
                         <span asp-validation-for="QuestionCategoryId" class="text-danger"></span>
+                        <span v-if="qcErrorBox">{{dataBox.QCErrorMessage}}</span>
                     </div>
                     <hr />
                     <div class="col-lg-12 col-md-12 text-center">
-                        <textarea asp-for="Description" class="allBorder" rows="20" cols="10" placeholder="請輸入您的問題我們會儘快回復"></textarea>
+                        <textarea asp-for="Description"  v-model="vDC" class="allBorder" rows="20" cols="10" placeholder="請輸入您的問題我們會儘快回復"></textarea>
                         <div class="col-lg-12 col-md-12 text-center">
-                            
                             <span asp-validation-for="Description" class="text-danger"></span>
+                            <span v-if="dcErrorBox">{{dataBox.DCErrorMessage}}</span>
                         </div>
-                        <button type="submit" class="site-btn" >Submit</button>
+                        <button type="submit" class="site-btn"  >Submit</button>
                         <div class="text-danger">@TempData["Success"]</div>  
                     </div>
                 </div>
             </form>
         </div>
     </div>
-</body>
+
 
 @section Scripts
-{
-    <script>
+    {
 
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.4.0/axios.min.js" integrity="sha512-uMtXmF28A2Ab/JJO2t/vYhlaa/3ahUOgj1Zf27M5rOo8/+fcTUVH0/E0ll68njmjrLqOBjXM3V9NiPFL5ywWPQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     
-        @if (ViewBag.fal != null)
-        {
-            <text>alert("傳送失敗"); </text> //razor純文字用法
-        }
-  
+    
+    <script src="~/vue/vue.global.prod.js"></script>
+    <script>
+        var VueApp = {
+            data(){
+               return{
+                    dataBox:{},
+                    cq :'',
+                    vDC:'',
+                    dcErrorBox:false,
+                    qcErrorBox:false,
+               };
+            },
+            mounted:function(){
+            },
+            methods:{
+                getdata:function()
+                {
+                    _this =this;
+                    cqavm={};
+                    cqavm.Description = _this.cq;
+                    cqavm.QuestionCategoryId = parseInt(_this.vQC);
+                    axios.post(`${window.location.origin}/CustomerQuestion/ple`,cqavm)
+                        .then(res=>{
+                        if(res.data.status){alert("傳送成功")}
+                        else{
+                            _this.dataBox = res.data.data;
+                                if (_this.dataBox.QCErrorMessage != null) { _this.qcErrorBox = true };
+                                if (_this.dataBox.DCErrorMEssage != null) { _this.dcErrorBox = true };
+                            };
+                        }).catch(error => {
+                            console.log(error);
+                        });
+                },
+            },
+            }
+        var app = Vue.createApp(VueApp).mount('#app');
     </script>
 }
 
