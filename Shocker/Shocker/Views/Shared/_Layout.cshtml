@@ -66,8 +66,8 @@
 				<li>
 					<a href="./contact.html">關注蝦殼</a>
 					<ul class="header__menu__dropdown">
-						<li><a href="#">Facebook</a></li>
-						<li><a href="#">Instgram</a></li>
+						<li><a href="https://www.facebook.com/profile.php?id=100093431410643">Facebook</a></li>
+						<li><a href="https://www.instagram.com/shockerthm101/">Instgram</a></li>
 					</ul>
 				</li>
 				<li>
@@ -151,17 +151,21 @@
 								<li>
 									<a href="#">關注蝦殼</a>
 									<ul class="header__menu__dropdown">
-										<li><a href="#">Facebook</a></li>
-										<li><a href="#">Instgram</a></li>
+										<li><a href="https://www.facebook.com/profile.php?id=100093431410643">Facebook</a></li>
+										<li><a href="https://www.instagram.com/shockerthm101/">Instgram</a></li>
 									</ul>
 								</li>
-								<li>
-									<a href="#">Admin</a>
-									<ul class="header__menu__dropdown">
-										<li><a asp-area="Admin" asp-controller="Coupon" asp-action="Index">優惠券查詢</a></li>
-										<li><a asp-area="Admin" asp-controller="CustomerReply" asp-action="Index">客戶問題查詢</a></li>
-									</ul>
-								</li>
+								@if (User.Identity.IsAuthenticated)
+								{
+									<li>
+										<a href="#">Admin</a>
+										<ul class="header__menu__dropdown">
+											<li><a asp-area="Admin" asp-controller="Coupon" asp-action="Index">優惠券查詢</a></li>
+											<li><a asp-area="Admin" asp-controller="CustomerReply" asp-action="Index">客戶問題查詢</a></li>
+										</ul>
+									</li>
+								}
+
 							</ul>
 						</nav>
 					</div>
@@ -200,9 +204,9 @@
 							<a href="./index.html"><img src="~/img/logo.png" alt=""></a>
 						</div>
 						<ul>
-							<li>Address:TM601教室</li>
+							<li>Address:台北市中正區濟南路一段321號</li>
 							<li>Phone: 0987878887</li>
-							<li>Email: liu368619220@gmail.com</li>
+							<li>Email: shockerthm101@gmail.com</li>
 						</ul>
 					</div>
 				</div>
@@ -210,19 +214,19 @@
 					<div class="footer__widget">
 						<h6>相關連結</h6>
 						<ul>
-							<li><a href="#">關於蝦殼</a></li>
-							<li><a href="#">加入我們</a></li>
+							<li><a href="https://www.facebook.com/profile.php?id=100093431410643">關於蝦殼</a></li>
+							<li><a href="https://www.instagram.com/shockerthm101/">加入我們</a></li>
 							<li><a href="#">品牌故事</a></li>
-							<li><a href="#">常見問題</a></li>
-							<li><a href="#">友站連結</a></li>
+							<li><a asp-controller="CustomerQuestion" asp-action="QA">常見問題</a></li>
+							<li><a href="https://github.com/Sinozakichi/Tibameteam01_Shocker">友站連結</a></li>
 						</ul>
 					</div>
 				</div>
 				<div class="col-lg-4 col-md-12">
 					<div class="footer__widget">
 						<div class="footer__widget__social">
-							<a href="#"><i class="fa fa-facebook"></i></a>
-							<a href="#"><i class="fa fa-instagram"></i></a>
+							<a href="https://www.facebook.com/profile.php?id=100093431410643"><i class="fa fa-facebook"></i></a>
+							<a href="https://www.instagram.com/shockerthm101/"><i class="fa fa-instagram"></i></a>
 						</div>
 					</div>
 				</div>

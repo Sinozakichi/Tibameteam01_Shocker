@@ -165,11 +165,11 @@
 				var sum = 0;
 				for (var i = 0; i < this.orders.orderdetails.length; i++) {
 					if (this.orders.orderdetails[i].orderId == id) {
-						if (this.orders.orderdetails[i].discount == null) {
+						if (this.orders.orderdetails[i].disCount == null) {
 							sum += this.orders.orderdetails[i].quantity * this.orders.orderdetails[i].unitPrice;
 						}
 						else {
-							sum += this.orders.orderdetails[i].quantity * this.orders.orderdetails[i].unitPrice * this.orders.orderdetails[i].discount;
+							sum += this.orders.orderdetails[i].quantity * this.orders.orderdetails[i].unitPrice * this.orders.orderdetails[i].disCount;
 						}
 					}
 				}

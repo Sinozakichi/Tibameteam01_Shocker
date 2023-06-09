@@ -131,65 +131,99 @@
 		<div class="container">
 			<div class="row">
 				<div class="col-lg-2">
-				</div>
-				<div class="col-lg-4 col-md-6">
-					<div class="latest-product__text">
-						<h4>最新商品</h4>
-						<div class="latest-product__slider owl-carousel">
-							<div class="latest-prdouct__slider__item">
-								<a :href="'/ShoppingCart/Product/'+item.productId" class="latest-product__item" v-for="item in latestProduct1">
-									<div class="latest-product__item__pic">
-										<img :src="'/productpictures/'+item.picture" style="width:100px;height:100px">
-									</div>
-									<div class="latest-product__item__text">
-										<h6>{{item.productName}}</h6>
-										<span>{{'$'+item.unitPrice}}</span>
-									</div>
-								</a>
-							</div>
-							<div class="latest-prdouct__slider__item">
-								<a :href="'/ShoppingCart/Product/'+item.productId" class="latest-product__item" v-for="item in latestProduct2">
-									<div class="latest-product__item__pic">
-										<img :src="'/productpictures/'+item.picture" style="width:100px;height:100px">
-									</div>
-									<div class="latest-product__item__text">
-										<h6>{{item.productName}}</h6>
-										<span>{{'$'+item.unitPrice}}</span>
-									</div>
-								</a>
-							</div>
-						</div>
-					</div>
-				</div>
-				<div class="col-lg-4 col-md-6">
-					<div class="latest-product__text">
-						<h4>最新優惠券</h4>
-						<div class="latest-product__slider owl-carousel">
-							<div class="latest-prdouct__slider__item">
-								<a href="/User/MyAccount?tab=d" class="latest-product__item" v-for="item in yourCoupons1">
-									<div class="latest-product__item__pic">
-										<img src="img/coupon.png" alt="">
-									</div>
-									<div class="latest-product__item__text">
-										<h6>{{item.categoryName}}</h6>
-										<span>{{item.discount+'折'}}</span>
-									</div>
-								</a>
-							</div>
-							<div class="latest-prdouct__slider__item">
-								<a href="/User/MyAccount?tab=d" class="latest-product__item" v-for="item in yourCoupons2">
-									<div class="latest-product__item__pic">
-										<img src="img/coupon.png" alt="">
-									</div>
-									<div class="latest-product__item__text">
-										<h6>{{item.categoryName}}</h6>
-										<span>{{item.discount+'折'}}</span>
-									</div>
-								</a>
+				</div>				
+				@if (User.Identity.IsAuthenticated){
+					<div class="col-lg-4 col-md-6">
+						<div class="latest-product__text">
+							<h4>最新商品</h4>
+							<div class="latest-product__slider owl-carousel">
+								<div class="latest-prdouct__slider__item">
+									<a :href="'/ShoppingCart/Product/'+item.productId" class="latest-product__item" v-for="item in latestProduct1">
+										<div class="latest-product__item__pic">
+											<img :src="'/productpictures/'+item.picture" style="width:100px;height:100px">
+										</div>
+										<div class="latest-product__item__text">
+											<h6>{{item.productName}}</h6>
+											<span>{{'$'+item.unitPrice}}</span>
+										</div>
+									</a>
+								</div>
+								<div class="latest-prdouct__slider__item">
+									<a :href="'/ShoppingCart/Product/'+item.productId" class="latest-product__item" v-for="item in latestProduct2">
+										<div class="latest-product__item__pic">
+											<img :src="'/productpictures/'+item.picture" style="width:100px;height:100px">
+										</div>
+										<div class="latest-product__item__text">
+											<h6>{{item.productName}}</h6>
+											<span>{{'$'+item.unitPrice}}</span>
+										</div>
+									</a>
+								</div>
 							</div>
 						</div>
 					</div>
-				</div>
+					<div class="col-lg-4 col-md-6">
+						<div class="latest-product__text">
+							<h4>最新優惠券</h4>
+							<div class="latest-product__slider owl-carousel">
+								<div class="latest-prdouct__slider__item">
+									<a href="/User/MyAccount?tab=d" class="latest-product__item" v-for="item in yourCoupons1">
+										<div class="latest-product__item__pic">
+											<img src="img/coupon.png" alt="">
+										</div>
+										<div class="latest-product__item__text">
+											<h6>{{item.categoryName}}</h6>
+											<span>{{item.discount+'折'}}</span>
+										</div>
+									</a>
+								</div>
+								<div class="latest-prdouct__slider__item">
+									<a href="/User/MyAccount?tab=d" class="latest-product__item" v-for="item in yourCoupons2">
+										<div class="latest-product__item__pic">
+											<img src="img/coupon.png" alt="">
+										</div>
+										<div class="latest-product__item__text">
+											<h6>{{item.categoryName}}</h6>
+											<span>{{item.discount+'折'}}</span>
+										</div>
+									</a>
+								</div>
+							</div>
+						</div>
+					</div>
+				}
+				else
+				{
+					<div class="col-lg-8 col-md-12">
+						<div class="latest-product__text">
+							<h4>最新商品</h4>
+							<div class="latest-product__slider owl-carousel">
+								<div class="latest-prdouct__slider__item">
+									<a :href="'/ShoppingCart/Product/'+item.productId" class="latest-product__item" v-for="item in latestProduct1">
+										<div class="latest-product__item__pic">
+											<img :src="'/productpictures/'+item.picture" style="width:200px;height:200px">
+										</div>
+										<div class="latest-product__item__text">
+											<h6>{{item.productName}}</h6>
+											<span>{{'$'+item.unitPrice}}</span>
+										</div>
+									</a>
+								</div>
+								<div class="latest-prdouct__slider__item">
+									<a :href="'/ShoppingCart/Product/'+item.productId" class="latest-product__item" v-for="item in latestProduct2">
+										<div class="latest-product__item__pic">
+											<img :src="'/productpictures/'+item.picture" style="width:200px;height:200px">
+										</div>
+										<div class="latest-product__item__text">
+											<h6>{{item.productName}}</h6>
+											<span>{{'$'+item.unitPrice}}</span>
+										</div>
+									</a>
+								</div>
+							</div>
+						</div>
+					</div>
+				}
 				<div class="col-lg-2">
 				</div>
 			</div>
@@ -220,7 +254,7 @@
 		methods: {
 			getPopluarProduct: function () {
 				var _this = this;
-				axios.get('/User/GetPopluarProduct').then(response => {
+				axios.get('/ShoppingCart/GetPopluarProduct').then(response => {
 					if (response.data.status) {
 						_this.popularProduct = response.data.data;
 					}
@@ -267,7 +301,7 @@
 			},
 			getLatestProduct: function () {
 				var _this = this;
-				axios.get('/User/GetLatestProduct').then(response => {
+				axios.get('/ShoppingCart/GetLatestProduct').then(response => {
 					if (response.data.status) {
 						for (var i = 0; i < response.data.data.latestProduct.length; i++) {
 							response.data.data.latestProduct[i].path = `${window.location.origin}/productpictures/${response.data.data.latestProduct[i].pictureId}-${response.data.data.latestProduct[i].path};`
@@ -280,12 +314,11 @@
 			},
 			getYourCoupons: function () {
 				var _this = this;
-				axios.get('/User/GetYourCoupons').then(response => {
+				axios.get('/ShoppingCart/GetYourCoupons').then(response => {
 					if (response.data.status) {
 						_this.yourCoupons1 = response.data.data.yourCoupons.slice(0, 3);
 						_this.yourCoupons2 = response.data.data.yourCoupons.slice(3, 6);
-					}
-					else { alert('優惠卷資料載入失敗') }
+					}					
 				});
 			}
 		},
