@@ -42,11 +42,9 @@
 <div id="app">
 	<div class="min-height-300 bg-primary position-absolute w-100"></div>
 	<aside class="sidenav bg-white navbar navbar-vertical navbar-expand-xs border-0 border-radius-xl my-3 fixed-start ms-4 " id="sidenav-main">
-		<div class="sidenav-header">
-			<i class="fas fa-times p-3 cursor-pointer text-secondary opacity-5 position-absolute end-0 top-0 d-none d-xl-none" aria-hidden="true" id="iconSidenav"></i>
-			<a asp-controller="Home" asp-action="Index" class="navbar-brand m-0">
-				<img src="~/assets/img/logo-ct-dark.png" class="navbar-brand-img h-100" alt="main_logo">
-				<span class="ms-1 font-weight-bold">蝦殼 Shocker</span>
+		<div class="sidenav-header d-flex justify-content-center" style="height:130px">
+			<a href="/Home/Index/" class="m-0" style="height:130px">
+				<img class="h-130" src="/img/advertise/shocker.png" style="width:130px;height:130px;" />
 			</a>
 		</div>
 		<hr class="horizontal dark mt-0">
@@ -56,7 +54,7 @@
 				<li class="nav-item">
 					<a id="nav0" class="nav-link " href="#0" @@click="navbar(0)">
 						<div class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
-							<i class="ni ni-tv-2 text-primary text-sm opacity-10"></i>
+							<i class="ni ni-books text-info text-sm opacity-10"></i>
 						</div>
 						<span class="nav-link-text ms-1">賣場資訊</span>
 					</a>
@@ -64,7 +62,7 @@
 				<li class="nav-item">
 					<a id="nav1" class="nav-link" href="#1" @@click="navbar(1)">
 						<div class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
-							<i class="ni ni-calendar-grid-58 text-warning text-sm opacity-10"></i>
+							<i class="ni ni-cart text-warning text-sm opacity-10"></i>
 						</div>
 						<span class="nav-link-text ms-1">商品管理</span>
 					</a>
@@ -72,7 +70,7 @@
 				<li class="nav-item">
 					<a id="nav2" class="nav-link " href="#2" @@click="navbar(2)">
 						<div class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
-							<i class="ni ni-credit-card text-success text-sm opacity-10"></i>
+							<i class="ni ni-tag text-primary text-sm opacity-10"></i>
 						</div>
 						<span class="nav-link-text ms-1">訂單管理</span>
 					</a>
@@ -80,25 +78,13 @@
 				<li class="nav-item">
 					<a id="nav3" class="nav-link " href="#3" @@click="navbar(3)">
 						<div class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
-							<i class="ni ni-app text-info text-sm opacity-10"></i>
+							<i class="ni ni-like-2 text-success text-sm opacity-10"></i>
 						</div>
 						<span class="nav-link-text ms-1">買家評價管理</span>
 					</a>
 				</li>
 			</ul>
 		</div>
-		@*footer*@
-		@*<div class="sidenav-footer mx-3 ">
-		<div class="card card-plain shadow-none" id="sidenavCard">
-		<img class="w-50 mx-auto" src="~/assets/img/illustrations/icon-documentation.svg" alt="sidebar_illustration">
-		<div class="card-body text-center p-3 w-100 pt-0">
-		<div class="docs-info">
-		<h6 class="mb-0">Need help?</h6>
-		<p class="text-xs font-weight-bold mb-0">Please check our docs</p>
-		</div>
-		</div>
-		</div>
-		</div>*@
 	</aside>
 	<main class="main-content position-relative border-radius-lg ">
 		<!-- Navbar -->
@@ -107,7 +93,7 @@
 				<nav aria-label="breadcrumb">
 					<ol class="breadcrumb bg-transparent mb-0 pb-0 pt-1 px-0 me-sm-6 me-5">
 						<li class="breadcrumb-item text-sm">
-							<a asp-controller="Home" asp-action="Index" class="opacity-5 text-white">首頁</a>
+							<a href="/Home" class="opacity-5 text-white">首頁</a>
 						</li>
 						<li class="breadcrumb-item text-sm text-white active" aria-current="page">賣家中心</li>
 					</ol>
@@ -117,14 +103,36 @@
 					<div class="ms-md-auto pe-md-3 d-flex align-items-center">
 					</div>
 					<ul class="navbar-nav  justify-content-end">
-						@*必須先登入填入用戶帳號*@
-						<li class="nav-item d-flex align-items-center">
-							<a href="javascript:;" class="nav-link text-white font-weight-bold px-0">
+						<li class="nav-item dropdown pe-2 d-flex align-items-center">
+							<a href="javascript:;" class="nav-link text-white font-weight-bold px-0" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
 								<i class="fa fa-user me-sm-1"></i>
 								<span class="d-sm-inline d-none">{{loginAccount}}</span>
 							</a>
+							<ul class="dropdown-menu dropdown-menu-end px-2 py-3 me-sm-n4" aria-labelledby="dropdownMenuButton">
+								<li class="mb-2">
+									<a class="dropdown-item border-radius-md" href="/User/MyAccount?tab=a">
+										<div class="d-flex py-1">
+											<div class="d-flex flex-column justify-content-center">
+												<h6 class="text-sm font-weight-normal mb-1">
+													<span class="font-weight-bold">我的帳戶</span>
+												</h6>
+											</div>
+										</div>
+									</a>
+								</li>
+								<li class="mb-2">
+									<a class="dropdown-item border-radius-md" href="/Member/SignOut">
+										<div class="d-flex py-1">
+											<div class="d-flex flex-column justify-content-center">
+												<h6 class="text-sm font-weight-normal mb-1">
+													<span class="font-weight-bold">登出</span>
+												</h6>
+											</div>
+										</div>
+									</a>
+								</li>
+							</ul>
 						</li>
-						@*左側選單*@
 						<li class="nav-item d-xl-none ps-3 d-flex align-items-center">
 							<a href="javascript:;" class="nav-link text-white p-0" id="iconNavbarSidenav">
 								<div class="sidenav-toggler-inner">
@@ -132,18 +140,6 @@
 									<i class="sidenav-toggler-line bg-white"></i>
 									<i class="sidenav-toggler-line bg-white"></i>
 								</div>
-							</a>
-						</li>
-						@*右側設定*@
-						<li class="nav-item px-3 d-flex align-items-center">
-							<a href="javascript:;" class="nav-link text-white p-0">
-								<i class="fa fa-cog fixed-plugin-button-nav cursor-pointer"></i>
-							</a>
-						</li>
-						@*賣家通知*@
-						<li class="nav-item dropdown pe-2 d-flex align-items-center">
-							<a href="javascript:;" class="nav-link text-white p-0" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
-								<i class="fa fa-bell cursor-pointer"></i>
 							</a>
 						</li>
 					</ul>
@@ -159,16 +155,16 @@
 							<div class="row">
 								<div class="col-8">
 									<h5 class="font-weight-bolder">商品</h5>
-									<div v-for="item in Info" class="numbers">
+									<div class="numbers">
 										<p class="text-sm mb-0 text-uppercase font-weight-bold">未上架</p>
-										<h5 class="font-weight-bolder">{{item.p0}}</h5>
+										<h5 class="font-weight-bolder">{{info.p0}}</h5>
 										<p class="text-sm mb-0 text-uppercase font-weight-bold">已上架</p>
-										<h5 class="font-weight-bolder">{{item.p1}}</h5>
+										<h5 class="font-weight-bolder">{{info.p1}}</h5>
 									</div>
 								</div>
 								<div class="col-4 text-end">
-									<div class="icon icon-shape bg-gradient-primary shadow-primary text-center rounded-circle">
-										<i class="ni ni-money-coins text-lg opacity-10" aria-hidden="true"></i>
+									<div class="icon icon-shape bg-gradient-warning shadow-warning text-center rounded-circle">
+										<i class="ni ni-cart text-lg opacity-10" aria-hidden="true"></i>
 									</div>
 								</div>
 							</div>
@@ -180,25 +176,25 @@
 						<div class="card-body p-3">
 							<div class="row">
 								<div class="col-8">
-										<h5 class="font-weight-bolder">訂單商品</h5>
+									<h5 class="font-weight-bolder">訂單商品</h5>
 									<div class="row">
-										<div v-for="item in Info" class="numbers col-6">										
+										<div class="numbers col-6">										
 											<p class="text-sm mb-0 text-uppercase font-weight-bold">未出貨</p>
-											<h5 class="font-weight-bolder">{{item.od1}}</h5>
+											<h5 class="font-weight-bolder">{{info.od1}}</h5>
 											<p class="text-sm mb-0 text-uppercase font-weight-bold">未收貨</p>
-											<h5 class="font-weight-bolder">{{item.od2}}</h5>
-											</div>
-											<div v-for="item in Info" class="numbers col-6">
+											<h5 class="font-weight-bolder">{{info.od2}}</h5>
+										</div>
+										<div class="numbers col-6">
 											<p class="text-sm mb-0 text-uppercase font-weight-bold">已收貨</p>
-											<h5 class="font-weight-bolder">{{item.od3}}</h5>
+											<h5 class="font-weight-bolder">{{info.od3}}</h5>
 											<p class="text-sm mb-0 text-uppercase font-weight-bold">退貨</p>
-											<h5 class="font-weight-bolder">{{item.od4}}</h5>
+											<h5 class="font-weight-bolder">{{info.od4}}</h5>
 										</div>
 									</div>
 								</div>
 								<div class="col-4 text-end">
-									<div class="icon icon-shape bg-gradient-danger shadow-danger text-center rounded-circle">
-										<i class="ni ni-world text-lg opacity-10" aria-hidden="true"></i>
+									<div class="icon icon-shape bg-gradient-primary shadow-primary text-center rounded-circle">
+										<i class="ni ni-tag text-lg opacity-10" aria-hidden="true"></i>
 									</div>
 								</div>
 							</div>
@@ -211,46 +207,22 @@
 							<div class="row">
 								<div class="col-8">
 									<h5 class="font-weight-bolder">買家評價</h5>
-									<div v-for="item in Info" class="numbers">
+									<div class="numbers">
 										<p class="text-sm mb-0 text-uppercase font-weight-bold">未回應</p>
-										<h5 class="font-weight-bolder">{{item.r0}}</h5>
+										<h5 class="font-weight-bolder">{{info.r0}}</h5>
 										<p class="text-sm mb-0 text-uppercase font-weight-bold">已回應</p>
-										<h5 class="font-weight-bolder">{{item.r1}}</h5>
+										<h5 class="font-weight-bolder">{{info.r1}}</h5>
 									</div>
 								</div>
 								<div class="col-4 text-end">
 									<div class="icon icon-shape bg-gradient-success shadow-success text-center rounded-circle">
-										<i class="ni ni-paper-diploma text-lg opacity-10" aria-hidden="true"></i>
+										<i class="ni ni-like-2 text-lg opacity-10" aria-hidden="true"></i>
 									</div>
 								</div>
 							</div>
 						</div>
 					</div>
 				</div>
-				@*<div class="col-xl-3 col-sm-6">
-					<div class="card">
-						<div class="card-body p-3">
-							<div class="row">
-								<div class="col-8">
-									<div v-for="item in Info" class="numbers">
-										<p class="text-sm mb-0 text-uppercase font-weight-bold">優惠券</p>
-										<h5 class="font-weight-bolder">
-											$103,430
-										</h5>
-										<p class="mb-0">
-											<span class="text-success text-sm font-weight-bolder">+5%</span> than last month
-										</p>
-									</div>
-								</div>
-								<div class="col-4 text-end">
-									<div class="icon icon-shape bg-gradient-warning shadow-warning text-center rounded-circle">
-										<i class="ni ni-cart text-lg opacity-10" aria-hidden="true"></i>
-									</div>
-								</div>
-							</div>
-						</div>
-					</div>
-				</div>*@
 			</div>
 			<div v-if="this._info" class="row">
 				<div class="col-md-12">
@@ -270,7 +242,7 @@
 										<div class="d-flex align-items-center">
 											<div class="col-md-8 col-5"></div>
 											<div class="col-md-4 col-7 d-flex justify-content-between">
-												<button class="btn btn-primary btn-sm ms-auto" @@click="updateInfo(this.infoText)">新增</button>
+												<button class="btn btn-primary btn-sm ms-auto" @@click="updateInfo(infoText)">修改賣家資訊</button>
 											</div>
 										</div>
 									</div>
@@ -313,7 +285,7 @@
 										</tr>
 									</thead>
 									<tbody>
-										<tr v-for="item in Products">
+										<tr v-for="item in products">
 											<td class="align-middle text-center">
 												<a href="javascript:;" class="text-secondary font-weight-bold text-xs" data-toggle="tooltip" @@click="edit(item.productId)">
 													<i class="fas fa-pencil-alt text-dark me-2" aria-hidden="true"></i>編輯
@@ -351,12 +323,6 @@
 										</tr>
 									</tbody>
 								</table>
-								@*<paginate :page-count="pageCount"
-										  :clickHandler="changePage"
-										  :prevText="'Prev'"
-										  :nextText="'Next'"
-										  :containerClass="'className'">
-								</paginate>*@
 							</div>
 						</div>
 					</div>
@@ -411,10 +377,10 @@
 											</td>
 											<td class="align-middle text-center text-sm">
 												<div class="form-check form-switch ps-0 ms-auto my-auto">
-													<input v-if="this.details.status!='p2'" v-model="this._checked" class="form-check-input mt-1 ms-auto" type="checkbox" @@change="shelf">
-													<span v-if="this.details.status=='p0'" class="badge badge-sm bg-gradient-secondary">未上架</span>
-													<span v-if="this.details.status=='p1'" class="badge badge-sm bg-gradient-success">已上架</span>
-													<span v-if="this.details.status=='p2'" class="badge badge-sm bg-gradient-dark">已刪除</span>
+													<input v-if="details.status!='p2'" v-model="this._checked" class="form-check-input mt-1 ms-auto" type="checkbox" @@change="shelf">
+													<span v-if="details.status=='p0'" class="badge badge-sm bg-gradient-secondary">未上架</span>
+													<span v-if="details.status=='p1'" class="badge badge-sm bg-gradient-success">已上架</span>
+													<span v-if="details.status=='p2'" class="badge badge-sm bg-gradient-dark">已刪除</span>
 												</div>
 											</td>
 											<td class="align-middle text-center">
@@ -438,7 +404,7 @@
 								<div v-if="this._create" class="col-md-4 col-7 d-flex justify-content-between">
 									<button class="btn btn-primary btn-sm ms-auto" @@click="createSave(details)">儲存新增</button>
 								</div>
-								<div v-if="!this._create&&this.details.status!='p2'" class="col-md-4 col-7 d-flex justify-content-between">
+									<div v-if="!this._create&&details.status!='p2'" class="col-md-4 col-7 d-flex justify-content-between">
 									<button class="btn btn-primary btn-sm ms-auto" @@click="update(details)">儲存</button>
 									<button class="btn btn-danger btn-sm ms-auto" @@click="deleteProduct(details.productId)">刪除商品</button>
 								</div>
@@ -449,13 +415,13 @@
 							<div class="row">
 								<div class="col-md-6">
 									<div class="form-group">
-										<label for="example-text-input" class="form-control-label">名稱</label>
+										<label class="form-control-label">名稱</label>
 										<input v-model="details.productName" class="form-control text-center" type="text" value="牛仔褲">
 									</div>
 								</div>
 								<div class="col-md-6">
 									<div class="form-group">
-										<label for="example-text-input" class="form-control-label">類型</label>
+										<label class="form-control-label">類型</label>
 										<select v-model="details.productCategoryId" class="form-control text-center">
 											<option value="1">衣服</option>
 											<option value="2">文具</option>
@@ -471,7 +437,7 @@
 								</div>
 								<div class="col-md-2">
 									<div class="form-group">
-										<label for="example-text-input" class="form-control-label">貨幣</label>
+										<label class="form-control-label">貨幣</label>
 										<select v-model="details.currency" class="form-control text-center">
 											<option value="NTD">NTD</option>
 											<option value="USD" disabled>USD</option>
@@ -480,13 +446,13 @@
 								</div>
 								<div class="col-md-4">
 									<div class="form-group">
-										<label for="example-text-input" class="form-control-label">單價</label>
+										<label class="form-control-label">單價</label>
 										<input v-model="details.unitPrice" class="form-control text-center" type="text">
 									</div>
 								</div>
 								<div class="col-md-2">
 									<div class="form-group">
-										<label for="example-text-input" class="form-control-label">庫存增減</label>
+										<label class="form-control-label">庫存增減</label>
 										<div class="form-check form-switch ps-0 ms-auto my-auto">
 											<select v-model="plus" class="form-control text-center">
 												<option value="INC">增加</option>
@@ -497,7 +463,7 @@
 								</div>
 								<div class="col-md-4">
 									<div class="form-group">
-										<label for="example-text-input" class="form-control-label">變化數量</label>
+										<label class="form-control-label">變化數量</label>
 										<div class="form-check form-switch ps-0 ms-auto my-auto">
 											<input v-model="increase" class="form-control text-center" type="text">
 										</div>
@@ -505,7 +471,7 @@
 								</div>
 								<div class="col-md-12">
 									<div class="form-group">
-										<label for="example-text-input" class="form-control-label">說明</label>
+										<label class="form-control-label">說明</label>
 										<textarea v-model="details.description" class="form-control" rows="5" cols="20" placeholder="商品介紹"></textarea>
 									</div>
 								</div>
@@ -516,7 +482,7 @@
 							<div v-if="!this._create" class="row">
 								<div class="col-md-12">
 									<div class="form-group">
-										<label for="example-text-input" class="form-control-label">預覽</label>
+										<label class="form-control-label">預覽</label>
 										<input class="form-control" type="file" @@change="selectedFile">
 										<div class="col-md-6">
 											<div class="form-group">
@@ -525,7 +491,7 @@
 										</div>
 									</div>
 									<div class="form-group">
-										<label for="example-text-input" class="form-control-label">圖片說明</label>
+										<label class="form-control-label">圖片說明</label>
 										<textarea class="form-control" rows="5" cols="20" v-model="pictureText" value=""></textarea>
 									</div>
 									<div class="form-group">
@@ -561,8 +527,8 @@
 											<th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">圖片說明</th>
 										</tr>
 									</thead>
-									<tbody v-if="Prictures!=[]">
-										<tr v-for="item in Pictures">
+									<tbody v-if="prictures!=[]">
+										<tr v-for="item in pictures">
 											<td class="align-middle text-center">
 												<p><a href="javascript:;" class="text-secondary font-weight-bold text-xs" data-toggle="tooltip" @@click="updatePicture(item)">
 													<i class="fas fa-pencil-alt text-dark me-2" aria-hidden="true"></i>儲存圖片說明</a></p>
@@ -615,7 +581,7 @@
 										</tr>
 									</thead>
 									<tbody>
-										<tr v-for="(item,index) in Orders">
+										<tr v-for="(item,index) in orders">
 											<td class="align-middle text-center">
 												<a href="javascript:;" class="text-secondary font-weight-bold text-xs" data-toggle="tooltip" @@click="editOrders(item.orderId, index)">
 													<i class="fas fa-pencil-alt text-dark me-2" aria-hidden="true"></i>查看明細
@@ -632,14 +598,14 @@
 												</div>
 											</td>
 											<td class="align-middle text-center">
-												<p class="text-xs font-weight-bold mb-0">{{OrderDetails[index].productCount}}</p>
+												<p class="text-xs font-weight-bold mb-0">{{orderDetails[index].productCount}}</p>
 											</td>
 											<td class="align-middle text-end">
 												<div class="row">
-													<p class="text-xs font-weight-bold mb-0">NTD&nbsp;&nbsp;{{OrderSum[index].NTD}}</p>
+													<p class="text-xs font-weight-bold mb-0">NTD&nbsp;&nbsp;{{orderSum[index].NTD}}</p>
 												</div>
 												<div class="row">
-													<p class="text-xs font-weight-bold mb-0">USD&nbsp;&nbsp;{{OrderSum[index].USD}}</p>
+													<p class="text-xs font-weight-bold mb-0">USD&nbsp;&nbsp;{{orderSum[index].USD}}</p>
 												</div>
 											</td>
 											<td class="align-middle text-center">
@@ -651,6 +617,7 @@
 												<span v-if="item.status=='o3'" class="badge badge-sm bg-gradient-success">已收貨</span>
 												<span v-if="item.status=='o4'" class="badge badge-sm bg-gradient-warning">含退貨</span>
 												<span v-if="item.status=='o5'" class="badge badge-sm bg-gradient-dark">已取消</span>
+												<span v-if="item.status=='o0'" class="badge badge-sm bg-gradient-info">未付款</span>
 											</td>
 											<td class="align-middle text-center">
 												<p class="text-xs font-weight-bold mb-0">{{item.orderDate}}</p>
@@ -661,12 +628,6 @@
 										</tr>
 									</tbody>
 								</table>
-								@*<paginate :page-count="pageCount"
-								:clickHandler="changePage"
-								:prevText="'Prev'"
-								:nextText="'Next'"
-								:containerClass="'className'">
-								</paginate>*@
 							</div>
 						</div>
 					</div>
@@ -704,41 +665,42 @@
 												</a>
 											</td>
 											<td class="align-middle text-center">
-												<span class="text-secondary text-xs font-weight-bold">{{OrderInfo[0].orderId}}</span>
+												<span class="text-secondary text-xs font-weight-bold">{{orderInfo[0].orderId}}</span>
 											</td>
 											<td>
 												<div class="d-flex px-2 py-1">
 													<div class="d-flex flex-column justify-content-center">
-														<h6 class="mb-0 text-sm">{{OrderInfo[0].buyerAccount}}</h6>
+														<h6 class="mb-0 text-sm">{{orderInfo[0].buyerAccount}}</h6>
 													</div>
 												</div>
 											</td>
 											<td class="align-middle text-center">
-												<p class="text-xs font-weight-bold mb-0">{{OrderInfo[1].productCount}}</p>
+												<p class="text-xs font-weight-bold mb-0">{{orderInfo[1].productCount}}</p>
 											</td>
 											<td class="align-middle text-end">
 												<div class="row">
-													<p class="text-xs font-weight-bold mb-0">{{OrderInfo[2].NTD}}&nbsp;&nbsp;NTD</p>
+													<p class="text-xs font-weight-bold mb-0">{{orderInfo[2].NTD}}&nbsp;&nbsp;NTD</p>
 												</div>
 												<div class="row">
-													<p class="text-xs font-weight-bold mb-0">{{OrderInfo[2].USD}}&nbsp;&nbsp;USD</p>
+													<p class="text-xs font-weight-bold mb-0">{{orderInfo[2].USD}}&nbsp;&nbsp;USD</p>
 												</div>
 											</td>
 											<td class="align-middle text-center">
-												<p class="text-xs font-weight-bold mb-0">{{OrderInfo[0].payMethod}}</p>
+												<p class="text-xs font-weight-bold mb-0">{{orderInfo[0].payMethod}}</p>
 											</td>
 											<td class="align-middle text-center text-sm">
-												<span v-if="OrderInfo[0].status=='o1'" class="badge badge-sm bg-gradient-danger">未出貨</span>
-												<span v-if="OrderInfo[0].status=='o2'" class="badge badge-sm bg-gradient-secondary">未完全收貨</span>
-												<span v-if="OrderInfo[0].status=='o3'" class="badge badge-sm bg-gradient-success">已收貨</span>
-												<span v-if="OrderInfo[0].status=='o4'" class="badge badge-sm bg-gradient-warning">含退貨</span>
-												<span v-if="OrderInfo[0].status=='o5'" class="badge badge-sm bg-gradient-dark">已取消</span>
+												<span v-if="orderInfo[0].status=='o1'" class="badge badge-sm bg-gradient-danger">未出貨</span>
+												<span v-if="orderInfo[0].status=='o2'" class="badge badge-sm bg-gradient-secondary">未完全收貨</span>
+												<span v-if="orderInfo[0].status=='o3'" class="badge badge-sm bg-gradient-success">已收貨</span>
+												<span v-if="orderInfo[0].status=='o4'" class="badge badge-sm bg-gradient-warning">含退貨</span>
+												<span v-if="orderInfo[0].status=='o5'" class="badge badge-sm bg-gradient-dark">已取消</span>
+												<span v-if="orderInfo[0].status=='o0'" class="badge badge-sm bg-gradient-info">未付款</span>
 											</td>
 											<td class="align-middle text-center">
-												<p class="text-xs font-weight-bold mb-0">{{OrderInfo[0].orderDate}}</p>
+												<p class="text-xs font-weight-bold mb-0">{{orderInfo[0].orderDate}}</p>
 											</td>
 											<td class="align-middle text-center">
-												<span class="text-secondary text-xs font-weight-bold">{{OrderInfo[0].arrivalDate}}</span>
+												<span class="text-secondary text-xs font-weight-bold">{{orderInfo[0].arrivalDate}}</span>
 											</td>
 										</tr>
 									</tbody>
@@ -754,18 +716,19 @@
 						<div class="card-header pb-0">
 							<div class="d-flex align-items-center">
 								<h6 class="mb-0">訂單明細</h6>
-								<button class="btn btn-primary btn-sm ms-auto" @@click="updateOrders(OrderInfo[0].orderId)">更新出貨狀態</button>
+								<button class="btn btn-primary btn-sm ms-auto" @@click="updateOrders(orderInfo[0].orderId)">更新出貨狀態</button>
 							</div>
 						</div>
 						<div class="card-body">
 							<div class="row">
-								<p class="col-md-6 text-sm">訂單編號：{{OrderInfo[0].orderId}}</p>
-								<p class="col-md-6 text-sm">買家帳號：{{OrderInfo[0].buyerAccount}}</p>
-								<p class="col-md-6 text-sm">送貨地址：{{OrderInfo[0].address}}</p>
-								<p class="col-md-6 text-sm">買家聯絡電話：{{OrderInfo[0].buyerPhone}}</p>
-								<p class="col-md-6 text-sm">訂單日期：{{OrderInfo[0].orderDate}}</p>
-								<p class="col-md-6 text-sm">到貨日期：{{OrderInfo[0].arrivalDate}}</p>								
-								<p class="col-md-6 text-sm">付款方式：{{OrderInfo[0].payMethod}}</p>
+								<p class="col-md-6 text-sm">訂單編號：{{orderInfo[0].orderId}}</p>
+								<p class="col-md-6 text-sm">買家帳號：{{orderInfo[0].buyerAccount}}</p>
+								<p class="col-md-6 text-sm">收件人：{{orderInfo[0].buyerName}}</p>
+								<p class="col-md-6 text-sm">送貨地址：{{orderInfo[0].address}}</p>
+								<p class="col-md-6 text-sm">買家聯絡電話：{{orderInfo[0].buyerPhone}}</p>
+								<p class="col-md-6 text-sm">付款方式：{{orderInfo[0].payMethod}}</p>
+								<p class="col-md-6 text-sm">訂單日期：{{orderInfo[0].orderDate}}</p>
+								<p class="col-md-6 text-sm">到貨日期：{{orderInfo[0].arrivalDate}}</p>
 							</div>
 						</div>
 						<div class="card-body px-0 pt-0 pb-2">
@@ -784,7 +747,7 @@
 										</tr>
 									</thead>
 									<tbody>
-										<tr v-for="(item,index) in OrderInfo[1].product">
+										<tr v-for="(item,index) in orderInfo[1].product">
 											<td class="align-middle text-center">
 												<a href="javascript:;" class="text-secondary font-weight-bold text-xs" @@click="getProduct(item.productId)">
 													<i class="fas fa-arrow-circle-up text-dark me-2" aria-hidden="true"></i>商品資訊
@@ -811,7 +774,7 @@
 											<td class="align-middle text-center">
 												<div class="row">
 													<div class="col-3"><p class="text-xs font-weight-bold mb-0">{{item.couponId==null ? '' :'×&nbsp;' + item.discount}}</p></div>
-													<div class="col-9"><p class="text-xs font-weight-bold mb-0">{{item.couponId==null ? '未使用' : item.couponId}}</p></div>
+													<div class="col-9"><p class="text-xs font-weight-bold mb-0">{{item.couponId==null ? '未使用' : '#&nbsp;' + item.couponId}}</p></div>
 												</div>
 											</td>
 											<td class="align-middle text-end">
@@ -826,11 +789,11 @@
 												<div class="form-check form-switch ps-0 ms-auto my-auto">
 													<div class="form-check form-switch ps-0 ms-auto my-auto">
 														<div v-if="item.status=='od1'">
-															<input v-model="Checked[index]" class="form-check-input mt-1 ms-auto" type="checkbox">														
+															<input v-model="checked[index]" class="form-check-input mt-1 ms-auto" type="checkbox">														
 														</div>
 													</div>
-													<span v-if="Checked[index]==false" class="badge badge-sm bg-gradient-danger">未出貨</span>
-													<span v-if="Checked[index]==true" class="badge badge-sm bg-gradient-secondary">未收貨</span>
+													<span v-if="checked[index]==false" class="badge badge-sm bg-gradient-danger">未出貨</span>
+													<span v-if="checked[index]==true" class="badge badge-sm bg-gradient-secondary">未收貨</span>
 													<span v-if="item.status=='od3'" class="badge badge-sm bg-gradient-success">已收貨</span>
 													<span v-if="item.status=='od4'" class="badge badge-sm bg-gradient-warning">退貨</span>
 													<span v-if="item.status=='od5'" class="badge badge-sm bg-gradient-dark">已取消</span>
@@ -863,7 +826,7 @@
 								<p class="col-md-6 text-sm">上架日期：{{item.launchDate}}</p>
 								<p class="col-md-6 text-sm">庫存：{{item.unitsInStock}}</p>
 								<p class="col-md-6 text-sm">銷量：{{item.sales}}</p>
-								<p class="col-md-6 text-sm">單價：{{item.unitPrice}}&nbsp;&nbsp;{{item.currency}}</p>
+								<p class="col-md-6 text-sm">單價：{{item.currency}}&nbsp;&nbsp;{{item.unitPrice}}</p>
 								<p class="col-md-6 text-sm">狀態：
 									<span v-if="item.status=='p0'" class="badge badge-sm bg-gradient-secondary">未上架</span>
 									<span v-if="item.status=='p1'" class="badge badge-sm bg-gradient-success">已上架</span>
@@ -875,83 +838,71 @@
 				</div>
 			</div>
 			<div v-if="this._ratings" class="row">
-					<div class="col-12">
-						<div class="card mb-4">
-							<div class="card-header pb-0">
-								<div class="d-flex align-items-center">
-									<h6 class="mb-0">買家評價管理</h6>
-									<div class="ms-md-auto pe-md-3 d-flex align-items-center">
-										@*<div class="input-group">
-											<input v-model="filter" type="text" class="form-control" placeholder="#商品關鍵字" @@keyup.enter="filterProducts">
-											<button class="input-group-text text-body" @@click="filterProducts">
-												<i class="fas fa-search" aria-hidden="true">&nbsp;搜尋</i>
-											</button>
-										</div>*@
-									</div>									
-								</div>
+				<div class="col-12">
+					<div class="card mb-4">
+						<div class="card-header pb-0">
+							<div class="d-flex align-items-center">
+								<h6 class="mb-0">買家評價管理</h6>
+								<div class="ms-md-auto pe-md-3 d-flex align-items-center">
+								</div>									
 							</div>
-							<div class="card-body px-0 pt-0 pb-2">
-								<div class="table-responsive p-0">
-									<table class="table align-items-center mb-0">
-										<thead>
-											<tr>
-												<th class="text-secondary opacity-7"></th>
-												<th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">訂單編號</th>
-												<th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">商品名稱</th>
-												<th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">買家帳號</th>
-												<th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">評價星數</th>
-												<th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">訂購日期</th>
-												<th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">到貨日期</th>
-												<th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">狀態</th>
-											</tr>
-										</thead>
-										<tbody v-for="(r,rx) in Ratings">
-											<tr v-for="(p,px) in Ratings[rx].product">
-												<td class="align-middle text-center">
-													<a href="javascript:;" class="text-secondary font-weight-bold text-xs" data-toggle="tooltip" @@click="editReply(rx,px)">
-														<i class="fas fa-pencil-alt text-dark me-2" aria-hidden="true"></i>查看評價內容
-													</a>
-												</td>
-												<td class="align-middle text-center">
-													<span class="text-secondary text-xs font-weight-bold">{{p.orderId}}</span>
-												</td>
-												<td>
-													<div class="d-flex px-2 py-1">
-														<div class="d-flex flex-column justify-content-center">
-															<h6 class="mb-0 text-sm">{{this.OrderDetails[rx].product[px].productName}}</h6>
-														</div>
+						</div>
+						<div class="card-body px-0 pt-0 pb-2">
+							<div class="table-responsive p-0">
+								<table class="table align-items-center mb-0">
+									<thead>
+										<tr>
+											<th class="text-secondary opacity-7"></th>
+											<th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">訂單編號</th>
+											<th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">商品名稱</th>
+											<th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">買家帳號</th>
+											<th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">評價星數</th>
+											<th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">訂購日期</th>
+											<th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">到貨日期</th>
+											<th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">狀態</th>
+										</tr>
+									</thead>
+									<tbody v-for="(r,rx) in ratings">
+										<tr v-for="(p,px) in ratings[rx].product">
+											<td class="align-middle text-center">
+												<a href="javascript:;" class="text-secondary font-weight-bold text-xs" data-toggle="tooltip" @@click="editReply(rx,px)">
+													<i class="fas fa-pencil-alt text-dark me-2" aria-hidden="true"></i>查看評價內容
+												</a>
+											</td>
+											<td class="align-middle text-center">
+												<span class="text-secondary text-xs font-weight-bold">{{p.orderId}}</span>
+											</td>
+											<td>
+												<div class="d-flex px-2 py-1">
+													<div class="d-flex flex-column justify-content-center">
+														<h6 class="mb-0 text-sm">{{this.orderDetails[rx].product[px].productName}}</h6>
 													</div>
-												</td>												
-												<td class="align-middle text-center">
-													<span class="text-secondary text-xs font-weight-bold">{{this.Orders[rx].buyerAccount}}</span>
-												</td>
-												<td class="align-middle text-center">
-													<span class="text-secondary text-xs font-weight-bold">{{p.starCount}}</span>
-												</td>
-												<td class="align-middle text-center">
-													<p class="text-xs font-weight-bold mb-0">{{this.Orders[rx].orderDate}}</p>
-												</td>
-												<td class="align-middle text-center">
-													<p class="text-xs font-weight-bold mb-0">{{this.Orders[rx].arrivalDate}}</p>
-												</td>
-												<td class="align-middle text-center text-sm">
-													<span v-if="p.status=='r0'" class="badge badge-sm bg-gradient-secondary">未回應</span>
-													<span v-if="p.status=='r1'" class="badge badge-sm bg-gradient-success">已回應</span>
-												</td>
-											</tr>
-										</tbody>
-									</table>
-									@*<paginate :page-count="pageCount"
-									:clickHandler="changePage"
-									:prevText="'Prev'"
-									:nextText="'Next'"
-									:containerClass="'className'">
-									</paginate>*@
-								</div>
+												</div>
+											</td>												
+											<td class="align-middle text-center">
+												<span class="text-secondary text-xs font-weight-bold">{{this.orders[rx].buyerAccount}}</span>
+											</td>
+											<td class="align-middle text-center">
+												<span class="text-secondary text-xs font-weight-bold">{{p.starCount}}</span>
+											</td>
+											<td class="align-middle text-center">
+												<p class="text-xs font-weight-bold mb-0">{{this.orders[rx].orderDate}}</p>
+											</td>
+											<td class="align-middle text-center">
+												<p class="text-xs font-weight-bold mb-0">{{this.orders[rx].arrivalDate}}</p>
+											</td>
+											<td class="align-middle text-center text-sm">
+												<span v-if="p.status=='r0'" class="badge badge-sm bg-gradient-secondary">未回應</span>
+												<span v-if="p.status=='r1'" class="badge badge-sm bg-gradient-success">已回應</span>
+											</td>
+										</tr>
+									</tbody>
+								</table>
 							</div>
 						</div>
 					</div>
 				</div>
+			</div>
 			<div v-if="this._ratingDetails" class="row">
 					<div class="col-12">
 						<div class="card mb-4">
@@ -981,30 +932,30 @@
 													</a>
 												</td>
 												<td class="align-middle text-center">
-													<span class="text-secondary text-xs font-weight-bold">{{this.RatingDetails[1].orderId}}</span>
+													<span class="text-secondary text-xs font-weight-bold">{{this.ratingDetails[1].orderId}}</span>
 												</td>
 												<td>
 													<div class="d-flex px-2 py-1">
 														<div class="d-flex flex-column justify-content-center">
-															<h6 class="mb-0 text-sm">{{this.RatingDetails[2].productName}}</h6>
+															<h6 class="mb-0 text-sm">{{this.ratingDetails[2].productName}}</h6>
 														</div>
 													</div>
 												</td>
 												<td class="align-middle text-center">
-													<span class="text-secondary text-xs font-weight-bold">{{this.RatingDetails[1].buyerAccount}}</span>
+													<span class="text-secondary text-xs font-weight-bold">{{this.ratingDetails[1].buyerAccount}}</span>
 												</td>
 												<td class="align-middle text-center">
-													<span class="text-secondary text-xs font-weight-bold">{{this.RatingDetails[0].starCount}}</span>
+													<span class="text-secondary text-xs font-weight-bold">{{this.ratingDetails[0].starCount}}</span>
 												</td>
 												<td class="align-middle text-center">
-													<p class="text-xs font-weight-bold mb-0">{{this.RatingDetails[1].orderDate}}</p>
+													<p class="text-xs font-weight-bold mb-0">{{this.ratingDetails[1].orderDate}}</p>
 												</td>
 												<td class="align-middle text-center">
-													<p class="text-xs font-weight-bold mb-0">{{this.RatingDetails[1].arrivalDate}}</p>
+													<p class="text-xs font-weight-bold mb-0">{{this.ratingDetails[1].arrivalDate}}</p>
 												</td>
 												<td class="align-middle text-center text-sm">
-													<span v-if="this.RatingDetails[0].status=='r0'" class="badge badge-sm bg-gradient-secondary">未回應</span>
-													<span v-if="this.RatingDetails[0].status=='r1'" class="badge badge-sm bg-gradient-success">已回應</span>
+													<span v-if="this.ratingDetails[0].status=='r0'" class="badge badge-sm bg-gradient-secondary">未回應</span>
+													<span v-if="this.ratingDetails[0].status=='r1'" class="badge badge-sm bg-gradient-success">已回應</span>
 												</td>
 											</tr>
 										</tbody>
@@ -1024,33 +975,33 @@
 							</div>
 						</div>
 						<div class="card-body">
-							<p class="text-uppercase text-sm">商品編號：{{RatingDetails[0].productId}}</p>
+							<p class="text-uppercase text-sm">商品編號：{{ratingDetails[0].productId}}</p>
 							<div class="row">
-								<p class="col-md-4 text-sm">單價：{{RatingDetails[2].currency}}&nbsp;&nbsp;{{RatingDetails[2].unitPrice}}</p>
-								<p class="col-md-4 text-sm">數量：{{RatingDetails[2].quantity}}</p>
-								<p class="col-md-4 text-sm">折扣：{{RatingDetails[2].discount}}</p>
+								<p class="col-md-4 text-sm">單價：{{ratingDetails[2].currency}}&nbsp;&nbsp;{{ratingDetails[2].unitPrice}}</p>
+								<p class="col-md-4 text-sm">數量：{{ratingDetails[2].quantity}}</p>
+								<p class="col-md-4 text-sm">折扣：{{ratingDetails[2].discount}}</p>
 								<p class="col-md-6 text-sm">
-									小計：{{RatingDetails[2].currency}}&nbsp;&nbsp;
-									{{RatingDetails[2].discount != null ? RatingDetails[2].unitPrice * RatingDetails[2].quantity * RatingDetails[2].discount
-										: RatingDetails[2].unitPrice * RatingDetails[2].quantity}}
+									小計：{{ratingDetails[2].currency}}&nbsp;&nbsp;
+									{{ratingDetails[2].discount != null ? ratingDetails[2].unitPrice * ratingDetails[2].quantity * ratingDetails[2].discount
+										: ratingDetails[2].unitPrice * ratingDetails[2].quantity}}
 								</p>
-								<p class="col-md-12 text-sm">評價內容：{{RatingDetails[0].description}}</p>
+								<p class="col-md-12 text-sm">評價內容：{{ratingDetails[0].description}}</p>
 							</div>
 							<hr class="horizontal dark">
 							<div class="col-md-12">
 								<div class="form-group">
 									<label class="form-control-label">回應</label>
-									<div v-if="RatingDetails[0].status=='r1'">
-										<p class="col-md-12 text-sm">{{RatingDetails[0].reply}}</p>
+									<div v-if="ratingDetails[0].status=='r1'">
+										<p class="col-md-12 text-sm">{{ratingDetails[0].reply}}</p>
 									</div>
-									<div v-if="RatingDetails[0].status=='r0'">
+									<div v-if="ratingDetails[0].status=='r0'">
 										<textarea v-model="reply" class="form-control" rows="5" cols="20" placeholder="回應內容"></textarea>
 									</div>
 								</div>
 								<div class="form-group">
 									<div class="d-flex align-items-center">											
 										<div class="col-md-8 col-5"></div>
-										<div v-if="RatingDetails[0].status=='r0'" class="col-md-4 col-7 d-flex justify-content-between">
+										<div v-if="ratingDetails[0].status=='r0'" class="col-md-4 col-7 d-flex justify-content-between">
 											<button class="btn btn-primary btn-sm ms-auto" @@click="replyBuyers">儲存評價回應</button>
 										</div>
 									</div>
@@ -1059,7 +1010,7 @@
 						</div>
 					</div>
 				</div>
-				</div>
+			</div>
 			@*Footer*@
 			<footer class="footer pt-3">
 				<div class="container-fluid py-5">
@@ -1074,100 +1025,13 @@
 								for a better web.
 							</div>
 						</div>
-						<div class="col-lg-6">
-							<ul class="nav nav-footer justify-content-center justify-content-lg-end">
-								<li class="nav-item">
-									<a href="#" class="nav-link text-muted" target="_blank">Creative Tim</a>
-								</li>
-								<li class="nav-item">
-									<a href="#" class="nav-link text-muted" target="_blank">About Us</a>
-								</li>
-								<li class="nav-item">
-									<a href="#" class="nav-link text-muted" target="_blank">Blog</a>
-								</li>
-								<li class="nav-item">
-									<a href="#" class="nav-link pe-0 text-muted" target="_blank">License</a>
-								</li>
-							</ul>
-						</div>
+						<div class="col-lg-6"></div>
 					</div>
 				</div>
 			</footer>
 		</div>
 	</main>
 </div>
-<div class="fixed-plugin">
-		<a class="fixed-plugin-button text-dark position-fixed px-3 py-2">
-			<i class="fa fa-cog py-2"> </i>
-		</a>
-		<div class="card shadow-lg">
-			<div class="card-header pb-0 pt-3 ">
-				<div class="float-start">
-					<h5 class="mt-3 mb-0">Argon Configurator</h5>
-					<p>See our dashboard options.</p>
-				</div>
-				<div class="float-end mt-4">
-					<button class="btn btn-link text-dark p-0 fixed-plugin-close-button">
-						<i class="fa fa-close"></i>
-					</button>
-				</div>
-				<!-- End Toggle Button -->
-			</div>
-			<hr class="horizontal dark my-1">
-			<div class="card-body pt-sm-3 pt-0 overflow-auto">
-				<!-- Sidebar Backgrounds -->
-				<div>
-					<h6 class="mb-0">Sidebar Colors</h6>
-				</div>
-				<a href="javascript:void(0)" class="switch-trigger background-color">
-					<div class="badge-colors my-2 text-start">
-						<span class="badge filter bg-gradient-primary active" data-color="primary" onclick="sidebarColor(this)"></span>
-						<span class="badge filter bg-gradient-dark" data-color="dark" onclick="sidebarColor(this)"></span>
-						<span class="badge filter bg-gradient-info" data-color="info" onclick="sidebarColor(this)"></span>
-						<span class="badge filter bg-gradient-success" data-color="success" onclick="sidebarColor(this)"></span>
-						<span class="badge filter bg-gradient-warning" data-color="warning" onclick="sidebarColor(this)"></span>
-						<span class="badge filter bg-gradient-danger" data-color="danger" onclick="sidebarColor(this)"></span>
-					</div>
-				</a>
-				<!-- Sidenav Type -->
-				<div class="mt-3">
-					<h6 class="mb-0">Sidenav Type</h6>
-					<p class="text-sm">Choose between 2 different sidenav types.</p>
-				</div>
-				<div class="d-flex">
-					<button class="btn bg-gradient-primary w-100 px-3 mb-2 active me-2" data-class="bg-white" onclick="sidebarType(this)">White</button>
-					<button class="btn bg-gradient-primary w-100 px-3 mb-2" data-class="bg-default" onclick="sidebarType(this)">Dark</button>
-				</div>
-				<p class="text-sm d-xl-none d-block mt-2">You can change the sidenav type just on desktop view.</p>
-				<!-- Navbar Fixed -->
-				<div class="d-flex my-3">
-					<h6 class="mb-0">Navbar Fixed</h6>
-					<div class="form-check form-switch ps-0 ms-auto my-auto">
-						<input class="form-check-input mt-1 ms-auto" type="checkbox" id="navbarFixed" onclick="navbarFixed(this)">
-					</div>
-				</div>
-				<hr class="horizontal dark my-sm-4">
-				<div class="mt-2 mb-5 d-flex">
-					<h6 class="mb-0">Light / Dark</h6>
-					<div class="form-check form-switch ps-0 ms-auto my-auto">
-						<input class="form-check-input mt-1 ms-auto" type="checkbox" id="dark-version" onclick="darkMode(this)">
-					</div>
-				</div>
-				<a class="btn bg-gradient-dark w-100" href="#">Free Download</a>
-				<a class="btn btn-outline-dark w-100" href="#">View documentation</a>
-				<div class="w-100 text-center">
-					<a class="github-button" href="#" data-icon="octicon-star" data-size="large" data-show-count="true" aria-label="Star creativetimofficial/argon-dashboard on GitHub">Star</a>
-					<h6 class="mt-3">Thank you for sharing!</h6>
-					<a href="#" class="btn btn-dark mb-0 me-2" target="_blank">
-						<i class="fab fa-twitter me-1" aria-hidden="true"></i> Tweet
-					</a>
-					<a href="#" class="btn btn-dark mb-0 me-2" target="_blank">
-						<i class="fab fa-facebook-square me-1" aria-hidden="true"></i> Share
-					</a>
-				</div>
-			</div>
-		</div>
-	</div>
 <!--   Core JS Files   -->
 <script src="~/assets/js/core/popper.min.js"></script>
 <script src="~/assets/js/core/bootstrap.min.js"></script>
@@ -1187,34 +1051,33 @@
 <script src="~/lib/axios/axios.min.js"></script>
 @*<script src="https://unpkg.com/vuejs-paginate@0.9.0"></script>*@
 <script>
-	var baseAddress = `${window.location.origin}`;
-	//Vue.component('paginate', VuejsPaginate)
+	var baseAddress = window.location.origin;
 	var vueApp = {
 		data() {
 				return {
-					loginAccount: 'User2',
+					loginAccount: '',
 					_info: false,
-					Info: [],
+					info: {},
 					infoText: '',
 					_products: false,
-					Products: [],
+					products: [],
 					_details: false,
-					details: [],
+					details: {},
 					_create: false,
 					_pictures: false,
-					Pictures: [],
+					pictures: [],
 					_orders: false,
-					Orders: [],
+					orders: [],
 					_orderDetails: false,
-					OrderDetails: [],
-					OrderInfo: [],
-					OrderSum: [],
+					orderDetails: [],
+					orderInfo: [],
+					orderSum: [],
 					_productDetails: false,
-					Checked: [],
+					checked: [],
 					_ratings: false,
-					Ratings: [],
+					ratings: [],
 					_ratingDetails: false,
-					RatingsDetails: [],
+					ratingsDetails: [],
 					reply: '',
 					_checked: false,
 					plus: 'INC',
@@ -1228,14 +1091,14 @@
 		mounted: function () {
 				let _this = this;
 				_this.navbar(0);
-			},
+		},
 		methods: {
 			closePanels: function() {
 					let _this = this;
 					_this._info = _this._products = _this._details = _this._create = _this._pictures = false;
 					_this._orders = _this._orderDetails = _this._productDetails = false;
 					_this._ratings = _this._ratingDetails = false;
-				},
+			},
 			navbar: function(n) {
 					let _this = this;
 					_this.closePanels();
@@ -1266,87 +1129,124 @@
 							break;
 					}
 				},
-			//changePage: function(currentPage) {
-				//},
-			getInfo: async function() {
-					let _this = this;
-					_this._info = true;
-					await axios.post(`${baseAddress}/Products/GetInfo/${_this.loginAccount}`).then(response => {
-						_this.Info = response.data;
-						_this.infoText = _this.Info[0].aboutSeller;
-					});
-				},
-			updateInfo: function(info) {
-					let _this = this;
-					_this._info = true;
-					var request = {};
-					request.id = _this.loginAccount;
-					request.aboutSeller = info;
-					axios.post(`${baseAddress}/Products/UpdateInfo/`, request).then(response => {
+			getInfo: function() {
+				let _this = this;
+				_this._info = true;
+				axios.post(`${baseAddress}/Products/GetInfo/`).then(response => {
+					if (!response.data.login) {
+						_this.loginAccount = '登入';
 						alert(response.data.message);
-						_this.getInfo();
-					});
-				},
-			getProducts: async function () {
-					let _this = this;
-					_this.closePanels();
-					_this._products = true;
-					await axios.post(`${baseAddress}/Products/GetProducts/`).then(response => {
-						_this.Products = response.data;
-					});
-					_this.details = _this.Products[0];
-				},
-			filterProducts: function () {
-					let _this = this; 
-					_this.closePanels();
-					_this. _products = true;
-					var request = {};
-					request.sellerAccount = _this.loginAccount;
-					request.productId = request.productCategoryId = request.unitsInStock = request.unitPrice = isNaN(parseInt(_this.filter)) ? -1 : parseInt(_this.filter);
-					request.productName = request.description = request.status = request.currency = _this.filter;
-					axios.post(`${baseAddress}/Products/Filter`, request).then(response => {
-						_this.Products = response.data;
-					});
-					_this.details = _this.Products[0];
-				},
-			edit: function (productId) {
-					let _this = this;
-					_this.details = _this.Products[0];
-					_this.Products.forEach(item => {
-						if (item.productId == productId) {
-							_this.details = item;
+						window.location.replace('/Products');
+					}
+					if (response.data.login) {
+						_this.info = response.data.record[0];
+						_this.infoText = _this.info.aboutSeller;
+						_this.loginAccount = _this.info.id;
+					}
+				});
+			},
+			updateInfo: function(text) {
+				let _this = this;
+				_this._info = true;
+				var request = {};
+				request.aboutSeller = text;
+				axios.post(`${baseAddress}/Products/UpdateInfo/`, request).then(response => {
+					alert(response.data.message);
+					if (!response.data.login) {
+						window.location.replace('/Products');
+					}
+					_this.getInfo();
+				});
+			},
+			getProducts: function () {
+				let _this = this;
+				_this.closePanels();
+				_this._products = true;
+				axios.post(`${baseAddress}/Products/GetProducts/`).then(response => {
+					if (!response.data.login) {
+						alert(response.data.message);
+						window.location.replace('/Products');
+					}
+					if (response.data.login) {
+						if (response.data.found) {
+							_this.products = response.data.record;
+							_this.details = _this.products[0];
 						}
-						_this._checked = (_this.details.status == 'p1') ? true : false;
-					});
-					_this.closePanels();
-					_this._details = true;
-				},
+						else {
+							alert(response.data.message);
+							_this.products = [];
+							_this.details = {};
+						}
+					}						
+				});
+			},
+			filterProducts: function () {
+				let _this = this; 
+				_this.closePanels();
+				_this. _products = true;
+				var request = {};
+				request.sellerAccount = _this.loginAccount;
+				request.productId = request.productCategoryId = request.unitsInStock = request.unitPrice = isNaN(parseInt(_this.filter)) ? -1 : parseInt(_this.filter);
+				request.productName = request.description = request.status = request.currency = _this.filter;
+				axios.post(`${baseAddress}/Products/Filter`, request).then(response => {
+					if (!response.data.login) {
+						alert(response.data.message);
+						window.location.replace('/Products');
+					}
+					if (response.data.login) {
+						if (response.data.found) {
+							_this.products = response.data.record;							
+							_this.details = _this.products[0];
+						}
+						else {
+							alert(response.data.message);
+							_this.products = [];
+							_this.details = {};
+						}
+					}
+				});
+			},
+			edit: function (productId) {
+				let _this = this;
+				_this.details = _this.products[0];
+				_this.products.forEach(item => {
+					if (item.productId == productId) {
+						_this.details = item;
+					}
+				});					
+				_this._checked = (_this.details.status == 'p1') ? true : false;
+				_this.closePanels();
+				_this._details = true;
+			},
 			update: function (item) {
-					let _this = this;
-					var request = {};
-					_this.stock();
-					request.productId = item.productId;
-					request.sellerAccount = item.sellerAccount;
-					request.productName = item.productName;
-					request.productCategoryId = item.productCategoryId;
-					request.description = item.description;
-					request.unitsInStock = item.unitsInStock;
-					request.unitPrice = item.unitPrice;
-					request.status = item.status;
-					request.currency = item.currency;
-					var ret = confirm('確定要儲存嗎？');
-					if (ret == true) {
+				let _this = this;
+				var request = {};
+				_this.stock();
+				request.productId = item.productId;
+				request.sellerAccount = item.sellerAccount;
+				request.productName = item.productName;
+				request.productCategoryId = item.productCategoryId;
+				request.description = item.description;
+				request.unitsInStock = item.unitsInStock;
+				request.unitPrice = item.unitPrice;
+				request.status = item.status;
+				request.currency = item.currency;
+				var ret = confirm('確定要儲存嗎？');
+				if (ret == true) {
 						axios.post(`${baseAddress}/Products/Update/`, request).then(response => {
 							alert(response.data.message);
-							_this.cancel();
-						});
-					}
-				},
+						if (!response.data.login) {
+							window.location.replace('/Products');
+						}
+						_this.cancel();
+					});
+				}
+			},
 			cancel: function () {
 					let _this = this;
 					_this.closePanels();
 					_this._products = true;
-					_this.Products.forEach(item => {
+					_this.products.forEach(item => {
 						if (item.productId == _this.details.productId) {
 							_this.details = item;
 						}
@@ -1358,71 +1258,77 @@
 					_this.getProducts();
 					//if(_this.filter == '') _this.getProducts();
 					//if (_this.filter != '') _this.filterProducts();
-				},
+			},
 			deleteProduct: function (productId) {
 					let _this = this;
 					var ret = confirm('確定要刪除嗎？');
 					if (ret == true) {
 						axios.post(`${baseAddress}/Products/Delete/${productId}`).then(response => {
 							alert(response.data.message);
+							if (!response.data.login) {
+								window.location.replace('/Products');
+							}
 							_this.cancel();
 						});
 					}
-				},
+			},
 			create: function () {
-					var _this = this;
+				var _this = this;
+				_this.details = {};
+				_this.details.productId = 0;
+				_this.details.sellerAccount = _this.loginAccount;
+				_this.details.launchDate = '';
+				_this.details.productName = '';
+				_this.details.productCategoryId = 1;
+				_this.details.description = '';
+				_this.details.unitsInStock = 0;
+				_this.details.sales = 0;
+				_this.details.unitPrice = '';
+				_this.details.status = 'p0';
+				_this.details.currency = 'NTD';
+				_this._checked = false;
+				_this.plus = 'INC';
+				_this.increase = 0;
+					_this._create = true;
 					_this.closePanels();
 					_this._details = true;
 					_this._create = true;
-					_this.details = _this.Products[0];
-					_this.details.productId = 0;
-					_this.details.sellerAccount = _this.loginAccount;
-					_this.details.launchDate = '';
-					_this.details.productName = '';
-					_this.details.productCategoryId = 1;
-					_this.details.description = '';
-					_this.details.unitsInStock = 0;
-					_this.details.sales = 0;
-					_this.details.unitPrice = '';
-					_this.details.status = 'p0';
-					_this.details.currency = 'NTD';
-					_this._checked = false;
-					_this.plus = 'INC';
-					_this.increase = 0;
-					_this._create = true;
-				},
+			},
 			createSave: function (item) {
-					let _this = this;
-					var request = {};
-					_this.stock();
-					request.productId = 0;
-					request.sellerAccount = item.sellerAccount;
-					request.productName = item.productName;
-					request.productCategoryId = item.productCategoryId;
-					request.description = item.description;
-					request.unitsInStock = item.unitsInStock;
-					request.unitPrice = item.unitPrice;
-					request.status = item.status;
-					request.currency = item.currency;
-					var ret = confirm('確定要新增嗎？');
-					if (ret == true) {
-						axios.post(`${baseAddress}/Products/Create/`, request).then(response => {
-							alert(response.data.message);
-							_this.cancel();
-						});
-					}
-				},
+				let _this = this;
+				var request = {};
+				_this.stock();
+				request.productId = 0;
+				request.sellerAccount = item.sellerAccount;
+				request.productName = item.productName;
+				request.productCategoryId = item.productCategoryId;
+				request.description = item.description;
+				request.unitsInStock = item.unitsInStock;
+				request.unitPrice = item.unitPrice;
+				request.status = item.status;
+				request.currency = item.currency;
+				var ret = confirm('確定要新增嗎？');
+				if (ret == true) {
+					axios.post(`${baseAddress}/Products/Create/`, request).then(response => {
+						alert(response.data.message);
+						if (!response.data.login) {
+							window.location.replace('/Products');
+						}
+						_this.cancel();
+					});
+				}
+			},
 			stock: function () {
 					let _this = this;
 					if (_this.plus == 'INC') {
 						_this.details.unitsInStock += parseInt(_this.increase);
 					}
 					else _this.details.unitsInStock -= parseInt(_this.increase);
-				},
+			},
 			shelf: function () {
 					let _this = this;
 					_this.details.status = (_this._checked) ? 'p1' : 'p0';
-				},
+			},
 			uploadFile: function () {
 					var _this = this;
 					var formData = new FormData();
@@ -1431,25 +1337,34 @@
 					formData.append('Description', _this.pictureText);
 					axios.post(`${baseAddress}/Products/UploadPicture`, formData).then(response => {
 						alert(response.data.message);
+						if (!response.data.login) {
+							window.location.replace('/Products');
+						}
 					});
-				},
+			},
 			selectedFile: function (e) {
 					var _this = this;
 					_this.picture = e.target.files[0];
 					_this.preview = URL.createObjectURL(_this.picture);
-				},
+			},
 			getPictures: function (productId) {
 					let _this = this;
 					_this._pictures = !_this._pictures;
 					if (_this._pictures) {
 						axios.post(`${baseAddress}/Products/GetPictures/${productId}`).then(response => {
-							_this.Pictures = response.data;
-							_this.Pictures.forEach(item => {
-								item.path = `${window.location.origin}/productpictures/${item.pictureId}-${item.path}`;
-							});
+							if (!response.data.login) {
+								alert(response.data.message);
+								window.location.replace('/Products');
+							}
+							if (response.data.login) {
+								_this.pictures = response.data.record;
+								_this.pictures.forEach(item => {
+									item.path = `${baseAddress}/productpictures/${item.pictureId}-${item.path}`;
+								});
+							}
 						});
 					}
-				},
+			},
 			updatePicture: function (item) {
 					let _this = this;
 					var request = {};
@@ -1462,63 +1377,82 @@
 					if (ret == true) {
 						axios.post(`${baseAddress}/Products/UpdatePicture/`, request).then(response => {
 							alert(response.data.message);
+							if (!response.data.login) {
+								window.location.replace('/Products');
+							}
 						});
 					}
 					_this._pictures = false;
-				},
+			},
 			deletePicture: function (pictureId) {
 					let _this = this;
 					var ret = confirm('確定要刪除嗎？');
 					if (ret == true) {
 						axios.post(`${baseAddress}/Products/DeletePicture/${pictureId}`).then(response => {
 							alert(response.data.message);
+							if (!response.data.login) {
+								window.location.replace('/Products');
+							}
 						});
 					}
 					_this._pictures = false;
-				},
+			},
 			getOrders: async function() {
 					let _this = this;
 					_this.closePanels();
 					_this._orders = true;
-					await axios.post(`${baseAddress}/Products/GetOrders/${_this.loginAccount}/`).then(response => {
-						_this.Orders = response.data.orders;
-						_this.OrderDetails = response.data.orderDetails;
-						_this.OrderDetails.forEach(o => {
-							var Total = {};
-							Total.NTD = 0;
-							Total.USD = 0;
-							o.product.forEach(p => {
-								if (p.currency == 'NTD') {
-									Total.NTD += ((p.discount != null) ? (p.unitPrice * p.quantity * p.discount) : (p.unitPrice * p.quantity));
-								}
-								if (p.currency == 'USD') {
-									Total.USD += ((p.discount != null) ? (p.unitPrice * p.quantity * p.discount) : (p.unitPrice * p.quantity));
-								}
-							});
-							_this.OrderSum.push(Total);
-						});
+					await axios.post(`${baseAddress}/Products/GetOrders/`).then(response => {
+						if (!response.data.login) {
+							alert(response.data.message);
+							window.location.replace('/Products');
+						}
+						if (response.data.login) {
+							if (response.data.found) {
+								_this.orders = response.data.orders;
+								_this.orderDetails = response.data.orderDetails;
+								_this.orderDetails.forEach(o => {
+									var subTotal = {};
+									subTotal.NTD = 0;
+									subTotal.USD = 0;
+									o.product.forEach(p => {
+										if (p.currency == 'NTD') {
+											subTotal.NTD += ((p.discount != null) ? (p.unitPrice * p.quantity * p.discount) : (p.unitPrice * p.quantity));
+										}
+										if (p.currency == 'USD') {
+											subTotal.USD += ((p.discount != null) ? (p.unitPrice * p.quantity * p.discount) : (p.unitPrice * p.quantity));
+										}
+									});
+									_this.orderSum.push(subTotal);
+								});
+							}
+							else {
+								alert(response.data.message);
+								_this.orders = [];
+								_this.orderDetails = [];
+							}
+						}
 					});					
-				},
+			},
 			editOrders: function(orderId, index) {
 					let _this = this;
-					_this.OrderInfo = [];
-					_this.Checked = [];
-					_this.Orders.forEach(item => {
+					_this.orderInfo = [];
+					_this.checked = [];
+					_this.orders.forEach(item => {
 						if(item.orderId == orderId) {
-							_this.OrderInfo.push(item);
+							_this.orderInfo.push(item);
 						}
 					});
-					_this.OrderDetails.forEach(item => {
+					_this.orderDetails.forEach(item => {
 						if(item.orderId == orderId){
-							_this.OrderInfo.push(item);
-							_this.OrderInfo[1].product.forEach(p => {
-								if (p.status == 'od1') _this.Checked.push(false);
-								if (p.status == 'od2') _this.Checked.push(true);
-								if ((p.status != 'od1') && (p.status != 'od2')) _this.Checked.push(null);
+							_this.orderInfo.push(item);
+							_this.orderInfo[1].product.forEach(p => {
+								if (p.status == 'od1') _this.checked.push(false);
+								if (p.status == 'od2') _this.checked.push(true);
+								if ((p.status != 'od1') && (p.status != 'od2')) _this.checked.push(null);
 							});
 						}
 					});
-					_this.OrderInfo.push(_this.OrderSum[index]);
+					_this.orderInfo.push(_this.orderSum[index]);
 					_this.closePanels();
 					_this._orderDetails = true;
 				},
@@ -1529,21 +1463,24 @@
 						var request = {};
 						request.orderId = orderId;
 						request.productId = [];
-						if(_this.Checked.length != 0){
-							for(var i = 0; i < _this.Checked.length; i++) {
-								if ((_this.Checked[i] == true) && (_this.OrderInfo[1].product[i].status == 'od1')){
-									request.productId.push(_this.OrderInfo[1].product[i].productId);
+						if(_this.checked.length != 0){
+							for(var i = 0; i < _this.checked.length; i++) {
+								if ((_this.checked[i] == true) && (_this.orderInfo[1].product[i].status == 'od1')){
+									request.productId.push(_this.orderInfo[1].product[i].productId);
 								}
 							}
 							if(request.productId.length != 0){
 								axios.post(`${baseAddress}/Products/UpdateOrderStatus`, request).then(response => {
 									alert(response.data.message);
+									if (!response.data.login) {
+										window.location.replace('/Products');
+									} 
+									_this.getOrders();
 								});
 							}
 							else alert('請先更新商品狀態');
 						}
 						else alert('訂單中沒有商品');
-						_this.getOrders();
 					}
 				},
 			cancelOrderDetails: function() {
@@ -1552,44 +1489,64 @@
 					_this._orders = true; 
 				},
 			getProduct: function(productId) {
-					let _this = this;
-					_this.closePanels();
-					axios.post(`${baseAddress}/Products/GetProduct/${productId}`).then(response => {
-						_this.details = response.data;
-					});
-					_this._productDetails = true;
-				},
+				let _this = this;
+				_this.closePanels();
+				axios.post(`${baseAddress}/Products/GetProduct/${productId}`).then(response => {
+					if (!response.data.login) {
+						alert(response.data.message);
+						window.location.replace('/Products');
+					}
+					if (response.data.login) {
+						_this.details = response.data.record;
+					}
+				});
+				_this._productDetails = true;
+			},
 			getRatings: async function() {
 				let _this = this;
 				_this.closePanels();
 				_this._ratings = true;
 				_this.reply = '';
 				await axios.post(`${baseAddress}/Products/GetRatings`).then(response => {
-					_this.Ratings = response.data.ratings;
-					_this.Orders = response.data.orders;
-					_this.OrderDetails = response.data.orderDetails;
-					_this.OrderDetails.forEach(o => {
-						var Total = {};
-						Total.NTD = 0;
-						Total.USD = 0;
-						o.product.forEach(p => {
-							if (p.currency == 'NTD') {
-								Total.NTD += ((p.discount != null) ? (p.unitPrice * p.quantity * p.discount) : (p.unitPrice * p.quantity));
-							}
-							if (p.currency == 'USD') {
-								Total.USD += ((p.discount != null) ? (p.unitPrice * p.quantity * p.discount) : (p.unitPrice * p.quantity));
-							}
-						});
-						_this.OrderSum.push(Total);
-					});
+					if (!response.data.login) {
+						alert(response.data.message);
+						window.location.replace('/Products');
+					}
+					if (response.data.login) {
+						if (response.data.found) {
+							_this.ratings = response.data.ratings;
+							_this.orders = response.data.orders;
+							_this.orderDetails = response.data.orderDetails;
+							_this.orderDetails.forEach(o => {
+								var subTotal = {};
+								subTotal.NTD = 0;
+								subTotal.USD = 0;
+								o.product.forEach(p => {
+									if (p.currency == 'NTD') {
+										subTotal.NTD += ((p.discount != null) ? (p.unitPrice * p.quantity * p.discount) : (p.unitPrice * p.quantity));
+									}
+									if (p.currency == 'USD') {
+										subTotal.USD += ((p.discount != null) ? (p.unitPrice * p.quantity * p.discount) : (p.unitPrice * p.quantity));
+									}
+								});
+								_this.orderSum.push(subTotal);
+							});
+						}
+						else {
+							alert(response.data.message);
+							_this.ratings = [{product:[]}];
+							_this.orders = [];
+							_this.orderDetails = [{product:[]}];
+						}
+					}
 				});
 			},
 			editReply: function(rx,px) {
 					let _this = this;
-					_this.RatingDetails = [];
-					_this.RatingDetails.push(_this.Ratings[rx].product[px]);
-					_this.RatingDetails.push(_this.Orders[rx]);
-					_this.RatingDetails.push(_this.OrderDetails[rx].product[px])
+					_this.ratingDetails = [];
+					_this.ratingDetails.push(_this.ratings[rx].product[px]);
+					_this.ratingDetails.push(_this.orders[rx]);
+					_this.ratingDetails.push(_this.orderDetails[rx].product[px])
 					_this.closePanels();
 					_this._ratingDetails = true;
 				},
@@ -1601,21 +1558,24 @@
 				},
 			replyBuyers: function() {
 				let _this = this;
-				if (_this.RatingDetails[0].status == 'r0'){
+				if (_this.ratingDetails[0].status == 'r0'){
 					if(_this.reply != ''){
 						var request = {};
-						request.productId = _this.RatingDetails[0].productId;
-						request.orderId = _this.RatingDetails[0].orderId;
+						request.productId = _this.ratingDetails[0].productId;
+						request.orderId = _this.ratingDetails[0].orderId;
 						request.sellerAccount = _this.loginAccount;
 						request.reply = _this.reply;
 						axios.post(`${baseAddress}/Products/ReplyBuyer`, request).then(response => {
 							alert(response.data.message);
+							if (!response.data.login) {
+								window.location.replace('/Products');
+								}
+							_this.getRatings();
 						});
 					}
 					else alert('無回應內容');
 				}
-				else alert('已回應買家評價');		
-				_this.getRatings();
+				else alert('已回應買家評價');
 			}
 		}
 	};

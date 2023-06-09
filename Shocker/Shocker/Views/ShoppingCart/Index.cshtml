@@ -20,7 +20,8 @@
 <section v-if="this._shoppingCart" class="shoping-cart spad">
     <div class="container">
         <div class="btn-group" role="group">
-            <button v-for="(cart,cx) in shoppingCart" type="button" class="btn btn-check btn-outline-secondary" @@click="showCart(cx)">{{cart.sellerAccount}}</button>
+            <button class="btn btn-check" disabled>購物車已加入以下賣家商品：</button>
+            <button v-for="(cart,cx) in shoppingCart" class="btn btn-check btn-outline-secondary" @@click="showCart(cx)">{{cart.sellerAccount}}</button>
         </div>
     </div>
     <div v-for="(cart,cx) in shoppingCart">
@@ -72,7 +73,7 @@
                                         </div>
                                     </td>  
                                     <td class="shoping__cart__total">
-                                        {{product.currency}}&nbsp;&nbsp;{{subtotal[cx][px] = product.unitPrice * product.quantity * discount[cx][px][0]}}
+                                        {{product.currency}}&nbsp;&nbsp;{{subtotal[cx][px] = Math.round(product.unitPrice * product.quantity * discount[cx][px][0])}}
                                     </td>
                                     <td class="shoping__cart__item__close">
                                         <span class="icon_close" @@click="deleteItem(product.productId)"></span>
@@ -101,7 +102,7 @@
                             <li>商品 <span>共&nbsp;&nbsp;{{cart.productCount}}&nbsp;&nbsp;項</span></li>
                             <li>總計 <span>{{shoppingCart[cx].products[0].currency}}&nbsp;&nbsp;{{getTotal(subtotal[cx],shoppingCart[cx].productCount)}}</span></li>
                         </ul>
-                        <a href="#" class="primary-btn" @@click="checkout(this.loginAccount,cx)">結帳</a>
+                        <a href="#" class="primary-btn" @@click="checkout(cx)">結帳</a>
                     </div>
                 </div>
             </div>
@@ -204,11 +205,10 @@
 <script src="~/lib/axios/axios.min.js"></script>
 
 <script>
-    var baseAddress = `${window.location.origin}`;
+    var baseAddress = window.location.origin;
     var vueApp = {
         data() {
             return {
-                loginAccount: 'User2',
                 _shoppingCart: true,
                 shoppingCart: [],
                 coupons: {},
@@ -243,41 +243,54 @@
             getShoppingCart: async function (index) {
                 let _this = this;
                 await axios.post(`${baseAddress}/ShoppingCart/GetShopping`).then(response => {
-                    _this.shoppingCart = response.data.cart;
-                    _this.total = [];
-                    _this.discount = [];
-                    _this.previousDiscount = [];
-                    _this.subtotal = [];
-                    _this.path = [];
-                    _this.shoppingCart.forEach(c => {
-                        _this.show.push(false);
-                        var subtotal = 0;
-                        var cart = {};
-                        var previous = {};
-                        var sum = {};
-                        var picture = {};
-                        var i = 0;
-                        c.products.forEach(p => {
-                            subtotal += p.unitPrice * p.quantity;
-                            cart[i] = [1,-1,-1];
-                            previous[i] = -1;
-                            sum[i] = 0;
-                            picture[i] = `${window.location.origin}/productpictures/${p.picture[0].pictureId}-${p.picture[0].picturePath}`;
-                            i++;
-                        });
-                        _this.total.push(subtotal);
-                        _this.discount.push(cart);
-                        _this.previousDiscount.push(previous);
-                        _this.subtotal.push(sum);
-                        _this.path.push(picture);
-                    });
-                    _this.show[index] = true;
-                    response.data.coupon.forEach(c => {
-                        _this.coupons[c.categoryId] = c.coupons;
-                        _this.coupons[c.categoryId].forEach(i => {
-                            i.disabled = false;
-                        });
-                    });                    
+                    if (!response.data.login) {
+                        alert(response.data.message);
+                        window.location.replace('/ShoppingCart');
+                    }
+                    if (response.data.login) {
+                        if (response.data.found) {
+                            _this.shoppingCart = response.data.cart;
+                            _this.total = [];
+                            _this.discount = [];
+                            _this.previousDiscount = [];
+                            _this.subtotal = [];
+                            _this.path = [];
+                            _this.shoppingCart.forEach(c => {
+                                _this.show.push(false);
+                                var subtotal = 0;
+                                var cart = {};
+                                var previous = {};
+                                var sum = {};
+                                var picture = {};
+                                var i = 0;
+                                c.products.forEach(p => {
+                                    subtotal += p.unitPrice * p.quantity;
+                                    cart[i] = [1, -1, -1];
+                                    previous[i] = -1;
+                                    sum[i] = 0;
+                                    picture[i] = `${baseAddress}/productpictures/${p.picture[0].pictureId}-${p.picture[0].picturePath}`;
+                                    i++;
+                                });
+                                _this.total.push(subtotal);
+                                _this.discount.push(cart);
+                                _this.previousDiscount.push(previous);
+                                _this.subtotal.push(sum);
+                                _this.path.push(picture);
+                            });
+                            _this.show[index] = true;
+                            response.data.coupon.forEach(c => {
+                                _this.coupons[c.categoryId] = c.coupons;
+                                _this.coupons[c.categoryId].forEach(i => {
+                                    i.disabled = false;
+                                });
+                            });
+                        }
+                        else {
+                            alert(response.data.message);
+                            _this.shoppingCart = [];
+                            _this.coupons = {};
+                        }
+                    }                                      
                 });
             },
             couponSelected: function(cartIndex, productIndex, categoryId) {
@@ -307,7 +320,6 @@
             updateShoppingCart: function(index) {
                 let _this = this;
                 var request = {};
-                request.buyerAccount = _this.loginAccount;
                 request.productId = [];
                 request.quantity = [];
                 _this.shoppingCart[index].products.forEach(p => {
@@ -316,6 +328,9 @@
                 });
                 axios.post(`${baseAddress}/ShoppingCart/UpdateCart`, request).then(response => {
                     alert(response.data.message);
+                    if (!response.data.login) {
+                        window.location.replace('/ShoppingCart');
+                    }
                 });
             },
             increase: function(sign, cx, px) {
@@ -333,11 +348,14 @@
                 if (ret == true) {
                     axios.post(`${baseAddress}/ShoppingCart/Delete/${productId}`).then(response => {
                         alert(response.data.message);
+                        if (!response.data.login) {
+                            window.location.replace('/ShoppingCart');
+                        }
                         _this.gerShoppingCart();
                     });
                 }
             },
-            checkout: function(id, cartIndex) {
+            checkout: function(cartIndex) {
                 let _this = this;
                 _this._shoppingCart = !_this._shoppingCart;
                 if(cartIndex != null) {
@@ -346,8 +364,14 @@
                     _this.newOrder.push(_this.discount[cartIndex]);
                     _this.newOrder.push(_this.subtotal[cartIndex]);
                     _this.userInfo = [];
-                    axios.post(`${baseAddress}/ShoppingCart/GetUserInfo/${id}`).then(response => {
-                        _this.userInfo = response.data;
+                    axios.post(`${baseAddress}/ShoppingCart/GetUserInfo`).then(response => {
+                        if (!response.data.login) {
+                            alert(response.data.message);
+                            window.location.replace('/ShoppingCart');
+                        }
+                        if (response.data.login) {
+                            _this.userInfo = response.data.user;
+                        }
                     });
                     _this.newAddress = '';
                 }
@@ -357,13 +381,17 @@
                 if(_this.newAddress != '') {
                     var request = {};
                     request.address = _this.newAddress;
-                    request.userAccount = _this.loginAccount;
                     axios.post(`${baseAddress}/ShoppingCart/NewAddress/`, request).then(response => {
                         alert(response.data.message);
-                        if (response.data.result == 'OK') {
-                            _this.userInfo[0].addresses.push(_this.newAddress);
-                            _this.newAddress = '';
+                        if (!response.data.login) {
+                            window.location.replace('/ShoppingCart');
                         }
+                        if (response.data.login) {
+                            if (response.data.new) {
+                                _this.userInfo[0].addresses.push(_this.newAddress);
+                            }
+                        }
+                        _this.newAddress = '';
                     });
                 }
                 else alert('請輸入新地址')
@@ -371,7 +399,7 @@
             createOrder: async function () {
                 let _this = this;
                 var request = {};
-                request.buyerAccount = _this.loginAccount;
+                request.buyerAccount = _this.userInfo[0].id;
                 request.address = _this.selectedAddress;
                 request.buyerPhone = _this.userInfo[0].phone;
                 request.payMethod = _this.payMethod;
@@ -392,10 +420,13 @@
                 if (ret == true) {
                     await axios.post(`${baseAddress}/ShoppingCart/CreateOrder/`, request).then(response => {
                         alert(response.data.message);
-                        if(response.data.result == 'OK'){
+                        if (!response.data.login) {
+                            window.location.replace('/ShoppingCart');
+                        }
+                        if (response.data.login) {
                             _this.getShoppingCart(0);
                             _this._shoppingCart = true;
-                        }
+                        }                        
                     });
                 }
             }

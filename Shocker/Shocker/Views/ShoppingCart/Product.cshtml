@@ -142,11 +142,10 @@
 <script src="~/lib/axios/axios.min.js"></script>
 <script>
     var productId = @ViewBag.Id;
-    var baseAddress = `${window.location.origin}`;
+    var baseAddress = window.location.origin;
     var vueApp = {
         data() {
             return {
-                loginAccount: 'User2',
                 _valid: false,
                 info: [],
                 starCount: 1,
@@ -162,10 +161,10 @@
             _this.getProduct(productId);
         },
         methods: {
-            getProduct: async function(id) {
+            getProduct: function(id) {
                 let _this = this;
-                await axios.post(`${baseAddress}/ShoppingCart/GetProduct/${id}`).then(response => {
-                    if (response.data.result == 'NotFound') {
+                axios.post(`${baseAddress}/ShoppingCart/GetProduct/${id}`).then(response => {
+                    if (!response.data.found) {
                         _this._valid = false;
                         document.getElementsByClassName('productName')[0].append(response.data.message);
                     }
@@ -206,13 +205,15 @@
                 let _this = this;
                 if(quantity <= unitsInStock && quantity > 0) {
                     var request = {};
-                    request.buyerAccount = _this.loginAccount;
                     request.productId = [];
                     request.quantity = [];
                     request.productId.push(productId);
                     request.quantity.push(quantity);
                     axios.post(`${baseAddress}/ShoppingCart/CreateCart`, request).then(response => {
                         alert(response.data.message);
+                        if (!response.data.login) {
+                            window.location.replace('/ShoppingCart');
+                        }
                     });
                 }
                 else alert('庫存不足');
