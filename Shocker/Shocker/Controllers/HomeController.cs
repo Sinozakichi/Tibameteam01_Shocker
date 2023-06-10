@@ -5,7 +5,7 @@ using System.Diagnostics;
 using System.Security.Claims;
 
 namespace Shocker_Project.Controllers
-{	
+{
 	public class HomeController : Controller
 	{
 		private readonly ILogger<HomeController> _logger;
@@ -16,15 +16,20 @@ namespace Shocker_Project.Controllers
 		}
 		public IActionResult Index()
 		{
-			var loginAccount = User.Claims.FirstOrDefault(x => x.Type == ClaimTypes.Name);
-			ViewBag.Account = loginAccount.Value;
+
+			if (User.Identity.IsAuthenticated)
+			{
+				var loginAccount = User.Claims.FirstOrDefault(x => x.Type == ClaimTypes.Name);
+				ViewBag.Account = loginAccount.Value;
+			}
+
 			return View();
 		}
 
 		public IActionResult Privacy()
 		{
 			return View();
-		}		
+		}
 		[ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
 		public IActionResult Error()
 		{
