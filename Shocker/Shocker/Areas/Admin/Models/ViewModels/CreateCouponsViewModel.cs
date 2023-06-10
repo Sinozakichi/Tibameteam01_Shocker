@@ -13,7 +13,7 @@ namespace Shocker.Areas.Admin.Models.ViewModels
         public string HolderAccount { get; set; }
         [Required(ErrorMessage ="請選擇產品類別")]
         public int ProductCategoryId { get; set; }
-        
+        [Range(0.0,0.9,ErrorMessage ="請輸入 0~1之間的數字")]
         [Required(ErrorMessage="請輸入數字0~1")]
         public decimal Discount { get; set; }
         //public string PublisherAccount { get; set; }

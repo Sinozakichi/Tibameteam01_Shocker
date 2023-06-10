@@ -393,8 +393,8 @@
                         a=true;
                     }
                     
-                    if (_this.cDiscount <=0 || _this.cDiscount > 1 || _this.cDiscount =="") {
-                        _this.errors.push("折扣數請輸入 0~1 *取至小數點後一位");
+                    if (_this.cDiscount <=0 || _this.cDiscount >0.99 || _this.cDiscount =="") {
+                        _this.errors.push("折扣數請輸入 0和1之間 *取至小數點後一位 ex:0.5");
                         a = true;
                     }
                     if (_this.cProductCategoryId == NaN || _this.cProductCategoryId == "") {
