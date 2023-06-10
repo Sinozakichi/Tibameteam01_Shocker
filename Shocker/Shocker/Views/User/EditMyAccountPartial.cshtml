@@ -47,7 +47,7 @@
 			<div class="mb-3 row">
 				<label for="inputBirthDate" class="col-sm-2 col-form-label">生日</label>
 				<div class="col-sm-10">
-					<input type="text" readonly class="form-control-plaintext" id="inputBirthDate" v-model="users.user.birthDate">
+					<input type="text" readonly class="form-control-plaintext" id="inputBirthDate" v-model="changeBirthDate">
 				</div>
 			</div>
 
@@ -75,7 +75,7 @@
 			<div class="mb-3 row">
 				<label for="staticRegisterDate" class="col-sm-2 col-form-label">帳號創辦時間</label>
 				<div class="col-sm-10">
-					<input type="text" readonly class="form-control-plaintext" id="staticRegisterDate" v-model="users.user.registerDate">
+					<input type="text" readonly class="form-control-plaintext" id="staticRegisterDate" v-model="changeRegisterDate">
 				</div>
 			</div>
 
@@ -128,8 +128,8 @@
 
 			<div class="mb-3 row">
 				<label for="inputBirthDate" class="col-sm-2 col-form-label">生日</label>
-				<div class="col-sm-10">
-					<input type="text" class="form-control" id="inputBirthDate" v-model="users.user.birthDate">
+				<div class="form-group col-sm-10">
+					<input v-model="users.user.birthDate" class="form-control" type="date" id="inputBirthDate">
 				</div>
 			</div>
 
@@ -160,7 +160,7 @@
 			<div class="mb-3 row">
 				<label for="staticRegisterDate" class="col-sm-2 col-form-label">帳號創辦時間</label>
 				<div class="col-sm-6">
-					<input type="text" readonly class="form-control-plaintext" id="staticRegisterDate" v-model="users.user.registerDate">
+					<input type="text" readonly class="form-control-plaintext" id="staticRegisterDate" v-model="changeRegisterDate">
 				</div>
 			</div>
 
@@ -237,6 +237,22 @@
 		mounted: function () {
 			this.getUsers();//一開始載入即執行getUsers()以拿到資料
 		},
+		computed:{
+			changeBirthDate:function(){
+				var myBirth = new Date(this.users.user.birthDate);
+				var myYear=myBirth.getFullYear();
+				var myMonth=myBirth.getMonth()+1;
+				var myDay=myBirth.getDate();
+				return`${myYear}/${myMonth}/${myDay}`;
+			},
+			changeRegisterDate: function () {
+				var myRegister = new Date(this.users.user.registerDate);
+				var myYear = myRegister.getFullYear();
+				var myMonth = myRegister.getMonth() + 1;
+				var myDay = myRegister.getDate();
+				return `${myYear}/${myMonth}/${myDay}`;
+			},
+		},
 		methods: {
 			getUsers: function () {//帶入後端傳來的User資料，並將picture於當前伺服器上的路由組成正確
 				var _this = this;
@@ -278,6 +294,7 @@
 							text: response.data.errorMessage,
 						})
 						_this.errors = response.data.data ;
+						_this.editing = false;
 						if (_this.errors.emailError != null) { _this.eErrorbox =true;}
 						if (_this.errors.nicknameError != null) { _this.nErrorbox =true;}
 						if (_this.errors.passwordError != null) { _this.pErrorbox = true; }

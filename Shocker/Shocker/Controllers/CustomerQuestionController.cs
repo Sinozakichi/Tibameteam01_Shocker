@@ -19,7 +19,12 @@ namespace Shocker.Controllers
         }
         public IActionResult Index()
         {
-            return View();
+			if (User.Identity.IsAuthenticated)
+			{
+				var loginAccount = User.Claims.FirstOrDefault(x => x.Type == ClaimTypes.Name);
+				ViewBag.Account = loginAccount.Value;
+			}
+			return View();
         }
 
 
@@ -98,7 +103,12 @@ namespace Shocker.Controllers
 
         public async Task<IActionResult> QA()
         {
-            return View();
+			if (User.Identity.IsAuthenticated)
+			{
+				var loginAccount = User.Claims.FirstOrDefault(x => x.Type == ClaimTypes.Name);
+				ViewBag.Account = loginAccount.Value;
+			}
+			return View();
         }
         public IActionResult GetProductlist()
         {

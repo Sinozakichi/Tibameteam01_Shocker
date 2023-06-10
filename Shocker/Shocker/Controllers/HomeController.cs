@@ -16,13 +16,11 @@ namespace Shocker_Project.Controllers
 		}
 		public IActionResult Index()
 		{
-
 			if (User.Identity.IsAuthenticated)
 			{
 				var loginAccount = User.Claims.FirstOrDefault(x => x.Type == ClaimTypes.Name);
 				ViewBag.Account = loginAccount.Value;
 			}
-
 			return View();
 		}
 

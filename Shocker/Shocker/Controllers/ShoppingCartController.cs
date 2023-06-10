@@ -27,7 +27,12 @@ namespace Shocker.Controllers
 
         public IActionResult Product(int id)
         {
-            ViewBag.Id = id;
+			if (User.Identity.IsAuthenticated)
+			{
+				var loginAccount = User.Claims.FirstOrDefault(x => x.Type == ClaimTypes.Name);
+				ViewBag.Account = loginAccount.Value;
+			}
+			ViewBag.Id = id;
             return View();
         }
         [HttpPost]
@@ -65,7 +70,12 @@ namespace Shocker.Controllers
         [Authorize]
         public IActionResult Index()
         {
-            return View();
+			if (User.Identity.IsAuthenticated)
+			{
+				var loginAccount = User.Claims.FirstOrDefault(x => x.Type == ClaimTypes.Name);
+				ViewBag.Account = loginAccount.Value;
+			}
+			return View();
         }
         [HttpPost]
         public async Task<JsonResult> CreateCart([FromBody] ShoppingViewModel product)
@@ -310,6 +320,11 @@ namespace Shocker.Controllers
 		
 		public IActionResult ProductList(int id)
         {
+			if (User.Identity.IsAuthenticated)
+			{
+				var loginAccount = User.Claims.FirstOrDefault(x => x.Type == ClaimTypes.Name);
+				ViewBag.Account = loginAccount.Value;
+			}
 			ViewBag.CategoryId = id;
 			return View();
         }

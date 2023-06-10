@@ -25,6 +25,11 @@ namespace Shocker.Controllers
 		[HttpGet]
 		public IActionResult MyAccount(string tab)//點選用戶資訊編輯的菜單選項時，帶一個tab的參數，依據參數abcde呈現不同的Partial View
 		{
+			if (User.Identity.IsAuthenticated)
+			{
+				var loginAccount = User.Claims.FirstOrDefault(x => x.Type == ClaimTypes.Name);
+				ViewBag.Account = loginAccount.Value;
+			}
 			ViewBag.Tab = tab;
 			return View();
 		}
@@ -87,7 +92,7 @@ namespace Shocker.Controllers
 						nicknameError = nicknameerror,
 						emailError = emailerror,
 					},
-					ErrorMessage = "欄位驗證有誤!"
+					ErrorMessage = "格式有誤!"
 				};
 			}
 			else
@@ -291,6 +296,7 @@ namespace Shocker.Controllers
 					ProductId = rvm.ProductId,
 					OrderId = rvm.OrderId,
 					StarCount = rvm.StarCount,
+					Status="r0",
 				});
 
 				var od = _context.OrderDetails.FirstOrDefault(od => od.OrderId == rvm.OrderId && od.ProductId == rvm.ProductId);
@@ -318,7 +324,7 @@ namespace Shocker.Controllers
 					{
 						returnReasonError = returnreasonerror,
 					},
-					ErrorMessage = "欄位驗證有誤!"
+					ErrorMessage = "字數不足!"
 				};
 			}
 			else
@@ -357,7 +363,7 @@ namespace Shocker.Controllers
 					{
 						ratingDescriptionError = ratingdescriptionerror,
 					},
-					ErrorMessage = "欄位驗證有誤!"
+					ErrorMessage = "字數不足!"
 				};
 			}
 			else
