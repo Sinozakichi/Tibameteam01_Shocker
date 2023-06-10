@@ -94,6 +94,7 @@
 
 <script src="https://cdn.jsdelivr.net/npm/vue@2.7.14"></script>
 <script src="https://unpkg.com/vuejs-paginate@0.9.0"></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <script src="~/axios/axios.min.js"></script>
 <script>
 	Vue.component('paginate', VuejsPaginate)
@@ -108,7 +109,7 @@
 			orderId:"",
 			productName: [],
 			maxCount: 5,
-			currentPage: 1
+			currentPage: 1,
 		},
 		mounted: function () {
 			this.getOrders();
@@ -146,12 +147,18 @@
 				}
 			},
 			cancelOrders:function(orderId){
+				var _this=this;
 				var request={
 					OrderID:orderId,
 				}
-				axios.post(`/User/CancelOrders`, request).then(reponse => {
-					alert('取消訂單成功');
-					this.getOrders();
+				axios.post(`/User/CancelOrders`, request).then(response => {
+					if (response.data.status) {
+						Swal.fire({
+							title: '取消訂單成功',
+							icon: 'success'
+						})
+					}
+					_this.getOrders();
 				});
 			},
 			changePage: function (page) {
@@ -175,15 +182,6 @@
 				}
 				return Math.ceil(sum);
 			},
-			//findOrderdetails: function (id) {
-			//	var _this = this;
-			//	_this.productName = [];
-			//	for (var i = 0; i < _this.orders.orderdetails.length; i++) {
-			//		if (_this.orders.orderdetails[i].orderId == id) {
-			//			_this.productName.push(_this.orders.orderdetails[i].productName);
-			//		}
-			//	}
-			//},
 		},
 	});
 </script>						
