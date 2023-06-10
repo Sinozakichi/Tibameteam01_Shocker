@@ -16,7 +16,7 @@ namespace Shocker.Areas.Admin.Models.ViewModels
         
         [Required(ErrorMessage="請輸入數字0~1")]
         public decimal Discount { get; set; }
-        public string PublisherAccount { get; set; }
+        //public string PublisherAccount { get; set; }
 
         [Required(ErrorMessage = "請輸入張數範圍1~20張")]
         [Range(1,20)]

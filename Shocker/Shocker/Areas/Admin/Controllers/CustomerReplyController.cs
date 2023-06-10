@@ -1,8 +1,11 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Shocker.Areas.Admin.Models.ViewModels;
 using Shocker.Models;
+using System.Data;
+using System.Security.Claims;
 
 namespace Shocker.Areas.Admin.Controllers
 {
@@ -17,6 +20,7 @@ namespace Shocker.Areas.Admin.Controllers
         }
 
         // GET: Admin/CustomerReply
+        [Authorize(Roles = "admin")]
         public async Task<IActionResult> Index()
         {
             return View();
@@ -25,6 +29,9 @@ namespace Shocker.Areas.Admin.Controllers
         [HttpPost]
         public async Task<JsonResult> GetQA()
         {
+            var account = User.Claims.FirstOrDefault(x => x.Type == ClaimTypes.Name);
+            if (account == null) return Json(new { Login = false, Message = "請先登入" });
+
             var clientQA = _context.ClientCases
                 .Select(y => new
                 {
@@ -43,6 +50,11 @@ namespace Shocker.Areas.Admin.Controllers
         [HttpPost]
         public async Task<JsonResult> ReplyQA([FromBody] ClientCaseViewModels ccvm)
         {
+            var account = User.Claims.FirstOrDefault(x => x.Type == ClaimTypes.Name);
+            if (account == null) return Json(new { Login = false, Message = "請先登入" });
+
+            var Admin = _context.ClientCases.AsNoTracking().FirstOrDefault(x => x.AdminAccount == account.Value);
+
             if (!ModelState.IsValid)
             {
                 //IEnumerable<string> errm = ModelState["Reply"]?.Errors.Select(x => x.ErrorMessage);
@@ -51,14 +63,14 @@ namespace Shocker.Areas.Admin.Controllers
             }
             if (ccvm.Reply.IsNullOrEmpty()) { return Json(new { Message = "不可回復空白" }); }
 
-            if (ccvm!=null && ModelState.IsValid)
+            if (ModelState.IsValid)
             {
                 ClientCases cc = await _context.ClientCases.FindAsync(ccvm.CaseId);
                 if (cc == null)
                 {
                     return Json(new { Message = "案件不存在" });
                 }
-                cc.AdminAccount = ccvm.AdminAccount;
+                cc.AdminAccount = Admin.AdminAccount;
                 if (cc.Status == "cc0")
                 {
                     cc.Status = "cc1";

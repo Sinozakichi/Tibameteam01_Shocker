@@ -1,8 +1,10 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Shocker.Models;
 using Shocker.Models.ViewModels;
 using System.ComponentModel.DataAnnotations;
+using System.Data;
 using System.Security.Claims;
 
 namespace Shocker.Controllers
@@ -59,21 +61,22 @@ namespace Shocker.Controllers
         //}
         [HttpPost]
         [ValidateAntiForgeryToken]
-        
+        [Authorize(Roles = "user")]
         public async Task<IActionResult> Index(CustomerQAViewModel cqavm)
+
         {
+            var account = User.Claims.FirstOrDefault(x => x.Type == ClaimTypes.Name);
+            if (account == null) return Json(new { Login = false, Message = "請先登入" });
+            var a = _context.Users.AsNoTracking().FirstOrDefault(x => x.Id == account.Value);
             try
             {
-                var loginAccount = User.Claims.FirstOrDefault(x => x.ValueType == ClaimTypes.Name);
-
-                if (loginAccount == null) { return View();};
 
                 if (cqavm != null && ModelState.IsValid)
                 {
                     ClientCases clientCases = new ClientCases()
                     {
                         Status = "cc0",
-                        UserAccount = "User1",  //登入使用者要判斷
+                        UserAccount = a.Id,  //登入使用者要判斷
                         Description = cqavm.Description,
                         QuestionCategoryId = cqavm.QuestionCategoryId,
                     };
