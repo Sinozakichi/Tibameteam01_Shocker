@@ -182,7 +182,7 @@
 
 			<div class="row">
 				<div class="col-sm-3">
-					<button type="button" class="btn btn-outline-success" @@click="updateUsers()">完成</button>@*按完成以完成編輯*@
+					<button type="button" class="btn btn-outline-success" @@click="updateUsers()" :disabled="editing">完成</button>@*按完成以完成編輯*@
 				</div>
 				<div class="col-sm-3">
 					<button type="button" class="btn btn-outline-danger" data-toggle="modal" data-target="#cancelModal">取消</button>@*按取消彈出提示訊息，再按確定才會取消所有變更內容，按返回則回復*@
@@ -211,6 +211,7 @@
 
 <script src="https://cdn.jsdelivr.net/npm/vue@2.7.14"></script>
 <script src="~/axios/axios.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <script>
 	var app = new Vue({
 		el: '#app',
@@ -224,6 +225,7 @@
 			selectAddress:"",
 			addAddress:"",
 			Edit: false,
+			editing:false,
 			//驗證欄位
 			errors:{
 
@@ -246,6 +248,7 @@
 			},
 			updateUsers: function () {//更改User指定欄位之資料
 				var _this = this;
+				_this.editing=true;
 				_this.eErrorbox= false;
 				_this.pErrorbox= false;
 				_this.nErrorbox= false;
@@ -260,12 +263,20 @@
 				};
 				axios.post(`/User/UpdateAccount`, request).then(response => {
 					if (response.data.status){
-						alert('更新資料成功');
+						Swal.fire({						
+							title: '更新資料成功',
+							icon: 'success'
+						})
 						_this.getUsers();
-						_this.Edit = false;					
+						_this.Edit = false;	
+						_this.editing = false;
 					}
 					else { 
-						alert(response.data.errorMessage);
+						Swal.fire({
+							icon: 'error',
+							title: 'Oops...',
+							text: response.data.errorMessage,
+						})
 						_this.errors = response.data.data ;
 						if (_this.errors.emailError != null) { _this.eErrorbox =true;}
 						if (_this.errors.nicknameError != null) { _this.nErrorbox =true;}
@@ -299,8 +310,13 @@
 				var formdata = new FormData();
 				formdata.append('Id', _this.users.user.id);
 				formdata.append('Picture', _this.uploadPic);
-				axios.post(`/User/UploadPicture`, formdata).then(response => {					
-						alert('上傳成功!')//跳上傳成功的訊息					
+				axios.post(`/User/UploadPicture`, formdata).then(response => {
+					if (response.data.status) {
+						Swal.fire({
+							title: '更新資料成功',
+							icon: 'success'
+						})
+					}
 				});
 			},		
 		}

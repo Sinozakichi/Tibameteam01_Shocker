@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using Shocker.Models;
 using System.Diagnostics;
+using System.Security.Claims;
 
 namespace Shocker_Project.Controllers
 {	
@@ -15,6 +16,8 @@ namespace Shocker_Project.Controllers
 		}
 		public IActionResult Index()
 		{
+			var loginAccount = User.Claims.FirstOrDefault(x => x.Type == ClaimTypes.Name);
+			ViewBag.Account = loginAccount.Value;
 			return View();
 		}
 
