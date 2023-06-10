@@ -113,88 +113,87 @@
     <div class="container">        
         <div class="checkout__form">
             <h4>填寫訂單收件人資料</h4>
-            @*<form action="#">*@
-                <div v-for="info in userInfo" class="row">
-                    <div class="col-lg-8 col-md-6">
-                        <div class="row">
-                            <div class="col-lg-6">
-                                <div class="checkout__input">
-                                    <p>收件人</p>
-                                    <input type="text" v-model="info.nickName">
-                                </div>
-                            </div>
-                            <div class="col-lg-6">
-                                <div class="checkout__input">
-                                    <p>買家帳號</p>
-                                    <input type="text" :value="info.id" disabled>
-                                </div>
+            <form id="cart" method="post" action="/Banking/Payment" hidden></form>
+            <div v-for="info in userInfo" class="row">
+                <div class="col-lg-8 col-md-6">
+                    <div class="row">
+                        <div class="col-lg-6">
+                            <div class="checkout__input">
+                                <p>收件人</p>
+                                <input type="text" v-model="info.nickName">
                             </div>
                         </div>
-                        <div class="row">
-                            <div class="col-lg-6">
-                                <div class="checkout__input">
-                                    <p>電話</p>
-                                    <input type="text" v-model="info.phone">
-                                </div>
+                        <div class="col-lg-6">
+                            <div class="checkout__input">
+                                <p>買家帳號</p>
+                                <input type="text" :value="info.id" disabled>
                             </div>
-                            <div class="col-lg-6">
-                                <div class="checkout__input">
-                                    <p>Email</p>
-                                    <input type="text" v-model="info.email">
-                                </div>
-                            </div>
-                        </div>
-                        <div class="checkout__input">
-                            <p>收件地址</p>
-                            <select v-model="selectedAddress" type="text" class="col-12">
-                                <option value="" disabled>選擇收件地址</option>
-                                <option v-for="address in info.addresses" :value="address">{{address}}</option>
-                            </select>
-                        </div>
-                        <div class="checkout__input">
-                            <p>新增常用地址</p>
-                            <input type="text" v-model="newAddress" placeholder="加入地址">
-                        </div>
-                        <div class="checkout__input">
-                            <button class="site-btn" @@click="saveAddress">儲存地址</button>
                         </div>
                     </div>
-                    <div class="col-lg-4 col-md-6">
-                        <div class="checkout__order">
-                            <h4>訂單</h4>
-                            <div class="checkout__order__products">商品
-                                <span>小計</span>
+                    <div class="row">
+                        <div class="col-lg-6">
+                            <div class="checkout__input">
+                                <p>電話</p>
+                                <input type="text" v-model="info.phone">
                             </div>
-                            <ul>
-                                <li v-for="(product,px) in newOrder[0].products">{{product.productName}}
-                                    <span>{{newOrder[2][px]}}</span>
-                                </li>
-                            </ul>
-                            <div class="checkout__order__total">總計共&nbsp;&nbsp;{{newOrder[0].productCount}}&nbsp;&nbsp;項
-                                <span>
-                                    {{newOrder[0].products[0].currency}}&nbsp;&nbsp;{{getTotal(newOrder[2],newOrder[0].productCount)}}
-                                </span>
-                            </div>
-                                <div class="checkout__input__checkbox">
-                                <label for="onDelivery">
-                                    貨到付款
-                                    <input type="radio" id="onDelivery" value="貨到付款" v-model="payMethod">
-                                    <span class="checkmark"></span>
-                                </label>
-                            </div>
-                            <div class="checkout__input__checkbox">
-                                <label for="creditCard">
-                                    信用卡
-                                    <input type="radio" id="creditCard" value="信用卡" v-model="payMethod">
-                                    <span class="checkmark"></span>
-                                </label>
-                            </div>
-                            <button type="submit" class="site-btn" @@click="createOrder">確認訂購</button>
-                            <button type="submit" class="site-btn" @@click="checkout">回上頁</button>
                         </div>
+                        <div class="col-lg-6">
+                            <div class="checkout__input">
+                                <p>Email</p>
+                                <input type="text" v-model="info.email">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="checkout__input">
+                        <p>收件地址</p>
+                        <select v-model="selectedAddress" type="text" class="col-12">
+                            <option value="" disabled>選擇收件地址</option>
+                            <option v-for="address in info.addresses" :value="address">{{address}}</option>
+                        </select>
+                    </div>
+                    <div class="checkout__input">
+                        <p>新增常用地址</p>
+                        <input type="text" v-model="newAddress" placeholder="加入地址">
+                    </div>
+                    <div class="checkout__input">
+                        <button class="site-btn" @@click="saveAddress">儲存地址</button>
                     </div>
                 </div>
-            @*</form>*@
+                <div class="col-lg-4 col-md-6">
+                    <div class="checkout__order">
+                        <h4>訂單</h4>
+                        <div class="checkout__order__products">商品
+                            <span>小計</span>
+                        </div>
+                        <ul>
+                            <li v-for="(product,px) in newOrder[0].products">{{product.productName}}
+                                <span>{{newOrder[2][px]}}</span>
+                            </li>
+                        </ul>
+                        <div class="checkout__order__total">總計共&nbsp;&nbsp;{{newOrder[0].productCount}}&nbsp;&nbsp;項
+                            <span>
+                                {{newOrder[0].products[0].currency}}&nbsp;&nbsp;{{getTotal(newOrder[2],newOrder[0].productCount)}}
+                            </span>
+                        </div>
+                            <div class="checkout__input__checkbox">
+                            <label for="onDelivery">
+                                貨到付款
+                                <input type="radio" id="onDelivery" value="貨到付款" v-model="payMethod">
+                                <span class="checkmark"></span>
+                            </label>
+                        </div>
+                        <div class="checkout__input__checkbox">
+                            <label for="creditCard">
+                                信用卡
+                                <input type="radio" id="creditCard" value="信用卡" v-model="payMethod">
+                                <span class="checkmark"></span>
+                            </label>
+                        </div>
+                        <button class="site-btn" @@click="createOrder">確認訂購</button>
+                        <button class="site-btn" @@click="checkout">回上頁</button>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 </section>
@@ -401,6 +400,7 @@
                 var request = {};
                 request.buyerAccount = _this.userInfo[0].id;
                 request.address = _this.selectedAddress;
+                request.email = _this.userInfo[0].email;
                 request.buyerPhone = _this.userInfo[0].phone;
                 request.payMethod = _this.payMethod;
                 request.buyerName = _this.userInfo[0].nickName;
@@ -424,10 +424,45 @@
                             window.location.replace('/ShoppingCart');
                         }
                         if (response.data.login) {
-                            _this.getShoppingCart(0);
-                            _this._shoppingCart = true;
+                            if (response.data.creditCard) {
+                                console.log(response.data);
+                                const cart = document.getElementById('cart');
+                                var i0 = document.createElement('input')
+                                i0.setAttribute('type', "hidden");
+                                i0.setAttribute('name', 'OrderId');
+                                i0.value = response.data.payment.orderId;
+                                cart.append(i0);
+                                var i1 = document.createElement('input')
+                                i1.setAttribute('type', "hidden");
+                                i1.setAttribute('name', 'PayType');
+                                i1.value = response.data.payment.payType;
+                                cart.append(i1);
+                                var i2 = document.createElement('input')
+                                i2.setAttribute('type', "hidden");
+                                i2.setAttribute('name', 'Amt');
+                                i2.value = response.data.payment.amt;
+                                cart.append(i2);
+                                var i3 = document.createElement('input')
+                                i3.setAttribute('type', "hidden");
+                                i3.setAttribute('name', 'Email');
+                                i3.value = response.data.payment.email;
+                                cart.append(i3);
+                                var i4 = document.createElement('input')
+                                i4.setAttribute('type', "hidden");
+                                i4.setAttribute('name', 'ItemDesc');
+                                i4.value = response.data.payment.itemDesc;
+                                cart.append(i4);
+                                var i5 = document.createElement('input')
+                                i5.setAttribute('type', "hidden");
+                                i5.setAttribute('name', 'OrderComment');
+                                i5.value = response.data.payment.orderComment;
+                                cart.append(i5);
+                                cart.submit();
+                            }
                         }                        
                     });
+                    _this.getShoppingCart(0);
+                    _this._shoppingCart = true;
                 }
             }
         }

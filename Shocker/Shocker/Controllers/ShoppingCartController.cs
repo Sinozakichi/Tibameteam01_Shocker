@@ -4,8 +4,12 @@ using Microsoft.CodeAnalysis;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Shocker.Models;
+using Shocker.Models.Banking;
 using Shocker.Models.ViewModels;
+using System.Collections.Specialized;
 using System.Security.Claims;
+using System.Text;
+using System.Web;
 
 namespace Shocker.Controllers
 {
@@ -208,89 +212,103 @@ namespace Shocker.Controllers
             return Json(new { Login = true, New = true, Message = "新增成功" });
         }
 
-        [HttpPost]
-        public async Task<JsonResult> CreateOrder([FromBody] OrdersViewModel order)
-        {
+		[HttpPost]
+		public async Task<JsonResult> CreateOrder([FromBody] OrdersViewModel order)
+		{
 			var account = User.Claims.FirstOrDefault(x => x.Type == ClaimTypes.Name);
 			if (account == null) return Json(new { Login = false, Message = "請先登入" });
-			if (ModelState.IsValid)
-            {
-                if (order.BuyerAccount != account.Value) return Json(new { Login = true, Message = "訂單不成立" });
-                foreach (OrderDetailsViewModel item in order.OrderDetails)
-                {
-                    var p = await _context.Products.FindAsync(item.ProductId);
-                    if (p == null) return Json(new { Login = true, Message = "訂單不成立" });
-                    if (p.Status != "p1" || p.UnitsInStock < item.Quantity) return Json(new { Login = true, Message = "商品未上架或庫存不足" });
-                }
-                foreach (OrderDetailsViewModel item in order.OrderDetails)
-                {
-                    var s = await _context.Shopping.FindAsync(order.BuyerAccount, item.ProductId);
-                    if (s == null) return Json(new { Login = true, Message = "購物車錯誤" });
-                    else _context.Shopping.Remove(s);
-                }
-				int newOrderId = (int)((DateTime.Now - new DateTime(2023, 6, 1)).Ticks / 1000000);
-				Orders newOrder = new()
-                {
-                    OrderId = newOrderId,
-                    BuyerAccount = order.BuyerAccount,
-                    Address = order.Address,
-                    OrderDate = DateTime.Now,
-                    ArrivalDate = null,
-                    BuyerPhone = order.BuyerPhone,
-                    PayMethod = order.PayMethod,
-                    BuyerName = order.BuyerName
-                };
-                if (newOrder.PayMethod == "信用卡") newOrder.Status = "o0";
-                else if (newOrder.PayMethod == "貨到付款") newOrder.Status = "o1";
-                else return Json(new { Login = true, Message = "訂單不成立" });
-				_context.Orders.Add(newOrder);
-                await _context.SaveChangesAsync();
-                var productList = order.OrderDetails.Select(od => new OrderDetails
-                {
-                    OrderId = newOrderId,
-                    ProductId = od.ProductId,
-                    CouponId = od.CouponId,
-                    Quantity = od.Quantity,
-                    Status = "od1",
-                    ProductName = od.ProductName,
-                    UnitPrice = od.UnitPrice,
-                    Discount = od.Discount,
-                    Currency = od.Currency
-                });
-                foreach (OrderDetails item in productList)
-                {
-                    if (item.Discount != null)
-                    {
-                        var c = await _context.Coupons.FindAsync(item.CouponId);
-                        if (c != null && c.HolderAccount == account.Value)
-                        {
-                            if (DateTime.Compare(c.ExpirationDate, DateTime.Now) >= 0)
-                            {
-                                c.Status = "c1";
-                                _context.Update(c);
-                                await _context.SaveChangesAsync();
-                            }
-                            else item.Discount = null;
-                        }
-                        else item.Discount = null;
-                    }
-                    _context.OrderDetails.Add(item);
-                    await _context.SaveChangesAsync();
-                    var p = await _context.Products.FindAsync(item.ProductId);
-                    if (p != null)
-                    {
-                        p.UnitsInStock -= item.Quantity;
-                        p.Sales += item.Quantity;
-                        _context.Update(p);
-                        await _context.SaveChangesAsync();
-                    }
-                }
-                return Json(new { Login = true, OrderId = newOrderId, Message = "訂單成立" });
-            }
-            else return Json(new { Login = true, Message = "訂單不成立" });
-        }
-        
-        public IActionResult ProductList(int id)
+			if (!ModelState.IsValid) return Json(new { Login = true, Message = "訂單不成立" });
+			if (order.BuyerAccount != account.Value) return Json(new { Login = true, Message = "訂單不成立" });
+
+			foreach (OrderDetailsViewModel item in order.OrderDetails)
+			{
+				var p = await _context.Products.FindAsync(item.ProductId);
+				if (p == null) return Json(new { Login = true, Message = "訂單不成立" });
+				if (p.Status != "p1" || p.UnitsInStock < item.Quantity) return Json(new { Login = true, Message = "商品未上架或庫存不足" });
+			}
+			foreach (OrderDetailsViewModel item in order.OrderDetails)
+			{
+				var s = await _context.Shopping.FindAsync(order.BuyerAccount, item.ProductId);
+				if (s == null) return Json(new { Login = true, Message = "購物車錯誤" });
+				else _context.Shopping.Remove(s);
+			}
+			int newOrderId = (int)((DateTime.Now - new DateTime(2023, 6, 1)).Ticks / 1000000);
+			Orders newOrder = new()
+			{
+				OrderId = newOrderId,
+				BuyerAccount = order.BuyerAccount,
+				Address = order.Address,
+				OrderDate = DateTime.Now,
+				ArrivalDate = null,
+				BuyerPhone = order.BuyerPhone,
+				PayMethod = order.PayMethod,
+				BuyerName = order.BuyerName
+			};
+			if (newOrder.PayMethod == "信用卡") newOrder.Status = "o0";
+			else if (newOrder.PayMethod == "貨到付款") newOrder.Status = "o1";
+			else return Json(new { Login = true, Message = "訂單不成立" });
+			_context.Orders.Add(newOrder);
+			await _context.SaveChangesAsync();
+			var productList = order.OrderDetails.Select(od => new OrderDetails
+			{
+				OrderId = newOrderId,
+				ProductId = od.ProductId,
+				CouponId = od.CouponId,
+				Quantity = od.Quantity,
+				Status = "od1",
+				ProductName = od.ProductName,
+				UnitPrice = od.UnitPrice,
+				Discount = od.Discount,
+				Currency = od.Currency
+			});
+			var Total = 0;
+			foreach (OrderDetails item in productList)
+			{
+				if (item.Discount != null)
+				{
+					var c = await _context.Coupons.FindAsync(item.CouponId);
+					if (c != null && c.HolderAccount == account.Value)
+					{
+						if (DateTime.Compare(c.ExpirationDate, DateTime.Now) >= 0)
+						{
+							c.Status = "c1";
+							_context.Update(c);
+							await _context.SaveChangesAsync();
+						}
+						else item.Discount = null;
+					}
+					else item.Discount = null;
+				}
+				var subTotal = item.Discount != null ? item.UnitPrice * item.Quantity * (decimal)item.Discount : item.UnitPrice * item.Quantity;
+				Total += (int)Math.Round(subTotal, 0);
+				_context.OrderDetails.Add(item);
+				await _context.SaveChangesAsync();
+				var p = await _context.Products.FindAsync(item.ProductId);
+				if (p != null)
+				{
+					p.UnitsInStock -= item.Quantity;
+					p.Sales += item.Quantity;
+					_context.Update(p);
+					await _context.SaveChangesAsync();
+				}
+			}
+			if (newOrder.PayMethod == "信用卡")
+			{
+				PaymentAsyncViewModel payment = new()
+				{
+					OrderId = newOrderId,
+					PayType = "CREDIT",
+					Amt = Total,
+					Email = order.Email,
+					ItemDesc = order.OrderDetails.FirstOrDefault().ProductName + "等",
+					OrderComment = "信用卡支付"
+				};
+				return Json(new { Login = true, CreditCard = true, Payment = payment, Message = "訂單成立，請前往填寫付款資料" });
+			}
+			else return Json(new { Login = true, CreditCard = false, OrderId = newOrderId, Message = "訂單成立" });
+		}
+		
+		public IActionResult ProductList(int id)
         {
 			ViewBag.CategoryId = id;
 			return View();

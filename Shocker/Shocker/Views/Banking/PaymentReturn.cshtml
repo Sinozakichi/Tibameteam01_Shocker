@@ -1,0 +1,40 @@
+﻿<section class="checkout spad">
+    <div class="container">
+        <div class="checkout__form">
+            <h4>@ViewBag.Status</h4>
+            <div class="row">
+                <div class="col-lg-8 col-md-6">
+                    <div class="row">
+                        <div class="col-lg-6">
+                            <div class="checkout__input">
+                                <p>訂單編號：@ViewBag.MerchantOrderNo</p>
+                            </div>
+                        </div>                        
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-lg-8 col-md-6">
+                    <div class="row">
+                        <div class="col-lg-6">
+                            <div class="checkout__input">
+                                <p>訂單總計：@ViewBag.Amt</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-lg-8 col-md-6">
+                    <div class="row">
+                        <div class="col-lg-6">
+                            <div class="checkout__input">
+                                <p>付款時間：@ViewBag.PayTime</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

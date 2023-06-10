@@ -6,13 +6,6 @@ namespace Shocker.Utility
 {
 	public class CryptoUtil
 	{
-		/// <summary>
-		/// 字串加密AES
-		/// </summary>
-		/// <param name="source">加密前字串</param>
-		/// <param name="cryptoKey">加密金鑰</param>
-		/// <param name="cryptoIV">cryptoIV</param>
-		/// <returns>加密後字串</returns>
 		public static byte[] EncryptAES(byte[] source, string cryptoKey, string cryptoIV)
 		{
 			byte[] dataKey = Encoding.UTF8.GetBytes(cryptoKey);
@@ -32,13 +25,6 @@ namespace Shocker.Utility
 			}
 		}
 
-		/// <summary>
-		/// 字串解密AES
-		/// </summary>
-		/// <param name="source">解密前字串</param>
-		/// <param name="cryptoKey">解密金鑰</param>
-		/// <param name="cryptoIV">cryptoIV</param>
-		/// <returns>解密後字串</returns>
 		public static byte[] DecryptAES(byte[] source, string cryptoKey, string cryptoIV)
 		{
 			byte[] dataKey = Encoding.UTF8.GetBytes(cryptoKey);
