@@ -80,7 +80,6 @@ namespace Shocker.Controllers
 		{
 			if (!ModelState.IsValid)
 			{
-				IEnumerable<string> passworderror = ModelState["Password"]?.Errors.Select(e => e.ErrorMessage);
 				IEnumerable<string> nicknameerror = ModelState["NickName"]?.Errors.Select(e => e.ErrorMessage);
 				IEnumerable<string> emailerror = ModelState["Email"]?.Errors?.Select(e => e.ErrorMessage);
 				return new ApiResultModel()
@@ -88,7 +87,6 @@ namespace Shocker.Controllers
 					Status = false,
 					Data = new
 					{
-						passwordError = passworderror,
 						nicknameError = nicknameerror,
 						emailError = emailerror,
 					},
@@ -101,7 +99,6 @@ namespace Shocker.Controllers
 				{
 					var u = _context.Users.FirstOrDefault(u => u.Id == uvm.Id);
 					if (u == null) return new ApiResultModel() { Status = false, ErrorMessage = "此帳號不存在!" };
-					u.Password = uvm.Password;
 					u.NickName = uvm.NickName;
 					u.Gender = uvm.Gender;
 					u.BirthDate = uvm.BirthDate;
@@ -121,6 +118,40 @@ namespace Shocker.Controllers
 				catch (Exception)
 				{
 					return new ApiResultModel() { Status = false, ErrorMessage = "上傳帳號資訊失敗!" };
+				}
+			}
+
+		}
+		[Authorize]
+		[HttpPost]
+		public ApiResultModel UpdatePassword([FromBody] PasswordViewModel uvm)//更新User資訊
+		{
+			if (!ModelState.IsValid)
+			{
+				IEnumerable<string> passworderror = ModelState["Password"]?.Errors.Select(e => e.ErrorMessage);
+				return new ApiResultModel()
+				{
+					Status = false,
+					Data = new
+					{
+						passwordError= passworderror,
+					},
+					ErrorMessage = "密碼格式有誤!"
+				};
+			}
+			else
+			{
+				try
+				{
+					var u = _context.Users.FirstOrDefault(u => u.Id == uvm.Id);
+					if (u == null) return new ApiResultModel() { Status = false, ErrorMessage = "此帳號不存在!" };
+					u.Password = uvm.Password;
+					_context.SaveChanges();
+					return new ApiResultModel() { Status = true };
+				}
+				catch (Exception)
+				{
+					return new ApiResultModel() { Status = false, ErrorMessage = "更新密碼失敗!" };
 				}
 			}
 
