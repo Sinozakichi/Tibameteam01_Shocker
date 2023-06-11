@@ -264,6 +264,7 @@
 </section>
 
 <script src="https://cdn.jsdelivr.net/npm/vue@2.7.14"></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <script src="~/axios/axios.min.js"></script>
 <script src="~/js/jquery-3.3.1.min.js"></script>>
 <script src="~/js/popper.min.js"></script>
@@ -281,11 +282,11 @@
 			errors1: {
 
 			},
-			errors2:{
-				
+			errors2: {
+
 			},
 			rErrorbox: false,
-			rdErrorbox: false
+			rdErrorbox: false,
 		},
 		mounted: function () {
 			this.getUserOrderDetails();
@@ -306,7 +307,13 @@
 				var id = location.search.replace('?id=', '');
 				axios.get(`/User/GetUserOrderDetails/${id}`).then(x => {
 					if (x.data.status) { _this.allData = x.data.data; }
-					else { alert('not found data') }
+					else {
+						Swal.fire({
+							icon: 'error',
+							title: 'Oops...',
+							text: 'not found data',
+						})
+					}
 				});
 			},
 			createRating: function (productId, rating) {
@@ -317,8 +324,13 @@
 					StarCount: rating
 				}
 				axios.post(`/User/CreateRating`, request).then(response => {
-					alert('完成評價!')
-					_this.getUserOrderDetails();
+					if (response.data.status) {
+						Swal.fire({
+							title: '完成評價',
+							icon: 'success'
+						})
+						_this.getUserOrderDetails();
+					}
 				})
 			},
 			updateOdReturnReason: function (productId) {
@@ -330,12 +342,19 @@
 				}
 				axios.post(`/User/UpdateOdReturnReason`, request).then(response => {
 					if (response.data.status) {
-						alert('成功送出退貨申請');
+						Swal.fire({
+							title: '成功送出退貨申請',
+							icon: 'success'
+						})
 						_this.getUserOrderDetails();
 						_this.rErrorbox = false;
 					}
 					else {
-						alert(response.data.errorMessage);
+						Swal.fire({
+							icon: 'error',
+							title: 'Oops...',
+							text: response.data.errorMessage,
+						})
 						_this.errors1 = response.data.data;
 						if (_this.errors1.returnReasonError != null) { _this.rErrorbox = true; }
 					}
@@ -350,12 +369,19 @@
 				}
 				axios.post(`/User/UpdateRatingDescription`, request).then(response => {
 					if (response.data.status) {
-						alert('成功送出評價內容')
+						Swal.fire({
+							title: '成功送出評價內容',
+							icon: 'success'
+						})
 						_this.getUserOrderDetails();
 						_this.rdErrorbox = false;
 					}
-					else{
-						alert(response.data.errorMessage);
+					else {
+						Swal.fire({
+							icon: 'error',
+							title: 'Oops...',
+							text: response.data.errorMessage,
+						})
 						_this.errors2 = response.data.data;
 						if (_this.errors2.ratingDescriptionError != null) { _this.rdErrorbox = true; }
 					}
@@ -369,7 +395,10 @@
 					ProductId: productId,
 				}
 				axios.post(`/User/TakeProduct`, request).then(response => {
-					alert('成功收到商品')
+					Swal.fire({
+						title: '成功收到商品',
+						icon: 'success'
+					})
 					_this.getUserOrderDetails();
 				})
 			},

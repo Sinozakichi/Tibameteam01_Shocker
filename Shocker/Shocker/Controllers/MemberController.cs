@@ -86,20 +86,20 @@ namespace Shocker.Controllers
             _DBcontext.Users.Add(new Users()
             {
                 Id = model.Id,
-                //AccountType = model.AccountType,
+                AccountType = "-",
                 Password = model.Password,
                 NickName = model.NickName,
                 Gender = model.Gender,
                 BirthDate = model.BirthDate,
                 Email = model.Email,
                 Phone = model.Phone,
+                Role = "user",
                 RegisterDate = DateTime.Now
                 
             });
 
             _DBcontext.SaveChanges();
-
-            return View("Index", "Home");
+            return RedirectToAction("Index", "Home");
         }
 
         public IActionResult AccessDenied()

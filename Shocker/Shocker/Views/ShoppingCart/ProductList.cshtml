@@ -24,7 +24,7 @@
                     <div class="sidebar__item">
                         <h4>商品分類</h4>
                         <ul>
-                            <li><a href="/ShoppingCart/ProductList/">所有商品</a></li>
+                            <li><a href="/ShoppingCart/ProductList/0">所有商品</a></li>
                             <li><a href="/ShoppingCart/ProductList/1">衣服</a></li>
                             <li><a href="/ShoppingCart/ProductList/2">文具</a></li>
                             <li><a href="/ShoppingCart/ProductList/3">食品</a></li>
@@ -91,12 +91,6 @@
                         </div>
                     </div>                    
                 </div>
-                @*<div class="product__pagination">
-                    <a href="#">1</a>
-                    <a href="#">2</a>
-                    <a href="#">3</a>
-                    <a href="#"><i class="fa fa-long-arrow-right"></i></a>
-                </div>*@
             </div>
         </div>
     </div>
@@ -104,14 +98,14 @@
 <!-- Product Section End -->
 <script src="~/lib/vue/vue.global.prod.js"></script>
 <script src="~/lib/axios/axios.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <script>
     var categoryId = @ViewBag.CategoryId;
     var query = window.location.search.slice(7);
-    var baseAddress = `${window.location.origin}`;
+    var baseAddress = window.location.origin;
     var vueApp = {
         data() {
             return {
-                loginAccount: 'User2',
                 products: [],
                 categoryLink: '',
                 productLinks: [],
@@ -131,22 +125,41 @@
             _this.getLatestProduct();
         },
         methods: {
+            salert: function (message) {
+                Swal.fire({
+                    title: message,
+                    confirmButtonText: '確定'
+                });
+            },
+            sconfirm: function (message, type) {
+                return new Promise(resolve => {
+                    Swal.fire({
+                        title: message,
+                        icon: type,
+                        showDenyButton: true,
+                        confirmButtonText: '確定',
+                        denyButtonText: '取消'
+                    }).then(result => {
+                        if (result.isConfirmed) result.value ? resolve(true) : resolve(false);
+                    });
+                });
+            },
             getSearchResult: function (id) {
                 let _this = this;
                 axios.post(`${baseAddress}/ShoppingCart/GetSearchResult/${id}`).then(response => {
                     document.getElementsByClassName('categoryName')[0].textContent = '';
                     document.getElementsByClassName('categoryName')[1].textContent = '';
                     document.getElementsByClassName('categoryName')[1].append('搜尋');
-                    if (response.data.result == 'NotFound') {                        
+                    if (!response.data.found) {                        
                         document.getElementsByClassName('categoryName')[0].append(response.data.message);                        
                     }
                     else {
                         document.getElementsByClassName('categoryName')[0].append('搜尋');
-                        _this.products = response.data;
+                        _this.products = response.data.query;
                         _this.productLinks = [];
                         _this.products.forEach(p => {
-                            p.path = `background-image: url("${window.location.origin}/productpictures/${p.pictureId}-${p.path}");`;
-                            _this.productLinks.push(`${window.location.origin}/ShoppingCart/Product/${p.productId}`);
+                            p.path = `background-image: url("${baseAddress}/productpictures/${p.pictureId}-${p.path}");`;
+                            _this.productLinks.push(`${baseAddress}/ShoppingCart/Product/${p.productId}`);
                         });
                     }
                 });
@@ -170,15 +183,15 @@
                 document.getElementsByClassName('categoryName')[0].append(categoryName);
                 document.getElementsByClassName('categoryName')[1].append(categoryName);
                 axios.post(`${baseAddress}/ShoppingCart/GetProductList/${id}`).then(response => {
-                    if (response.data.result == 'NotFound') {
-                        alert(response.data.message);
+                    if (!response.data.found) {
+                        _this.salert(response.data.message);
                     }
                     else {
-                        _this.products = response.data;
+                        _this.products = response.data.productList;
                         _this.productLinks = [];
                         _this.products.forEach(p => {
-                            p.path = `background-image: url("${window.location.origin}/productpictures/${p.pictureId}-${p.path}");`;
-                            _this.productLinks.push(`${window.location.origin}/ShoppingCart/Product/${p.productId}`);
+                            p.path = `background-image: url("${baseAddress}/productpictures/${p.pictureId}-${p.path}");`;
+                            _this.productLinks.push(`${baseAddress}/ShoppingCart/Product/${p.productId}`);
                         }); 
                     }
                 });
@@ -187,28 +200,30 @@
                 let _this = this;
                 if (quantity <= unitsInStock && quantity > 0) {
                     var request = {};
-                    request.buyerAccount = _this.loginAccount;
                     request.productId = [];
                     request.quantity = [];
                     request.productId.push(productId);
                     request.quantity.push(quantity);
                     axios.post(`${baseAddress}/ShoppingCart/CreateCart`, request).then(response => {
-                        alert(response.data.message);
+                        _this.salert(response.data.message);
+                        if (!response.data.login) {
+                            window.location.replace('/ShoppingCart');
+                        }
                     });
                 }
-                else alert('庫存不足');
+                else _this.salert('庫存不足');
             },
             getLatestProduct: function () {
                 let _this = this;
-                axios.get(`${baseAddress}/User/GetLatestProduct/`).then(response => {
+                axios.get(`${baseAddress}/ShoppingCart/GetLatestProduct/`).then(response => {
                     if (response.data.status) {
                         for (var i = 0; i < response.data.data.latestProduct.length; i++) {
-                            response.data.data.latestProduct[i].picture = `${window.location.origin}/productpictures/${response.data.data.latestProduct[i].picture}`;
+                            response.data.data.latestProduct[i].picture = `${baseAddress}/productpictures/${response.data.data.latestProduct[i].picture}`;
                         }
                         _this.latestProduct1 = response.data.data.latestProduct.slice(0, 3);
                         _this.latestProduct2 = response.data.data.latestProduct.slice(3, 6);
                     }
-                    else alert('最新商品載入失敗');
+                    else _this.salert('最新商品載入失敗');
                 });
             }
         }

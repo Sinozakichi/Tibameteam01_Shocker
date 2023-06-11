@@ -1,8 +1,11 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Shocker.Models;
 using Shocker.Models.ViewModels;
 using System.ComponentModel.DataAnnotations;
+using System.Data;
+using System.Security.Claims;
 
 namespace Shocker.Controllers
 {
@@ -16,33 +19,96 @@ namespace Shocker.Controllers
         }
         public IActionResult Index()
         {
-            return View();
+			if (User.Identity.IsAuthenticated)
+			{
+				var loginAccount = User.Claims.FirstOrDefault(x => x.Type == ClaimTypes.Name);
+				ViewBag.Account = loginAccount.Value;
+			}
+			return View();
         }
 
+
+        //[HttpPost]
+        //public ApiResultModel ple([FromBody] CustomerQAViewModel cqavm)
+        //{
+        //    try
+        //    {
+        //        if (!ModelState.IsValid)
+        //        {
+        //            IEnumerable<string> QC = ModelState["QuestionCategoryId"]?.Errors.Select(x => x.ErrorMessage);
+        //            IEnumerable<string> DC = ModelState["Description"]?.Errors.Select(x => x.ErrorMessage);
+        //            return new ApiResultModel { Data = new { QCErrorMessage = QC, DCErrorMessage = DC }, Status = false, ErrorMessage = "出錯啦!" };
+        //        };
+        //        var loginAccount = User.Claims.FirstOrDefault(x => x.Type == ClaimTypes.Name);
+        //        if (loginAccount == null) return new ApiResultModel { Status = false, ErrorMessage = "請重新登入帳號" };
+
+        //        if (cqavm != null && ModelState.IsValid)
+        //        {
+        //            ClientCases clientCases = new ClientCases()
+        //            {
+        //                Status = "cc0",
+        //                UserAccount = "User1",  //登入使用者
+        //                Description = cqavm.Description,
+        //                QuestionCategoryId = cqavm.QuestionCategoryId,
+        //            };
+        //            _context.ClientCases.Add(clientCases);
+        //            _context.SaveChanges();
+        //            return new ApiResultModel { ErrorMessage = "成功送出", Status = true };
+
+        //        }
+        //        else { return new ApiResultModel { Status = false, ErrorMessage = "未傳送成功" }; };
+
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        return new ApiResultModel { ErrorMessage = "出蟲啦~", Status = false };
+        //    }
+        //}
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "user")]
         public async Task<IActionResult> Index(CustomerQAViewModel cqavm)
-        {
-           
-            if (cqavm != null && ModelState.IsValid)
-            {
-                ClientCases clientCases = new ClientCases()
-                {
-                    Status = "cc0",
-                    UserAccount = "User1",
-                    Description = cqavm.Description,
-                    QuestionCategoryId = cqavm.QuestionCategoryId,
-                };
-                _context.ClientCases.Add(clientCases);
-                await _context.SaveChangesAsync();
-            }
-            return View(cqavm) /*RedirectToAction(nameof(Index)*/;
 
+        {
+            var account = User.Claims.FirstOrDefault(x => x.Type == ClaimTypes.Name);
+            if (account == null) return Json(new { Login = false, Message = "請先登入" });
+            var a = _context.Users.AsNoTracking().FirstOrDefault(x => x.Id == account.Value);
+            try
+            {
+
+                if (cqavm != null && ModelState.IsValid)
+                {
+                    ClientCases clientCases = new ClientCases()
+                    {
+                        Status = "cc0",
+                        UserAccount = a.Id,  //登入使用者要判斷
+                        Description = cqavm.Description,
+                        QuestionCategoryId = cqavm.QuestionCategoryId,
+                    };
+                    _context.ClientCases.Add(clientCases);
+                    await _context.SaveChangesAsync();
+                    TempData["Success"] = "成功送出";
+                    return RedirectToAction("Index");
+
+                }
+                else { ViewBag.fal = "送出失敗"; }
+
+                return View();
+            }
+            catch (Exception ex) 
+            {
+                return View(ex.Message);
+            }
         }
 
         public async Task<IActionResult> QA()
         {
-            return View();
+			if (User.Identity.IsAuthenticated)
+			{
+				var loginAccount = User.Claims.FirstOrDefault(x => x.Type == ClaimTypes.Name);
+				ViewBag.Account = loginAccount.Value;
+			}
+			return View();
         }
         public IActionResult GetProductlist()
         {

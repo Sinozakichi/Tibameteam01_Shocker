@@ -56,7 +56,7 @@
                             <span v-if="product.status=='p1'">已上架</span>
                             <span v-if="product.status=='p2'">已刪除</span>
                         </li>
-                        <li><b>上架時間</b> <span>{{product.launchDate}}</span></li>
+                            <li><b>上架時間</b> <span>{{new Date(product.launchDate).toLocaleString()}}</span></li>
                         <li><b>庫存</b> <span>{{product.unitsInStock}}<samp v-if="product.unitsInStock<=0">&nbsp;&nbsp;無庫存</samp></span></li>
                         <li><b>銷量</b> <span>{{product.sales}}</span></li>
                     </ul>
@@ -140,13 +140,13 @@
 </div>
 <script src="~/lib/vue/vue.global.prod.js"></script>
 <script src="~/lib/axios/axios.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <script>
     var productId = @ViewBag.Id;
-    var baseAddress = `${window.location.origin}`;
+    var baseAddress = window.location.origin;
     var vueApp = {
         data() {
             return {
-                loginAccount: 'User2',
                 _valid: false,
                 info: [],
                 starCount: 1,
@@ -162,10 +162,29 @@
             _this.getProduct(productId);
         },
         methods: {
-            getProduct: async function(id) {
+            salert: function (message) {
+                Swal.fire({
+                    title: message,
+                    confirmButtonText: '確定'
+                });
+            },
+            sconfirm: function (message, type) {
+                return new Promise(resolve => {
+                    Swal.fire({
+                        title: message,
+                        icon: type,
+                        showDenyButton: true,
+                        confirmButtonText: '確定',
+                        denyButtonText: '取消'
+                    }).then(result => {
+                        if (result.isConfirmed) result.value ? resolve(true) : resolve(false);
+                    });
+                });
+            },
+            getProduct: function(id) {
                 let _this = this;
-                await axios.post(`${baseAddress}/ShoppingCart/GetProduct/${id}`).then(response => {
-                    if (response.data.result == 'NotFound') {
+                axios.post(`${baseAddress}/ShoppingCart/GetProduct/${id}`).then(response => {
+                    if (!response.data.found) {
                         _this._valid = false;
                         document.getElementsByClassName('productName')[0].append(response.data.message);
                     }
@@ -206,16 +225,18 @@
                 let _this = this;
                 if(quantity <= unitsInStock && quantity > 0) {
                     var request = {};
-                    request.buyerAccount = _this.loginAccount;
                     request.productId = [];
                     request.quantity = [];
                     request.productId.push(productId);
                     request.quantity.push(quantity);
                     axios.post(`${baseAddress}/ShoppingCart/CreateCart`, request).then(response => {
-                        alert(response.data.message);
+                        _this.salert(response.data.message);
+                        if (!response.data.login) {
+                            window.location.replace('/ShoppingCart');
+                        }
                     });
                 }
-                else alert('庫存不足');
+                else _this.salert('庫存不足');
             }
         }
     };
