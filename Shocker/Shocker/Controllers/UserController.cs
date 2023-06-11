@@ -124,7 +124,7 @@ namespace Shocker.Controllers
 		}
 		[Authorize]
 		[HttpPost]
-		public ApiResultModel UpdatePassword([FromBody] PasswordViewModel uvm)//更新User資訊
+		public ApiResultModel UpdatePassword([FromBody] PasswordViewModel pvm)//更新User資訊
 		{
 			if (!ModelState.IsValid)
 			{
@@ -143,9 +143,9 @@ namespace Shocker.Controllers
 			{
 				try
 				{
-					var u = _context.Users.FirstOrDefault(u => u.Id == uvm.Id);
+					var u = _context.Users.FirstOrDefault(u => u.Id == pvm.Id);
 					if (u == null) return new ApiResultModel() { Status = false, ErrorMessage = "此帳號不存在!" };
-					u.Password = uvm.Password;
+					u.Password = pvm.Password;
 					_context.SaveChanges();
 					return new ApiResultModel() { Status = true };
 				}
@@ -240,6 +240,11 @@ namespace Shocker.Controllers
 		}
 		public IActionResult UserOrderDetails()
 		{
+			if (User.Identity.IsAuthenticated)
+			{
+				var loginAccount = User.Claims.FirstOrDefault(x => x.Type == ClaimTypes.Name);
+				ViewBag.Account = loginAccount.Value;
+			}
 			return View();
 		}
 		[Authorize]
@@ -307,6 +312,7 @@ namespace Shocker.Controllers
 				if(checkallget == 0)
 				{
 					o.Status = "o3";//o3=已收貨
+					o.ArrivalDate = DateTime.Now;
 				}
 				_context.SaveChanges();
 				return new ApiResultModel() { Status = true };
