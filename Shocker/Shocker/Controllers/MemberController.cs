@@ -30,7 +30,7 @@ namespace Shocker.Controllers
         {
             return View();
         }
-
+        
         [HttpPost]
         public async Task<IActionResult> SignIn(LoginViewModel model)
         {

@@ -29,6 +29,30 @@
                                     </div>
                                 </form>
                             </div>
+                            <div class="card-body">
+                                <form action="/Banking/Payment" method="post" role="form">
+                                    <div class="mb-3">
+                                        @* @Html.TextBoxFor(model => model.Id, new {@class="form-control form-control-lg", type="text", required="required", placeholder="帳號", })*@
+                                        <input type="text" id="orderId" name="orderId" required class="form-control form-control-lg" placeholder="orderId" aria-label="orderId">
+                                    </div>
+                                    <div class="mb-3">
+                                        <input type="text" id="payType" name="payType" required class="form-control form-control-lg" placeholder="payType" aria-label="payType">
+                                    </div>
+                                    <div class="mb-3">
+                                        <input type="text" id="amount" name="amount" required class="form-control form-control-lg" placeholder="amount" aria-label="amount">
+                                    </div>
+                                    <div class="mb-3">
+                                        <input type="text" id="Email" name="Email" required class="form-control form-control-lg" placeholder="Email" aria-label="Email">
+                                    </div>
+                                    <div class="form-check form-switch">
+                                        <input class="form-check-input" type="checkbox" id="rememberMe">
+                                        <label class="form-check-label" for="rememberMe">記住我</label>
+                                    </div>
+                                    <div class="text-center">
+                                        <input type="submit" value="金流測試" class="btn btn-lg btn-primary btn-lg w-100 mt-4 mb-0" />
+                                    </div>
+                                </form>
+                            </div>
                             <div class="card-footer text-center pt-0 px-lg-2 px-1">
                                 <p class="mb-4 text-sm mx-auto">
                                     尚未擁有帳號?
