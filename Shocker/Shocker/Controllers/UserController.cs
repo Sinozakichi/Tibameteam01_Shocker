@@ -23,14 +23,8 @@ namespace Shocker.Controllers
 			_environment = environment;
 		}
 		[Authorize]
-		[HttpGet]
 		public IActionResult MyAccount(string tab)//點選用戶資訊編輯的菜單選項時，帶一個tab的參數，依據參數abcde呈現不同的Partial View
-		{
-			if (User.Identity.IsAuthenticated)
-			{
-				var loginAccount = User.Claims.FirstOrDefault(x => x.Type == ClaimTypes.Name);
-				ViewBag.Account = loginAccount.Value;
-			}
+		{			
 			ViewBag.Tab = tab;
 			return View();
 		}
@@ -239,13 +233,9 @@ namespace Shocker.Controllers
 				return new ApiResultModel() { Status = false, ErrorMessage = "取消訂單失敗!" };
 			}
 		}
+		[Authorize]
 		public IActionResult UserOrderDetails()
-		{
-			if (User.Identity.IsAuthenticated)
-			{
-				var loginAccount = User.Claims.FirstOrDefault(x => x.Type == ClaimTypes.Name);
-				ViewBag.Account = loginAccount.Value;
-			}
+		{			
 			return View();
 		}
 		[Authorize]

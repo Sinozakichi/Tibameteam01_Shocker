@@ -1,4 +1,5 @@
-﻿@{
+﻿@using Shocker.Models.Others
+@{
 	ViewData["Title"] = "Home Page";
 }
 
@@ -39,7 +40,7 @@
 	<div class="humberger__menu__overlay"></div>
 	<div class="humberger__menu__wrapper">
 		<div class="humberger__menu__logo">
-			<a asp-controller="Home" asp-action="Index"><img src="~/img/advertise/shocker.png" style="width:130px;height:130px;" title="首頁"/></a>
+			<a asp-controller="Home" asp-action="Index"><img src="~/img/advertise/shocker.png" style="width:130px;height:130px;" title="首頁" /></a>
 		</div>
 		<div class="humberger__menu__cart">
 			<ul>
@@ -47,10 +48,10 @@
 			</ul>
 		</div>
 		<div class="humberger__menu__widget">
-				<div class="header__top__right__auth">
-					<a href="#"><i class="fa fa-user"></i> 註冊</a>
-					<a class="nav-link text-dark" asp-controller="User" asp-action="MyAccount" asp-route-tab="a"><i class="fa fa-user"></i>我的帳戶</a>
-				</div>
+			<div class="header__top__right__auth">
+				<a href="#"><i class="fa fa-user"></i> 註冊</a>
+				<a class="nav-link text-dark" asp-controller="User" asp-action="MyAccount" asp-route-tab="a"><i class="fa fa-user"></i>我的帳戶</a>
+			</div>
 		</div>
 		<nav class="humberger__menu__nav mobile-menu">
 			<ul>
@@ -64,7 +65,7 @@
 					</ul>
 				</li>
 				<li>
-					<a href="#">關注蝦殼</a>
+					<a href="./contact.html">關注蝦殼</a>
 					<ul class="header__menu__dropdown">
 						<li><a href="https://www.facebook.com/profile.php?id=100093431410643">Facebook</a></li>
 						<li><a href="https://www.instagram.com/shockerthm101/">Instgram</a></li>
@@ -73,7 +74,7 @@
 				<li>
 					<a href="#">Admin</a>
 					<ul class="header__menu__dropdown">
-						<li><a asp-area="Admin" asp-controller="Coupon" asp-action="Index">優惠券查詢</a></li>
+						<li><a asp-area="Admin" asp-controller="Coupon" asp-action="Index">折價券查詢</a></li>
 						<li><a asp-area="Admin" asp-controller="CustomerReply" asp-action="Index">客戶問題查詢</a></li>
 					</ul>
 				</li>
@@ -84,7 +85,7 @@
 		</ul>
 		<div class="humberger__menu__contact">
 			<ul>
-				<li><a asp-controller="Products" asp-action="Index"><i class="fa fa-angle-double-right">賣家中心</i></a></li>
+				<li><a asp-controller="Products" asp-action="Index"><i class="fa fa-envelope">賣家中心</i></a></li>
 			</ul>
 		</div>
 	</div>
@@ -94,40 +95,45 @@
 		<div class="header__top">
 			<div class="container">
 				<div class="row">
-					<div class="col-lg-6 col-md-6">
-						<div class="header__top__left">
-							<ul>
-								<li><a asp-controller="Products" asp-action="Index"><i class="fa fa-angle-double-right">賣家中心</i></a></li>
-							</ul>
-						</div>
-					</div>
-					<div class="col-lg-6 col-md-6">
-						<div class="header__top__right">
-							@{
-								if (User.Identity.IsAuthenticated)
-								{
-									<div>
-										<h5>歡迎光臨，@ViewBag.Account</h5>
-									</div>
-									<div class="header__top__right__auth">
-										<a class="nav-link text-dark" asp-controller="Member" asp-action="SignOut"><i class="fa fa-user"></i> 登出</a>
-									</div>
-									<div class="header__top__right__auth">
-										<a class="nav-link text-dark" asp-controller="User" asp-action="MyAccount" asp-route-tab="a"><i class="fa fa-user"></i>我的帳戶</a>
-									</div>
-								}
-								else
-								{																	
-									<div class="header__top__right__auth">
-										<a class="nav-link text-dark" asp-controller="Member" asp-action="Register"><i class="fa fa-user"></i> 註冊</a>
-									</div>
-									<div class="header__top__right__auth">
-										<a class="nav-link text-dark" asp-controller="Member" asp-action="Signin"><i class="fa fa-user"></i> 登入</a>
-									</div>
-								}
-							}
-						</div>
-					</div>
+					@{
+						if (Context.Request.Path.Value != "/Member/Register" && Context.Request.Path.Value != "/Member/Signin")
+						{
+							<div class="col-lg-6 col-md-6">
+								<div class="header__top__left">
+									<ul>
+										<li><a asp-controller="Products" asp-action="Index"><i class="fa fa-envelope">賣家中心</i></a></li>
+									</ul>
+								</div>
+							</div>
+							<div class="col-lg-6 col-md-6">
+								<div class="header__top__right">
+									@{
+										if (User.Identity.IsAuthenticated)
+										{
+											<div>
+												<h5>歡迎光臨，@User.Identity.Name</h5>
+											</div>
+											<div class="header__top__right__auth">
+												<a class="nav-link text-dark" asp-controller="Member" asp-action="SignOut"><i class="fa fa-user"></i> 登出</a>
+											</div>
+											<div class="header__top__right__auth">
+												<a class="nav-link text-dark" asp-controller="User" asp-action="MyAccount" asp-route-tab="a"><i class="fa fa-user"></i>我的帳戶</a>
+											</div>
+										}
+										else
+										{
+											<div class="header__top__right__auth">
+												<a class="nav-link text-dark" asp-controller="Member" asp-action="Register"><i class="fa fa-user"></i> 註冊</a>
+											</div>
+											<div class="header__top__right__auth">
+												<a class="nav-link text-dark" asp-controller="Member" asp-action="Signin"><i class="fa fa-user"></i> 登入</a>
+											</div>
+										}
+									}
+								</div>
+							</div>
+						}
+					}
 				</div>
 			</div>
 		</div>
@@ -158,7 +164,7 @@
 										<li><a href="https://www.instagram.com/shockerthm101/">Instgram</a></li>
 									</ul>
 								</li>
-								@if (User.Identity.IsAuthenticated)
+								@if (User.Identity.GetUserRole() == "admin")
 								{
 									<li>
 										<a href="#">Admin</a>
@@ -172,23 +178,34 @@
 							</ul>
 						</nav>
 					</div>
-					<div class="row">
-						<div class="hero__search__form col-12">
-							<form action="/ShoppingCart/ProductList/" method="get">
-								<input type="text" name="query" placeholder="#商品關鍵字" />
-								<button type="submit" class="site-btn">搜尋</button>
-							</form>
+					@{
+						if (Context.Request.Path.Value != "/Member/Register" && Context.Request.Path.Value != "/Member/Signin")
+						{
+							<div class="row">
+								<div class="hero__search__form col-12">
+									<form action="/ShoppingCart/ProductList/" method="get">
+										<input type="text" name="query" placeholder="#商品關鍵字" />
+										<button type="submit" class="site-btn">搜尋</button>
+									</form>
+								</div>
+							</div>
+						}
+					}
+				</div>
+				@{
+					if (Context.Request.Path.Value != "/Member/Register" && Context.Request.Path.Value != "/Member/Signin")
+					{
+						<div class="col-lg-3">
+							<div class="header__cart">
+								<ul>
+									<li><a asp-controller="ShoppingCart" asp-action="Index"><i class="fa fa-shopping-bag" title="購物車"></i></a></li>
+								</ul>
+								<div class="header__cart__price"><span></span></div>
+							</div>
 						</div>
-					</div>
-				</div>
-				<div class="col-lg-3">
-					<div class="header__cart">
-						<ul>
-							<li><a asp-controller="ShoppingCart" asp-action="Index"><i class="fa fa-shopping-bag" title="購物車"></i></a></li>
-						</ul>
-						<div class="header__cart__price"><span></span></div>
-					</div>
-				</div>
+					}
+				}
+
 			</div>
 			<div class="humberger__open">
 				<i class="fa fa-bars"></i>
