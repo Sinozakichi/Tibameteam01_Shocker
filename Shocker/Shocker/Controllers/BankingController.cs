@@ -150,14 +150,21 @@ namespace Shocker.Controllers
 			{
 				ViewBag.Status = "付款成功";
 			}
-			else ViewBag.Status = "付款失敗";
+			else
+			{
+                ViewBag.Status = "付款失敗";
+            }
+			
 			string HashKey = _bankInfoModel.HashKey;
 			string HashIV = _bankInfoModel.HashIV;
-			string TradeInfoDecrypt = CryptoUtil.DecryptAESHex(Request.Form["TradeInfo"], HashKey, HashIV);
-			NameValueCollection decryptTradeCollection = HttpUtility.ParseQueryString(TradeInfoDecrypt);
+            // TradeInfo 交易資料AES 加密
+            string TradeInfoDecrypt = CryptoUtil.DecryptAESHex(Request.Form["TradeInfo"], HashKey, HashIV);
+			
+            NameValueCollection decryptTradeCollection = HttpUtility.ParseQueryString(TradeInfoDecrypt);
 			ViewBag.MerchantOrderNo = decryptTradeCollection["MerchantOrderNo"];
 			ViewBag.Amt = decryptTradeCollection["Amt"];
 			ViewBag.PayTime = decryptTradeCollection["PayTime"];
+
 			if (Request.Form["Status"] == "SUCCESS")
 			{
 				var order = _context.Orders.Find(Convert.ToInt32(decryptTradeCollection["MerchantOrderNo"]));
@@ -165,7 +172,8 @@ namespace Shocker.Controllers
 				_context.Update(order);
 				_context.SaveChanges();
 			}
-				return View();
+
+			return View();
 		}
 	}
 }
