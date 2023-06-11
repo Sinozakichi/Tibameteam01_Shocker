@@ -47,10 +47,10 @@
 			</ul>
 		</div>
 		<div class="humberger__menu__widget">
-			<div class="header__top__right__auth">
-				<a href="#"><i class="fa fa-user"></i> 註冊</a>
-				<a class="nav-link text-dark" asp-controller="User" asp-action="MyAccount" asp-route-tab="a"><i class="fa fa-user"></i>我的帳戶</a>
-			</div>
+				<div class="header__top__right__auth">
+					<a href="#"><i class="fa fa-user"></i> 註冊</a>
+					<a class="nav-link text-dark" asp-controller="User" asp-action="MyAccount" asp-route-tab="a"><i class="fa fa-user"></i>我的帳戶</a>
+				</div>
 		</div>
 		<nav class="humberger__menu__nav mobile-menu">
 			<ul>
@@ -64,7 +64,7 @@
 					</ul>
 				</li>
 				<li>
-					<a href="./contact.html">關注蝦殼</a>
+					<a href="#">關注蝦殼</a>
 					<ul class="header__menu__dropdown">
 						<li><a href="https://www.facebook.com/profile.php?id=100093431410643">Facebook</a></li>
 						<li><a href="https://www.instagram.com/shockerthm101/">Instgram</a></li>
@@ -73,7 +73,7 @@
 				<li>
 					<a href="#">Admin</a>
 					<ul class="header__menu__dropdown">
-						<li><a asp-area="Admin" asp-controller="Coupon" asp-action="Index">折價券查詢</a></li>
+						<li><a asp-area="Admin" asp-controller="Coupon" asp-action="Index">優惠券查詢</a></li>
 						<li><a asp-area="Admin" asp-controller="CustomerReply" asp-action="Index">客戶問題查詢</a></li>
 					</ul>
 				</li>
@@ -84,7 +84,7 @@
 		</ul>
 		<div class="humberger__menu__contact">
 			<ul>
-				<li><a asp-controller="Products" asp-action="Index"><i class="fa fa-envelope">賣家中心</i></a></li>
+				<li><a asp-controller="Products" asp-action="Index"><i class="fa fa-angle-double-right">賣家中心</i></a></li>
 			</ul>
 		</div>
 	</div>
@@ -97,7 +97,7 @@
 					<div class="col-lg-6 col-md-6">
 						<div class="header__top__left">
 							<ul>
-								<li><a asp-controller="Products" asp-action="Index"><i class="fa fa-envelope">賣家中心</i></a></li>
+								<li><a asp-controller="Products" asp-action="Index"><i class="fa fa-angle-double-right">賣家中心</i></a></li>
 							</ul>
 						</div>
 					</div>

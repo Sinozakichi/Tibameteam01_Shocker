@@ -363,7 +363,8 @@ namespace Shocker.Controllers
 				p.SellerAccount.Contains(id) ||
 				p.Description.Contains(id) ||
 				p.ProductCategory.CategoryName.Contains(id)
-				).Select(p => new
+				).Where(p => p.Status == "p1")
+				.Select(p => new
 				{
 					p.ProductId, p.ProductName, p.SellerAccount, p.UnitsInStock, p.UnitPrice, p.Currency,
 					p.Pictures.FirstOrDefault().Path,
