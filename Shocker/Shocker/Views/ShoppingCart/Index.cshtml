@@ -48,8 +48,8 @@
                                     </td>
                                     <td class="shoping__cart__item">
                                         <img :src="path[cx][px]" style="width:100px;">
-                                        <h5>{{product.productName}}</h5><br>
-                                        <p>{{product.categoryName}}</p>
+                                        <a :href="'/ShoppingCart/Product/'+product.productId"><h5>{{product.productName}}</h5></a><br>
+                                        <a :href="'/ShoppingCart/ProductList/'+product.categoryId"><p>{{product.categoryName}}</p></a>
                                     </td>
                                     <td class="shoping__cart__item text-center">
                                         <select v-model="discount[cx][px][1]" v-on:change="couponSelected(cx,px,product.categoryId)" class="col-10 ">

@@ -27,11 +27,6 @@ namespace Shocker.Controllers
 
         public IActionResult Product(int id)
         {
-			if (User.Identity.IsAuthenticated)
-			{
-				var loginAccount = User.Claims.FirstOrDefault(x => x.Type == ClaimTypes.Name);
-				ViewBag.Account = loginAccount.Value;
-			}
 			ViewBag.Id = id;
             return View();
         }
@@ -70,8 +65,6 @@ namespace Shocker.Controllers
         [Authorize]
         public IActionResult Index()
         {
-			var loginAccount = User.Claims.FirstOrDefault(x => x.Type == ClaimTypes.Name);
-			ViewBag.Account = loginAccount.Value;
 			return View();
         }
         [HttpPost]
@@ -316,12 +309,7 @@ namespace Shocker.Controllers
 		}
 		
 		public IActionResult ProductList(int id)
-        {
-			if (User.Identity.IsAuthenticated)
-			{
-				var loginAccount = User.Claims.FirstOrDefault(x => x.Type == ClaimTypes.Name);
-				ViewBag.Account = loginAccount.Value;
-			}
+        {		
 			ViewBag.CategoryId = id;
 			return View();
         }
@@ -363,7 +351,8 @@ namespace Shocker.Controllers
 				p.SellerAccount.Contains(id) ||
 				p.Description.Contains(id) ||
 				p.ProductCategory.CategoryName.Contains(id)
-				).Select(p => new
+				).Where(p => p.Status == "p1")
+				.Select(p => new
 				{
 					p.ProductId, p.ProductName, p.SellerAccount, p.UnitsInStock, p.UnitPrice, p.Currency,
 					p.Pictures.FirstOrDefault().Path,
