@@ -6,7 +6,7 @@
 		public string PayType { get; set; }
 		public int Amt { get; set; }
 		public string Email { get; set; }
-		//public string? ItemDesc { get; set; }
-		//public string? OrderComment { get; set; }
+		public string? ItemDesc { get; set; }
+		public string? OrderComment { get; set; }
 	}
 }
