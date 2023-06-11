@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.CodeAnalysis;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
 using Newtonsoft.Json;
 using Shocker.Models;
 using Shocker.Models.ViewModels;
@@ -253,6 +254,7 @@ namespace Shocker.Controllers
 		{
 			var o = _context.Orders.AsNoTracking().FirstOrDefault(x => x.OrderId == id);
 			if (o == null) return new ApiResultModel() { Status = false, ErrorMessage = "此筆訂單不存在!" };
+
 			var od = _context.OrderDetails.AsNoTracking().Include(x => x.StatusNavigation)
 				.Include(x => x.Product).ThenInclude(x => x.Pictures).Include(x => x.Product)
 				.ThenInclude(x => x.ProductCategory).Include(x => x.Product).ThenInclude(x => x.Ratings)
@@ -266,9 +268,9 @@ namespace Shocker.Controllers
 					discount = x.Discount,
 					categoryName = x.Product.ProductCategory.CategoryName,
 					picture = $"{x.Product.Pictures.FirstOrDefault().PictureId}-{x.Product.Pictures.FirstOrDefault().Path}",
-					statusName = x.StatusNavigation.StatusName,
-					description = x.Product.Ratings.FirstOrDefault().Description == null ? "" : x.Product.Ratings.FirstOrDefault().Description,
-					starCount = x.Product.Ratings.FirstOrDefault().StarCount == null ? 0 : x.Product.Ratings.FirstOrDefault().StarCount,
+					statusName = x.StatusNavigation.StatusName,					
+					description = x.StatusNavigation.Ratings.FirstOrDefault().Description ?? "",
+					starCount = x.StatusNavigation.Ratings.FirstOrDefault()==null?0: x.StatusNavigation.Ratings.FirstOrDefault().StarCount
 				}).ToList();
 
 			return new ApiResultModel()
