@@ -76,7 +76,7 @@
                                 <a class="btn btn-info btn-sm" v-on:click="viewChange" id="createCoupon" style="width:100%">創建個人優惠券</a>
                             </div>
                             <div class="col-4">
-                                <a class="btn btn-info btn-sm" v-on:click=" happyBirthday" id="createCoupon" style="width:100%">今日壽星優惠券發送!</a>
+                                <a class="btn btn-info btn-sm" v-on:click=" happyBirthday" id="createCoupon" style="width:100%">本月壽星優惠券發送!</a>
                             </div>
                             <div class="col-3"></div>
                             <div class="col-5 d-flex justify-content-end align-items-center" >
@@ -220,7 +220,7 @@
                                 @*//收件帳號*@
                                 <div class="form-group">
                                     <label for="example-text-input" class="form-control-label">請選擇接收者</label>
-                                    <select v-model="cHolderAccount">
+                                    <select v-model="cHolderAccount" class="form-select" aria-label="Default select example">
                                         <option selected value=""> 請選擇帳號 </option>
                                         <option  v-for="item in displayUser" :value="item.holderAccount">{{item.holderAccount}}</option>
                                     </select>
@@ -290,6 +290,7 @@
                     hbd:[],
                     errors:[],
                     errorsCreate:false,
+                    happyC:'',
                 };
             },
             mounted: function () {
@@ -357,6 +358,15 @@
 
                     }).then((result) => window.location.replace(window.location.href))
                 },
+                hsweetAlert: function (input) {
+                    Swal.fire({
+                        title: '當月壽星確認完畢',
+                        html: input,
+                        icon: 'success',
+                        confirmButtonText: '完成'
+
+                    }).then((result) => window.location.replace(window.location.href))
+                },
                 nosweetAlert: function (input) {
                     Swal.fire({
                         title: '錯誤',
@@ -369,10 +379,15 @@
                 happyBirthday:function(){
                     var _this =this;
                     axios.get(`${window.location.origin}/Admin/Coupon/CreateHBDCoupon`)
-                        .then(response => {
-                    if (response.data.message != "成功送出生日優惠券") { _this.nosweetAlert(response.data.message) }
-                    else { _this.sweetAlert(response.data.message) }
-                })
+                        .then(response => {_this.happyC=response.data.message;
+                            var sp =_this.happyC.split(',').join('<br/>');
+                            _this.hsweetAlert(sp);
+                        })
+                    //if (response.data.status) { _this.sweetAlert(sp)}
+                    //else { _this.nosweetAlert(sp) };
+                    //if (response.data.message != "成功送出生日優惠券") { _this.nosweetAlert(response.data.message) }
+                    //        else { _this.sweetAlert(response.data.message) }
+                //})
                 },
                 requiredInput:function(){
                    
