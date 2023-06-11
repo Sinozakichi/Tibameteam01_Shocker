@@ -96,7 +96,6 @@ namespace Shocker.Areas.Admin.Controllers
             return Json(_context.ClientCases.Include(c=>c.QuestionCategory)
                 .Where(c =>
                 c.CaseId == ccf.CaseId ||
-                c.CloseDate ==ccf.CloseDate ||
                 c.UserAccount.Contains(ccf.UserAccount) ||
                 c.Status.Contains(ccf.Status) ||
                 c.QuestionCategory.CategoryName.Contains(ccf.CategoryName) ||

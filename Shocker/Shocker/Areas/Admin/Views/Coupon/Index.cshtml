@@ -285,11 +285,12 @@
                     tableControl: true,
                     couponControl: false,
                     filter: '',
-                    errormessage:[],
-                    displayUser:[],
-                    hbd:[],
-                    errors:[],
-                    errorsCreate:false,
+                    errormessage: [],
+                    displayUser: [],
+                    hbd: [],
+                    errors: [],
+                    errorsCreate: false,
+                    happyC: '',
                 };
             },
             mounted: function () {
@@ -303,12 +304,12 @@
                     axios.post(`${window.location.origin}/Admin/Coupon/DisaplayCoupon`)
                         .then(res => { _this.displayCp = res.data })
                 },
-                displayUserAccount: function(){
+                displayUserAccount: function () {
                     var _this = this;
                     axios.post(`${window.location.origin}/Admin/Coupon/DisplayUser`)
-                        .then(res => {_this.displayUser =res.data})
+                        .then(res => { _this.displayUser = res.data })
                 },
-                createCoupon: function () { 
+                createCoupon: function () {
                     var _this = this;
                     input = {};
                     input.Amount = _this.cAmount;
@@ -322,7 +323,7 @@
                             if (response.data.message != "建立成功") { _this.nosweetAlert(response.data.message) }
                             else { _this.sweetAlert(response.data.message) }
                         })
-                             .catch(error => {
+                        .catch(error => {
                             console.log(_this.errormessage = error.response.data.error)
                         })
 
@@ -336,13 +337,13 @@
                     axios.post(`${window.location.origin}/Admin/Coupon/FilterCoupon`, input)
                         .then(res => { _this.displayCp = res.data })
                 },
-                
+
                 viewChange: function () {
                     var _this = this;
                     _this.tableControl = false;
                     _this.couponControl = true;
                 },
-                backToTable:function(){
+                backToTable: function () {
                     var _this = this;
                     _this.tableControl = true;
                     _this.couponControl = false;
@@ -357,6 +358,15 @@
 
                     }).then((result) => window.location.replace(window.location.href))
                 },
+                hsweetAlert: function (input) {
+                    Swal.fire({
+                        title: '當月壽星確認完畢',
+                        html: input,
+                        icon: 'success',
+                        confirmButtonText: '完成'
+
+                    }).then((result) => window.location.replace(window.location.href))
+                },
                 nosweetAlert: function (input) {
                     Swal.fire({
                         title: '錯誤',
@@ -366,26 +376,32 @@
                         confirmButtonText: '完成'
                     })
                 },
-                happyBirthday:function(){
-                    var _this =this;
+                happyBirthday: function () {
+                    var _this = this;
                     axios.get(`${window.location.origin}/Admin/Coupon/CreateHBDCoupon`)
                         .then(response => {
-                    if (response.data.message != "成功送出生日優惠券") { _this.nosweetAlert(response.data.message) }
-                    else { _this.sweetAlert(response.data.message) }
-                })
+                            _this.happyC = response.data.message;
+                            var sp = _this.happyC.split(',').join('<br/>');
+                            _this.hsweetAlert(sp);
+                        })
+                    //if (response.data.status) { _this.sweetAlert(sp)}
+                    //else { _this.nosweetAlert(sp) };
+                    //if (response.data.message != "成功送出生日優惠券") { _this.nosweetAlert(response.data.message) }
+                    //        else { _this.sweetAlert(response.data.message) }
+                    //})
                 },
-                requiredInput:function(){
-                   
+                requiredInput: function () {
+
                     var _this = this;
                     var a = _this.errorsCreate;
 
-                    
-                    if (_this.cExpirationDate == null || _this.cExpirationDate=="") {
+
+                    if (_this.cExpirationDate == null || _this.cExpirationDate == "") {
                         _this.errors.push("到期日為必填");
-                        a=true;
+                        a = true;
                     }
-                    
-                    if (_this.cDiscount <=0 || _this.cDiscount >0.99 || _this.cDiscount =="") {
+
+                    if (_this.cDiscount <= 0 || _this.cDiscount > 0.99 || _this.cDiscount == "") {
                         _this.errors.push("折扣數請輸入 0和1之間 *取至小數點後一位 ex:0.5");
                         a = true;
                     }
@@ -393,12 +409,12 @@
                         _this.errors.push("使用者不可為空");
                         a = true;
                     }
-                    if (_this.cAmount <= 0 || _this.cAmount=="" || _this.cAmount==null) {
+                    if (_this.cAmount <= 0 || _this.cAmount == "" || _this.cAmount == null) {
                         _this.errors.push("請輸入數字且張數不能為0");
                         a = true;
                     }
                 },
-        },
+            },
         }
         var app = Vue.createApp(VueApp).mount("#app");
 

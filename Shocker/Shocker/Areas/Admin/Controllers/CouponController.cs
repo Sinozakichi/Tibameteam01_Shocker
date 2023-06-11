@@ -96,6 +96,8 @@ namespace Shocker.Areas.Admin.Controllers
                   x.StatusNavigation.StatusName.Contains(cvm.StatusName) ||
                   x.ProductCategory.CategoryName.Contains(cvm.CategoryName)||
                   x.PublisherAccount.Contains(cvm.PublisherAccount)
+                  
+
                   ).Select(c => new
                   {
                       PublisherAccount = c.PublisherAccount,

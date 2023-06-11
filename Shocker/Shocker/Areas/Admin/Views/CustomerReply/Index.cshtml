@@ -302,7 +302,7 @@
                 qAfilter: function () {
                     var _this = this;
                     var input = {};
-                    input.CaseId = isNaN(Number(_this.filter)) ? -1 : Number(_this.filter); //input.CloseDate =
+                    input.CategoryId = isNaN(Number(_this.filter)) ? -1 : Number(_this.filter); 
                     input.UserAccount = input.CategoryName = input.Email = input.StatusName = input.Status = _this.filter;
                     axios.post(`${window.location.origin}/Admin/CustomerReply/FilterQA`, input)
                         .then(res => { _this.qA = res.data })
