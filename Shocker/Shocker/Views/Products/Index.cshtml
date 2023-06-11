@@ -39,210 +39,211 @@
 </head>
 
 <body class="g-sidenav-show bg-gray-100">
-<div id="app">
-	<div class="min-height-300 bg-primary position-absolute w-100"></div>
-	<aside class="sidenav bg-white navbar navbar-vertical navbar-expand-xs border-0 border-radius-xl my-3 fixed-start ms-4 " id="sidenav-main">
-		<div class="sidenav-header d-flex justify-content-center" style="height:130px">
-			<a href="/Home/Index/" class="m-0" style="height:130px">
-				<img class="h-130" src="/img/advertise/shocker.png" style="width:130px;height:130px;" />
-			</a>
-		</div>
-		<hr class="horizontal dark mt-0">
-		@*賣家中心選單*@
-		<div class="collapse navbar-collapse w-auto" id="sidenav-collapse-main">
-			<ul class="navbar-nav">
-				<li class="nav-item">
-					<a id="nav0" class="nav-link " href="#0" @@click="navbar(0)">
-						<div class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
-							<i class="ni ni-books text-info text-sm opacity-10"></i>
-						</div>
-						<span class="nav-link-text ms-1">賣場資訊</span>
-					</a>
-				</li>
-				<li class="nav-item">
-					<a id="nav1" class="nav-link" href="#1" @@click="navbar(1)">
-						<div class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
-							<i class="ni ni-cart text-warning text-sm opacity-10"></i>
-						</div>
-						<span class="nav-link-text ms-1">商品管理</span>
-					</a>
-				</li>
-				<li class="nav-item">
-					<a id="nav2" class="nav-link " href="#2" @@click="navbar(2)">
-						<div class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
-							<i class="ni ni-tag text-primary text-sm opacity-10"></i>
-						</div>
-						<span class="nav-link-text ms-1">訂單管理</span>
-					</a>
-				</li>
-				<li class="nav-item">
-					<a id="nav3" class="nav-link " href="#3" @@click="navbar(3)">
-						<div class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
-							<i class="ni ni-like-2 text-success text-sm opacity-10"></i>
-						</div>
-						<span class="nav-link-text ms-1">買家評價管理</span>
-					</a>
-				</li>
-			</ul>
-		</div>
-	</aside>
-	<main class="main-content position-relative border-radius-lg ">
-		<!-- Navbar -->
-		<nav class="navbar navbar-main navbar-expand-lg px-0 mx-4 shadow-none border-radius-xl" id="navbarBlur" data-scroll="false">
-			<div class="container-fluid py-1 px-3">
-				<nav aria-label="breadcrumb">
-					<ol class="breadcrumb bg-transparent mb-0 pb-0 pt-1 px-0 me-sm-6 me-5">
-						<li class="breadcrumb-item text-sm">
-							<a href="/Home" class="opacity-5 text-white">首頁</a>
-						</li>
-						<li class="breadcrumb-item text-sm text-white active" aria-current="page">賣家中心</li>
-					</ol>
-					<h6 class="font-weight-bolder text-white mb-0">賣家中心</h6>
-				</nav>
-				<div class="collapse navbar-collapse mt-sm-0 mt-2 me-md-0 me-sm-4" id="navbar">
-					<div class="ms-md-auto pe-md-3 d-flex align-items-center">
-					</div>
-					<ul class="navbar-nav  justify-content-end">
-						<li class="nav-item dropdown pe-2 d-flex align-items-center">
-							<a href="javascript:;" class="nav-link text-white font-weight-bold px-0" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
-								<i class="fa fa-user me-sm-1"></i>
-								<span class="d-sm-inline d-none">{{loginAccount}}</span>
-							</a>
-							<ul class="dropdown-menu dropdown-menu-end px-2 py-3 me-sm-n4" aria-labelledby="dropdownMenuButton">
-								<li class="mb-2">
-									<a class="dropdown-item border-radius-md" href="/User/MyAccount?tab=a">
-										<div class="d-flex py-1">
-											<div class="d-flex flex-column justify-content-center">
-												<h6 class="text-sm font-weight-normal mb-1">
-													<span class="font-weight-bold">我的帳戶</span>
-												</h6>
-											</div>
-										</div>
-									</a>
-								</li>
-								<li class="mb-2">
-									<a class="dropdown-item border-radius-md" href="/Member/SignOut">
-										<div class="d-flex py-1">
-											<div class="d-flex flex-column justify-content-center">
-												<h6 class="text-sm font-weight-normal mb-1">
-													<span class="font-weight-bold">登出</span>
-												</h6>
-											</div>
-										</div>
-									</a>
-								</li>
-							</ul>
-						</li>
-						<li class="nav-item d-xl-none ps-3 d-flex align-items-center">
-							<a href="javascript:;" class="nav-link text-white p-0" id="iconNavbarSidenav">
-								<div class="sidenav-toggler-inner">
-									<i class="sidenav-toggler-line bg-white"></i>
-									<i class="sidenav-toggler-line bg-white"></i>
-									<i class="sidenav-toggler-line bg-white"></i>
-								</div>
-							</a>
-						</li>
-					</ul>
-				</div>
+	<div id="app">
+		<div class="min-height-300 bg-success position-absolute w-100"></div>
+		<aside class="sidenav bg-light navbar navbar-vertical navbar-expand-xs border-0 border-radius-xl my-3 fixed-start ms-4 " id="sidenav-main">
+			<div class="sidenav-header d-flex justify-content-center" style="height:130px">
+				<a href="/Home/Index/" class="m-0" style="height:130px">
+					<img class="h-130" src="/img/advertise/shocker.png" style="width:130px;height:130px;" />
+				</a>
 			</div>
-		</nav>
-		<!-- End Navbar -->
-		<div class="container-fluid py-4">
-			<div v-if="this._info" class="row">
-				<div class="col-xl-3 col-sm-6 mb-xl-0 mb-4">
+			<hr class="horizontal dark mt-0">
+			@*賣家中心選單*@
+			<div class="collapse navbar-collapse w-auto" id="sidenav-collapse-main">
+				<ul class="navbar-nav">
+					<li class="nav-item">
+						<a id="nav0" class="nav-link " href="#0" @@click="navbar(0)">
+							<div class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
+								<i class="ni ni-books text-info text-sm opacity-10"></i>
+							</div>
+							<span class="nav-link-text ms-1">賣場資訊</span>
+						</a>
+					</li>
+					<li class="nav-item">
+						<a id="nav1" class="nav-link" href="#1" @@click="navbar(1)">
+							<div class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
+								<i class="ni ni-cart text-warning text-sm opacity-10"></i>
+							</div>
+							<span class="nav-link-text ms-1">商品管理</span>
+						</a>
+					</li>
+					<li class="nav-item">
+						<a id="nav2" class="nav-link " href="#2" @@click="navbar(2)">
+							<div class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
+								<i class="ni ni-tag text-primary text-sm opacity-10"></i>
+							</div>
+							<span class="nav-link-text ms-1">訂單管理</span>
+						</a>
+					</li>
+					<li class="nav-item">
+						<a id="nav3" class="nav-link " href="#3" @@click="navbar(3)">
+							<div class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
+								<i class="ni ni-like-2 text-success text-sm opacity-10"></i>
+							</div>
+							<span class="nav-link-text ms-1">買家評價管理</span>
+						</a>
+					</li>
+				</ul>
+			</div>
+		</aside>
+		<main class="main-content position-relative border-radius-lg ">
+			<!-- Navbar -->
+			<nav class="navbar navbar-main navbar-expand-lg px-0 mx-4 shadow-none border-radius-xl" id="navbarBlur" data-scroll="false">
+				<div class="container-fluid py-1 px-3">
+					<nav aria-label="breadcrumb">
+						<ol class="breadcrumb bg-transparent mb-0 pb-0 pt-1 px-0 me-sm-6 me-5">
+							<li class="breadcrumb-item text-sm">
+								<a href="/Home" class="opacity-5 text-white">首頁</a>
+							</li>
+							<li class="breadcrumb-item text-sm text-white active" aria-current="page">賣家中心</li>
+						</ol>
+						<h6 class="font-weight-bolder text-white mb-0">賣家中心</h6>
+					</nav>
+					<div class="collapse navbar-collapse mt-sm-0 mt-2 me-md-0 me-sm-4" id="navbar">
+						<div class="ms-md-auto pe-md-3 d-flex align-items-center">
+						</div>
+						<ul class="navbar-nav  justify-content-end">
+							<li class="nav-item dropdown pe-2 d-flex align-items-center">
+								<a href="javascript:;" class="nav-link text-white font-weight-bold px-0" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
+									<i class="fa fa-user me-sm-1"></i>
+									<span class="d-sm-inline d-none">{{loginAccount}}</span>
+								</a>
+								<ul class="dropdown-menu dropdown-menu-end px-2 py-3 me-sm-n4" aria-labelledby="dropdownMenuButton">
+									<li class="mb-2">
+										<a class="dropdown-item border-radius-md" href="/User/MyAccount?tab=a">
+											<div class="d-flex py-1">
+												<div class="d-flex flex-column justify-content-center">
+													<h6 class="text-sm font-weight-normal mb-1">
+														<span class="font-weight-bold text-black">我的帳戶</span>
+													</h6>
+												</div>
+											</div>
+										</a>
+									</li>
+									<li class="mb-2">
+										<a class="dropdown-item border-radius-md" href="/Member/SignOut">
+											<div class="d-flex py-1">
+												<div class="d-flex flex-column justify-content-center">
+													<h6 class="text-sm font-weight-normal mb-1">
+														<span class="font-weight-bold text-black">登出</span>
+													</h6>
+												</div>
+											</div>
+										</a>
+									</li>
+								</ul>
+							</li>
+							<li class="nav-item d-xl-none ps-3 d-flex align-items-center">
+								<a href="javascript:;" class="nav-link text-white p-0" id="iconNavbarSidenav">
+									<div class="sidenav-toggler-inner">
+										<i class="sidenav-toggler-line bg-white"></i>
+										<i class="sidenav-toggler-line bg-white"></i>
+										<i class="sidenav-toggler-line bg-white"></i>
+									</div>
+								</a>
+							</li>
+						</ul>
+					</div>
+				</div>
+			</nav>
+			<!-- End Navbar -->
+			<div class="container-fluid py-4">
+				<div v-if="this._info" class="row">
+					<div class="col-xl-3 col-sm-6 mb-xl-0 mb-4">
 						<div class="card mb-4">
-						<div class="card-body p-3">
-							<div class="row">
-								<div class="col-8">
-									<h5 class="font-weight-bolder">商品</h5>
-									<div class="numbers">
-										<p class="text-sm mb-0 text-uppercase font-weight-bold">未上架</p>
-										<h5 class="font-weight-bolder">{{info.p0}}</h5>
-										<p class="text-sm mb-0 text-uppercase font-weight-bold">已上架</p>
-										<h5 class="font-weight-bolder">{{info.p1}}</h5>
-									</div>
-								</div>
-								<div class="col-4 text-end">
-									<div class="icon icon-shape bg-gradient-warning shadow-warning text-center rounded-circle">
-										<i class="ni ni-cart text-lg opacity-10" aria-hidden="true"></i>
-									</div>
-								</div>
-							</div>
-						</div>
-					</div>
-				</div>
-				<div class="col-xl-3 col-sm-6 mb-xl-0 mb-4">
-					<div class="card">
-						<div class="card-body p-3">
-							<div class="row">
-								<div class="col-8">
-									<h5 class="font-weight-bolder">訂單商品</h5>
-									<div class="row">
-										<div class="numbers col-6">										
-											<p class="text-sm mb-0 text-uppercase font-weight-bold">未出貨</p>
-											<h5 class="font-weight-bolder">{{info.od1}}</h5>
-											<p class="text-sm mb-0 text-uppercase font-weight-bold">未收貨</p>
-											<h5 class="font-weight-bolder">{{info.od2}}</h5>
+							<div class="card-body p-3">
+								<div class="row">
+									<div class="col-8">
+										<h5 class="font-weight-bolder">商品</h5>
+										<div class="numbers">
+											<p class="text-sm mb-0 text-uppercase font-weight-bold">未上架</p>
+											<h5 class="font-weight-bolder">{{info.p0}}</h5>
+											<p class="text-sm mb-0 text-uppercase font-weight-bold">已上架</p>
+											<h5 class="font-weight-bolder">{{info.p1}}</h5>
 										</div>
-										<div class="numbers col-6">
-											<p class="text-sm mb-0 text-uppercase font-weight-bold">已收貨</p>
-											<h5 class="font-weight-bolder">{{info.od3}}</h5>
-											<p class="text-sm mb-0 text-uppercase font-weight-bold">退貨</p>
-											<h5 class="font-weight-bolder">{{info.od4}}</h5>
+									</div>
+									<div class="col-4 text-end">
+										<div class="icon icon-shape bg-gradient-warning shadow-warning text-center rounded-circle">
+											<i class="ni ni-cart text-lg opacity-10" aria-hidden="true"></i>
 										</div>
 									</div>
 								</div>
-								<div class="col-4 text-end">
-									<div class="icon icon-shape bg-gradient-primary shadow-primary text-center rounded-circle">
-										<i class="ni ni-tag text-lg opacity-10" aria-hidden="true"></i>
+							</div>
+						</div>
+					</div>
+					<div class="col-xl-3 col-sm-6 mb-xl-0 mb-4">
+						<div class="card">
+							<div class="card-body p-3">
+								<div class="row">
+									<div class="col-8">
+										<h5 class="font-weight-bolder">訂單商品</h5>
+										<div class="row">
+											<div class="numbers col-6">
+												<p class="text-sm mb-0 text-uppercase font-weight-bold">未出貨</p>
+												<h5 class="font-weight-bolder">{{info.od1}}</h5>
+												<p class="text-sm mb-0 text-uppercase font-weight-bold">未收貨</p>
+												<h5 class="font-weight-bolder">{{info.od2}}</h5>
+											</div>
+											<div class="numbers col-6">
+												<p class="text-sm mb-0 text-uppercase font-weight-bold">已收貨</p>
+												<h5 class="font-weight-bolder">{{info.od3}}</h5>
+												<p class="text-sm mb-0 text-uppercase font-weight-bold">退貨</p>
+												<h5 class="font-weight-bolder">{{info.od4}}</h5>
+											</div>
+										</div>
+									</div>
+									<div class="col-4 text-end">
+										<div class="icon icon-shape bg-gradient-primary shadow-primary text-center rounded-circle">
+											<i class="ni ni-tag text-lg opacity-10" aria-hidden="true"></i>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="col-xl-3 col-sm-6 mb-xl-0 mb-4">
+						<div class="card">
+							<div class="card-body p-3">
+								<div class="row">
+									<div class="col-8">
+										<h5 class="font-weight-bolder">買家評價</h5>
+										<div class="numbers">
+											<p class="text-sm mb-0 text-uppercase font-weight-bold">未回應</p>
+											<h5 class="font-weight-bolder">{{info.r0}}</h5>
+											<p class="text-sm mb-0 text-uppercase font-weight-bold">已回應</p>
+											<h5 class="font-weight-bolder">{{info.r1}}</h5>
+										</div>
+									</div>
+									<div class="col-4 text-end">
+										<div class="icon icon-shape bg-gradient-success shadow-success text-center rounded-circle">
+											<i class="ni ni-like-2 text-lg opacity-10" aria-hidden="true"></i>
+										</div>
 									</div>
 								</div>
 							</div>
 						</div>
 					</div>
 				</div>
-				<div class="col-xl-3 col-sm-6 mb-xl-0 mb-4">
-					<div class="card">
-						<div class="card-body p-3">
-							<div class="row">
-								<div class="col-8">
-									<h5 class="font-weight-bolder">買家評價</h5>
-									<div class="numbers">
-										<p class="text-sm mb-0 text-uppercase font-weight-bold">未回應</p>
-										<h5 class="font-weight-bolder">{{info.r0}}</h5>
-										<p class="text-sm mb-0 text-uppercase font-weight-bold">已回應</p>
-										<h5 class="font-weight-bolder">{{info.r1}}</h5>
-									</div>
-								</div>
-								<div class="col-4 text-end">
-									<div class="icon icon-shape bg-gradient-success shadow-success text-center rounded-circle">
-										<i class="ni ni-like-2 text-lg opacity-10" aria-hidden="true"></i>
-									</div>
+				<div v-if="this._info" class="row">
+					<div class="col-md-12">
+						<div class="card mb-4">
+							<div class="card-header pb-0">
+								<div class="d-flex align-items-center">
+									<p class="col-4 mb-0">編輯賣場資訊</p>
 								</div>
 							</div>
-						</div>
-					</div>
-				</div>
-			</div>
-			<div v-if="this._info" class="row">
-				<div class="col-md-12">
-					<div class="card mb-4">
-						<div class="card-header pb-0">
-							<div class="d-flex align-items-center">
-								<p class="col-4 mb-0">編輯賣場資訊</p>
-							</div>
-						</div>
-						<div class="card-body">
-							<div class="row">
-								<div class="col-md-12">
-									<div class="form-group">
-										<textarea class="form-control" rows="5" cols="20" v-model="infoText" value=""></textarea>
-									</div>
-									<div class="form-group">
-										<div class="d-flex align-items-center">
-											<div class="col-md-8 col-5"></div>
-											<div class="col-md-4 col-7 d-flex justify-content-between">
-												<button class="btn btn-primary btn-sm ms-auto" @@click="updateInfo(infoText)">修改賣家資訊</button>
+							<div class="card-body">
+								<div class="row">
+									<div class="col-md-12">
+										<div class="form-group">
+											<textarea class="form-control" rows="5" cols="20" v-model="infoText" value=""></textarea>
+										</div>
+										<div class="form-group">
+											<div class="d-flex align-items-center">
+												<div class="col-md-8 col-5"></div>
+												<div class="col-md-4 col-7 d-flex justify-content-between">
+													<button class="btn btn-primary btn-sm ms-auto" @@click="updateInfo(infoText)">修改賣家資訊</button>
+												</div>
 											</div>
 										</div>
 									</div>
@@ -251,255 +252,255 @@
 						</div>
 					</div>
 				</div>
-			</div>
-			<div v-if="this._products" class="row">
-				<div class="col-12">
-					<div class="card mb-4">
-						<div class="card-header pb-0">
-							<div class="d-flex align-items-center">
-								<h6 class="mb-0">商品管理</h6>
-								<div class="ms-md-auto pe-md-3 d-flex align-items-center">
-									<div class="input-group">
-										<input v-model="filter" type="text" class="form-control" placeholder="#商品關鍵字" @@keyup.enter="filterProducts">
-										<button class="input-group-text text-body" @@click="filterProducts">
-											<i class="fas fa-search" aria-hidden="true">&nbsp;搜尋</i>
-										</button>
+				<div v-if="this._products" class="row">
+					<div class="col-12">
+						<div class="card mb-4">
+							<div class="card-header pb-0">
+								<div class="d-flex align-items-center">
+									<h6 class="mb-0">商品管理</h6>
+									<div class="ms-md-auto pe-md-3 d-flex align-items-center">
+										<div class="input-group">
+											<input v-model="filter" type="text" class="form-control" placeholder="#商品關鍵字" @@keyup.enter="filterProducts">
+											<button class="input-group-text text-body" @@click="filterProducts">
+												<i class="fas fa-search" aria-hidden="true">&nbsp;搜尋</i>
+											</button>
+										</div>
 									</div>
+									<button class="btn btn-primary btn-sm ms-auto" @@click="create">新增商品</button>
 								</div>
-								<button class="btn btn-primary btn-sm ms-auto" @@click="create">新增商品</button>
 							</div>
-						</div>
-						<div class="card-body px-0 pt-0 pb-2">
-							<div class="table-responsive p-0">
-								<table class="table align-items-center mb-0">
-									<thead>
-										<tr>
-											<th class="text-secondary opacity-7"></th>
-											<th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">編號</th>
-											<th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">名稱</th>
-											<th class="text-end text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">單價</th>
-											<th class="text-end text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">庫存</th>
-											<th class="text-end text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">銷量</th>
-											<th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">上架狀態</th>
-											<th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">上架時間</th>
-										</tr>
-									</thead>
-									<tbody>
-										<tr v-for="item in products">
-											<td class="align-middle text-center">
-												<a href="javascript:;" class="text-secondary font-weight-bold text-xs" data-toggle="tooltip" @@click="edit(item.productId)">
-													<i class="fas fa-pencil-alt text-dark me-2" aria-hidden="true"></i>編輯
-												</a>
-											</td>
-											<td class="align-middle text-center">
-												<span class="text-secondary text-xs font-weight-bold">{{item.productId}}</span>
-											</td>
-											<td>
-												<div class="d-flex px-2 py-1">
-													<div class="d-flex flex-column justify-content-center">
-														<h6 class="mb-0 text-sm">{{item.productName}}</h6>
+							<div class="card-body px-0 pt-0 pb-2">
+								<div class="table-responsive p-0">
+									<table class="table align-items-center mb-0">
+										<thead>
+											<tr>
+												<th class="text-secondary opacity-7"></th>
+												<th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">編號</th>
+												<th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">名稱</th>
+												<th class="text-end text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">單價</th>
+												<th class="text-end text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">庫存</th>
+												<th class="text-end text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">銷量</th>
+												<th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">上架狀態</th>
+												<th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">上架時間</th>
+											</tr>
+										</thead>
+										<tbody>
+											<tr v-for="item in products">
+												<td class="align-middle text-center">
+													<a href="javascript:;" class="text-secondary font-weight-bold text-xs" data-toggle="tooltip" @@click="edit(item.productId)">
+														<i class="fas fa-pencil-alt text-dark me-2" aria-hidden="true"></i>編輯
+													</a>
+												</td>
+												<td class="align-middle text-center">
+													<span class="text-secondary text-xs font-weight-bold">{{item.productId}}</span>
+												</td>
+												<td>
+													<div class="d-flex px-2 py-1">
+														<div class="d-flex flex-column justify-content-center">
+															<h6 class="mb-0 text-sm">{{item.productName}}</h6>
+														</div>
 													</div>
-												</div>
-											</td>
-											<td class="align-middle text-end">
-												<div class="row">
-													<p class="text-xs font-weight-bold mb-0">{{item.currency}}&nbsp;&nbsp;{{item.unitPrice}}</p>
-												</div>
-											</td>
-											<td class="align-middle text-end">
-												<p class="text-xs font-weight-bold mb-0">{{item.unitsInStock}}</p>
-											</td>
-											<td class="align-middle text-end">
-												<p class="text-xs font-weight-bold mb-0">{{item.sales}}</p>
-											</td>
-											<td class="align-middle text-center text-sm">
-												<span v-if="item.status=='p0'" class="badge badge-sm bg-gradient-secondary">未上架</span>
-												<span v-if="item.status=='p1'" class="badge badge-sm bg-gradient-success">已上架</span>
-												<span v-if="item.status=='p2'" class="badge badge-sm bg-gradient-dark">已刪除</span>
-											</td>
-											<td class="align-middle text-center">
-												<span class="text-secondary text-xs font-weight-bold">{{item.launchDate}}</span>
-											</td>
-										</tr>
-									</tbody>
-								</table>
+												</td>
+												<td class="align-middle text-end">
+													<div class="row">
+														<p class="text-xs font-weight-bold mb-0">{{item.unitPrice}}&nbsp;&nbsp;{{item.currency}}</p>
+													</div>
+												</td>
+												<td class="align-middle text-end">
+													<p class="text-xs font-weight-bold mb-0">{{item.unitsInStock}}</p>
+												</td>
+												<td class="align-middle text-end">
+													<p class="text-xs font-weight-bold mb-0">{{item.sales}}</p>
+												</td>
+												<td class="align-middle text-center text-sm">
+													<span v-if="item.status=='p0'" class="badge badge-sm bg-gradient-secondary">未上架</span>
+													<span v-if="item.status=='p1'" class="badge badge-sm bg-gradient-success">已上架</span>
+													<span v-if="item.status=='p2'" class="badge badge-sm bg-gradient-dark">已刪除</span>
+												</td>
+												<td class="align-middle text-center">
+													<span class="text-secondary text-xs font-weight-bold">{{new Date(item.launchDate).toLocaleString()}}</span>
+												</td>
+											</tr>
+										</tbody>
+									</table>
+								</div>
 							</div>
 						</div>
 					</div>
 				</div>
-			</div>
-			<div v-if="this._details" class="row">
-				<div class="col-12">
-					<div class="card mb-4">
-						<div class="card-header pb-0">
-							<h6>商品管理</h6>
-						</div>
-						<div class="card-body px-0 pt-0 pb-2">
-							<div class="table-responsive p-0">
-								<table class="table align-items-center mb-0">
-									<thead>
-										<tr>
-											<th class="text-secondary opacity-7"></th>
-											<th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">編號</th>
-											<th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">名稱</th>
-											<th class="text-end text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">單價</th>
-											<th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">庫存</th>
-											<th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">銷量</th>
-											<th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">上架狀態</th>
-											<th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">上架時間</th>
-										</tr>
-									</thead>
-									<tbody>
-										<tr>
-											<td class="align-middle text-center">
-												<a href="javascript:;" class="text-secondary font-weight-bold text-xs" @@click="cancel">
-													<i class="fas fa-arrow-circle-up text-dark me-2" aria-hidden="true"></i>取消
-												</a>
-											</td>
-											<td class="align-middle text-center">
-												<span class="text-secondary text-xs font-weight-bold">{{details.productId}}</span>
-											</td>
-											<td>
-												<div class="d-flex px-2 py-1">
-													<div class="d-flex flex-column justify-content-center">
-														<h6 class="mb-0 text-sm">{{details.productName}}</h6>
+				<div v-if="this._details" class="row">
+					<div class="col-12">
+						<div class="card mb-4">
+							<div class="card-header pb-0">
+								<h6>商品管理</h6>
+							</div>
+							<div class="card-body px-0 pt-0 pb-2">
+								<div class="table-responsive p-0">
+									<table class="table align-items-center mb-0">
+										<thead>
+											<tr>
+												<th class="text-secondary opacity-7"></th>
+												<th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">編號</th>
+												<th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">名稱</th>
+												<th class="text-end text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">單價</th>
+												<th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">庫存</th>
+												<th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">銷量</th>
+												<th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">上架狀態</th>
+												<th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">上架時間</th>
+											</tr>
+										</thead>
+										<tbody>
+											<tr>
+												<td class="align-middle text-center">
+													<a href="javascript:;" class="text-secondary font-weight-bold text-xs" @@click="cancel">
+														<i class="fas fa-arrow-circle-up text-dark me-2" aria-hidden="true"></i>取消
+													</a>
+												</td>
+												<td class="align-middle text-center">
+													<span class="text-secondary text-xs font-weight-bold">{{details.productId}}</span>
+												</td>
+												<td>
+													<div class="d-flex px-2 py-1">
+														<div class="d-flex flex-column justify-content-center">
+															<h6 class="mb-0 text-sm">{{details.productName}}</h6>
+														</div>
 													</div>
-												</div>
-											</td>
-											<td class="align-middle text-end">
-												<p class="text-xs font-weight-bold mb-0">{{details.currency}}&nbsp;&nbsp;{{details.unitPrice}}</p>
-											</td>
-											<td class="align-middle text-center">
-												<p class="text-xs font-weight-bold mb-0">{{details.unitsInStock}}</p>
-											</td>
-											<td class="align-middle text-center">
-												<p class="text-xs font-weight-bold mb-0">{{details.sales}}</p>
-											</td>
-											<td class="align-middle text-center text-sm">
-												<div class="form-check form-switch ps-0 ms-auto my-auto">
-													<input v-if="details.status!='p2'" v-model="this._checked" class="form-check-input mt-1 ms-auto" type="checkbox" @@change="shelf">
-													<span v-if="details.status=='p0'" class="badge badge-sm bg-gradient-secondary">未上架</span>
-													<span v-if="details.status=='p1'" class="badge badge-sm bg-gradient-success">已上架</span>
-													<span v-if="details.status=='p2'" class="badge badge-sm bg-gradient-dark">已刪除</span>
-												</div>
-											</td>
-											<td class="align-middle text-center">
-												<span class="text-secondary text-xs font-weight-bold">{{details.launchDate}}</span>
-											</td>
-										</tr>
-									</tbody>
-								</table>
+												</td>
+												<td class="align-middle text-end">
+													<p class="text-xs font-weight-bold mb-0">{{details.unitPrice}}&nbsp;&nbsp;{{details.currency}}</p>
+												</td>
+												<td class="align-middle text-center">
+													<p class="text-xs font-weight-bold mb-0">{{details.unitsInStock}}</p>
+												</td>
+												<td class="align-middle text-center">
+													<p class="text-xs font-weight-bold mb-0">{{details.sales}}</p>
+												</td>
+												<td class="align-middle text-center text-sm">
+													<div class="form-check form-switch ps-0 ms-auto my-auto">
+														<input v-if="details.status!='p2'" v-model="this._checked" class="form-check-input mt-1 ms-auto" type="checkbox" @@change="shelf">
+														<span v-if="details.status=='p0'" class="badge badge-sm bg-gradient-secondary">未上架</span>
+														<span v-if="details.status=='p1'" class="badge badge-sm bg-gradient-success">已上架</span>
+														<span v-if="details.status=='p2'" class="badge badge-sm bg-gradient-dark">已刪除</span>
+													</div>
+												</td>
+												<td class="align-middle text-center">
+													<span class="text-secondary text-xs font-weight-bold">{{new Date(details.launchDate).toLocaleString()}}</span>
+												</td>
+											</tr>
+										</tbody>
+									</table>
+								</div>
 							</div>
 						</div>
 					</div>
 				</div>
-			</div>
-			<div v-if="this._details" class="row">
-				<div class="col-md-12">
-					<div class="card mb-4">
-						<div class="card-header pb-0">
-							<div class="d-flex align-items-center">
-								<p class="col-4 mb-0">編輯商品資訊</p>
-								<div class="col-md-4 col-1"></div>
-								<div v-if="this._create" class="col-md-4 col-7 d-flex justify-content-between">
-									<button class="btn btn-primary btn-sm ms-auto" @@click="createSave(details)">儲存新增</button>
-								</div>
+				<div v-if="this._details" class="row">
+					<div class="col-md-12">
+						<div class="card mb-4">
+							<div class="card-header pb-0">
+								<div class="d-flex align-items-center">
+									<p class="col-4 mb-0">編輯商品資訊</p>
+									<div class="col-md-4 col-1"></div>
+									<div v-if="this._create" class="col-md-4 col-7 d-flex justify-content-between">
+										<button class="btn btn-primary btn-sm ms-auto" @@click="createSave(details)">儲存新增</button>
+									</div>
 									<div v-if="!this._create&&details.status!='p2'" class="col-md-4 col-7 d-flex justify-content-between">
-									<button class="btn btn-primary btn-sm ms-auto" @@click="update(details)">儲存</button>
-									<button class="btn btn-danger btn-sm ms-auto" @@click="deleteProduct(details.productId)">刪除商品</button>
+										<button class="btn btn-primary btn-sm ms-auto" @@click="update(details)">儲存</button>
+										<button class="btn btn-danger btn-sm ms-auto" @@click="deleteProduct(details.productId)">刪除商品</button>
+									</div>
 								</div>
 							</div>
-						</div>
-						<div class="card-body">
-							<p class="text-uppercase text-sm">商品編號：{{details.productId}}</p>
-							<div class="row">
-								<div class="col-md-6">
-									<div class="form-group">
-										<label class="form-control-label">名稱</label>
-										<input v-model="details.productName" class="form-control text-center" type="text" value="牛仔褲">
+							<div class="card-body">
+								<p class="text-uppercase text-sm">商品編號：{{details.productId}}</p>
+								<div class="row">
+									<div class="col-md-6">
+										<div class="form-group">
+											<label class="form-control-label">名稱</label>
+											<input v-model="details.productName" class="form-control text-center" type="text" value="牛仔褲">
+										</div>
 									</div>
-								</div>
-								<div class="col-md-6">
-									<div class="form-group">
-										<label class="form-control-label">類型</label>
-										<select v-model="details.productCategoryId" class="form-control text-center">
-											<option value="1">衣服</option>
-											<option value="2">文具</option>
-											<option value="3">食品</option>
-											<option value="4">電玩</option>
-											<option value="5">美妝</option>
-											<option value="6">家電</option>
-											<option value="7">漫畫</option>
-											<option value="8">家具</option>
-											<option value="9">生日禮</option>
-										</select>
-									</div>
-								</div>
-								<div class="col-md-2">
-									<div class="form-group">
-										<label class="form-control-label">貨幣</label>
-										<select v-model="details.currency" class="form-control text-center">
-											<option value="NTD">NTD</option>
-											<option value="USD" disabled>USD</option>
-										</select>
-									</div>
-								</div>
-								<div class="col-md-4">
-									<div class="form-group">
-										<label class="form-control-label">單價</label>
-										<input v-model="details.unitPrice" class="form-control text-center" type="text">
-									</div>
-								</div>
-								<div class="col-md-2">
-									<div class="form-group">
-										<label class="form-control-label">庫存增減</label>
-										<div class="form-check form-switch ps-0 ms-auto my-auto">
-											<select v-model="plus" class="form-control text-center">
-												<option value="INC">增加</option>
-												<option value="DEC">減少</option>
+									<div class="col-md-6">
+										<div class="form-group">
+											<label class="form-control-label">類型</label>
+											<select v-model="details.productCategoryId" class="form-control text-center">
+												<option value="1">衣服</option>
+												<option value="2">文具</option>
+												<option value="3">食品</option>
+												<option value="4">電玩</option>
+												<option value="5">美妝</option>
+												<option value="6">家電</option>
+												<option value="7">漫畫</option>
+												<option value="8">家具</option>
+												<option value="9">生日禮</option>
 											</select>
 										</div>
 									</div>
-								</div>
-								<div class="col-md-4">
-									<div class="form-group">
-										<label class="form-control-label">變化數量</label>
-										<div class="form-check form-switch ps-0 ms-auto my-auto">
-											<input v-model="increase" class="form-control text-center" type="text">
+									<div class="col-md-2">
+										<div class="form-group">
+											<label class="form-control-label">貨幣</label>
+											<select v-model="details.currency" class="form-control text-center">
+												<option value="NTD">NTD</option>
+												<option value="USD" disabled>USD</option>
+											</select>
 										</div>
 									</div>
-								</div>
-								<div class="col-md-12">
-									<div class="form-group">
-										<label class="form-control-label">說明</label>
-										<textarea v-model="details.description" class="form-control" rows="5" cols="20" placeholder="商品介紹"></textarea>
+									<div class="col-md-4">
+										<div class="form-group">
+											<label class="form-control-label">單價</label>
+											<input v-model="details.unitPrice" class="form-control text-center" type="text">
+										</div>
 									</div>
-								</div>
-							</div>
-							<hr class="horizontal dark">
-							<p class="text-uppercase text-sm">新增圖片</p>
-							<p v-if="this._create" class="text-uppercase text-sm">請先儲存新增商品</p>
-							<div v-if="!this._create" class="row">
-								<div class="col-md-12">
-									<div class="form-group">
-										<label class="form-control-label">預覽</label>
-										<input class="form-control" type="file" @@change="selectedFile">
-										<div class="col-md-6">
-											<div class="form-group">
-												<img :src="this.preview" />
+									<div class="col-md-2">
+										<div class="form-group">
+											<label class="form-control-label">庫存增減</label>
+											<div class="form-check form-switch ps-0 ms-auto my-auto">
+												<select v-model="plus" class="form-control text-center">
+													<option value="INC">增加</option>
+													<option value="DEC">減少</option>
+												</select>
 											</div>
 										</div>
 									</div>
-									<div class="form-group">
-										<label class="form-control-label">圖片說明</label>
-										<textarea class="form-control" rows="5" cols="20" v-model="pictureText" value=""></textarea>
+									<div class="col-md-4">
+										<div class="form-group">
+											<label class="form-control-label">變化數量</label>
+											<div class="form-check form-switch ps-0 ms-auto my-auto">
+												<input v-model="increase" class="form-control text-center" type="text">
+											</div>
+										</div>
 									</div>
-									<div class="form-group">
-										<div class="d-flex align-items-center">											
-											<div class="col-md-8 col-5"></div>
-											<div class="col-md-4 col-7 d-flex justify-content-between">
-												<button class="btn btn-primary btn-sm ms-auto" @@click="uploadFile">新增</button>
-												<button class="btn btn-outline-primary btn-sm ms-auto" @@click="getPictures(details.productId)">查看圖片</button>
+									<div class="col-md-12">
+										<div class="form-group">
+											<label class="form-control-label">說明</label>
+											<textarea v-model="details.description" class="form-control" rows="5" cols="20" placeholder="商品介紹"></textarea>
+										</div>
+									</div>
+								</div>
+								<hr class="horizontal dark">
+								<p class="text-uppercase text-sm">新增圖片</p>
+								<p v-if="this._create" class="text-uppercase text-sm">請先儲存新增商品</p>
+								<div v-if="!this._create" class="row">
+									<div class="col-md-12">
+										<div class="form-group">
+											<label class="form-control-label">預覽</label>
+											<input class="form-control" type="file" @@change="selectedFile">
+											<div class="col-md-6">
+												<div class="form-group">
+													<img :src="this.preview" />
+												</div>
+											</div>
+										</div>
+										<div class="form-group">
+											<label class="form-control-label">圖片說明</label>
+											<textarea class="form-control" rows="5" cols="20" v-model="pictureText" value=""></textarea>
+										</div>
+										<div class="form-group">
+											<div class="d-flex align-items-center">
+												<div class="col-md-8 col-5"></div>
+												<div class="col-md-4 col-7 d-flex justify-content-between">
+													<button class="btn btn-primary btn-sm ms-auto" @@click="uploadFile">新增</button>
+													<button class="btn btn-outline-primary btn-sm ms-auto" @@click="getPictures(details.productId)">查看圖片</button>
+												</div>
 											</div>
 										</div>
 									</div>
@@ -508,402 +509,402 @@
 						</div>
 					</div>
 				</div>
-			</div>
-			<div v-if="this._pictures" class="row">
-				<div class="col-12">
-					<div class="card mb-4">
-						<div class="card-header pb-0">
-							<div class="d-flex align-items-center">
-								<h6 class="mb-0">商品圖片管理</h6>
+				<div v-if="this._pictures" class="row">
+					<div class="col-12">
+						<div class="card mb-4">
+							<div class="card-header pb-0">
+								<div class="d-flex align-items-center">
+									<h6 class="mb-0">商品圖片管理</h6>
+								</div>
 							</div>
-						</div>
-						<div class="card-body px-0 pt-0 pb-2">
-							<div class="table-responsive p-0">
-								<table class="table align-items-center mb-0">
-									<thead>
-										<tr>
-											<th class="text-secondary opacity-7"></th>
-											<th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">商品圖片</th>
-											<th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">圖片說明</th>
-										</tr>
-									</thead>
-									<tbody v-if="prictures!=[]">
-										<tr v-for="item in pictures">
-											<td class="align-middle text-center">
-												<p><a href="javascript:;" class="text-secondary font-weight-bold text-xs" data-toggle="tooltip" @@click="updatePicture(item)">
-													<i class="fas fa-pencil-alt text-dark me-2" aria-hidden="true"></i>儲存圖片說明</a></p>
-												<p><a href="javascript:;" class="text-secondary font-weight-bold text-xs" data-toggle="tooltip" @@click="deletePicture(item.pictureId)">
-													<i class="far fa-trash-alt me-2" aria-hidden="true"></i>刪除商品圖片</a></p>
-											</td>
-											<td class="align-middle text-center">
-												<img :src="item.path" />
-											</td>
-											<td>
-												<textarea class="form-control" rows="2" cols="20" v-model="item.description"></textarea>
-											</td>											
-										</tr>
-									</tbody>
-									<tbody v-else>
-										<tr>
-											<td>
-												<p class="text-center">尚未新增圖片</p>
-											</td>
-										</tr>
-									</tbody>
-								</table>
-							</div>
-						</div>
-					</div>
-				</div>
-			</div>
-			<div v-if="this._orders" class="row">
-				<div class="col-12">
-					<div class="card mb-4">
-						<div class="card-header pb-0">
-							<div class="d-flex align-items-center">
-								<h6 class="mb-0">訂單管理</h6>
-							</div>
-						</div>
-						<div class="card-body px-0 pt-0 pb-2">
-							<div class="table-responsive p-0">
-								<table class="table align-items-center mb-0">
-									<thead>
-										<tr>
-											<th class="text-secondary opacity-7"></th>
-											<th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">編號</th>
-											<th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">買家</th>
-											<th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">商品數量</th>
-											<th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">總價</th>
-											<th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">付款方式</th>
-											<th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">狀態</th>
-											<th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">訂購時間</th>
-											<th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">到貨時間</th>
-										</tr>
-									</thead>
-									<tbody>
-										<tr v-for="(item,index) in orders">
-											<td class="align-middle text-center">
-												<a href="javascript:;" class="text-secondary font-weight-bold text-xs" data-toggle="tooltip" @@click="editOrders(item.orderId, index)">
-													<i class="fas fa-pencil-alt text-dark me-2" aria-hidden="true"></i>查看明細
-												</a>
-											</td>
-											<td class="align-middle text-center">
-												<span class="text-secondary text-xs font-weight-bold">{{item.orderId}}</span>
-											</td>
-											<td>
-												<div class="d-flex px-2 py-1">
-													<div class="d-flex flex-column justify-content-center">
-														<h6 class="mb-0 text-sm">{{item.buyerAccount}}</h6>
-													</div>
-												</div>
-											</td>
-											<td class="align-middle text-center">
-												<p class="text-xs font-weight-bold mb-0">{{orderDetails[index].productCount}}</p>
-											</td>
-											<td class="align-middle text-end">
-												<div class="row">
-													<p class="text-xs font-weight-bold mb-0">NTD&nbsp;&nbsp;{{orderSum[index].NTD}}</p>
-												</div>
-												<div class="row">
-													<p class="text-xs font-weight-bold mb-0">USD&nbsp;&nbsp;{{orderSum[index].USD}}</p>
-												</div>
-											</td>
-											<td class="align-middle text-center">
-												<p class="text-xs font-weight-bold mb-0">{{item.payMethod}}</p>
-											</td>
-											<td class="align-middle text-center text-sm">
-												<span v-if="item.status=='o1'" class="badge badge-sm bg-gradient-danger">未出貨</span>
-												<span v-if="item.status=='o2'" class="badge badge-sm bg-gradient-secondary">未完全收貨</span>
-												<span v-if="item.status=='o3'" class="badge badge-sm bg-gradient-success">已收貨</span>
-												<span v-if="item.status=='o4'" class="badge badge-sm bg-gradient-warning">含退貨</span>
-												<span v-if="item.status=='o5'" class="badge badge-sm bg-gradient-dark">已取消</span>
-												<span v-if="item.status=='o0'" class="badge badge-sm bg-gradient-info">未付款</span>
-											</td>
-											<td class="align-middle text-center">
-												<p class="text-xs font-weight-bold mb-0">{{item.orderDate}}</p>
-											</td>
-											<td class="align-middle text-center">
-												<span class="text-secondary text-xs font-weight-bold">{{item.arrivalDate}}</span>
-											</td>
-										</tr>
-									</tbody>
-								</table>
+							<div class="card-body px-0 pt-0 pb-2">
+								<div class="table-responsive p-0">
+									<table class="table align-items-center mb-0">
+										<thead>
+											<tr>
+												<th class="text-secondary opacity-7"></th>
+												<th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">商品圖片</th>
+												<th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">圖片說明</th>
+											</tr>
+										</thead>
+										<tbody v-if="prictures!=[]">
+											<tr v-for="item in pictures">
+												<td class="align-middle text-center">
+													<p><a href="javascript:;" class="text-secondary font-weight-bold text-xs" data-toggle="tooltip" @@click="updatePicture(item)">
+															<i class="fas fa-pencil-alt text-dark me-2" aria-hidden="true"></i>儲存圖片說明</a></p>
+													<p><a href="javascript:;" class="text-secondary font-weight-bold text-xs" data-toggle="tooltip" @@click="deletePicture(item.pictureId)">
+															<i class="far fa-trash-alt me-2" aria-hidden="true"></i>刪除商品圖片</a></p>
+												</td>
+												<td class="align-middle text-center">
+													<img :src="item.path" />
+												</td>
+												<td>
+													<textarea class="form-control" rows="2" cols="20" v-model="item.description"></textarea>
+												</td>
+											</tr>
+										</tbody>
+										<tbody v-else>
+											<tr>
+												<td>
+													<p class="text-center">尚未新增圖片</p>
+												</td>
+											</tr>
+										</tbody>
+									</table>
+								</div>
 							</div>
 						</div>
 					</div>
 				</div>
-			</div>
-			<div v-if="this._orderDetails" class="row">
-				<div class="col-12">
-					<div class="card mb-4">
-						<div class="card-header pb-0">
-							<div class="d-flex align-items-center">
-								<h6 class="mb-0">訂單管理</h6>
+				<div v-if="this._orders" class="row">
+					<div class="col-12">
+						<div class="card mb-4">
+							<div class="card-header pb-0">
+								<div class="d-flex align-items-center">
+									<h6 class="mb-0">訂單管理</h6>
+								</div>
 							</div>
-						</div>
-						<div class="card-body px-0 pt-0 pb-2">
-							<div class="table-responsive p-0">
-								<table class="table align-items-center mb-0">
-									<thead>
-										<tr>
-											<th class="text-secondary opacity-7"></th>
-											<th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">編號</th>
-											<th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">買家</th>
-											<th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">商品數量</th>
-											<th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">總價</th>
-											<th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">付款方式</th>
-											<th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">狀態</th>
-											<th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">訂購時間</th>
-											<th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">到貨時間</th>
-										</tr>
-									</thead>
-									<tbody>
-										<tr>
-											<td class="align-middle text-center">
-												<a href="javascript:;" class="text-secondary font-weight-bold text-xs" data-toggle="tooltip" @@click="cancelOrderDetails">
-													<i class="fas fas fa-arrow-circle-up text-dark me-2" aria-hidden="true"></i>取消
-												</a>
-											</td>
-											<td class="align-middle text-center">
-												<span class="text-secondary text-xs font-weight-bold">{{orderInfo[0].orderId}}</span>
-											</td>
-											<td>
-												<div class="d-flex px-2 py-1">
-													<div class="d-flex flex-column justify-content-center">
-														<h6 class="mb-0 text-sm">{{orderInfo[0].buyerAccount}}</h6>
-													</div>
-												</div>
-											</td>
-											<td class="align-middle text-center">
-												<p class="text-xs font-weight-bold mb-0">{{orderInfo[1].productCount}}</p>
-											</td>
-											<td class="align-middle text-end">
-												<div class="row">
-													<p class="text-xs font-weight-bold mb-0">{{orderInfo[2].NTD}}&nbsp;&nbsp;NTD</p>
-												</div>
-												<div class="row">
-													<p class="text-xs font-weight-bold mb-0">{{orderInfo[2].USD}}&nbsp;&nbsp;USD</p>
-												</div>
-											</td>
-											<td class="align-middle text-center">
-												<p class="text-xs font-weight-bold mb-0">{{orderInfo[0].payMethod}}</p>
-											</td>
-											<td class="align-middle text-center text-sm">
-												<span v-if="orderInfo[0].status=='o1'" class="badge badge-sm bg-gradient-danger">未出貨</span>
-												<span v-if="orderInfo[0].status=='o2'" class="badge badge-sm bg-gradient-secondary">未完全收貨</span>
-												<span v-if="orderInfo[0].status=='o3'" class="badge badge-sm bg-gradient-success">已收貨</span>
-												<span v-if="orderInfo[0].status=='o4'" class="badge badge-sm bg-gradient-warning">含退貨</span>
-												<span v-if="orderInfo[0].status=='o5'" class="badge badge-sm bg-gradient-dark">已取消</span>
-												<span v-if="orderInfo[0].status=='o0'" class="badge badge-sm bg-gradient-info">未付款</span>
-											</td>
-											<td class="align-middle text-center">
-												<p class="text-xs font-weight-bold mb-0">{{orderInfo[0].orderDate}}</p>
-											</td>
-											<td class="align-middle text-center">
-												<span class="text-secondary text-xs font-weight-bold">{{orderInfo[0].arrivalDate}}</span>
-											</td>
-										</tr>
-									</tbody>
-								</table>
-							</div>
-						</div>
-					</div>
-				</div>
-			</div>
-			<div v-if="this._orderDetails" class="row">
-				<div class="col-12">
-					<div class="card mb-4">
-						<div class="card-header pb-0">
-							<div class="d-flex align-items-center">
-								<h6 class="mb-0">訂單明細</h6>
-								<button class="btn btn-primary btn-sm ms-auto" @@click="updateOrders(orderInfo[0].orderId)">更新出貨狀態</button>
-							</div>
-						</div>
-						<div class="card-body">
-							<div class="row">
-								<p class="col-md-6 text-sm">訂單編號：{{orderInfo[0].orderId}}</p>
-								<p class="col-md-6 text-sm">買家帳號：{{orderInfo[0].buyerAccount}}</p>
-								<p class="col-md-6 text-sm">收件人：{{orderInfo[0].buyerName}}</p>
-								<p class="col-md-6 text-sm">送貨地址：{{orderInfo[0].address}}</p>
-								<p class="col-md-6 text-sm">買家聯絡電話：{{orderInfo[0].buyerPhone}}</p>
-								<p class="col-md-6 text-sm">付款方式：{{orderInfo[0].payMethod}}</p>
-								<p class="col-md-6 text-sm">訂單日期：{{orderInfo[0].orderDate}}</p>
-								<p class="col-md-6 text-sm">到貨日期：{{orderInfo[0].arrivalDate}}</p>
-							</div>
-						</div>
-						<div class="card-body px-0 pt-0 pb-2">
-							<div class="table-responsive p-0">
-								<table class="table align-items-center mb-0">
-									<thead>
-										<tr>
-											<th class="text-secondary opacity-7"></th>
-											<th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">商品編號</th>
-											<th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">名稱</th>
-											<th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">單價</th>
-											<th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">數量</th>
-											<th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">優惠券</th>
-											<th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">小計</th>
-											<th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">狀態</th>
-										</tr>
-									</thead>
-									<tbody>
-										<tr v-for="(item,index) in orderInfo[1].product">
-											<td class="align-middle text-center">
-												<a href="javascript:;" class="text-secondary font-weight-bold text-xs" @@click="getProduct(item.productId)">
-													<i class="fas fa-arrow-circle-up text-dark me-2" aria-hidden="true"></i>商品資訊
-												</a>
-											</td>
-											<td class="align-middle text-center">
-												<span class="text-secondary text-xs font-weight-bold">{{item.productId}}</span>
-											</td>
-											<td class="align-middle text-center">
-												<div class="d-flex px-2 py-1">
-													<div class="d-flex flex-column justify-content-center">
-														<h6 class="mb-0 text-sm">{{item.productName}}</h6>
-													</div>
-												</div>
-											</td>
-											<td class="align-middle text-end">
-												<div class="row">
-													<p class="text-xs font-weight-bold mb-0">{{item.currency}}&nbsp;&nbsp;{{item.unitPrice}}</p>
-												</div>
-											</td>
-											<td class="align-middle text-center">
-												<p class="text-xs font-weight-bold mb-0">{{item.quantity}}</p>
-											</td>
-											<td class="align-middle text-center">
-												<div class="row">
-													<div class="col-3"><p class="text-xs font-weight-bold mb-0">{{item.couponId==null ? '' :'×&nbsp;' + item.discount}}</p></div>
-													<div class="col-9"><p class="text-xs font-weight-bold mb-0">{{item.couponId==null ? '未使用' : '#&nbsp;' + item.couponId}}</p></div>
-												</div>
-											</td>
-											<td class="align-middle text-end">
-												<div class="row">
-													<p class="text-xs font-weight-bold mb-0">
-														{{item.currency}}&nbsp;&nbsp;
-														{{(item.discount != null) ? (item.unitPrice * item.quantity * item.discount) : (item.unitPrice * item.quantity)}}
-													</p>
-												</div>
-											</td>
-											<td class="align-middle text-center text-sm">
-												<div class="form-check form-switch ps-0 ms-auto my-auto">
-													<div class="form-check form-switch ps-0 ms-auto my-auto">
-														<div v-if="item.status=='od1'">
-															<input v-model="checked[index]" class="form-check-input mt-1 ms-auto" type="checkbox">														
+							<div class="card-body px-0 pt-0 pb-2">
+								<div class="table-responsive p-0">
+									<table class="table align-items-center mb-0">
+										<thead>
+											<tr>
+												<th class="text-secondary opacity-7"></th>
+												<th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">編號</th>
+												<th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">買家</th>
+												<th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">商品數量</th>
+												<th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">總價</th>
+												<th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">付款方式</th>
+												<th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">狀態</th>
+												<th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">訂購時間</th>
+												<th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">到貨時間</th>
+											</tr>
+										</thead>
+										<tbody>
+											<tr v-for="(item,index) in orders">
+												<td class="align-middle text-center">
+													<a href="javascript:;" class="text-secondary font-weight-bold text-xs" data-toggle="tooltip" @@click="editOrders(item.orderId, index)">
+														<i class="fas fa-pencil-alt text-dark me-2" aria-hidden="true"></i>查看明細
+													</a>
+												</td>
+												<td class="align-middle text-center">
+													<span class="text-secondary text-xs font-weight-bold">{{item.orderId}}</span>
+												</td>
+												<td>
+													<div class="d-flex px-2 py-1">
+														<div class="d-flex flex-column justify-content-center">
+															<h6 class="mb-0 text-sm">{{item.buyerAccount}}</h6>
 														</div>
 													</div>
-													<span v-if="checked[index]==false" class="badge badge-sm bg-gradient-danger">未出貨</span>
-													<span v-if="checked[index]==true" class="badge badge-sm bg-gradient-secondary">未收貨</span>
-													<span v-if="item.status=='od3'" class="badge badge-sm bg-gradient-success">已收貨</span>
-													<span v-if="item.status=='od4'" class="badge badge-sm bg-gradient-warning">退貨</span>
-													<span v-if="item.status=='od5'" class="badge badge-sm bg-gradient-dark">已取消</span>
-													<span v-if="item.status=='od6'" class="badge badge-sm bg-gradient-light">已評價</span>
-												</div>
-											</td>											
-										</tr>
-									</tbody>
-								</table>
-							</div>
-						</div>
-					</div>
-				</div>
-			</div>
-			<div v-if="this._productDetails" class="row">
-				<div class="col-12">
-					<div class="card mb-4">
-						<div class="card-header pb-0">
-							<div class="d-flex align-items-center">
-								<h6 class="mb-0">商品資訊</h6>
-								<button class="btn btn-primary btn-sm ms-auto" @@click="getOrders">回訂單管理</button>
-							</div>
-						</div>
-						<div v-for="item in details" class="card-body">
-							<p class="text-uppercase text-sm">商品編號：{{item.productId}}</p>
-							<div class="row">
-								<p class="col-md-6 text-sm">名稱：{{item.productName}}</p>
-								<p class="col-md-6 text-sm">賣家帳號：{{item.sellerAccount}}</p>
-								<p class="col-md-6 text-sm">類別：{{item.productCategory}}</p>
-								<p class="col-md-6 text-sm">上架日期：{{item.launchDate}}</p>
-								<p class="col-md-6 text-sm">庫存：{{item.unitsInStock}}</p>
-								<p class="col-md-6 text-sm">銷量：{{item.sales}}</p>
-								<p class="col-md-6 text-sm">單價：{{item.currency}}&nbsp;&nbsp;{{item.unitPrice}}</p>
-								<p class="col-md-6 text-sm">狀態：
-									<span v-if="item.status=='p0'" class="badge badge-sm bg-gradient-secondary">未上架</span>
-									<span v-if="item.status=='p1'" class="badge badge-sm bg-gradient-success">已上架</span>
-								</p>
-								<p class="col-md-12 text-sm">說明：{{item.description}}</p>
-							</div>
-						</div>
-					</div>
-				</div>
-			</div>
-			<div v-if="this._ratings" class="row">
-				<div class="col-12">
-					<div class="card mb-4">
-						<div class="card-header pb-0">
-							<div class="d-flex align-items-center">
-								<h6 class="mb-0">買家評價管理</h6>
-								<div class="ms-md-auto pe-md-3 d-flex align-items-center">
-								</div>									
-							</div>
-						</div>
-						<div class="card-body px-0 pt-0 pb-2">
-							<div class="table-responsive p-0">
-								<table class="table align-items-center mb-0">
-									<thead>
-										<tr>
-											<th class="text-secondary opacity-7"></th>
-											<th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">訂單編號</th>
-											<th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">商品名稱</th>
-											<th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">買家帳號</th>
-											<th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">評價星數</th>
-											<th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">訂購日期</th>
-											<th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">到貨日期</th>
-											<th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">狀態</th>
-										</tr>
-									</thead>
-									<tbody v-for="(r,rx) in ratings">
-										<tr v-for="(p,px) in ratings[rx].product">
-											<td class="align-middle text-center">
-												<a href="javascript:;" class="text-secondary font-weight-bold text-xs" data-toggle="tooltip" @@click="editReply(rx,px)">
-													<i class="fas fa-pencil-alt text-dark me-2" aria-hidden="true"></i>查看評價內容
-												</a>
-											</td>
-											<td class="align-middle text-center">
-												<span class="text-secondary text-xs font-weight-bold">{{p.orderId}}</span>
-											</td>
-											<td>
-												<div class="d-flex px-2 py-1">
-													<div class="d-flex flex-column justify-content-center">
-														<h6 class="mb-0 text-sm">{{this.orderDetails[rx].product[px].productName}}</h6>
+												</td>
+												<td class="align-middle text-center">
+													<p class="text-xs font-weight-bold mb-0">{{orderDetails[index].productCount}}</p>
+												</td>
+												<td class="align-middle text-end">
+													<div class="row">
+														<p class="text-xs font-weight-bold mb-0">{{orderSum[index].NTD}}&nbsp;&nbsp;NTD</p>
 													</div>
-												</div>
-											</td>												
-											<td class="align-middle text-center">
-												<span class="text-secondary text-xs font-weight-bold">{{this.orders[rx].buyerAccount}}</span>
-											</td>
-											<td class="align-middle text-center">
-												<span class="text-secondary text-xs font-weight-bold">{{p.starCount}}</span>
-											</td>
-											<td class="align-middle text-center">
-												<p class="text-xs font-weight-bold mb-0">{{this.orders[rx].orderDate}}</p>
-											</td>
-											<td class="align-middle text-center">
-												<p class="text-xs font-weight-bold mb-0">{{this.orders[rx].arrivalDate}}</p>
-											</td>
-											<td class="align-middle text-center text-sm">
-												<span v-if="p.status=='r0'" class="badge badge-sm bg-gradient-secondary">未回應</span>
-												<span v-if="p.status=='r1'" class="badge badge-sm bg-gradient-success">已回應</span>
-											</td>
-										</tr>
-									</tbody>
-								</table>
+													<div class="row">
+														<p class="text-xs font-weight-bold mb-0">{{orderSum[index].USD}}&nbsp;&nbsp;USD</p>
+													</div>
+												</td>
+												<td class="align-middle text-center">
+													<p class="text-xs font-weight-bold mb-0">{{item.payMethod}}</p>
+												</td>
+												<td class="align-middle text-center text-sm">
+													<span v-if="item.status=='o1'" class="badge badge-sm bg-gradient-danger">未出貨</span>
+													<span v-if="item.status=='o2'" class="badge badge-sm bg-gradient-secondary">未完全收貨</span>
+													<span v-if="item.status=='o3'" class="badge badge-sm bg-gradient-success">已收貨</span>
+													<span v-if="item.status=='o4'" class="badge badge-sm bg-gradient-warning">含退貨</span>
+													<span v-if="item.status=='o5'" class="badge badge-sm bg-gradient-dark">已取消</span>
+													<span v-if="item.status=='o0'" class="badge badge-sm bg-gradient-info">未付款</span>
+												</td>
+												<td class="align-middle text-center">
+													<p class="text-xs font-weight-bold mb-0">{{new Date(item.orderDate).toLocaleString()}}</p>
+												</td>
+												<td class="align-middle text-center">
+													<p class="text-xs font-weight-bold mb-0">{{new Date(item.arrivalDate).toLocaleString()}}</p>
+												</td>
+											</tr>
+										</tbody>
+									</table>
+								</div>
 							</div>
 						</div>
 					</div>
 				</div>
-			</div>
-			<div v-if="this._ratingDetails" class="row">
+				<div v-if="this._orderDetails" class="row">
+					<div class="col-12">
+						<div class="card mb-4">
+							<div class="card-header pb-0">
+								<div class="d-flex align-items-center">
+									<h6 class="mb-0">訂單管理</h6>
+								</div>
+							</div>
+							<div class="card-body px-0 pt-0 pb-2">
+								<div class="table-responsive p-0">
+									<table class="table align-items-center mb-0">
+										<thead>
+											<tr>
+												<th class="text-secondary opacity-7"></th>
+												<th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">編號</th>
+												<th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">買家</th>
+												<th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">商品數量</th>
+												<th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">總價</th>
+												<th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">付款方式</th>
+												<th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">狀態</th>
+												<th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">訂購時間</th>
+												<th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">到貨時間</th>
+											</tr>
+										</thead>
+										<tbody>
+											<tr>
+												<td class="align-middle text-center">
+													<a href="javascript:;" class="text-secondary font-weight-bold text-xs" data-toggle="tooltip" @@click="cancelOrderDetails">
+														<i class="fas fas fa-arrow-circle-up text-dark me-2" aria-hidden="true"></i>取消
+													</a>
+												</td>
+												<td class="align-middle text-center">
+													<span class="text-secondary text-xs font-weight-bold">{{orderInfo[0].orderId}}</span>
+												</td>
+												<td>
+													<div class="d-flex px-2 py-1">
+														<div class="d-flex flex-column justify-content-center">
+															<h6 class="mb-0 text-sm">{{orderInfo[0].buyerAccount}}</h6>
+														</div>
+													</div>
+												</td>
+												<td class="align-middle text-center">
+													<p class="text-xs font-weight-bold mb-0">{{orderInfo[1].productCount}}</p>
+												</td>
+												<td class="align-middle text-end">
+													<div class="row">
+														<p class="text-xs font-weight-bold mb-0">{{orderInfo[2].NTD}}&nbsp;&nbsp;NTD</p>
+													</div>
+													<div class="row">
+														<p class="text-xs font-weight-bold mb-0">{{orderInfo[2].USD}}&nbsp;&nbsp;USD</p>
+													</div>
+												</td>
+												<td class="align-middle text-center">
+													<p class="text-xs font-weight-bold mb-0">{{orderInfo[0].payMethod}}</p>
+												</td>
+												<td class="align-middle text-center text-sm">
+													<span v-if="orderInfo[0].status=='o1'" class="badge badge-sm bg-gradient-danger">未出貨</span>
+													<span v-if="orderInfo[0].status=='o2'" class="badge badge-sm bg-gradient-secondary">未完全收貨</span>
+													<span v-if="orderInfo[0].status=='o3'" class="badge badge-sm bg-gradient-success">已收貨</span>
+													<span v-if="orderInfo[0].status=='o4'" class="badge badge-sm bg-gradient-warning">含退貨</span>
+													<span v-if="orderInfo[0].status=='o5'" class="badge badge-sm bg-gradient-dark">已取消</span>
+													<span v-if="orderInfo[0].status=='o0'" class="badge badge-sm bg-gradient-info">未付款</span>
+												</td>
+												<td class="align-middle text-center">
+													<p class="text-xs font-weight-bold mb-0">{{new Date(orderInfo[0].orderDate).toLocaleString()}}</p>
+												</td>
+												<td class="align-middle text-center">
+													<p class="text-xs font-weight-bold mb-0">{{new Date(orderInfo[0].arrivalDate).toLocaleString()}}</p>
+												</td>
+											</tr>
+										</tbody>
+									</table>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div v-if="this._orderDetails" class="row">
+					<div class="col-12">
+						<div class="card mb-4">
+							<div class="card-header pb-0">
+								<div class="d-flex align-items-center">
+									<h6 class="mb-0">訂單明細</h6>
+									<button class="btn btn-primary btn-sm ms-auto" @@click="updateOrders(orderInfo[0].orderId)">更新出貨狀態</button>
+								</div>
+							</div>
+							<div class="card-body">
+								<div class="row">
+									<p class="col-md-6 text-sm">訂單編號：{{orderInfo[0].orderId}}</p>
+									<p class="col-md-6 text-sm">買家帳號：{{orderInfo[0].buyerAccount}}</p>
+									<p class="col-md-6 text-sm">收件人：{{orderInfo[0].buyerName}}</p>
+									<p class="col-md-6 text-sm">送貨地址：{{orderInfo[0].address}}</p>
+									<p class="col-md-6 text-sm">買家聯絡電話：{{orderInfo[0].buyerPhone}}</p>
+									<p class="col-md-6 text-sm">付款方式：{{orderInfo[0].payMethod}}</p>
+									<p class="col-md-6 text-sm">訂單日期：{{new Date(orderInfo[0].orderDate).toLocaleString()}}</p>
+									<p class="col-md-6 text-sm">到貨日期：{{new Date(orderInfo[0].arrivalDate).toLocaleString()}}</p>
+								</div>
+							</div>
+							<div class="card-body px-0 pt-0 pb-2">
+								<div class="table-responsive p-0">
+									<table class="table align-items-center mb-0">
+										<thead>
+											<tr>
+												<th class="text-secondary opacity-7"></th>
+												<th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">商品編號</th>
+												<th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">名稱</th>
+												<th class="text-end text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">單價</th>
+												<th class="text-end text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">數量</th>
+												<th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">優惠券</th>
+												<th class="text-end text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">小計</th>
+												<th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">狀態</th>
+											</tr>
+										</thead>
+										<tbody>
+											<tr v-for="(item,index) in orderInfo[1].product">
+												<td class="align-middle text-center">
+													<a href="javascript:;" class="text-secondary font-weight-bold text-xs" @@click="getProduct(item.productId)">
+														<i class="fas fa-arrow-circle-up text-dark me-2" aria-hidden="true"></i>商品資訊
+													</a>
+												</td>
+												<td class="align-middle text-center">
+													<span class="text-secondary text-xs font-weight-bold">{{item.productId}}</span>
+												</td>
+												<td class="align-middle text-center">
+													<div class="d-flex px-2 py-1">
+														<div class="d-flex flex-column justify-content-center">
+															<h6 class="mb-0 text-sm">{{item.productName}}</h6>
+														</div>
+													</div>
+												</td>
+												<td class="align-middle text-end">
+													<div class="row">
+														<p class="text-xs font-weight-bold mb-0">{{item.unitPrice}}&nbsp;&nbsp;{{item.currency}}</p>
+													</div>
+												</td>
+												<td class="align-middle text-center">
+													<p class="text-xs font-weight-bold mb-0">{{item.quantity}}</p>
+												</td>
+												<td class="align-middle text-center">
+													<div class="row">
+														<div class="col-3"><p class="text-xs font-weight-bold mb-0">{{item.couponId==null ? '' :'×&nbsp;' + item.discount}}</p></div>
+														<div class="col-9"><p class="text-xs font-weight-bold mb-0">{{item.couponId==null ? '未使用' : '#&nbsp;' + item.couponId}}</p></div>
+													</div>
+												</td>
+												<td class="align-middle text-end">
+													<div class="row">
+														<p class="text-xs font-weight-bold mb-0">
+															{{(item.discount != null) ? (item.unitPrice * item.quantity * item.discount) : (item.unitPrice * item.quantity)}}
+															&nbsp;&nbsp;{{item.currency}}
+														</p>
+													</div>
+												</td>
+												<td class="align-middle text-center text-sm">
+													<div class="form-check form-switch ps-0 ms-auto my-auto">
+														<div class="form-check form-switch ps-0 ms-auto my-auto">
+															<div v-if="item.status=='od1'">
+																<input v-model="checked[index]" class="form-check-input mt-1 ms-auto" type="checkbox">
+															</div>
+														</div>
+														<span v-if="checked[index]==false" class="badge badge-sm bg-gradient-danger">未出貨</span>
+														<span v-if="checked[index]==true" class="badge badge-sm bg-gradient-secondary">未收貨</span>
+														<span v-if="item.status=='od3'" class="badge badge-sm bg-gradient-success">已收貨</span>
+														<span v-if="item.status=='od4'" class="badge badge-sm bg-warning">退貨</span>
+														<span v-if="item.status=='od5'" class="badge badge-sm bg-gradient-dark">已取消</span>
+														<span v-if="item.status=='od6'" class="badge badge-sm bg-gray-300">已評價</span>
+													</div>
+												</td>
+											</tr>
+										</tbody>
+									</table>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div v-if="this._productDetails" class="row">
+					<div class="col-12">
+						<div class="card mb-4">
+							<div class="card-header pb-0">
+								<div class="d-flex align-items-center">
+									<h6 class="mb-0">商品資訊</h6>
+									<button class="btn btn-primary btn-sm ms-auto" @@click="getOrders">回訂單管理</button>
+								</div>
+							</div>
+							<div class="card-body">
+								<p class="text-uppercase text-sm">商品編號：{{details.productId}}</p>
+								<div class="row">
+									<p class="col-md-6 text-sm">名稱：{{details.productName}}</p>
+									<p class="col-md-6 text-sm">賣家帳號：{{details.sellerAccount}}</p>
+									<p class="col-md-6 text-sm">類別：{{details.productCategory}}</p>
+									<p class="col-md-6 text-sm">上架日期：{{new Date(details.launchDate).toLocaleString()}}</p>
+									<p class="col-md-6 text-sm">庫存：{{details.unitsInStock}}</p>
+									<p class="col-md-6 text-sm">銷量：{{details.sales}}</p>
+									<p class="col-md-6 text-sm">單價：{{details.currency}}&nbsp;&nbsp;{{details.unitPrice}}</p>
+									<p class="col-md-6 text-sm">狀態：
+										<span v-if="details.status=='p0'" class="badge badge-sm bg-gradient-secondary">未上架</span>
+										<span v-if="details.status=='p1'" class="badge badge-sm bg-gradient-success">已上架</span>
+										<span v-if="details.status=='p2'" class="badge badge-sm bg-gradient-dark">已刪除</span>
+									</p>
+									<p class="col-md-12 text-sm">說明：{{details.description}}</p>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div v-if="this._ratings" class="row">
+					<div class="col-12">
+						<div class="card mb-4">
+							<div class="card-header pb-0">
+								<div class="d-flex align-items-center">
+									<h6 class="mb-0">買家評價管理</h6>
+									<div class="ms-md-auto pe-md-3 d-flex align-items-center">
+									</div>
+								</div>
+							</div>
+							<div class="card-body px-0 pt-0 pb-2">
+								<div class="table-responsive p-0">
+									<table class="table align-items-center mb-0">
+										<thead>
+											<tr>
+												<th class="text-secondary opacity-7"></th>
+												<th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">訂單編號</th>
+												<th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">商品名稱</th>
+												<th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">買家帳號</th>
+												<th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">評價星數</th>
+												<th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">訂購日期</th>
+												<th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">到貨日期</th>
+												<th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">狀態</th>
+											</tr>
+										</thead>
+										<tbody v-for="(r,rx) in ratings">
+											<tr v-for="(p,px) in ratings[rx].product">
+												<td class="align-middle text-center">
+													<a href="javascript:;" class="text-secondary font-weight-bold text-xs" data-toggle="tooltip" @@click="editReply(rx,px)">
+														<i class="fas fa-pencil-alt text-dark me-2" aria-hidden="true"></i>查看評價內容
+													</a>
+												</td>
+												<td class="align-middle text-center">
+													<span class="text-secondary text-xs font-weight-bold">{{p.orderId}}</span>
+												</td>
+												<td>
+													<div class="d-flex px-2 py-1">
+														<div class="d-flex flex-column justify-content-center">
+															<h6 class="mb-0 text-sm">{{this.orderDetails[rx].product[px].productName}}</h6>
+														</div>
+													</div>
+												</td>
+												<td class="align-middle text-center">
+													<span class="text-secondary text-xs font-weight-bold">{{this.orders[rx].buyerAccount}}</span>
+												</td>
+												<td class="align-middle text-center">
+													<span class="text-secondary text-xs font-weight-bold">{{p.starCount}}</span>
+												</td>
+												<td class="align-middle text-center">
+													<p class="text-xs font-weight-bold mb-0">{{new Date(this.orders[rx].orderDate).toLocaleString()}}</p>
+												</td>
+												<td class="align-middle text-center">
+													<p class="text-xs font-weight-bold mb-0">{{new Date(this.orders[rx].arrivalDate).toLocaleString()}}</p>
+												</td>
+												<td class="align-middle text-center text-sm">
+													<span v-if="p.status=='r0'" class="badge badge-sm bg-gradient-secondary">未回應</span>
+													<span v-if="p.status=='r1'" class="badge badge-sm bg-gradient-success">已回應</span>
+												</td>
+											</tr>
+										</tbody>
+									</table>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div v-if="this._ratingDetails" class="row">
 					<div class="col-12">
 						<div class="card mb-4">
 							<div class="card-header pb-0">
@@ -948,10 +949,10 @@
 													<span class="text-secondary text-xs font-weight-bold">{{this.ratingDetails[0].starCount}}</span>
 												</td>
 												<td class="align-middle text-center">
-													<p class="text-xs font-weight-bold mb-0">{{this.ratingDetails[1].orderDate}}</p>
+													<p class="text-xs font-weight-bold mb-0">{{new Date(this.ratingDetails[1].orderDate).toLocaleString()}}</p>
 												</td>
 												<td class="align-middle text-center">
-													<p class="text-xs font-weight-bold mb-0">{{this.ratingDetails[1].arrivalDate}}</p>
+													<p class="text-xs font-weight-bold mb-0">{{new Date(this.ratingDetails[1].arrivalDate).toLocaleString()}}</p>
 												</td>
 												<td class="align-middle text-center text-sm">
 													<span v-if="this.ratingDetails[0].status=='r0'" class="badge badge-sm bg-gradient-secondary">未回應</span>
@@ -965,44 +966,44 @@
 						</div>
 					</div>
 				</div>
-			<div v-if="this._ratingDetails" class="row">
-				<div class="col-md-12">
-					<div class="card mb-4">
-						<div class="card-header pb-0">
-							<div class="d-flex align-items-center">
-								<p class="col-4 mb-0">買家評價內容</p>
-								<div class="col-8"></div>
-							</div>
-						</div>
-						<div class="card-body">
-							<p class="text-uppercase text-sm">商品編號：{{ratingDetails[0].productId}}</p>
-							<div class="row">
-								<p class="col-md-4 text-sm">單價：{{ratingDetails[2].currency}}&nbsp;&nbsp;{{ratingDetails[2].unitPrice}}</p>
-								<p class="col-md-4 text-sm">數量：{{ratingDetails[2].quantity}}</p>
-								<p class="col-md-4 text-sm">折扣：{{ratingDetails[2].discount}}</p>
-								<p class="col-md-6 text-sm">
-									小計：{{ratingDetails[2].currency}}&nbsp;&nbsp;
-									{{ratingDetails[2].discount != null ? ratingDetails[2].unitPrice * ratingDetails[2].quantity * ratingDetails[2].discount
-										: ratingDetails[2].unitPrice * ratingDetails[2].quantity}}
-								</p>
-								<p class="col-md-12 text-sm">評價內容：{{ratingDetails[0].description}}</p>
-							</div>
-							<hr class="horizontal dark">
-							<div class="col-md-12">
-								<div class="form-group">
-									<label class="form-control-label">回應</label>
-									<div v-if="ratingDetails[0].status=='r1'">
-										<p class="col-md-12 text-sm">{{ratingDetails[0].reply}}</p>
-									</div>
-									<div v-if="ratingDetails[0].status=='r0'">
-										<textarea v-model="reply" class="form-control" rows="5" cols="20" placeholder="回應內容"></textarea>
-									</div>
+				<div v-if="this._ratingDetails" class="row">
+					<div class="col-md-12">
+						<div class="card mb-4">
+							<div class="card-header pb-0">
+								<div class="d-flex align-items-center">
+									<p class="col-4 mb-0">買家評價內容</p>
+									<div class="col-8"></div>
 								</div>
-								<div class="form-group">
-									<div class="d-flex align-items-center">											
-										<div class="col-md-8 col-5"></div>
-										<div v-if="ratingDetails[0].status=='r0'" class="col-md-4 col-7 d-flex justify-content-between">
-											<button class="btn btn-primary btn-sm ms-auto" @@click="replyBuyers">儲存評價回應</button>
+							</div>
+							<div class="card-body">
+								<p class="text-uppercase text-sm">商品編號：{{ratingDetails[0].productId}}</p>
+								<div class="row">
+									<p class="col-md-4 text-sm">單價：{{ratingDetails[2].currency}}&nbsp;&nbsp;{{ratingDetails[2].unitPrice}}</p>
+									<p class="col-md-4 text-sm">數量：{{ratingDetails[2].quantity}}</p>
+									<p class="col-md-4 text-sm">折扣：{{ratingDetails[2].discount}}</p>
+									<p class="col-md-6 text-sm">
+										小計：{{ratingDetails[2].currency}}&nbsp;&nbsp;{{ratingDetails[2].discount != null ? ratingDetails[2].unitPrice * ratingDetails[2].quantity * ratingDetails[2].discount
+										: ratingDetails[2].unitPrice * ratingDetails[2].quantity}}
+									</p>
+									<p class="col-md-12 text-sm">評價內容：{{ratingDetails[0].description}}</p>
+								</div>
+								<hr class="horizontal dark">
+								<div class="col-md-12">
+									<div class="form-group">
+										<label class="form-control-label">回應</label>
+										<div v-if="ratingDetails[0].status=='r1'">
+											<p class="col-md-12 text-sm">{{ratingDetails[0].reply}}</p>
+										</div>
+										<div v-if="ratingDetails[0].status=='r0'">
+											<textarea v-model="reply" class="form-control" rows="5" cols="20" placeholder="回應內容"></textarea>
+										</div>
+									</div>
+									<div class="form-group">
+										<div class="d-flex align-items-center">
+											<div class="col-md-8 col-5"></div>
+											<div v-if="ratingDetails[0].status=='r0'" class="col-md-4 col-7 d-flex justify-content-between">
+												<button class="btn btn-primary btn-sm ms-auto" @@click="replyBuyers">儲存評價回應</button>
+											</div>
 										</div>
 									</div>
 								</div>
@@ -1010,34 +1011,33 @@
 						</div>
 					</div>
 				</div>
-			</div>
-			@*Footer*@
-			<footer class="footer pt-3">
-				<div class="container-fluid py-5">
-					<div class="row align-items-center justify-content-lg-between">
-						<div class="col-lg-6 mb-lg-0 mb-4">
-							<div class="copyright text-center text-sm text-muted text-lg-start">
-								© <script>
-							   document.write(new Date().getFullYear())
-								</script>,
-								made with <i class="fa fa-heart"></i> by
-								<a href="#" class="font-weight-bold" target="_blank">Creative Tim</a>
-								for a better web.
+				@*Footer*@
+				<footer class="footer pt-3">
+					<div class="container-fluid py-5">
+						<div class="row align-items-center justify-content-lg-between">
+							<div class="col-lg-6 mb-lg-0 mb-4">
+								<div class="copyright text-center text-sm text-muted text-lg-start">
+									© <script>
+								 document.write(new Date().getFullYear())
+									</script>,
+									made with <i class="fa fa-heart"></i> by
+									<a href="#" class="font-weight-bold" target="_blank">Creative Tim</a>
+									for a better web.
+								</div>
 							</div>
+							<div class="col-lg-6"></div>
 						</div>
-						<div class="col-lg-6"></div>
 					</div>
-				</div>
-			</footer>
-		</div>
-	</main>
-</div>
-<!--   Core JS Files   -->
-<script src="~/assets/js/core/popper.min.js"></script>
-<script src="~/assets/js/core/bootstrap.min.js"></script>
-<script src="~/assets/js/plugins/perfect-scrollbar.min.js"></script>
-<script src="~/assets/js/plugins/smooth-scrollbar.min.js"></script>
-<script>
+				</footer>
+			</div>
+		</main>
+	</div>
+	<!--   Core JS Files   -->
+	<script src="~/assets/js/core/popper.min.js"></script>
+	<script src="~/assets/js/core/bootstrap.min.js"></script>
+	<script src="~/assets/js/plugins/perfect-scrollbar.min.js"></script>
+	<script src="~/assets/js/plugins/smooth-scrollbar.min.js"></script>
+	<script>
 		var win = navigator.platform.indexOf('Win') > -1;
 		if (win && document.querySelector('#sidenav-scrollbar')) {
 			var options = {
@@ -1046,13 +1046,14 @@
 			Scrollbar.init(document.querySelector('#sidenav-scrollbar'), options);
 		}
 	</script>
-<script src="~/js/jquery-3.3.1.min.js"></script>
-<script src="~/lib/vue/vue.global.prod.js"></script>
-<script src="~/lib/axios/axios.min.js"></script>
-<script>
-	var baseAddress = window.location.origin;
-	var vueApp = {
-		data() {
+	<script src="~/js/jquery-3.3.1.min.js"></script>
+	<script src="~/lib/vue/vue.global.prod.js"></script>
+	<script src="~/lib/axios/axios.min.js"></script>
+	<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+	<script>
+		var baseAddress = window.location.origin;
+		var vueApp = {
+			data() {
 				return {
 					loginAccount: '',
 					_info: false,
@@ -1087,18 +1088,18 @@
 					filter: ''
 				};
 			},
-		mounted: function () {
+			mounted: function () {
 				let _this = this;
 				_this.navbar(0);
-		},
-		methods: {
-			closePanels: function() {
+			},
+			methods: {
+				closePanels: function () {
 					let _this = this;
 					_this._info = _this._products = _this._details = _this._create = _this._pictures = false;
 					_this._orders = _this._orderDetails = _this._productDetails = false;
 					_this._ratings = _this._ratingDetails = false;
-			},
-			navbar: function(n) {
+				},
+				navbar: function (n) {
 					let _this = this;
 					_this.closePanels();
 					$('#nav0').removeClass('active');
@@ -1128,120 +1129,120 @@
 							break;
 					}
 				},
-			getInfo: function() {
-				let _this = this;
-				_this._info = true;
-				axios.post(`${baseAddress}/Products/GetInfo/`).then(response => {
-					if (!response.data.login) {
-						_this.loginAccount = '登入';
-						alert(response.data.message);
-						window.location.replace('/Products');
-					}
-					if (response.data.login) {
-						_this.info = response.data.record[0];
-						_this.infoText = _this.info.aboutSeller;
-						_this.loginAccount = _this.info.id;
-					}
-				});
-			},
-			updateInfo: function(text) {
-				let _this = this;
-				_this._info = true;
-				var request = {};
-				request.aboutSeller = text;
-				axios.post(`${baseAddress}/Products/UpdateInfo/`, request).then(response => {
-					alert(response.data.message);
-					if (!response.data.login) {
-						window.location.replace('/Products');
-					}
-					_this.getInfo();
-				});
-			},
-			getProducts: function () {
-				let _this = this;
-				_this.closePanels();
-				_this._products = true;
-				axios.post(`${baseAddress}/Products/GetProducts/`).then(response => {
-					if (!response.data.login) {
-						alert(response.data.message);
-						window.location.replace('/Products');
-					}
-					if (response.data.login) {
-						if (response.data.found) {
-							_this.products = response.data.record;
-							_this.details = _this.products[0];
-						}
-						else {
+				getInfo: function () {
+					let _this = this;
+					_this._info = true;
+					axios.post(`${baseAddress}/Products/GetInfo/`).then(response => {
+						if (!response.data.login) {
+							_this.loginAccount = '登入';
 							alert(response.data.message);
-							_this.products = [];
-							_this.details = {};
+							window.location.replace('/Products');
 						}
-					}						
-				});
-			},
-			filterProducts: function () {
-				let _this = this; 
-				_this.closePanels();
-				_this. _products = true;
-				var request = {};
-				request.sellerAccount = _this.loginAccount;
-				request.productId = request.productCategoryId = request.unitsInStock = request.unitPrice = isNaN(parseInt(_this.filter)) ? -1 : parseInt(_this.filter);
-				request.productName = request.description = request.status = request.currency = _this.filter;
-				axios.post(`${baseAddress}/Products/Filter`, request).then(response => {
-					if (!response.data.login) {
+						if (response.data.login) {
+							_this.info = response.data.record[0];
+							_this.infoText = _this.info.aboutSeller;
+							_this.loginAccount = _this.info.id;
+						}
+					});
+				},
+				updateInfo: function (text) {
+					let _this = this;
+					_this._info = true;
+					var request = {};
+					request.aboutSeller = text;
+					axios.post(`${baseAddress}/Products/UpdateInfo/`, request).then(response => {
 						alert(response.data.message);
-						window.location.replace('/Products');
-					}
-					if (response.data.login) {
-						if (response.data.found) {
-							_this.products = response.data.record;							
-							_this.details = _this.products[0];
-						}
-						else {
-							alert(response.data.message);
-							_this.products = [];
-							_this.details = {};
-						}
-					}
-				});
-			},
-			edit: function (productId) {
-				let _this = this;
-				_this.details = _this.products[0];
-				_this.products.forEach(item => {
-					if (item.productId == productId) {
-						_this.details = item;
-					}
-				});					
-				_this._checked = (_this.details.status == 'p1') ? true : false;
-				_this.closePanels();
-				_this._details = true;
-			},
-			update: function (item) {
-				let _this = this;
-				var request = {};
-				_this.stock();
-				request.productId = item.productId;
-				request.sellerAccount = item.sellerAccount;
-				request.productName = item.productName;
-				request.productCategoryId = item.productCategoryId;
-				request.description = item.description;
-				request.unitsInStock = item.unitsInStock;
-				request.unitPrice = item.unitPrice;
-				request.status = item.status;
-				request.currency = item.currency;
-				var ret = confirm('確定要儲存嗎？');
-				if (ret == true) {
-						axios.post(`${baseAddress}/Products/Update/`, request).then(response => {
-							alert(response.data.message);
 						if (!response.data.login) {
 							window.location.replace('/Products');
 						}
-						_this.cancel();
+						_this.getInfo();
 					});
-				}
-			},
-			cancel: function () {
+				},
+				getProducts: function () {
+					let _this = this;
+					_this.closePanels();
+					_this._products = true;
+					axios.post(`${baseAddress}/Products/GetProducts/`).then(response => {
+						if (!response.data.login) {
+							alert(response.data.message);
+							window.location.replace('/Products');
+						}
+						if (response.data.login) {
+							if (response.data.found) {
+								_this.products = response.data.record;
+								_this.details = _this.products[0];
+							}
+							else {
+								alert(response.data.message);
+								_this.products = [];
+								_this.details = {};
+							}
+						}
+					});
+				},
+				filterProducts: function () {
+					let _this = this;
+					_this.closePanels();
+					_this._products = true;
+					var request = {};
+					request.sellerAccount = _this.loginAccount;
+					request.productId = request.productCategoryId = request.unitsInStock = request.unitPrice = isNaN(parseInt(_this.filter)) ? -1 : parseInt(_this.filter);
+					request.productName = request.description = request.status = request.currency = _this.filter;
+					axios.post(`${baseAddress}/Products/Filter`, request).then(response => {
+						if (!response.data.login) {
+							alert(response.data.message);
+							window.location.replace('/Products');
+						}
+						if (response.data.login) {
+							if (response.data.found) {
+								_this.products = response.data.record;
+								_this.details = _this.products[0];
+							}
+							else {
+								alert(response.data.message);
+								_this.products = [];
+								_this.details = {};
+							}
+						}
+					});
+				},
+				edit: function (productId) {
+					let _this = this;
+					_this.details = _this.products[0];
+					_this.products.forEach(item => {
+						if (item.productId == productId) {
+							_this.details = item;
+						}
+					});
+					_this._checked = (_this.details.status == 'p1') ? true : false;
+					_this.closePanels();
+					_this._details = true;
+				},
+				update: function (item) {
+					let _this = this;
+					var request = {};
+					_this.stock();
+					request.productId = item.productId;
+					request.sellerAccount = item.sellerAccount;
+					request.productName = item.productName;
+					request.productCategoryId = item.productCategoryId;
+					request.description = item.description;
+					request.unitsInStock = item.unitsInStock;
+					request.unitPrice = item.unitPrice;
+					request.status = item.status;
+					request.currency = item.currency;
+					var ret = confirm('確定要儲存嗎？');
+					if (ret == true) {
+						axios.post(`${baseAddress}/Products/Update/`, request).then(response => {
+							alert(response.data.message);
+							if (!response.data.login) {
+								window.location.replace('/Products');
+							}
+							_this.cancel();
+						});
+					}
+				},
+				cancel: function () {
 					let _this = this;
 					_this.closePanels();
 					_this._products = true;
@@ -1257,8 +1258,8 @@
 					_this.getProducts();
 					//if(_this.filter == '') _this.getProducts();
 					//if (_this.filter != '') _this.filterProducts();
-			},
-			deleteProduct: function (productId) {
+				},
+				deleteProduct: function (productId) {
 					let _this = this;
 					var ret = confirm('確定要刪除嗎？');
 					if (ret == true) {
@@ -1270,65 +1271,65 @@
 							_this.cancel();
 						});
 					}
-			},
-			create: function () {
-				var _this = this;
-				_this.details = {};
-				_this.details.productId = 0;
-				_this.details.sellerAccount = _this.loginAccount;
-				_this.details.launchDate = '';
-				_this.details.productName = '';
-				_this.details.productCategoryId = 1;
-				_this.details.description = '';
-				_this.details.unitsInStock = 0;
-				_this.details.sales = 0;
-				_this.details.unitPrice = '';
-				_this.details.status = 'p0';
-				_this.details.currency = 'NTD';
-				_this._checked = false;
-				_this.plus = 'INC';
-				_this.increase = 0;
+				},
+				create: function () {
+					var _this = this;
+					_this.details = {};
+					_this.details.productId = 0;
+					_this.details.sellerAccount = _this.loginAccount;
+					_this.details.launchDate = '';
+					_this.details.productName = '';
+					_this.details.productCategoryId = 1;
+					_this.details.description = '';
+					_this.details.unitsInStock = 0;
+					_this.details.sales = 0;
+					_this.details.unitPrice = '';
+					_this.details.status = 'p0';
+					_this.details.currency = 'NTD';
+					_this._checked = false;
+					_this.plus = 'INC';
+					_this.increase = 0;
 					_this._create = true;
 					_this.closePanels();
 					_this._details = true;
 					_this._create = true;
-			},
-			createSave: function (item) {
-				let _this = this;
-				var request = {};
-				_this.stock();
-				request.productId = 0;
-				request.sellerAccount = item.sellerAccount;
-				request.productName = item.productName;
-				request.productCategoryId = item.productCategoryId;
-				request.description = item.description;
-				request.unitsInStock = item.unitsInStock;
-				request.unitPrice = item.unitPrice;
-				request.status = item.status;
-				request.currency = item.currency;
-				var ret = confirm('確定要新增嗎？');
-				if (ret == true) {
-					axios.post(`${baseAddress}/Products/Create/`, request).then(response => {
-						alert(response.data.message);
-						if (!response.data.login) {
-							window.location.replace('/Products');
-						}
-						_this.cancel();
-					});
-				}
-			},
-			stock: function () {
+				},
+				createSave: function (item) {
+					let _this = this;
+					var request = {};
+					_this.stock();
+					request.productId = 0;
+					request.sellerAccount = item.sellerAccount;
+					request.productName = item.productName;
+					request.productCategoryId = item.productCategoryId;
+					request.description = item.description;
+					request.unitsInStock = item.unitsInStock;
+					request.unitPrice = item.unitPrice;
+					request.status = item.status;
+					request.currency = item.currency;
+					var ret = confirm('確定要新增嗎？');
+					if (ret == true) {
+						axios.post(`${baseAddress}/Products/Create/`, request).then(response => {
+							alert(response.data.message);
+							if (!response.data.login) {
+								window.location.replace('/Products');
+							}
+							_this.cancel();
+						});
+					}
+				},
+				stock: function () {
 					let _this = this;
 					if (_this.plus == 'INC') {
 						_this.details.unitsInStock += parseInt(_this.increase);
 					}
 					else _this.details.unitsInStock -= parseInt(_this.increase);
-			},
-			shelf: function () {
+				},
+				shelf: function () {
 					let _this = this;
 					_this.details.status = (_this._checked) ? 'p1' : 'p0';
-			},
-			uploadFile: function () {
+				},
+				uploadFile: function () {
 					var _this = this;
 					var formData = new FormData();
 					formData.append('Picture', _this.picture);
@@ -1340,13 +1341,13 @@
 							window.location.replace('/Products');
 						}
 					});
-			},
-			selectedFile: function (e) {
+				},
+				selectedFile: function (e) {
 					var _this = this;
 					_this.picture = e.target.files[0];
 					_this.preview = URL.createObjectURL(_this.picture);
-			},
-			getPictures: function (productId) {
+				},
+				getPictures: function (productId) {
 					let _this = this;
 					_this._pictures = !_this._pictures;
 					if (_this._pictures) {
@@ -1363,8 +1364,8 @@
 							}
 						});
 					}
-			},
-			updatePicture: function (item) {
+				},
+				updatePicture: function (item) {
 					let _this = this;
 					var request = {};
 					_this.stock();
@@ -1382,8 +1383,8 @@
 						});
 					}
 					_this._pictures = false;
-			},
-			deletePicture: function (pictureId) {
+				},
+				deletePicture: function (pictureId) {
 					let _this = this;
 					var ret = confirm('確定要刪除嗎？');
 					if (ret == true) {
@@ -1395,11 +1396,12 @@
 						});
 					}
 					_this._pictures = false;
-			},
-			getOrders: async function() {
+				},
+				getOrders: async function () {
 					let _this = this;
 					_this.closePanels();
 					_this._orders = true;
+					var sum = [];
 					await axios.post(`${baseAddress}/Products/GetOrders/`).then(response => {
 						if (!response.data.login) {
 							alert(response.data.message);
@@ -1421,8 +1423,9 @@
 											subTotal.USD += ((p.discount != null) ? (p.unitPrice * p.quantity * p.discount) : (p.unitPrice * p.quantity));
 										}
 									});
-									_this.orderSum.push(subTotal);
+									sum.push(subTotal);
 								});
+								_this.orderSum = sum;
 							}
 							else {
 								alert(response.data.message);
@@ -1430,19 +1433,19 @@
 								_this.orderDetails = [];
 							}
 						}
-					});					
-			},
-			editOrders: function(orderId, index) {
+					});
+				},
+				editOrders: function (orderId, index) {
 					let _this = this;
 					_this.orderInfo = [];
 					_this.checked = [];
 					_this.orders.forEach(item => {
-						if(item.orderId == orderId) {
+						if (item.orderId == orderId) {
 							_this.orderInfo.push(item);
 						}
 					});
 					_this.orderDetails.forEach(item => {
-						if(item.orderId == orderId){
+						if (item.orderId == orderId) {
 							_this.orderInfo.push(item);
 							_this.orderInfo[1].product.forEach(p => {
 								if (p.status == 'od1') _this.checked.push(false);
@@ -1455,25 +1458,25 @@
 					_this.closePanels();
 					_this._orderDetails = true;
 				},
-			updateOrders: function(orderId) {
+				updateOrders: function (orderId) {
 					let _this = this;
 					var ret = confirm('確定更新出貨狀態嗎？');
 					if (ret == true) {
 						var request = {};
 						request.orderId = orderId;
 						request.productId = [];
-						if(_this.checked.length != 0){
-							for(var i = 0; i < _this.checked.length; i++) {
-								if ((_this.checked[i] == true) && (_this.orderInfo[1].product[i].status == 'od1')){
+						if (_this.checked.length != 0) {
+							for (var i = 0; i < _this.checked.length; i++) {
+								if ((_this.checked[i] == true) && (_this.orderInfo[1].product[i].status == 'od1')) {
 									request.productId.push(_this.orderInfo[1].product[i].productId);
 								}
 							}
-							if(request.productId.length != 0){
+							if (request.productId.length != 0) {
 								axios.post(`${baseAddress}/Products/UpdateOrderStatus`, request).then(response => {
 									alert(response.data.message);
 									if (!response.data.login) {
 										window.location.replace('/Products');
-									} 
+									}
 									_this.getOrders();
 								});
 							}
@@ -1482,65 +1485,67 @@
 						else alert('訂單中沒有商品');
 					}
 				},
-			cancelOrderDetails: function() {
+				cancelOrderDetails: function () {
 					let _this = this;
 					_this.closePanels();
-					_this._orders = true; 
+					_this._orders = true;
 				},
-			getProduct: function(productId) {
-				let _this = this;
-				_this.closePanels();
-				axios.post(`${baseAddress}/Products/GetProduct/${productId}`).then(response => {
-					if (!response.data.login) {
-						alert(response.data.message);
-						window.location.replace('/Products');
-					}
-					if (response.data.login) {
-						_this.details = response.data.record;
-					}
-				});
-				_this._productDetails = true;
-			},
-			getRatings: async function() {
-				let _this = this;
-				_this.closePanels();
-				_this._ratings = true;
-				_this.reply = '';
-				await axios.post(`${baseAddress}/Products/GetRatings`).then(response => {
-					if (!response.data.login) {
-						alert(response.data.message);
-						window.location.replace('/Products');
-					}
-					if (response.data.login) {
-						if (response.data.found) {
-							_this.ratings = response.data.ratings;
-							_this.orders = response.data.orders;
-							_this.orderDetails = response.data.orderDetails;
-							_this.orderDetails.forEach(o => {
-								var subTotal = {};
-								subTotal.NTD = 0;
-								subTotal.USD = 0;
-								o.product.forEach(p => {
-									if (p.currency == 'NTD') {
-										subTotal.NTD += ((p.discount != null) ? (p.unitPrice * p.quantity * p.discount) : (p.unitPrice * p.quantity));
-									}
-									if (p.currency == 'USD') {
-										subTotal.USD += ((p.discount != null) ? (p.unitPrice * p.quantity * p.discount) : (p.unitPrice * p.quantity));
-									}
-								});
-								_this.orderSum.push(subTotal);
-							});
-						}
-						else {
+				getProduct: function (productId) {
+					let _this = this;
+					_this.closePanels();
+					axios.post(`${baseAddress}/Products/GetProduct/${productId}`).then(response => {
+						if (!response.data.login) {
 							alert(response.data.message);
-							_this.ratings = [{product:[]}];
-							_this.orders = [];
-							_this.orderDetails = [{product:[]}];
+							window.location.replace('/Products');
 						}
-					}
-				});
-			},
-			editReply: function(rx,px) {
+						if (response.data.login) {
+							_this.details = response.data.record[0];
+						}
+					});
+					_this._productDetails = true;
+				},
+				getRatings: async function () {
+					let _this = this;
+					_this.closePanels();
+					_this._ratings = true;
+					_this.reply = '';
+					var sum = [];
+					await axios.post(`${baseAddress}/Products/GetRatings`).then(response => {
+						if (!response.data.login) {
+							alert(response.data.message);
+							window.location.replace('/Products');
+						}
+						if (response.data.login) {
+							if (response.data.found) {
+								_this.ratings = response.data.ratings;
+								_this.orders = response.data.orders;
+								_this.orderDetails = response.data.orderDetails;
+								_this.orderDetails.forEach(o => {
+									var subTotal = {};
+									subTotal.NTD = 0;
+									subTotal.USD = 0;
+									o.product.forEach(p => {
+										if (p.currency == 'NTD') {
+											subTotal.NTD += ((p.discount != null) ? (p.unitPrice * p.quantity * p.discount) : (p.unitPrice * p.quantity));
+										}
+										if (p.currency == 'USD') {
+											subTotal.USD += ((p.discount != null) ? (p.unitPrice * p.quantity * p.discount) : (p.unitPrice * p.quantity));
+										}
+									});
+									sum.push(subTotal);
+								});
+								_this.orderSum = sum;
+							}
+							else {
+								alert(response.data.message);
+								_this.ratings = [{ product: [] }];
+								_this.orders = [];
+								_this.orderDetails = [{ product: [] }];
+							}
+						}
+					});
+				},
+				editReply: function (rx, px) {
 					let _this = this;
 					_this.ratingDetails = [];
 					_this.ratingDetails.push(_this.ratings[rx].product[px]);
@@ -1549,39 +1554,39 @@
 					_this.closePanels();
 					_this._ratingDetails = true;
 				},
-			cancelRatingDetails: function() {
+				cancelRatingDetails: function () {
 					let _this = this;
 					_this.closePanels();
 					_this._ratings = true;
 					_this.reply = '';
 				},
-			replyBuyers: function() {
-				let _this = this;
-				if (_this.ratingDetails[0].status == 'r0'){
-					if(_this.reply != ''){
-						var request = {};
-						request.productId = _this.ratingDetails[0].productId;
-						request.orderId = _this.ratingDetails[0].orderId;
-						request.sellerAccount = _this.loginAccount;
-						request.reply = _this.reply;
-						axios.post(`${baseAddress}/Products/ReplyBuyer`, request).then(response => {
-							alert(response.data.message);
-							if (!response.data.login) {
-								window.location.replace('/Products');
+				replyBuyers: function () {
+					let _this = this;
+					if (_this.ratingDetails[0].status == 'r0') {
+						if (_this.reply != '') {
+							var request = {};
+							request.productId = _this.ratingDetails[0].productId;
+							request.orderId = _this.ratingDetails[0].orderId;
+							request.sellerAccount = _this.loginAccount;
+							request.reply = _this.reply;
+							axios.post(`${baseAddress}/Products/ReplyBuyer`, request).then(response => {
+								alert(response.data.message);
+								if (!response.data.login) {
+									window.location.replace('/Products');
 								}
-							_this.getRatings();
-						});
+								_this.getRatings();
+							});
+						}
+						else alert('無回應內容');
 					}
-					else alert('無回應內容');
+					else alert('已回應買家評價');
 				}
-				else alert('已回應買家評價');
 			}
-		}
-	};
-	var app = Vue.createApp(vueApp).mount('#app');
-</script>
-<!-- Control Center for Soft Dashboard: parallax effects, scripts for the example pages etc -->
-<script src="~/assets/js/argon-dashboard.min.js?v=2.0.4"></script>
+		};
+		var app = Vue.createApp(vueApp).mount('#app');
+	</script>
+	<!-- Control Center for Soft Dashboard: parallax effects, scripts for the example pages etc -->
+	<script src="~/assets/js/argon-dashboard.min.js?v=2.0.4"></script>
 </body>
 
 </html>

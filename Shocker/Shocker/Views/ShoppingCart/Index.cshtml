@@ -38,7 +38,7 @@
                                     <th>單價</th>
                                     <th>數量</th>
                                     <th>小計</th>
-                                    <th><i class="far fa-trash-alt me-2" aria-hidden="true"></i></th>
+                                    <th><span class="icon_close_alt"></span></th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -52,7 +52,7 @@
                                         <p>{{product.categoryName}}</p>
                                     </td>
                                     <td class="shoping__cart__item text-center">
-                                        <select v-model="discount[cx][px][1]" v-on:change="couponSelected(cx,px,product.categoryId)" class="col-12">
+                                        <select v-model="discount[cx][px][1]" v-on:change="couponSelected(cx,px,product.categoryId)" class="col-10 ">
                                             <option value="-1">選擇優惠券</option>
                                                 <option v-for="(item,ix) in coupons[product.categoryId]" :value="ix" :disabled="item.disabled">
                                                 #{{item.couponId}}&nbsp;&nbsp;類型：{{item.categoryName}}&nbsp;&nbsp;/&nbsp;&nbsp;折扣：×{{item.discount}}
@@ -76,7 +76,7 @@
                                         {{product.currency}}&nbsp;&nbsp;{{subtotal[cx][px] = Math.round(product.unitPrice * product.quantity * discount[cx][px][0])}}
                                     </td>
                                     <td class="shoping__cart__item__close">
-                                        <span class="icon_close" @@click="deleteItem(product.productId)"></span>
+                                        <span class="icon_close_alt2" title="取消訂購" @@click="deleteItem(product.productId)"></span>
                                     </td>
                                 </tr>
                             </tbody>

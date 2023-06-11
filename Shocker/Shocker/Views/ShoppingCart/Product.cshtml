@@ -56,7 +56,7 @@
                             <span v-if="product.status=='p1'">已上架</span>
                             <span v-if="product.status=='p2'">已刪除</span>
                         </li>
-                        <li><b>上架時間</b> <span>{{product.launchDate}}</span></li>
+                            <li><b>上架時間</b> <span>{{new Date(product.launchDate).toLocaleString()}}</span></li>
                         <li><b>庫存</b> <span>{{product.unitsInStock}}<samp v-if="product.unitsInStock<=0">&nbsp;&nbsp;無庫存</samp></span></li>
                         <li><b>銷量</b> <span>{{product.sales}}</span></li>
                     </ul>
