@@ -12,7 +12,6 @@ namespace Shocker.Models
 		/// <returns></returns>
 		public static string GetUserRole(this IIdentity identity)
 		{
-
 			if (identity == null)
 				throw new ArgumentNullException(nameof(identity));
 			return identity is ClaimsIdentity identity1 ? identity1.FindFirst(ClaimTypes.Role)?.Value : null;

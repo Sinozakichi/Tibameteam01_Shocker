@@ -107,7 +107,7 @@
 								if (User.Identity.IsAuthenticated)
 								{
 									<div>
-										<h5>歡迎光臨，@ViewBag.Account</h5>
+										<h5>歡迎光臨，@User.Identity.Name</h5>
 									</div>
 									<div class="header__top__right__auth">
 										<a class="nav-link text-dark" asp-controller="Member" asp-action="SignOut"><i class="fa fa-user"></i> 登出</a>
