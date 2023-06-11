@@ -15,51 +15,51 @@
 
 		<hr style="height: 3px;border-color: chartreuse;background-color: chartreuse" />
 
-		<template v-if="editPassword==false">
+		<template v-if="editPassword==false&&canUpdatePassword==false">
 			<div class="mb-3 row">
 				<label for="inputPassword" class="col-sm-2 col-form-label">密碼</label>
 				<div class="col-sm-8">
 					<input type="password" readonly maxlength="50" class="form-control-plaintext" id="inputPassword" v-model="users.user.password">
 				</div>
 				<div class="col-sm-2">
-					<button type="button" class="btn btn-outline-success" @@click="editThePassword">更改密碼</button>				
+					<button type="button" class="btn btn-outline-success" @@click="editThePassword">更改密碼</button>
 				</div>
 			</div>
 		</template>
 
-		<template v-else>
+		<template v-if="editPassword==true&&canUpdatePassword==false">
 			<div class="mb-3 row">
-				<label for="inputPassword" class="col-sm-2 col-form-label">密碼</label>
-				<div class="col-sm-8">
+				<label for="inputPassword" class="col-sm-2 col-form-label">請輸入您的舊密碼</label>
+				<div class="col-sm-6">
 					<input type="password" class="form-control" id="inputPassword" v-model="password">
 				</div>
 				<div class="col-sm-2">
-					<button type="button" class="btn btn-outline-success" data-toggle="modal" data-target="#passwordModal" @@click="checkPassword">送出</button>
-					
-					<div class="modal fade" id="passwordModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-						<div class="modal-dialog">
-							<div class="modal-content">
-								<div class="modal-header">
-									<h5 class="modal-title" id="exampleModalLabel">更改您的密碼</h5>
-									<button type="button" class="close" data-dismiss="modal" aria-label="Close">
-										<span aria-hidden="true">&times;</span>
-									</button>
-								</div>
-								<div class="form-group">
-									<label for="recipient-name" class="col-form-label">新密碼:</label>
-									<input type="text" class="form-control" id="newPassword" v-model="newPassword">
-								</div>
-								<div class="modal-footer">
-									<button type="button" class="btn btn-secondary" data-dismiss="modal">取消</button>
-									<button type="button" class="btn btn-danger" data-dismiss="modal" @@click="updatePassword">確定</button>
-								</div>
-							</div>
-						</div>
-					</div>
+					<button type="button" class="btn btn-outline-success" @@click="checkPassword">送出</button>
 				</div>
-				<div class="text-danger">
-					<h5 class="text-danger">更動新密碼前，請輸入一次舊密碼</h5>
+				<div class="col-sm-2">
+					<button type="button" class="btn btn-outline-danger" @@click="cancelPassword">取消</button>
 				</div>
+				<div v-if="cErrorbox" class="text-danger">
+					<h5 class="text-danger">錯誤:與舊密碼不一致!</h5>
+				</div>
+			</div>
+		</template>
+
+		<template v-if="canUpdatePassword==true">
+			<div class="mb-3 row">
+				<label for="inputPassword" class="col-sm-2 col-form-label">請輸入新密碼</label>
+				<div class="col-sm-6">
+					<input type="password" class="form-control" id="inputPassword" v-model="newPassword">
+				</div>
+				<div class="col-sm-2">
+					<button type="button" class="btn btn-outline-success" @@click="updatePassword">更新</button>
+				</div>
+				<div class="col-sm-2">
+					<button type="button" class="btn btn-outline-danger" @@click="cancelPassword">取消</button>
+				</div>
+			</div>
+			<div v-if="pErrorbox" class="text-danger">
+				<h5 class="text-danger">錯誤:{{passworderrors.passwordError}}</h5>
 			</div>
 		</template>
 
@@ -254,19 +254,24 @@
 				address: []
 			},
 			picture: "",
-			password:"",
-			newPassword:"",
+			password: "",
+			newPassword: "",
 			uploadPic: {},
 			selectAddress: "",
 			addAddress: "",
 			editPassword: false,
+			canUpdatePassword: false,
 			Edit: false,
 			editing: false,
 			//驗證欄位
 			errors: {
 
 			},
+			passworderrors: {
+
+			},
 			eErrorbox: false,
+			cErrorbox:false,
 			pErrorbox: false,
 			nErrorbox: false
 		},
@@ -302,11 +307,9 @@
 				var _this = this;
 				_this.editing = true;
 				_this.eErrorbox = false;
-				//_this.pErrorbox= false;
 				_this.nErrorbox = false;
 				var request = {
 					id: _this.users.user.id,
-					password: _this.users.user.password,
 					nickName: _this.users.user.nickName,
 					gender: _this.users.user.gender,
 					birthDate: _this.users.user.birthDate,
@@ -333,27 +336,64 @@
 						_this.editing = false;
 						if (_this.errors.emailError != null) { _this.eErrorbox = true; }
 						if (_this.errors.nicknameError != null) { _this.nErrorbox = true; }
-						//if (_this.errors.passwordError != null) { _this.pErrorbox = true; }
 					}
-				})
+				});
 			},
 			editThePassword: function () {
-				var _this = this;
-				_this.editPassword = true;
+				this.editPassword = true;
+				this.cErrorbox = false;
+				this.pErrorbox = false;
 			},
 			checkPassword: function () {
-				var _this = this;
-				if (_this.users.user.password == _this.password){
-
+				if (this.users.user.password == this.password) {
+					this.canUpdatePassword = true;
+					Swal.fire({
+						title: '密碼正確',
+						icon: 'success'
+					})
+				}
+				else{
+					this.cErrorbox=true;
+					this.password= "";
 				}
 			},
-			updatePassword:function(){
-
+			updatePassword: function () {
+				var _this = this;
+				alert(_this.newPassword);
+				var request = {
+					id: _this.users.user.id,
+					password: _this.newPassword,
+				};
+				axios.post(`/User/UpdatePassword`, request).then(response => {
+					if (response.data.status) {
+						Swal.fire({
+							title: '更新密碼成功',
+							icon: 'success'
+						})
+						_this.getUsers();
+						_this.editPassword = false;
+						_this.canUpdatePassword = false;
+					}
+					else {
+						Swal.fire({
+							icon: 'error',
+							title: 'Oops...',
+							text: response.data.errorMessage,
+						})
+						_this.passworderrors = response.data.data;
+						if (_this.passworderrors.passwordError != null) { _this.pErrorbox = true; }
+					}
+				});
+			},
+			cancelPassword: function () {
+				this.password = "";
+				this.newPassword = "";
+				this.editPassword = false;
+				this.canUpdatePassword = false;
 			},
 			editUsers: function () {//開始編輯User的欄位
 				this.Edit = true;
 				this.eErrorbox = false;
-				//this.pErrorbox = false;
 				this.nErrorbox = false;
 			},
 			cancel: function () {//取消編輯User的欄位，並更新當前User的資料

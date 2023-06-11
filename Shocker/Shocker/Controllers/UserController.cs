@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.CodeAnalysis;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
 using Newtonsoft.Json;
 using Shocker.Models;
 using Shocker.Models.ViewModels;
@@ -124,7 +125,7 @@ namespace Shocker.Controllers
 		}
 		[Authorize]
 		[HttpPost]
-		public ApiResultModel UpdatePassword([FromBody] PasswordViewModel uvm)//更新User資訊
+		public ApiResultModel UpdatePassword([FromBody] PasswordViewModel pvm)//更新User資訊
 		{
 			if (!ModelState.IsValid)
 			{
@@ -143,9 +144,9 @@ namespace Shocker.Controllers
 			{
 				try
 				{
-					var u = _context.Users.FirstOrDefault(u => u.Id == uvm.Id);
+					var u = _context.Users.FirstOrDefault(u => u.Id == pvm.Id);
 					if (u == null) return new ApiResultModel() { Status = false, ErrorMessage = "此帳號不存在!" };
-					u.Password = uvm.Password;
+					u.Password = pvm.Password;
 					_context.SaveChanges();
 					return new ApiResultModel() { Status = true };
 				}
@@ -240,6 +241,11 @@ namespace Shocker.Controllers
 		}
 		public IActionResult UserOrderDetails()
 		{
+			if (User.Identity.IsAuthenticated)
+			{
+				var loginAccount = User.Claims.FirstOrDefault(x => x.Type == ClaimTypes.Name);
+				ViewBag.Account = loginAccount.Value;
+			}
 			return View();
 		}
 		[Authorize]
@@ -248,6 +254,7 @@ namespace Shocker.Controllers
 		{
 			var o = _context.Orders.AsNoTracking().FirstOrDefault(x => x.OrderId == id);
 			if (o == null) return new ApiResultModel() { Status = false, ErrorMessage = "此筆訂單不存在!" };
+
 			var od = _context.OrderDetails.AsNoTracking().Include(x => x.StatusNavigation)
 				.Include(x => x.Product).ThenInclude(x => x.Pictures).Include(x => x.Product)
 				.ThenInclude(x => x.ProductCategory).Include(x => x.Product).ThenInclude(x => x.Ratings)
@@ -261,9 +268,9 @@ namespace Shocker.Controllers
 					discount = x.Discount,
 					categoryName = x.Product.ProductCategory.CategoryName,
 					picture = $"{x.Product.Pictures.FirstOrDefault().PictureId}-{x.Product.Pictures.FirstOrDefault().Path}",
-					statusName = x.StatusNavigation.StatusName,
-					description = x.Product.Ratings.FirstOrDefault().Description == null ? "" : x.Product.Ratings.FirstOrDefault().Description,
-					starCount = x.Product.Ratings.FirstOrDefault().StarCount == null ? 0 : x.Product.Ratings.FirstOrDefault().StarCount,
+					statusName = x.StatusNavigation.StatusName,					
+					description = x.StatusNavigation.Ratings.FirstOrDefault().Description ?? "",
+					starCount = x.StatusNavigation.Ratings.FirstOrDefault()==null?0: x.StatusNavigation.Ratings.FirstOrDefault().StarCount
 				}).ToList();
 
 			return new ApiResultModel()
@@ -307,6 +314,7 @@ namespace Shocker.Controllers
 				if(checkallget == 0)
 				{
 					o.Status = "o3";//o3=已收貨
+					o.ArrivalDate = DateTime.Now;
 				}
 				_context.SaveChanges();
 				return new ApiResultModel() { Status = true };
