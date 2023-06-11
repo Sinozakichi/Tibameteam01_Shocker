@@ -3,30 +3,73 @@
 	{
 }
 <div id="app" class="container">
-	<div>		
+	<div>
 		<div class="mb-3 row">
 			<label for="staticPicture" class="col-sm-2 col-form-label">頭像</label>
 			<div class="col-sm-10">
-				<img style="width:250px;height:250px" :src="picture"/>
+				<img style="width:250px;height:250px" :src="picture" />
 				<input type="file" @@change="selectPicture" />
 				<button type="button" class="btn btn-outline-success" @@click="uploadPicture">上傳</button>
 			</div>
-		</div>		
+		</div>
 
 		<hr style="height: 3px;border-color: chartreuse;background-color: chartreuse" />
-		
+
+		<template v-if="editPassword==false">
+			<div class="mb-3 row">
+				<label for="inputPassword" class="col-sm-2 col-form-label">密碼</label>
+				<div class="col-sm-8">
+					<input type="password" readonly maxlength="50" class="form-control-plaintext" id="inputPassword" v-model="users.user.password">
+				</div>
+				<div class="col-sm-2">
+					<button type="button" class="btn btn-outline-success" @@click="editThePassword">更改密碼</button>				
+				</div>
+			</div>
+		</template>
+
+		<template v-else>
+			<div class="mb-3 row">
+				<label for="inputPassword" class="col-sm-2 col-form-label">密碼</label>
+				<div class="col-sm-8">
+					<input type="password" class="form-control" id="inputPassword" v-model="password">
+				</div>
+				<div class="col-sm-2">
+					<button type="button" class="btn btn-outline-success" data-toggle="modal" data-target="#passwordModal" @@click="checkPassword">送出</button>
+					
+					<div class="modal fade" id="passwordModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+						<div class="modal-dialog">
+							<div class="modal-content">
+								<div class="modal-header">
+									<h5 class="modal-title" id="exampleModalLabel">更改您的密碼</h5>
+									<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+										<span aria-hidden="true">&times;</span>
+									</button>
+								</div>
+								<div class="form-group">
+									<label for="recipient-name" class="col-form-label">新密碼:</label>
+									<input type="text" class="form-control" id="newPassword" v-model="newPassword">
+								</div>
+								<div class="modal-footer">
+									<button type="button" class="btn btn-secondary" data-dismiss="modal">取消</button>
+									<button type="button" class="btn btn-danger" data-dismiss="modal" @@click="updatePassword">確定</button>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="text-danger">
+					<h5 class="text-danger">更動新密碼前，請輸入一次舊密碼</h5>
+				</div>
+			</div>
+		</template>
+
+		<hr style="height: 3px;border-color: chartreuse;background-color: chartreuse" />
+
 		<template v-if="Edit==false">
 			<div class="mb-3 row">
 				<label for="staticAccount" class="col-sm-2 col-form-label">帳號</label>
 				<div class="col-sm-10">
 					<input type="text" readonly class="form-control-plaintext" id="staticAccount" v-model="users.user.id">
-				</div>
-			</div>
-
-			<div class="mb-3 row">
-				<label for="inputPassword" class="col-sm-2 col-form-label">密碼</label>
-				<div class="col-sm-10">
-					<input type="password" readonly maxlength="50" class="form-control-plaintext" id="inputPassword" v-model="users.user.password">
 				</div>
 			</div>
 
@@ -47,7 +90,7 @@
 			<div class="mb-3 row">
 				<label for="inputBirthDate" class="col-sm-2 col-form-label">生日</label>
 				<div class="col-sm-10">
-					<input type="text" readonly class="form-control-plaintext" id="inputBirthDate" v-model="users.user.birthDate">
+					<input type="text" readonly class="form-control-plaintext" id="inputBirthDate" v-model="changeBirthDate">
 				</div>
 			</div>
 
@@ -75,13 +118,13 @@
 			<div class="mb-3 row">
 				<label for="staticRegisterDate" class="col-sm-2 col-form-label">帳號創辦時間</label>
 				<div class="col-sm-10">
-					<input type="text" readonly class="form-control-plaintext" id="staticRegisterDate" v-model="users.user.registerDate">
+					<input type="text" readonly class="form-control-plaintext" id="staticRegisterDate" v-model="changeRegisterDate">
 				</div>
 			</div>
 
-			<div class="mb-3 row">			
+			<div class="mb-3 row">
 				<label for="staticRegisterDate" class="col-sm-2 col-form-label">地址</label>
-				<div class="col-sm-10" >
+				<div class="col-sm-10">
 					<input type="text" readonly class="form-control-plaintext" id="staticRegisterDate" v-model="selectAddress">
 				</div>
 			</div>
@@ -90,22 +133,12 @@
 				<button type="button" class="btn btn-outline-info" @@click="editUsers">編輯</button>
 			</div>
 		</template>
-		
+
 		<template v-else>
 			<div class="mb-3 row">
 				<label for="staticAccount" class="col-sm-2 col-form-label">帳號</label>
 				<div class="col-sm-6">
 					<input type="text" readonly class="form-control-plaintext" id="staticAccount" v-model="users.user.id">
-				</div>
-			</div>
-
-			<div class="mb-3 row">
-				<label for="inputPassword" class="col-sm-2 col-form-label">密碼</label>
-				<div class="col-sm-10">
-					<input type="text" class="form-control" id="inputPassword" v-model="users.user.password">
-				</div>
-				<div v-if="pErrorbox" class="text-danger">
-					<h5 class="text-danger">錯誤:{{errors.passwordError}}</h5>
 				</div>
 			</div>
 
@@ -128,8 +161,8 @@
 
 			<div class="mb-3 row">
 				<label for="inputBirthDate" class="col-sm-2 col-form-label">生日</label>
-				<div class="col-sm-10">
-					<input type="text" class="form-control" id="inputBirthDate" v-model="users.user.birthDate">
+				<div class="form-group col-sm-10">
+					<input v-model="users.user.birthDate" class="form-control" type="date" id="inputBirthDate">
 				</div>
 			</div>
 
@@ -160,7 +193,7 @@
 			<div class="mb-3 row">
 				<label for="staticRegisterDate" class="col-sm-2 col-form-label">帳號創辦時間</label>
 				<div class="col-sm-6">
-					<input type="text" readonly class="form-control-plaintext" id="staticRegisterDate" v-model="users.user.registerDate">
+					<input type="text" readonly class="form-control-plaintext" id="staticRegisterDate" v-model="changeRegisterDate">
 				</div>
 			</div>
 
@@ -170,14 +203,14 @@
 					<option value="" disabled>選擇地址</option>
 					<option v-for="item in users.address" :value="item.address" :key="item.address">{{item.address}}</option>
 				</select>
-				
+
 			</div>
 
 			<div class="mb-3 row">
-				<label for="inputEmail"  class="col-sm-2 col-form-label">新增地址</label>
+				<label for="inputEmail" class="col-sm-2 col-form-label">新增地址</label>
 				<div class="col-sm-10">
 					<input type="text" maxlength="50" class="form-control" id="inputEmail" v-model="addAddress">
-				</div>				
+				</div>
 			</div>
 
 			<div class="row">
@@ -217,43 +250,62 @@
 		el: '#app',
 		data: {
 			users: {
-				user:{},
-				address:[]
+				user: {},
+				address: []
 			},
 			picture: "",
+			password:"",
+			newPassword:"",
 			uploadPic: {},
-			selectAddress:"",
-			addAddress:"",
+			selectAddress: "",
+			addAddress: "",
+			editPassword: false,
 			Edit: false,
-			editing:false,
+			editing: false,
 			//驗證欄位
-			errors:{
+			errors: {
 
 			},
-			eErrorbox:false,
-			pErrorbox:false,
-			nErrorbox:false
+			eErrorbox: false,
+			pErrorbox: false,
+			nErrorbox: false
 		},
 		mounted: function () {
 			this.getUsers();//一開始載入即執行getUsers()以拿到資料
+		},
+		computed: {
+			changeBirthDate: function () {
+				var myBirth = new Date(this.users.user.birthDate);
+				var myYear = myBirth.getFullYear();
+				var myMonth = myBirth.getMonth() + 1;
+				var myDay = myBirth.getDate();
+				return `${myYear}/${myMonth}/${myDay}`;
+			},
+			changeRegisterDate: function () {
+				var myRegister = new Date(this.users.user.registerDate);
+				var myYear = myRegister.getFullYear();
+				var myMonth = myRegister.getMonth() + 1;
+				var myDay = myRegister.getDate();
+				return `${myYear}/${myMonth}/${myDay}`;
+			},
 		},
 		methods: {
 			getUsers: function () {//帶入後端傳來的User資料，並將picture於當前伺服器上的路由組成正確
 				var _this = this;
 				axios.get(`/User/GetAccount`).then(response => {
 					_this.users = response.data.data;
-					_this.picture = '/' + _this.users.user.picture
-					_this.selectAddress=_this.users.address[0].address
+					_this.picture = '/' + _this.users.user.picture;
+					_this.selectAddress = _this.users.address[0].address;
 				})
 			},
 			updateUsers: function () {//更改User指定欄位之資料
 				var _this = this;
-				_this.editing=true;
-				_this.eErrorbox= false;
-				_this.pErrorbox= false;
-				_this.nErrorbox= false;
+				_this.editing = true;
+				_this.eErrorbox = false;
+				//_this.pErrorbox= false;
+				_this.nErrorbox = false;
 				var request = {
-					id:_this.users.user.id,
+					id: _this.users.user.id,
 					password: _this.users.user.password,
 					nickName: _this.users.user.nickName,
 					gender: _this.users.user.gender,
@@ -262,43 +314,57 @@
 					address: _this.addAddress
 				};
 				axios.post(`/User/UpdateAccount`, request).then(response => {
-					if (response.data.status){
-						Swal.fire({						
+					if (response.data.status) {
+						Swal.fire({
 							title: '更新資料成功',
 							icon: 'success'
 						})
 						_this.getUsers();
-						_this.Edit = false;	
+						_this.Edit = false;
 						_this.editing = false;
 					}
-					else { 
+					else {
 						Swal.fire({
 							icon: 'error',
 							title: 'Oops...',
 							text: response.data.errorMessage,
 						})
-						_this.errors = response.data.data ;
-						if (_this.errors.emailError != null) { _this.eErrorbox =true;}
-						if (_this.errors.nicknameError != null) { _this.nErrorbox =true;}
-						if (_this.errors.passwordError != null) { _this.pErrorbox = true; }
+						_this.errors = response.data.data;
+						_this.editing = false;
+						if (_this.errors.emailError != null) { _this.eErrorbox = true; }
+						if (_this.errors.nicknameError != null) { _this.nErrorbox = true; }
+						//if (_this.errors.passwordError != null) { _this.pErrorbox = true; }
 					}
-				})			
+				})
+			},
+			editThePassword: function () {
+				var _this = this;
+				_this.editPassword = true;
+			},
+			checkPassword: function () {
+				var _this = this;
+				if (_this.users.user.password == _this.password){
+
+				}
+			},
+			updatePassword:function(){
+
 			},
 			editUsers: function () {//開始編輯User的欄位
 				this.Edit = true;
 				this.eErrorbox = false;
-				this.pErrorbox = false;
+				//this.pErrorbox = false;
 				this.nErrorbox = false;
 			},
 			cancel: function () {//取消編輯User的欄位，並更新當前User的資料
 				this.Edit = false;
-				this.addAddress ="";
+				this.addAddress = "";
 				this.getUsers();
 			},
 			selectPicture: function (evemt) {//點選要上傳的的圖片
 				var _this = this;
-				_this.uploadPic = event.target.files[0];//(1)從local裝置中點選要上傳的檔案存至uploadPic	
-				
+				_this.uploadPic = event.target.files[0];//(1)從local裝置中點選要上傳的檔案存至uploadPic
+
 				var reader = new FileReader();
 				reader.onload = function (e) {
 					_this.picture = e.target.result;//(3)將轉成URL的目標(uploadPic)放入picture，便可達成預覽欲上傳之圖片的效果
@@ -318,7 +384,7 @@
 						})
 					}
 				});
-			},		
+			},
 		}
 	});
 </script>

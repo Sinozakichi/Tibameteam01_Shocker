@@ -25,6 +25,11 @@ namespace Shocker.Controllers
 		[HttpGet]
 		public IActionResult MyAccount(string tab)//點選用戶資訊編輯的菜單選項時，帶一個tab的參數，依據參數abcde呈現不同的Partial View
 		{
+			if (User.Identity.IsAuthenticated)
+			{
+				var loginAccount = User.Claims.FirstOrDefault(x => x.Type == ClaimTypes.Name);
+				ViewBag.Account = loginAccount.Value;
+			}
 			ViewBag.Tab = tab;
 			return View();
 		}
@@ -75,7 +80,6 @@ namespace Shocker.Controllers
 		{
 			if (!ModelState.IsValid)
 			{
-				IEnumerable<string> passworderror = ModelState["Password"]?.Errors.Select(e => e.ErrorMessage);
 				IEnumerable<string> nicknameerror = ModelState["NickName"]?.Errors.Select(e => e.ErrorMessage);
 				IEnumerable<string> emailerror = ModelState["Email"]?.Errors?.Select(e => e.ErrorMessage);
 				return new ApiResultModel()
@@ -83,11 +87,10 @@ namespace Shocker.Controllers
 					Status = false,
 					Data = new
 					{
-						passwordError = passworderror,
 						nicknameError = nicknameerror,
 						emailError = emailerror,
 					},
-					ErrorMessage = "欄位驗證有誤!"
+					ErrorMessage = "格式有誤!"
 				};
 			}
 			else
@@ -96,7 +99,6 @@ namespace Shocker.Controllers
 				{
 					var u = _context.Users.FirstOrDefault(u => u.Id == uvm.Id);
 					if (u == null) return new ApiResultModel() { Status = false, ErrorMessage = "此帳號不存在!" };
-					u.Password = uvm.Password;
 					u.NickName = uvm.NickName;
 					u.Gender = uvm.Gender;
 					u.BirthDate = uvm.BirthDate;
@@ -116,6 +118,40 @@ namespace Shocker.Controllers
 				catch (Exception)
 				{
 					return new ApiResultModel() { Status = false, ErrorMessage = "上傳帳號資訊失敗!" };
+				}
+			}
+
+		}
+		[Authorize]
+		[HttpPost]
+		public ApiResultModel UpdatePassword([FromBody] PasswordViewModel uvm)//更新User資訊
+		{
+			if (!ModelState.IsValid)
+			{
+				IEnumerable<string> passworderror = ModelState["Password"]?.Errors.Select(e => e.ErrorMessage);
+				return new ApiResultModel()
+				{
+					Status = false,
+					Data = new
+					{
+						passwordError= passworderror,
+					},
+					ErrorMessage = "密碼格式有誤!"
+				};
+			}
+			else
+			{
+				try
+				{
+					var u = _context.Users.FirstOrDefault(u => u.Id == uvm.Id);
+					if (u == null) return new ApiResultModel() { Status = false, ErrorMessage = "此帳號不存在!" };
+					u.Password = uvm.Password;
+					_context.SaveChanges();
+					return new ApiResultModel() { Status = true };
+				}
+				catch (Exception)
+				{
+					return new ApiResultModel() { Status = false, ErrorMessage = "更新密碼失敗!" };
 				}
 			}
 
@@ -291,6 +327,7 @@ namespace Shocker.Controllers
 					ProductId = rvm.ProductId,
 					OrderId = rvm.OrderId,
 					StarCount = rvm.StarCount,
+					Status="r0",
 				});
 
 				var od = _context.OrderDetails.FirstOrDefault(od => od.OrderId == rvm.OrderId && od.ProductId == rvm.ProductId);
@@ -318,7 +355,7 @@ namespace Shocker.Controllers
 					{
 						returnReasonError = returnreasonerror,
 					},
-					ErrorMessage = "欄位驗證有誤!"
+					ErrorMessage = "字數不足!"
 				};
 			}
 			else
@@ -357,7 +394,7 @@ namespace Shocker.Controllers
 					{
 						ratingDescriptionError = ratingdescriptionerror,
 					},
-					ErrorMessage = "欄位驗證有誤!"
+					ErrorMessage = "字數不足!"
 				};
 			}
 			else
