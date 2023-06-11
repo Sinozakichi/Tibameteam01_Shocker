@@ -47,7 +47,7 @@ namespace Shocker.Controllers
                     p.Description, p.UnitsInStock, p.Sales, p.UnitPrice, p.Status, p.Currency,
                     p.SellerAccountNavigation.AboutSeller
                 });
-            var products = _context.Products.Where(p => p.SellerAccount == product.ToList()[0].SellerAccount).Take(4)
+            var products = _context.Products.Where(p => p.SellerAccount == product.ToList()[0].SellerAccount && p.Status == "p1").Take(4)
                 .Select(p => new
                 {
                     p.ProductId, p.ProductName, p.UnitPrice, p.UnitsInStock, p.Currency,
@@ -70,11 +70,8 @@ namespace Shocker.Controllers
         [Authorize]
         public IActionResult Index()
         {
-			if (User.Identity.IsAuthenticated)
-			{
-				var loginAccount = User.Claims.FirstOrDefault(x => x.Type == ClaimTypes.Name);
-				ViewBag.Account = loginAccount.Value;
-			}
+			var loginAccount = User.Claims.FirstOrDefault(x => x.Type == ClaimTypes.Name);
+			ViewBag.Account = loginAccount.Value;
 			return View();
         }
         [HttpPost]

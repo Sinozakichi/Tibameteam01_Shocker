@@ -1093,6 +1093,25 @@
 				_this.navbar(0);
 			},
 			methods: {
+				salert: function (message) {
+					Swal.fire({
+						title: message,
+						confirmButtonText: '確定'
+					});
+				},
+				sconfirm: function(message, type) {
+					return new Promise(resolve => {
+						Swal.fire({
+							title: message,
+							icon: type,
+							showDenyButton: true,
+							confirmButtonText: '確定',
+							denyButtonText: '取消'
+						}).then(result => {
+							if (result.isConfirmed) result.value ? resolve(true) : resolve(false);
+						});
+					});					
+				},
 				closePanels: function () {
 					let _this = this;
 					_this._info = _this._products = _this._details = _this._create = _this._pictures = false;
@@ -1135,7 +1154,7 @@
 					axios.post(`${baseAddress}/Products/GetInfo/`).then(response => {
 						if (!response.data.login) {
 							_this.loginAccount = '登入';
-							alert(response.data.message);
+							_this.salert(response.data.message);
 							window.location.replace('/Products');
 						}
 						if (response.data.login) {
@@ -1151,7 +1170,7 @@
 					var request = {};
 					request.aboutSeller = text;
 					axios.post(`${baseAddress}/Products/UpdateInfo/`, request).then(response => {
-						alert(response.data.message);
+						_this.salert(response.data.message);
 						if (!response.data.login) {
 							window.location.replace('/Products');
 						}
@@ -1164,7 +1183,7 @@
 					_this._products = true;
 					axios.post(`${baseAddress}/Products/GetProducts/`).then(response => {
 						if (!response.data.login) {
-							alert(response.data.message);
+							_this.salert(response.data.message);
 							window.location.replace('/Products');
 						}
 						if (response.data.login) {
@@ -1173,7 +1192,7 @@
 								_this.details = _this.products[0];
 							}
 							else {
-								alert(response.data.message);
+								_this.salert(response.data.message);
 								_this.products = [];
 								_this.details = {};
 							}
@@ -1190,7 +1209,7 @@
 					request.productName = request.description = request.status = request.currency = _this.filter;
 					axios.post(`${baseAddress}/Products/Filter`, request).then(response => {
 						if (!response.data.login) {
-							alert(response.data.message);
+							_this.salert(response.data.message);
 							window.location.replace('/Products');
 						}
 						if (response.data.login) {
@@ -1199,7 +1218,7 @@
 								_this.details = _this.products[0];
 							}
 							else {
-								alert(response.data.message);
+								_this.salert(response.data.message);
 								_this.products = [];
 								_this.details = {};
 							}
@@ -1218,7 +1237,7 @@
 					_this.closePanels();
 					_this._details = true;
 				},
-				update: function (item) {
+				update: async function (item) {
 					let _this = this;
 					var request = {};
 					_this.stock();
@@ -1231,10 +1250,10 @@
 					request.unitPrice = item.unitPrice;
 					request.status = item.status;
 					request.currency = item.currency;
-					var ret = confirm('確定要儲存嗎？');
+					var ret = await _this.sconfirm('確定要儲存嗎？', 'question');
 					if (ret == true) {
 						axios.post(`${baseAddress}/Products/Update/`, request).then(response => {
-							alert(response.data.message);
+							_this.salert(response.data.message);
 							if (!response.data.login) {
 								window.location.replace('/Products');
 							}
@@ -1256,15 +1275,13 @@
 					_this.preview = '';
 					_this.pictureText = '';
 					_this.getProducts();
-					//if(_this.filter == '') _this.getProducts();
-					//if (_this.filter != '') _this.filterProducts();
 				},
-				deleteProduct: function (productId) {
+				deleteProduct: async function (productId) {
 					let _this = this;
-					var ret = confirm('確定要刪除嗎？');
+					var ret = await _this.sconfirm('確定要刪除嗎？', 'warning');
 					if (ret == true) {
 						axios.post(`${baseAddress}/Products/Delete/${productId}`).then(response => {
-							alert(response.data.message);
+							_this.salert(response.data.message);
 							if (!response.data.login) {
 								window.location.replace('/Products');
 							}
@@ -1294,7 +1311,7 @@
 					_this._details = true;
 					_this._create = true;
 				},
-				createSave: function (item) {
+				createSave: async function (item) {
 					let _this = this;
 					var request = {};
 					_this.stock();
@@ -1307,10 +1324,10 @@
 					request.unitPrice = item.unitPrice;
 					request.status = item.status;
 					request.currency = item.currency;
-					var ret = confirm('確定要新增嗎？');
+					var ret = await _this.sconfirm('確定要新增嗎？', 'question');
 					if (ret == true) {
 						axios.post(`${baseAddress}/Products/Create/`, request).then(response => {
-							alert(response.data.message);
+							_this.salert(response.data.message);
 							if (!response.data.login) {
 								window.location.replace('/Products');
 							}
@@ -1336,7 +1353,7 @@
 					formData.append('ProductId', _this.details.productId);
 					formData.append('Description', _this.pictureText);
 					axios.post(`${baseAddress}/Products/UploadPicture`, formData).then(response => {
-						alert(response.data.message);
+						_this.salert(response.data.message);
 						if (!response.data.login) {
 							window.location.replace('/Products');
 						}
@@ -1353,7 +1370,7 @@
 					if (_this._pictures) {
 						axios.post(`${baseAddress}/Products/GetPictures/${productId}`).then(response => {
 							if (!response.data.login) {
-								alert(response.data.message);
+								_this.salert(response.data.message);
 								window.location.replace('/Products');
 							}
 							if (response.data.login) {
@@ -1365,7 +1382,7 @@
 						});
 					}
 				},
-				updatePicture: function (item) {
+				updatePicture: async function (item) {
 					let _this = this;
 					var request = {};
 					_this.stock();
@@ -1373,10 +1390,10 @@
 					request.productId = item.productId;
 					request.path = item.path;
 					request.description = item.description;
-					var ret = confirm('確定要儲存嗎？');
+					var ret = await _this.sconfirm('確定要儲存嗎？', 'question');
 					if (ret == true) {
 						axios.post(`${baseAddress}/Products/UpdatePicture/`, request).then(response => {
-							alert(response.data.message);
+							_this.salert(response.data.message);
 							if (!response.data.login) {
 								window.location.replace('/Products');
 							}
@@ -1384,12 +1401,12 @@
 					}
 					_this._pictures = false;
 				},
-				deletePicture: function (pictureId) {
+				deletePicture: async function (pictureId) {
 					let _this = this;
-					var ret = confirm('確定要刪除嗎？');
+					var ret = await _this.sconfirm('確定要刪除嗎？', 'warning');
 					if (ret == true) {
 						axios.post(`${baseAddress}/Products/DeletePicture/${pictureId}`).then(response => {
-							alert(response.data.message);
+							_this.salert(response.data.message);
 							if (!response.data.login) {
 								window.location.replace('/Products');
 							}
@@ -1404,7 +1421,7 @@
 					var sum = [];
 					await axios.post(`${baseAddress}/Products/GetOrders/`).then(response => {
 						if (!response.data.login) {
-							alert(response.data.message);
+							_this.salert(response.data.message);
 							window.location.replace('/Products');
 						}
 						if (response.data.login) {
@@ -1428,7 +1445,7 @@
 								_this.orderSum = sum;
 							}
 							else {
-								alert(response.data.message);
+								_this.salert(response.data.message);
 								_this.orders = [];
 								_this.orderDetails = [];
 							}
@@ -1458,9 +1475,9 @@
 					_this.closePanels();
 					_this._orderDetails = true;
 				},
-				updateOrders: function (orderId) {
+				updateOrders: async function (orderId) {
 					let _this = this;
-					var ret = confirm('確定更新出貨狀態嗎？');
+					var ret = await _this.sconfirm('確定更新出貨狀態嗎？', 'question');
 					if (ret == true) {
 						var request = {};
 						request.orderId = orderId;
@@ -1473,16 +1490,16 @@
 							}
 							if (request.productId.length != 0) {
 								axios.post(`${baseAddress}/Products/UpdateOrderStatus`, request).then(response => {
-									alert(response.data.message);
+									_this.salert(response.data.message);
 									if (!response.data.login) {
 										window.location.replace('/Products');
 									}
 									_this.getOrders();
 								});
 							}
-							else alert('請先更新商品狀態');
+							else _this.salert('請先更新商品狀態');
 						}
-						else alert('訂單中沒有商品');
+						else _this.salert('訂單中沒有商品');
 					}
 				},
 				cancelOrderDetails: function () {
@@ -1495,7 +1512,7 @@
 					_this.closePanels();
 					axios.post(`${baseAddress}/Products/GetProduct/${productId}`).then(response => {
 						if (!response.data.login) {
-							alert(response.data.message);
+							_this.salert(response.data.message);
 							window.location.replace('/Products');
 						}
 						if (response.data.login) {
@@ -1512,7 +1529,7 @@
 					var sum = [];
 					await axios.post(`${baseAddress}/Products/GetRatings`).then(response => {
 						if (!response.data.login) {
-							alert(response.data.message);
+							_this.salert(response.data.message);
 							window.location.replace('/Products');
 						}
 						if (response.data.login) {
@@ -1537,7 +1554,7 @@
 								_this.orderSum = sum;
 							}
 							else {
-								alert(response.data.message);
+								_this.salert(response.data.message);
 								_this.ratings = [{ product: [] }];
 								_this.orders = [];
 								_this.orderDetails = [{ product: [] }];
@@ -1570,16 +1587,16 @@
 							request.sellerAccount = _this.loginAccount;
 							request.reply = _this.reply;
 							axios.post(`${baseAddress}/Products/ReplyBuyer`, request).then(response => {
-								alert(response.data.message);
+								_this.salert(response.data.message);
 								if (!response.data.login) {
 									window.location.replace('/Products');
 								}
 								_this.getRatings();
 							});
 						}
-						else alert('無回應內容');
+						else _this.salert('無回應內容');
 					}
-					else alert('已回應買家評價');
+					else _this.salert('已回應買家評價');
 				}
 			}
 		};

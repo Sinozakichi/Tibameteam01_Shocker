@@ -194,6 +194,7 @@ namespace Shocker.Controllers
 			}
 			try
 			{
+				product.UnitsInStock = 0;
 				product.Status = "p2";
 				_context.Update(product);
 				await _context.SaveChangesAsync();
