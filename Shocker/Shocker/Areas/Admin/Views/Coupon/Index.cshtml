@@ -23,7 +23,7 @@
                         <li class="breadcrumb-item text-sm">
                             <a href="/Home" class="opacity-5 text-white">首頁</a>
                         </li>
-                        <li class="breadcrumb-item text-sm text-white active" aria-current="page">賣家中心</li>
+                        <li class="breadcrumb-item text-sm text-white active" aria-current="page">ADMIN</li>
                     </ol>
                     <h6 class="font-weight-bolder text-white mb-0">優惠券總覽</h6>
                 </nav>
@@ -34,7 +34,7 @@
                         <li class="nav-item dropdown pe-2 d-flex align-items-center">
                             <a href="javascript:;" class="nav-link text-white font-weight-bold px-0" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
                                 <i class="fa fa-user me-sm-1"></i>
-                                <span class="d-sm-inline d-none">帳號操作</span>
+                                <span class="d-sm-inline d-none">管理員</span>
                             </a>
                             <ul class="dropdown-menu dropdown-menu-end px-2 py-3 me-sm-n4" aria-labelledby="dropdownMenuButton">
                                 <li class="mb-2">
@@ -115,7 +115,7 @@
                                             <p class="text-xs font-weight-bold mb-0">{{item.caregotyName}}</p>
                                             <p v-if="item.productCategoryId==1" class="text-xs font-weight-bold mb-0 ">衣服</p>
                                             <p v-if="item.productCategoryId==2" class="text-xs font-weight-bold mb-0">文具</p>
-                                            <p v-if="item.productCategoryId==3" class="text-xs font-weight-bold mb-0">生鮮食材</p>
+                                            <p v-if="item.productCategoryId==3" class="text-xs font-weight-bold mb-0">食品</p>
                                             <p v-if="item.productCategoryId==4" class="text-xs font-weight-bold mb-0">電玩</p>
                                             <p v-if="item.productCategoryId==5" class="text-xs font-weight-bold mb-0">美妝</p>
                                             <p v-if="item.productCategoryId==6" class="text-xs font-weight-bold mb-0">家電</p>
@@ -129,7 +129,7 @@
                                         </td>
                                         @*結束時間*@
                                         <td class="text-center">
-                                            <p class="text-xs font-weight-bold mb-0">{{item.expirationDate}}</p>
+                                            <p class="text-xs font-weight-bold mb-0">{{new Date(item.expirationDate).toLocaleString()}}</p>
                                         </td>
                                         @*狀態*@
                                         <td class="align-middle text-center text-sm">
@@ -147,11 +147,11 @@
         </div>
         @*CreateCoupon*@
         <div class="row" v-if="couponControl">
-            <div class="col-md-8">
+            <div class="col-md-12">
                 <div class="card">
                     <div class="card-header pb-0">
                         <div class="d-flex align-items-center">
-                            <h3 class="mb-0">建立折扣卷</h3>
+                            <h3 class="mb-0">建立優惠券</h3>
                             <button class="btn btn-primary btn-sm ms-auto buttonWidth" @@click="requiredInput(),createCoupon()">Create</button>
                             
                         </div>
@@ -186,7 +186,7 @@
                                         <option selected value="">請選擇類別</option>
                                         <option value="1">衣服</option>
                                         <option value="2">文具</option>
-                                        <option value="3">生鮮食材</option>
+                                        <option value="3">食品</option>
                                         <option value="4">電玩</option>
                                         <option value="5">美妝</option>
                                         <option value="6">家電</option>
@@ -220,7 +220,7 @@
                                 @*//收件帳號*@
                                 <div class="form-group">
                                     <label for="example-text-input" class="form-control-label">請選擇接收者</label>
-                                    <select v-model="cHolderAccount">
+                                    <select v-model="cHolderAccount" class="form-select">
                                         <option selected value=""> 請選擇帳號 </option>
                                         <option  v-for="item in displayUser" :value="item.holderAccount">{{item.holderAccount}}</option>
                                     </select>
