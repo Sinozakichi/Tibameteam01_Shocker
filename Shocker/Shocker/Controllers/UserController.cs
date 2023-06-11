@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.CodeAnalysis;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
 using Newtonsoft.Json;
 using Shocker.Models;
 using Shocker.Models.ViewModels;
@@ -22,9 +23,8 @@ namespace Shocker.Controllers
 			_environment = environment;
 		}
 		[Authorize]
-		[HttpGet]
 		public IActionResult MyAccount(string tab)//點選用戶資訊編輯的菜單選項時，帶一個tab的參數，依據參數abcde呈現不同的Partial View
-		{
+		{			
 			ViewBag.Tab = tab;
 			return View();
 		}
@@ -75,7 +75,6 @@ namespace Shocker.Controllers
 		{
 			if (!ModelState.IsValid)
 			{
-				IEnumerable<string> passworderror = ModelState["Password"]?.Errors.Select(e => e.ErrorMessage);
 				IEnumerable<string> nicknameerror = ModelState["NickName"]?.Errors.Select(e => e.ErrorMessage);
 				IEnumerable<string> emailerror = ModelState["Email"]?.Errors?.Select(e => e.ErrorMessage);
 				return new ApiResultModel()
@@ -83,11 +82,10 @@ namespace Shocker.Controllers
 					Status = false,
 					Data = new
 					{
-						passwordError = passworderror,
 						nicknameError = nicknameerror,
 						emailError = emailerror,
 					},
-					ErrorMessage = "欄位驗證有誤!"
+					ErrorMessage = "格式有誤!"
 				};
 			}
 			else
@@ -96,7 +94,6 @@ namespace Shocker.Controllers
 				{
 					var u = _context.Users.FirstOrDefault(u => u.Id == uvm.Id);
 					if (u == null) return new ApiResultModel() { Status = false, ErrorMessage = "此帳號不存在!" };
-					u.Password = uvm.Password;
 					u.NickName = uvm.NickName;
 					u.Gender = uvm.Gender;
 					u.BirthDate = uvm.BirthDate;
@@ -116,6 +113,40 @@ namespace Shocker.Controllers
 				catch (Exception)
 				{
 					return new ApiResultModel() { Status = false, ErrorMessage = "上傳帳號資訊失敗!" };
+				}
+			}
+
+		}
+		[Authorize]
+		[HttpPost]
+		public ApiResultModel UpdatePassword([FromBody] PasswordViewModel pvm)//更新User資訊
+		{
+			if (!ModelState.IsValid)
+			{
+				IEnumerable<string> passworderror = ModelState["Password"]?.Errors.Select(e => e.ErrorMessage);
+				return new ApiResultModel()
+				{
+					Status = false,
+					Data = new
+					{
+						passwordError= passworderror,
+					},
+					ErrorMessage = "密碼格式有誤!"
+				};
+			}
+			else
+			{
+				try
+				{
+					var u = _context.Users.FirstOrDefault(u => u.Id == pvm.Id);
+					if (u == null) return new ApiResultModel() { Status = false, ErrorMessage = "此帳號不存在!" };
+					u.Password = pvm.Password;
+					_context.SaveChanges();
+					return new ApiResultModel() { Status = true };
+				}
+				catch (Exception)
+				{
+					return new ApiResultModel() { Status = false, ErrorMessage = "更新密碼失敗!" };
 				}
 			}
 
@@ -202,8 +233,9 @@ namespace Shocker.Controllers
 				return new ApiResultModel() { Status = false, ErrorMessage = "取消訂單失敗!" };
 			}
 		}
+		[Authorize]
 		public IActionResult UserOrderDetails()
-		{
+		{			
 			return View();
 		}
 		[Authorize]
@@ -212,6 +244,7 @@ namespace Shocker.Controllers
 		{
 			var o = _context.Orders.AsNoTracking().FirstOrDefault(x => x.OrderId == id);
 			if (o == null) return new ApiResultModel() { Status = false, ErrorMessage = "此筆訂單不存在!" };
+
 			var od = _context.OrderDetails.AsNoTracking().Include(x => x.StatusNavigation)
 				.Include(x => x.Product).ThenInclude(x => x.Pictures).Include(x => x.Product)
 				.ThenInclude(x => x.ProductCategory).Include(x => x.Product).ThenInclude(x => x.Ratings)
@@ -225,9 +258,9 @@ namespace Shocker.Controllers
 					discount = x.Discount,
 					categoryName = x.Product.ProductCategory.CategoryName,
 					picture = $"{x.Product.Pictures.FirstOrDefault().PictureId}-{x.Product.Pictures.FirstOrDefault().Path}",
-					statusName = x.StatusNavigation.StatusName,
-					description = x.Product.Ratings.FirstOrDefault().Description == null ? "" : x.Product.Ratings.FirstOrDefault().Description,
-					starCount = x.Product.Ratings.FirstOrDefault().StarCount == null ? 0 : x.Product.Ratings.FirstOrDefault().StarCount,
+					statusName = x.StatusNavigation.StatusName,					
+					description = x.StatusNavigation.Ratings.FirstOrDefault().Description ?? "",
+					starCount = x.StatusNavigation.Ratings.FirstOrDefault()==null?0: x.StatusNavigation.Ratings.FirstOrDefault().StarCount
 				}).ToList();
 
 			return new ApiResultModel()
@@ -271,6 +304,7 @@ namespace Shocker.Controllers
 				if(checkallget == 0)
 				{
 					o.Status = "o3";//o3=已收貨
+					o.ArrivalDate = DateTime.Now;
 				}
 				_context.SaveChanges();
 				return new ApiResultModel() { Status = true };
@@ -291,6 +325,7 @@ namespace Shocker.Controllers
 					ProductId = rvm.ProductId,
 					OrderId = rvm.OrderId,
 					StarCount = rvm.StarCount,
+					Status="r0",
 				});
 
 				var od = _context.OrderDetails.FirstOrDefault(od => od.OrderId == rvm.OrderId && od.ProductId == rvm.ProductId);
@@ -318,7 +353,7 @@ namespace Shocker.Controllers
 					{
 						returnReasonError = returnreasonerror,
 					},
-					ErrorMessage = "欄位驗證有誤!"
+					ErrorMessage = "字數不足!"
 				};
 			}
 			else
@@ -357,7 +392,7 @@ namespace Shocker.Controllers
 					{
 						ratingDescriptionError = ratingdescriptionerror,
 					},
-					ErrorMessage = "欄位驗證有誤!"
+					ErrorMessage = "字數不足!"
 				};
 			}
 			else

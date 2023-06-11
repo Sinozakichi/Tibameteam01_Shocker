@@ -98,6 +98,7 @@
 <!-- Product Section End -->
 <script src="~/lib/vue/vue.global.prod.js"></script>
 <script src="~/lib/axios/axios.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <script>
     var categoryId = @ViewBag.CategoryId;
     var query = window.location.search.slice(7);
@@ -124,6 +125,25 @@
             _this.getLatestProduct();
         },
         methods: {
+            salert: function (message) {
+                Swal.fire({
+                    title: message,
+                    confirmButtonText: '確定'
+                });
+            },
+            sconfirm: function (message, type) {
+                return new Promise(resolve => {
+                    Swal.fire({
+                        title: message,
+                        icon: type,
+                        showDenyButton: true,
+                        confirmButtonText: '確定',
+                        denyButtonText: '取消'
+                    }).then(result => {
+                        if (result.isConfirmed) result.value ? resolve(true) : resolve(false);
+                    });
+                });
+            },
             getSearchResult: function (id) {
                 let _this = this;
                 axios.post(`${baseAddress}/ShoppingCart/GetSearchResult/${id}`).then(response => {
@@ -164,7 +184,7 @@
                 document.getElementsByClassName('categoryName')[1].append(categoryName);
                 axios.post(`${baseAddress}/ShoppingCart/GetProductList/${id}`).then(response => {
                     if (!response.data.found) {
-                        alert(response.data.message);
+                        _this.salert(response.data.message);
                     }
                     else {
                         _this.products = response.data.productList;
@@ -185,13 +205,13 @@
                     request.productId.push(productId);
                     request.quantity.push(quantity);
                     axios.post(`${baseAddress}/ShoppingCart/CreateCart`, request).then(response => {
-                        alert(response.data.message);
+                        _this.salert(response.data.message);
                         if (!response.data.login) {
                             window.location.replace('/ShoppingCart');
                         }
                     });
                 }
-                else alert('庫存不足');
+                else _this.salert('庫存不足');
             },
             getLatestProduct: function () {
                 let _this = this;
@@ -203,7 +223,7 @@
                         _this.latestProduct1 = response.data.data.latestProduct.slice(0, 3);
                         _this.latestProduct2 = response.data.data.latestProduct.slice(3, 6);
                     }
-                    else alert('最新商品載入失敗');
+                    else _this.salert('最新商品載入失敗');
                 });
             }
         }

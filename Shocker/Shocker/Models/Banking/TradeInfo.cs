@@ -41,7 +41,7 @@
         /// <summary>
         /// * 訂單金額
         /// </summary>
-        public int Amount { get; set; }
+        public int Amt { get; set; }
 
         /// <summary>
         /// * 商品資訊

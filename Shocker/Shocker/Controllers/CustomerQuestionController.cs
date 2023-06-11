@@ -18,8 +18,8 @@ namespace Shocker.Controllers
             _context = context;
         }
         public IActionResult Index()
-        {
-            return View();
+        {			
+			return View();
         }
 
 
@@ -97,8 +97,8 @@ namespace Shocker.Controllers
         }
 
         public async Task<IActionResult> QA()
-        {
-            return View();
+        {			
+			return View();
         }
         public IActionResult GetProductlist()
         {

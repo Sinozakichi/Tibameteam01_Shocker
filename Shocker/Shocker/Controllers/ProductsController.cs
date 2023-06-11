@@ -13,12 +13,10 @@ namespace Shocker.Controllers
 	{
 		private readonly db_a98a02_thm101team1001Context _context;
 		private readonly IWebHostEnvironment _environment;
-		private readonly IConfiguration _configuration;
 		public ProductsController(db_a98a02_thm101team1001Context context, IWebHostEnvironment environment, IConfiguration configuration)
 		{
 			_context = context;
 			_environment = environment;
-			_configuration = configuration;
 		}
 		[Authorize]
 		public IActionResult Index()
@@ -196,6 +194,7 @@ namespace Shocker.Controllers
 			}
 			try
 			{
+				product.UnitsInStock = 0;
 				product.Status = "p2";
 				_context.Update(product);
 				await _context.SaveChangesAsync();
@@ -372,7 +371,7 @@ namespace Shocker.Controllers
 					o.OrderId, o.BuyerAccount, o.OrderDate, o.ArrivalDate, o.Status
 				});
 			var orderDetails = _context.OrderDetails.Where(od => od.Product.SellerAccount == account.Value)
-				.Where(od => od.Status == "od6")
+				.Where(od => orders.Any(o => o.OrderId == od.OrderId))
 				.GroupBy(od => od.OrderId, (order, details) => new
 				{
 					OrderId = order,
