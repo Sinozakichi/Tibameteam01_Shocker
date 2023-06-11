@@ -46,8 +46,8 @@ namespace Shocker.Controllers
             var claims = new List<Claim>()
             {
                 new Claim(ClaimTypes.Name, user.Id),
-                new Claim(ClaimTypes.Role, user.Role)
-            };
+                new Claim(ClaimTypes.Role, user.Role),
+			};
 
             var claimsIdentity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
             var claimsPrincipal = new ClaimsPrincipal(claimsIdentity);

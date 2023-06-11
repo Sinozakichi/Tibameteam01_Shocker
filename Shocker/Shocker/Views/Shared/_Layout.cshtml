@@ -158,7 +158,7 @@
 										<li><a href="https://www.instagram.com/shockerthm101/">Instgram</a></li>
 									</ul>
 								</li>
-								@if (User.Identity.IsAuthenticated)
+								@if (User.Identity.GetUserRole()=="admin")
 								{
 									<li>
 										<a href="#">Admin</a>
