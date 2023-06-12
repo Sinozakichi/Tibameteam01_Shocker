@@ -67,15 +67,7 @@
                             </li>
                         </ul>
                     </li>
-                    <li class="nav-item d-xl-none ps-3 d-flex align-items-center">
-                        <a href="javascript:;" class="nav-link text-white p-0" id="iconNavbarSidenav">
-                            <div class="sidenav-toggler-inner">
-                                <i class="sidenav-toggler-line bg-white"></i>
-                                <i class="sidenav-toggler-line bg-white"></i>
-                                <i class="sidenav-toggler-line bg-white"></i>
-                            </div>
-                        </a>
-                    </li>
+                   
                 </ul>
             </div>
         </div>
@@ -310,7 +302,7 @@
                 qAfilter: function () {
                     var _this = this;
                     var input = {};
-                    input.CaseId = isNaN(Number(_this.filter)) ? -1 : Number(_this.filter);
+                    input.CategoryId = isNaN(Number(_this.filter)) ? -1 : Number(_this.filter); 
                     input.UserAccount = input.CategoryName = input.Email = input.StatusName = input.Status = _this.filter;
                     axios.post(`${window.location.origin}/Admin/CustomerReply/FilterQA`, input)
                         .then(res => { _this.qA = res.data })

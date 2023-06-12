@@ -96,6 +96,8 @@ namespace Shocker.Areas.Admin.Controllers
                   x.StatusNavigation.StatusName.Contains(cvm.StatusName) ||
                   x.ProductCategory.CategoryName.Contains(cvm.CategoryName)||
                   x.PublisherAccount.Contains(cvm.PublisherAccount)
+                  
+
                   ).Select(c => new
                   {
                       PublisherAccount = c.PublisherAccount,
@@ -113,7 +115,7 @@ namespace Shocker.Areas.Admin.Controllers
         public IActionResult DisplayUser()
         {
             var account = User.Claims.FirstOrDefault(x => x.Type == ClaimTypes.Name);
-            if (account == null) return Json(new { Login = false, Message = "請先登入" });
+            if (account == null) return Json(new { Login = false, Message = "請先登入"});
             var cu =  _context.Users
                 .Select(x => new
                 {
@@ -131,32 +133,38 @@ namespace Shocker.Areas.Admin.Controllers
 
             var now  = DateTime.Now;
             var allUser = _context.Users.Where(x=>x.BirthDate!=null).ToList();
-            var MatchBD =allUser.Where(x => x.BirthDate.Value.Month == now.Month && x.BirthDate.Value.Day == now.Day);
+            var MatchBD =allUser.Where(x => x.BirthDate.Value.Month == now.Month).ToList();
+
+            string text =null;
+
             if (MatchBD != null)
             {
                 foreach (var a in MatchBD)
                 {
-                    if (_context.Coupons.Any(x => x.HolderAccount == a.Id)) //Any 判斷true/false
+                    if (_context.Coupons.Any(x => x.ExpirationDate.AddDays(-30).Date >= DateTime.Now && x.HolderAccount == a.Id)) //Any 判斷true/false
                     {
-                        return Json(new { Message = "今日份已重複" });
+                        //寫入文本最後傳回結果
+                        text+=($"此用戶{a.Id}優惠券重複發送未發送 , ");
+                        //return Json(new { Message = "今日份已重複" });
                     }
                     else 
                     {
                         Coupons c1 = new Coupons();
                         c1.Discount = 0.5M;
                         c1.Status = "c0";
-                        c1.ExpirationDate = DateTime.Now.AddDays(30);
+                        c1.ExpirationDate = new DateTime(DateTime.Now.Year,DateTime.Now.Month,DateTime.DaysInMonth(DateTime.Now.Year,DateTime.Now.Month)).AddDays(30);
                         c1.PublisherAccount = Admin.PublisherAccount;
                         c1.HolderAccount = a.Id;
                         c1.ProductCategoryId = 9;
                         _context.Coupons.Add(c1);
                         _context.SaveChanges();
-                        return Json(new { Message = "成功送出生日優惠券" });
+                        text += ( $"帳號{a.Id}-本月生日券發送成功 ,");
                     }
                 };
+                return Json(new { Message = text });
             };
 
-            return Json(new {Message="今天沒人生日唷" });
+            return Json(new {Message="本月沒人生日唷" });
          }
 
     }

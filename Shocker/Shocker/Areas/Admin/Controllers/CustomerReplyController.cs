@@ -110,6 +110,8 @@ namespace Shocker.Areas.Admin.Controllers
                     Email = c.UserAccountNavigation.Email,
                     StatusName = c.StatusNavigation.StatusName,
                     CloseDate = c.CloseDate,
+                    Description = c.Description,
+                    Reply = c.Reply
                 }));
         }
     }
