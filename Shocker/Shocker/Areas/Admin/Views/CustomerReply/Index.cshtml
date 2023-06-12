@@ -29,7 +29,7 @@
                     <li class="breadcrumb-item text-sm">
                         <a href="/Home" class="opacity-5 text-white">首頁</a>
                     </li>
-                    <li class="breadcrumb-item text-sm text-white active" aria-current="page">賣家中心</li>
+                    <li class="breadcrumb-item text-sm text-white active" aria-current="page">ADMIN</li>
                 </ol>
                 <h6 class="font-weight-bolder text-white mb-0">問題總覽</h6>
             </nav>
@@ -40,7 +40,7 @@
                     <li class="nav-item dropdown pe-2 d-flex align-items-center">
                         <a href="javascript:;" class="nav-link text-white font-weight-bold px-0" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
                             <i class="fa fa-user me-sm-1"></i>
-                            <span class="d-sm-inline d-none">帳號操作</span>
+                            <span class="d-sm-inline d-none">管理員</span>
                         </a>
                         <ul class="dropdown-menu dropdown-menu-end px-2 py-3 me-sm-n4" aria-labelledby="dropdownMenuButton">
                             <li class="mb-2">
@@ -67,15 +67,7 @@
                             </li>
                         </ul>
                     </li>
-                    <li class="nav-item d-xl-none ps-3 d-flex align-items-center">
-                        <a href="javascript:;" class="nav-link text-white p-0" id="iconNavbarSidenav">
-                            <div class="sidenav-toggler-inner">
-                                <i class="sidenav-toggler-line bg-white"></i>
-                                <i class="sidenav-toggler-line bg-white"></i>
-                                <i class="sidenav-toggler-line bg-white"></i>
-                            </div>
-                        </a>
-                    </li>
+                   
                 </ul>
             </div>
         </div>
@@ -127,7 +119,7 @@
                                     </td>
                                     @*時間*@
                                     <td class="text-center">
-                                        <p class="text-xs font-weight-bold mb-0">{{item.closeDate}}</p>
+                                        <p class="text-xs font-weight-bold mb-0">{{item.closeDate!=null?new Date(item.closeDate).toLocaleString():null}}</p>
                                     </td>
                                     @*操作*@
                                     <td class=" text-center">
@@ -310,7 +302,7 @@
                 qAfilter: function () {
                     var _this = this;
                     var input = {};
-                    input.CaseId = isNaN(Number(_this.filter)) ? -1 : Number(_this.filter);
+                    input.CategoryId = isNaN(Number(_this.filter)) ? -1 : Number(_this.filter); 
                     input.UserAccount = input.CategoryName = input.Email = input.StatusName = input.Status = _this.filter;
                     axios.post(`${window.location.origin}/Admin/CustomerReply/FilterQA`, input)
                         .then(res => { _this.qA = res.data })
