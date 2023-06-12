@@ -8,6 +8,7 @@ using Shocker.Models;
 using Shocker.Models.ViewModels;
 using System.Net;
 using System.Security.Claims;
+using System.Security.Cryptography;
 
 namespace Shocker.Controllers
 {
@@ -259,8 +260,8 @@ namespace Shocker.Controllers
 					categoryName = x.Product.ProductCategory.CategoryName,
 					picture = $"{x.Product.Pictures.FirstOrDefault().PictureId}-{x.Product.Pictures.FirstOrDefault().Path}",
 					statusName = x.StatusNavigation.StatusName,					
-					description = x.StatusNavigation.Ratings.FirstOrDefault().Description ?? "",
-					starCount = x.StatusNavigation.Ratings.FirstOrDefault()==null?0: x.StatusNavigation.Ratings.FirstOrDefault().StarCount
+					description = x.Order.Ratings.FirstOrDefault(s => s.ProductId == x.ProductId).Description ?? "",
+					starCount = x.Order.Ratings.FirstOrDefault(s=>s.ProductId==x.ProductId).StarCount == null ? 0 : x.Order.Ratings.FirstOrDefault(s => s.ProductId == x.ProductId).StarCount
 				}).ToList();
 
 			return new ApiResultModel()
