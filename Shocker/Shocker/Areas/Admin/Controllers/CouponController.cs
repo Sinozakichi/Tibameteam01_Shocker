@@ -144,8 +144,7 @@ namespace Shocker.Areas.Admin.Controllers
                     if (_context.Coupons.Any(x => x.ExpirationDate.AddDays(-30).Date >= DateTime.Now && x.HolderAccount == a.Id)) //Any 判斷true/false
                     {
                         //寫入文本最後傳回結果
-                        text+=($"此用戶{a.Id}優惠券重複發送未發送 , ");
-                        //return Json(new { Message = "今日份已重複" });
+                        text+=($"帳號:\n {a.Id}\n 優惠券-重複發放 , ");
                     }
                     else 
                     {
@@ -158,7 +157,7 @@ namespace Shocker.Areas.Admin.Controllers
                         c1.ProductCategoryId = 9;
                         _context.Coupons.Add(c1);
                         _context.SaveChanges();
-                        text += ( $"帳號{a.Id}-本月生日券發送成功 ,");
+                        text += ( $"帳號:\n {a.Id}\n 本月生日券-發送成功! ,");
                     }
                 };
                 return Json(new { Message = text });
