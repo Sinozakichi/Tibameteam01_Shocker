@@ -726,7 +726,7 @@
 									<p class="col-md-6 text-sm">買家聯絡電話：{{orderInfo[0].buyerPhone}}</p>
 									<p class="col-md-6 text-sm">付款方式：{{orderInfo[0].payMethod}}</p>
 									<p class="col-md-6 text-sm">訂單日期：{{new Date(orderInfo[0].orderDate).toLocaleString()}}</p>
-									<p class="col-md-6 text-sm">到貨日期：{{new Date(orderInfo[0].arrivalDate).toLocaleString()}}</p>
+									<p class="col-md-6 text-sm">到貨日期：{{orderInfo[0].arrivalDate!=null?new Date(orderInfo[0].arrivalDate).toLocaleString():null}}</p>
 								</div>
 							</div>
 							<div class="card-body px-0 pt-0 pb-2">
