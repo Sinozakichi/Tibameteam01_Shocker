@@ -750,6 +750,9 @@
 													<a href="javascript:;" class="text-secondary font-weight-bold text-xs" @@click="getProduct(item.productId)">
 														<i class="fas fa-arrow-circle-up text-dark me-2" aria-hidden="true"></i>商品資訊
 													</a>
+													<a v-if="item.returnReason!=null" href="javascript:;" class="text-secondary font-weight-bold text-xs" @@click="getReason(item.returnReason)">
+														<i class="fas fa-arrow-circle-up text-dark me-2" aria-hidden="true"></i>退貨原因
+													</a>
 												</td>
 												<td class="align-middle text-center">
 													<span class="text-secondary text-xs font-weight-bold">{{item.productId}}</span>
@@ -1486,6 +1489,10 @@
 					let _this = this;
 					_this.closePanels();
 					_this._orders = true;
+				},
+				getReason: function(reason){
+					let _this = this;
+					_this.salert(reason);
 				},
 				getProduct: function (productId) {
 					let _this = this;
