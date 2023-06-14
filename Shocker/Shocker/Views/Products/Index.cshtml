@@ -621,7 +621,7 @@
 													<p class="text-xs font-weight-bold mb-0">{{new Date(item.orderDate).toLocaleString()}}</p>
 												</td>
 												<td class="align-middle text-center">
-													<p class="text-xs font-weight-bold mb-0">{{new Date(item.arrivalDate).toLocaleString()}}</p>
+													<p class="text-xs font-weight-bold mb-0">{{item.arrivalDate!=null?new Date(item.arrivalDate).toLocaleString():null}}</p>
 												</td>
 											</tr>
 										</tbody>
@@ -698,7 +698,7 @@
 													<p class="text-xs font-weight-bold mb-0">{{new Date(orderInfo[0].orderDate).toLocaleString()}}</p>
 												</td>
 												<td class="align-middle text-center">
-													<p class="text-xs font-weight-bold mb-0">{{new Date(orderInfo[0].arrivalDate).toLocaleString()}}</p>
+													<p class="text-xs font-weight-bold mb-0">{{orderInfo[0].arrivalDate!=null?new Date(orderInfo[0].arrivalDate).toLocaleString():null}}</p>
 												</td>
 											</tr>
 										</tbody>
