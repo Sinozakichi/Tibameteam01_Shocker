@@ -106,12 +106,13 @@ namespace Shocker.Controllers
 			if (ModelState.IsValid)
 			{
 				var query = _context.Products.Where(p =>
+				p.SellerAccount == account.Value && (
 				p.ProductId == product.ProductId ||
 				p.ProductName.Contains(product.ProductName ?? "") ||
 				p.Description.Contains(product.Description ?? "") ||
 				p.StatusNavigation.StatusName.Contains(product.Status ?? "") ||
 				p.ProductCategory.CategoryName.Contains(product.Description ?? "")
-				).Select(p => new
+				)).Select(p => new
 				{
 					p.ProductId, p.LaunchDate, p.ProductName, p.ProductCategoryId, p.Description,
 					p.UnitsInStock, p.Sales, p.UnitPrice, p.Status, p.Currency
