@@ -221,7 +221,10 @@
                 newOrder: [],
                 selectedAddress: '',
                 newAddress: '',
-                payMethod: ''
+                payMethod: '',
+                message: '',
+                _login: false,
+                _creditCard: false
             }
         },
         mounted: function () {
@@ -236,12 +239,12 @@
                     confirmButtonText: '確定'
                 });
             },
-            sconfirm: function (message, type) {
+            sconfirm: function (message, type, deny) {
                 return new Promise(resolve => {
                     Swal.fire({
                         title: message,
                         icon: type,
-                        showDenyButton: true,
+                        showDenyButton: deny == null? true: false,
                         confirmButtonText: '確定',
                         denyButtonText: '取消'
                     }).then(result => {
@@ -261,10 +264,8 @@
             getShoppingCart: async function (index) {
                 let _this = this;
                 await axios.post(`${baseAddress}/ShoppingCart/GetShopping`).then(response => {
-                    if (!response.data.login) {
-                        _this.salert(response.data.message);
-                        window.location.replace('/ShoppingCart');
-                    }
+                    _this.message = response.data.message;
+                    _this._login = response.data.login;
                     if (response.data.login) {
                         if (response.data.found) {
                             _this.shoppingCart = response.data.cart;
@@ -310,6 +311,10 @@
                         }
                     }                                      
                 });
+                if (!_this._login) {
+                    var ret = await _this.sconfirm(_this.message, null, false);
+                    if (ret) window.location.replace('/ShoppingCart');
+                }
             },
             couponSelected: function(cartIndex, productIndex, categoryId) {
                 let _this = this;
@@ -335,7 +340,7 @@
                 }                
                 return total;
             },
-            updateShoppingCart: function(index) {
+            updateShoppingCart: async function(index) {
                 let _this = this;
                 var request = {};
                 request.productId = [];
@@ -344,12 +349,14 @@
                     request.productId.push(p.productId);
                     request.quantity.push(p.quantity);                    
                 });
-                axios.post(`${baseAddress}/ShoppingCart/UpdateCart`, request).then(response => {
-                    _this.salert(response.data.message);
-                    if (!response.data.login) {
-                        window.location.replace('/ShoppingCart');
-                    }
+                await axios.post(`${baseAddress}/ShoppingCart/UpdateCart`, request).then(response => {
+                    _this.message = response.data.message;
+                    _this._login = response.data.login;
                 });
+                var ret = await _this.sconfirm(_this.message, null, false);
+                if (ret) {
+                    if (!_this._login) window.location.replace('/ShoppingCart');
+                }
             },
             increase: function(sign, cx, px) {
                 let _this = this;
@@ -364,16 +371,18 @@
                 let _this = this;
                 var ret = await _this.sconfirm('確定要刪除嗎？', 'warning');
                 if (ret == true) {
-                    axios.post(`${baseAddress}/ShoppingCart/Delete/${productId}`).then(response => {
-                        _this.salert(response.data.message);
-                        if (!response.data.login) {
-                            window.location.replace('/ShoppingCart');
-                        }
-                        _this.getShoppingCart();
+                    await axios.post(`${baseAddress}/ShoppingCart/Delete/${productId}`).then(response => {
+                        _this.message = response.data.message;
+                        _this._login = response.data.login;
                     });
+                    var ret2 = await _this.sconfirm(_this.message, null, false);
+                    if (ret) {
+                        if (!_this._login) window.location.replace('/ShoppingCart');
+                        _this.getShoppingCart();
+                    }
                 }
             },
-            checkout: function(cartIndex) {
+            checkout: async function(cartIndex) {
                 let _this = this;
                 _this._shoppingCart = !_this._shoppingCart;
                 if(cartIndex != null) {
@@ -382,35 +391,40 @@
                     _this.newOrder.push(_this.discount[cartIndex]);
                     _this.newOrder.push(_this.subtotal[cartIndex]);
                     _this.userInfo = [];
-                    axios.post(`${baseAddress}/ShoppingCart/GetUserInfo`).then(response => {
-                        if (!response.data.login) {
-                            _this.salert(response.data.message);
-                            window.location.replace('/ShoppingCart');
-                        }
+                    await axios.post(`${baseAddress}/ShoppingCart/GetUserInfo`).then(response => {
+                        _this.message = response.data.message;
+                        _this._login = response.data.login;
                         if (response.data.login) {
                             _this.userInfo = response.data.user;
                         }
                     });
+                    if (!_this._login) {
+                        var ret = await _this.sconfirm(_this.message, null, false);
+                        if (ret) window.location.replace('/ShoppingCart');
+                    }
                     _this.newAddress = '';
                 }
             },
-            saveAddress: function() {
+            saveAddress: async function() {
                 let _this = this;
                 if(_this.newAddress != '') {
                     var request = {};
                     request.address = _this.newAddress;
-                    axios.post(`${baseAddress}/ShoppingCart/NewAddress/`, request).then(response => {
-                        _this.salert(response.data.message);
-                        if (!response.data.login) {
-                            window.location.replace('/ShoppingCart');
-                        }
+                    await axios.post(`${baseAddress}/ShoppingCart/NewAddress/`, request).then(response => {
+                        _this.message = response.data.message;
+                        _this._login = response.data.login;
                         if (response.data.login) {
+                            _this.salert(response.data.message);
                             if (response.data.new) {
                                 _this.userInfo[0].addresses.push(_this.newAddress);
                             }
                         }
                         _this.newAddress = '';
                     });
+                    if (!_this._login) {
+                        var ret = await _this.sconfirm(_this.message, null, false);
+                        if (ret) window.location.replace('/ShoppingCart');
+                    }
                 }
                 else _this.salert('請輸入新地址')
             },
@@ -438,13 +452,11 @@
                 var ret = await _this.sconfirm('確認訂購？', 'question');
                 if (ret == true) {
                     await axios.post(`${baseAddress}/ShoppingCart/CreateOrder/`, request).then(response => {
-                        _this.salert(response.data.message);
-                        if (!response.data.login) {
-                            window.location.replace('/ShoppingCart');
-                        }
+                        _this.message = response.data.message;
+                        _this._login = response.data.login;
                         if (response.data.login) {
                             if (response.data.creditCard) {
-                                console.log(response.data);
+                                _this._creditCard = response.data.creditCard;
                                 const cart = document.getElementById('cart');
                                 var i0 = document.createElement('input')
                                 i0.setAttribute('type', "hidden");
@@ -476,10 +488,14 @@
                                 i5.setAttribute('name', 'OrderComment');
                                 i5.value = response.data.payment.orderComment;
                                 cart.append(i5);
-                                cart.submit();
                             }
                         }                        
                     });
+                    var ret2 = await _this.sconfirm(_this.message, null, false);
+                    if (ret2) {
+                        if (!_this._login) window.location.replace('/ShoppingCart');
+                        if (_this._login && _this._creditCard) document.getElementById('cart').submit();
+                    }
                     _this.getShoppingCart(0);
                     _this._shoppingCart = true;
                 }

@@ -54,7 +54,7 @@ namespace Shocker.Controllers
 			if (ModelState.IsValid)
 			{				
 				Users? user = await _context.Users.FindAsync(account.Value);
-				if (user == null) return Json(new { Login = true, Message = "請先註冊" });
+				if (user == null) return Json(new { Login = false, Message = "請先註冊" });
 				user.AboutSeller = text.AboutSeller;
 				_context.Update(user);
 				await _context.SaveChangesAsync();

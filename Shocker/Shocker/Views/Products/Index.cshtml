@@ -1068,7 +1068,9 @@
 					picture: '',
 					preview: '',
 					pictureText: '',
-					filter: ''
+					filter: '',
+					message: '',
+					_login: false
 				};
 			},
 			mounted: function () {
@@ -1076,18 +1078,19 @@
 				_this.navbar(0);
 			},
 			methods: {
-				salert: function (message) {
-						Swal.fire({
-							title: message,
-							confirmButtonText: '確定'
+				salert: function (message, txt) {
+					Swal.fire({
+						title: message,
+						text: txt,
+						confirmButtonText: '確定'
 					});
 				},
-				sconfirm: function(message, type) {
+				sconfirm: function(message, type, deny) {
 					return new Promise(resolve => {
 						Swal.fire({
 							title: message,
 							icon: type,
-							showDenyButton: true,
+							showDenyButton: deny == null? true: false,
 							confirmButtonText: '確定',
 							denyButtonText: '取消'
 						}).then(result => {
@@ -1131,44 +1134,46 @@
 							break;
 					}
 				},
-				getInfo: function () {
+				getInfo: async function () {
 					let _this = this;
 					_this._info = true;
-					axios.post(`${baseAddress}/Products/GetInfo/`).then(response => {
-						if (!response.data.login) {
-							_this.loginAccount = '登入';
-							_this.salert(response.data.message);
-							window.location.replace('/Products');
-						}
+					await axios.post(`${baseAddress}/Products/GetInfo/`).then(response => {
+						_this.message = response.data.message;
+						_this._login = response.data.login;
 						if (response.data.login) {
 							_this.info = response.data.record[0];
 							_this.infoText = _this.info.aboutSeller;
 							_this.loginAccount = _this.info.id;
 						}
 					});
+					if (!_this._login) {
+						_this.loginAccount = '登入';
+						var ret = _this.sconfirm(_this.message, null, false);
+						if (ret) window.location.replace('/Products');
+					}
 				},
-				updateInfo: function (text) {
+				updateInfo: async function (text) {
 					let _this = this;
 					_this._info = true;
 					var request = {};
 					request.aboutSeller = text;
-					axios.post(`${baseAddress}/Products/UpdateInfo/`, request).then(response => {
-						_this.salert(response.data.message);
-						if (!response.data.login) {
-							window.location.replace('/Products');
-						}
-						_this.getInfo();
+					await axios.post(`${baseAddress}/Products/UpdateInfo/`, request).then(response => {
+						_this.message = response.data.message;
+						_this._login = response.data.login;
 					});
+					var ret = await _this.sconfirm(_this.message, null, false);
+					if (ret) {
+						if (!_this._login) window.location.replace('/Products');
+						_this.getInfo();
+					}
 				},
-				getProducts: function () {
+				getProducts: async function () {
 					let _this = this;
 					_this.closePanels();
 					_this._products = true;
-					axios.post(`${baseAddress}/Products/GetProducts/`).then(response => {
-						if (!response.data.login) {
-							_this.salert(response.data.message);
-							window.location.replace('/Products');
-						}
+					await axios.post(`${baseAddress}/Products/GetProducts/`).then(response => {
+						_this.message = response.data.message;
+						_this._login = response.data.login;
 						if (response.data.login) {
 							if (response.data.found) {
 								_this.products = response.data.record;
@@ -1181,8 +1186,12 @@
 							}
 						}
 					});
+					if (!_this._login) {
+						var ret = await _this.sconfirm(_this.message, null, false);
+						if (ret) window.location.replace('/Products');
+					}
 				},
-				filterProducts: function () {
+				filterProducts: async function () {
 					let _this = this;
 					_this.closePanels();
 					_this._products = true;
@@ -1190,11 +1199,9 @@
 					request.sellerAccount = _this.loginAccount;
 					request.productId = request.productCategoryId = request.unitsInStock = request.unitPrice = isNaN(parseInt(_this.filter)) ? -1 : parseInt(_this.filter);
 					request.productName = request.description = request.status = request.currency = _this.filter;
-					axios.post(`${baseAddress}/Products/Filter`, request).then(response => {
-						if (!response.data.login) {
-							_this.salert(response.data.message);
-							window.location.replace('/Products');
-						}
+					await axios.post(`${baseAddress}/Products/Filter`, request).then(response => {
+						_this.message = response.data.message;
+						_this._login = response.data.login;
 						if (response.data.login) {
 							if (response.data.found) {
 								_this.products = response.data.record;
@@ -1207,6 +1214,10 @@
 							}
 						}
 					});
+					if (!_this._login) {
+						var ret = await _this.sconfirm(_this.message, null, false);
+						if (ret) window.location.replace('/Products');
+					}
 				},
 				edit: function (productId) {
 					let _this = this;
@@ -1235,13 +1246,15 @@
 					request.currency = item.currency;
 					var ret = await _this.sconfirm('確定要儲存嗎？', 'question');
 					if (ret == true) {
-						axios.post(`${baseAddress}/Products/Update/`, request).then(response => {
-							_this.salert(response.data.message);
-							if (!response.data.login) {
-								window.location.replace('/Products');
-							}
-							_this.cancel();
+						await axios.post(`${baseAddress}/Products/Update/`, request).then(response => {
+							_this.message = response.data.message;
+							_this._login = response.data.login;
 						});
+						var ret2 = await _this.sconfirm(_this.message, null, false);
+						if (ret2) {
+							if (!_this._login) window.location.replace('/Products');
+							_this.cancel();
+						}
 					}
 				},
 				cancel: function () {
@@ -1263,13 +1276,15 @@
 					let _this = this;
 					var ret = await _this.sconfirm('確定要刪除嗎？', 'warning');
 					if (ret == true) {
-						axios.post(`${baseAddress}/Products/Delete/${productId}`).then(response => {
-							_this.salert(response.data.message);
-							if (!response.data.login) {
-								window.location.replace('/Products');
-							}
-							_this.cancel();
+						await axios.post(`${baseAddress}/Products/Delete/${productId}`).then(response => {
+							_this.message = response.data.message;
+							_this._login = response.data.login;
 						});
+						var ret2 = await _this.sconfirm(_this.message, null, false);
+						if (ret2) {
+							if (!_this._login) window.location.replace('/Products');
+							_this.cancel();
+						}
 					}
 				},
 				create: function () {
@@ -1309,13 +1324,15 @@
 					request.currency = item.currency;
 					var ret = await _this.sconfirm('確定要新增嗎？', 'question');
 					if (ret == true) {
-						axios.post(`${baseAddress}/Products/Create/`, request).then(response => {
-							_this.salert(response.data.message);
-							if (!response.data.login) {
-								window.location.replace('/Products');
-							}
-							_this.cancel();
+						await axios.post(`${baseAddress}/Products/Create/`, request).then(response => {
+							_this.message = response.data.message;
+							_this._login = response.data.login;
 						});
+						var ret2 = await _this.sconfirm(_this.message, null, false);
+						if (ret2) {
+							if (!_this._login) window.location.replace('/Products');
+							_this.cancel();
+						}
 					}
 				},
 				stock: function () {
@@ -1329,33 +1346,34 @@
 					let _this = this;
 					_this.details.status = (_this._checked) ? 'p1' : 'p0';
 				},
-				uploadFile: function () {
+				uploadFile: async function () {
 					var _this = this;
 					var formData = new FormData();
 					formData.append('Picture', _this.picture);
 					formData.append('ProductId', _this.details.productId);
 					formData.append('Description', _this.pictureText);
-					axios.post(`${baseAddress}/Products/UploadPicture`, formData).then(response => {
+					await axios.post(`${baseAddress}/Products/UploadPicture`, formData).then(response => {
+						_this.message = response.data.message;
+						_this._login = response.data.login;
 						_this.salert(response.data.message);
-						if (!response.data.login) {
-							window.location.replace('/Products');
-						}
 					});
+					var ret = await _this.sconfirm(_this.message, null, false);
+					if (ret) {
+						if (!_this._login) window.location.replace('/Products');
+					}
 				},
 				selectedFile: function (e) {
 					var _this = this;
 					_this.picture = e.target.files[0];
 					_this.preview = URL.createObjectURL(_this.picture);
 				},
-				getPictures: function (productId) {
+				getPictures: async function (productId) {
 					let _this = this;
 					_this._pictures = !_this._pictures;
 					if (_this._pictures) {
-						axios.post(`${baseAddress}/Products/GetPictures/${productId}`).then(response => {
-							if (!response.data.login) {
-								_this.salert(response.data.message);
-								window.location.replace('/Products');
-							}
+						await axios.post(`${baseAddress}/Products/GetPictures/${productId}`).then(response => {
+							_this.message = response.data.message;
+							_this._login = response.data.login;
 							if (response.data.login) {
 								_this.pictures = response.data.record;
 								_this.pictures.forEach(item => {
@@ -1363,6 +1381,10 @@
 								});
 							}
 						});
+						if (!_this._login) {
+							var ret = await _this.sconfirm(_this.message, null, false);
+							if (ret) window.location.replace('/Products');
+						}
 					}
 				},
 				updatePicture: async function (item) {
@@ -1375,12 +1397,14 @@
 					request.description = item.description;
 					var ret = await _this.sconfirm('確定要儲存嗎？', 'question');
 					if (ret == true) {
-						axios.post(`${baseAddress}/Products/UpdatePicture/`, request).then(response => {
-							_this.salert(response.data.message);
-							if (!response.data.login) {
-								window.location.replace('/Products');
-							}
+						await axios.post(`${baseAddress}/Products/UpdatePicture/`, request).then(response => {
+							_this.message = response.data.message;
+							_this._login = response.data.login;
 						});
+						var ret2 = await _this.sconfirm(_this.message, null, false);
+						if (ret2) {
+							if (!_this._login) window.location.replace('/Products');
+						}
 					}
 					_this._pictures = false;
 				},
@@ -1388,12 +1412,14 @@
 					let _this = this;
 					var ret = await _this.sconfirm('確定要刪除嗎？', 'warning');
 					if (ret == true) {
-						axios.post(`${baseAddress}/Products/DeletePicture/${pictureId}`).then(response => {
-							_this.salert(response.data.message);
-							if (!response.data.login) {
-								window.location.replace('/Products');
-							}
+						await axios.post(`${baseAddress}/Products/DeletePicture/${pictureId}`).then(response => {
+							_this.message = response.data.message;
+							_this._login = response.data.login;
 						});
+						var ret2 = await _this.sconfirm(_this.message, null, false);
+						if (ret2) {
+							if (!_this._login) window.location.replace('/Products');
+						}
 					}
 					_this._pictures = false;
 				},
@@ -1403,10 +1429,8 @@
 					_this._orders = true;
 					var sum = [];
 					await axios.post(`${baseAddress}/Products/GetOrders/`).then(response => {
-						if (!response.data.login) {
-							_this.salert(response.data.message);
-							window.location.replace('/Products');
-						}
+						_this.message = response.data.message;
+						_this._login = response.data.login;
 						if (response.data.login) {
 							if (response.data.found) {
 								_this.orders = response.data.orders;
@@ -1434,6 +1458,10 @@
 							}
 						}
 					});
+					if (!_this._login) {
+						var ret = await _this.sconfirm(_this.message, null, false);
+						if (ret) window.location.replace('/Products');
+					}
 				},
 				editOrders: function (orderId, index) {
 					let _this = this;
@@ -1472,13 +1500,15 @@
 								}
 							}
 							if (request.productId.length != 0) {
-								axios.post(`${baseAddress}/Products/UpdateOrderStatus`, request).then(response => {
-									_this.salert(response.data.message);
-									if (!response.data.login) {
-										window.location.replace('/Products');
-									}
-									_this.getOrders();
+								await axios.post(`${baseAddress}/Products/UpdateOrderStatus`, request).then(response => {
+									_this.message = response.data.message;
+									_this._login = response.data.login;
 								});
+								var ret2 = await _this.sconfirm(_this.message, null, false);
+								if (ret2) {
+									if (!_this._login) window.location.replace('/Products');
+									_this.getOrders();
+								}
 							}
 							else _this.salert('請先更新商品狀態');
 						}
@@ -1492,20 +1522,22 @@
 				},
 				getReason: function(reason){
 					let _this = this;
-					_this.salert(reason);
+					_this.salert('退貨原因', reason);
 				},
-				getProduct: function (productId) {
+				getProduct: async function (productId) {
 					let _this = this;
 					_this.closePanels();
-					axios.post(`${baseAddress}/Products/GetProduct/${productId}`).then(response => {
-						if (!response.data.login) {
-							_this.salert(response.data.message);
-							window.location.replace('/Products');
-						}
+					await axios.post(`${baseAddress}/Products/GetProduct/${productId}`).then(response => {
+						_this.message = response.data.message;
+						_this._login = response.data.login;
 						if (response.data.login) {
 							_this.details = response.data.record[0];
 						}
 					});
+					if (!_this._login) {
+						var ret = await _this.sconfirm(_this.message, null, false);
+						if (ret) window.location.replace('/Products');
+					}
 					_this._productDetails = true;
 				},
 				getRatings: async function () {
@@ -1515,10 +1547,8 @@
 					_this.reply = '';
 					var sum = [];
 					await axios.post(`${baseAddress}/Products/GetRatings`).then(response => {
-						if (!response.data.login) {
-							_this.salert(response.data.message);
-							window.location.replace('/Products');
-						}
+						_this.message = response.data.message;
+						_this._login = response.data.login;
 						if (response.data.login) {
 							if (response.data.found) {
 								_this.ratings = response.data.ratings;
@@ -1548,6 +1578,10 @@
 							}
 						}
 					});
+					if (!_this._login) {
+						var ret = await _this.sconfirm(_this.message, null, false);
+						if (ret) window.location.replace('/Products');
+					}
 				},
 				editReply: function (rx, px) {
 					let _this = this;
@@ -1564,7 +1598,7 @@
 					_this._ratings = true;
 					_this.reply = '';
 				},
-				replyBuyers: function () {
+				replyBuyers: async function () {
 					let _this = this;
 					if (_this.ratingDetails[0].status == 'r0') {
 						if (_this.reply != '') {
@@ -1573,13 +1607,15 @@
 							request.orderId = _this.ratingDetails[0].orderId;
 							request.sellerAccount = _this.loginAccount;
 							request.reply = _this.reply;
-							axios.post(`${baseAddress}/Products/ReplyBuyer`, request).then(response => {
-								_this.salert(response.data.message);
-								if (!response.data.login) {
-									window.location.replace('/Products');
-								}
-								_this.getRatings();
+							await axios.post(`${baseAddress}/Products/ReplyBuyer`, request).then(response => {
+								_this.message = response.data.message;
+								_this._login = response.data.login;
 							});
+							var ret = await _this.sconfirm(_this.message, null, false);
+							if (ret) {
+								if (!_this._login) window.location.replace('/Products');
+								_this.getRatings();
+							}
 						}
 						else _this.salert('無回應內容');
 					}
