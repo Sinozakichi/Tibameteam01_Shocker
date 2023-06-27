@@ -416,7 +416,8 @@ namespace Shocker.Controllers
 		[Authorize]
 		[HttpGet]
 		public ApiResultModel GetCoupons()
-		{		
+		{
+			//11
 			var loginAccount = User.Claims.FirstOrDefault(x => x.Type == ClaimTypes.Name);
 			if (loginAccount == null) return new ApiResultModel { Status = false, ErrorMessage = "找不到此帳號" };
 
