@@ -25,7 +25,7 @@ namespace Shocker.Controllers
 		}
 		[Authorize]
 		public IActionResult MyAccount(string tab)//點選用戶資訊編輯的菜單選項時，帶一個tab的參數，依據參數abcde呈現不同的Partial View
-		{			
+		{
 			ViewBag.Tab = tab;
 			return View();
 		}
@@ -40,7 +40,7 @@ namespace Shocker.Controllers
 			if (a == null) return new ApiResultModel { Status = false, ErrorMessage = "此帳號不存在!" };
 			var ad = _context.Addresses.Include(u => u.UserAccountNavigation).AsNoTracking().Where(u => u.UserAccountNavigation.Id == loginAccount.Value).Select(u => new
 			{
-				address=u.Address,
+				address = u.Address,
 			}).ToList();
 			if (ad == null) return new ApiResultModel { Status = false, ErrorMessage = "此帳號不存在!" };
 			JsonSerializerSettings settings = new JsonSerializerSettings
@@ -130,7 +130,7 @@ namespace Shocker.Controllers
 					Status = false,
 					Data = new
 					{
-						passwordError= passworderror,
+						passwordError = passworderror,
 					},
 					ErrorMessage = "密碼格式有誤!"
 				};
@@ -236,7 +236,7 @@ namespace Shocker.Controllers
 		}
 		[Authorize]
 		public IActionResult UserOrderDetails()
-		{			
+		{
 			return View();
 		}
 		[Authorize]
@@ -259,9 +259,9 @@ namespace Shocker.Controllers
 					discount = x.Discount,
 					categoryName = x.Product.ProductCategory.CategoryName,
 					picture = $"{x.Product.Pictures.FirstOrDefault().PictureId}-{x.Product.Pictures.FirstOrDefault().Path}",
-					statusName = x.StatusNavigation.StatusName,					
+					statusName = x.StatusNavigation.StatusName,
 					description = x.Order.Ratings.FirstOrDefault(s => s.ProductId == x.ProductId).Description ?? "",
-					starCount = x.Order.Ratings.FirstOrDefault(s=>s.ProductId==x.ProductId).StarCount == null ? 0 : x.Order.Ratings.FirstOrDefault(s => s.ProductId == x.ProductId).StarCount
+					starCount = x.Order.Ratings.FirstOrDefault(s => s.ProductId == x.ProductId).StarCount == null ? 0 : x.Order.Ratings.FirstOrDefault(s => s.ProductId == x.ProductId).StarCount
 				}).ToList();
 
 			return new ApiResultModel()
@@ -294,15 +294,15 @@ namespace Shocker.Controllers
 				od.Status = "od3";//od3=已收貨
 
 				int checkallget = 0;
-				var o = _context.Orders.Include(o=>o.OrderDetails).FirstOrDefault(o => o.OrderId == tpvm.OrderId);
+				var o = _context.Orders.Include(o => o.OrderDetails).FirstOrDefault(o => o.OrderId == tpvm.OrderId);
 				foreach (var ord in o.OrderDetails)//尋覽每一個此筆Order裡的OrderDetail，並檢查他們的狀態
 				{
-					if(ord.Status=="od1"|| ord.Status == "od2"|| ord.Status == "od4"||ord.Status == "od5")
+					if (ord.Status == "od1" || ord.Status == "od2" || ord.Status == "od4" || ord.Status == "od5")
 					{
 						checkallget += 1;
 					}
 				}
-				if(checkallget == 0)
+				if (checkallget == 0)
 				{
 					o.Status = "o3";//o3=已收貨
 					o.ArrivalDate = DateTime.Now;
@@ -326,7 +326,7 @@ namespace Shocker.Controllers
 					ProductId = rvm.ProductId,
 					OrderId = rvm.OrderId,
 					StarCount = rvm.StarCount,
-					Status="r0",
+					Status = "r0",
 				});
 
 				var od = _context.OrderDetails.FirstOrDefault(od => od.OrderId == rvm.OrderId && od.ProductId == rvm.ProductId);
@@ -416,7 +416,7 @@ namespace Shocker.Controllers
 		[Authorize]
 		[HttpGet]
 		public ApiResultModel GetCoupons()
-		{
+		{		
 			var loginAccount = User.Claims.FirstOrDefault(x => x.Type == ClaimTypes.Name);
 			if (loginAccount == null) return new ApiResultModel { Status = false, ErrorMessage = "找不到此帳號" };
 
